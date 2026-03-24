@@ -15,7 +15,7 @@ struct MainTabView: View {
   @State private var selectedTab: MainTab = .home
   @State private var status: HomeVoiceStatus = .idle
   @State private var transcript: String = ""
-  @StateObject private var recorder = HomeVoiceRecorder()
+  @StateObject private var realtimeController = HomeVoiceRealtimeController()
 
   init(initialTab: MainTab) {
     _selectedTab = State(initialValue: initialTab)
@@ -54,7 +54,7 @@ struct MainTabView: View {
 
           HomeVoiceInteractionView(
             status: status,
-            level: recorder.normalizedPower,
+            level: realtimeController.audioLevel,
             onTap: toggleInteraction
           )
           .frame(height: proxy.size.height * 0.22)
@@ -64,12 +64,21 @@ struct MainTabView: View {
       .animation(.easeInOut(duration: 0.25), value: status)
       .accessibilityIdentifier("home_main_root")
     }
-    .onChange(of: recorder.lastErrorMessage) { error in
+    .onChange(of: realtimeController.lastErrorMessage, perform: { error in
       guard let error, !error.isEmpty else { return }
       transcript = error
       status = .success
       resetToIdleAfterDelay(1.6)
-    }
+    })
+    .onChange(of: realtimeController.recognizedText, perform: { text in
+      guard status == .listening else { return }
+      let normalized = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+      if normalized.isEmpty {
+        transcript = "正在实时识别..."
+      } else {
+        transcript = normalized
+      }
+    })
   }
 
   private var shouldShowTranscript: Bool {
@@ -80,37 +89,32 @@ struct MainTabView: View {
   // Step 2. 录音中再次点击则停止录音并进入过渡状态
   private func toggleInteraction() {
     if status == .idle {
-      transcript = "正在启动录音..."
-      recorder.startRecording { success in
+      status = .thinking
+      transcript = "正在连接语音服务..."
+      realtimeController.startListening { success in
         if success {
           status = .listening
-          transcript = "正在录音，点击按钮结束"
-        } else if recorder.permissionDenied {
-          status = .success
-          transcript = "麦克风权限未开启，请到系统设置中允许访问"
-          resetToIdleAfterDelay(2.0)
+          transcript = "正在实时识别..."
         } else {
           status = .success
-          transcript = recorder.lastErrorMessage ?? "录音启动失败"
-          resetToIdleAfterDelay(1.6)
+          transcript = realtimeController.lastErrorMessage ?? "语音识别启动失败"
+          resetToIdleAfterDelay(2.0)
         }
       }
       return
     }
 
     if status == .listening {
-      let url = recorder.stopRecording()
       status = .thinking
-      transcript = "录音已结束，正在处理语音..."
-
-      DispatchQueue.main.asyncAfter(deadline: .now() + 1.1) {
+      transcript = "已停止录音，正在汇总识别结果..."
+      realtimeController.stopListening { finalText in
         status = .success
-        if let url {
-          transcript = "录音完成：\(url.lastPathComponent)"
+        if finalText.isEmpty {
+          transcript = "未识别到清晰语音"
         } else {
-          transcript = "录音已结束"
+          transcript = finalText
         }
-        resetToIdleAfterDelay(1.5)
+        resetToIdleAfterDelay(1.8)
       }
     }
   }
