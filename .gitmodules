@@ -1,3 +1,6 @@
 [submodule "mishuAppUI"]
 	path = mishuAppUI
 	url = git@github.com:orlandoxu/mishuAppUI.git
+[submodule "voiceInput"]
+	path = voiceInput
+	url = git@github.com:orlandoxu/voiceInput.git

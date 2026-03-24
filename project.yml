@@ -40,33 +40,19 @@ targets:
           - applinks:wx-server-dev.spreadwin.com
           - applinks:wx-server.spreadwin.com
     sources:
-      - App/MishuApp.swift
-      - App/Const.swift
-      - App/Theme.swift
-      - App/delegateApplication.swift
-      - App/delegateNotification.swift
-      - App/delegateWechat.swift
-      - App/Navigation
-      - App/Pages/Login
-      - App/Pages/MainTabView.swift
-      - App/Pages/Web/BasicWebView.swift
-      - App/Store/AppStateStore.swift
-      - App/Store/SelfStore.swift
-      - App/API/APIClient.swift
-      - App/API/UserAPI.swift
-      - App/Models/User.swift
-      - App/Models/BusinessError.swift
-      - App/Services/Storage.swift
-      - App/Services/UmengService.swift
-      - App/Components/SecureTextField.swift
-      - App/Components/OrientationManager.swift
-      - App/Utils/Extensions/Color+Hex.swift
-      - App/Utils/Extensions/KeyedDecodingContainer+safeDecode.swift
-      - App/Utils/Extensions/TextField+autoFocus.swift
-      - App/Utils/Extensions/UIApplication+dismissKeyboard.swift
-      - App/Utils/Extensions/View+taskFor14.swift
-      - App/Utils/Extensions/View+toast.swift
-      - Resources
+      # DONE-AI: sources 改为目录自动收录，不再手动逐文件维护
+      - path: App
+        excludes:
+          - "**/*.md"
+          - "Store/BindingStore.swift"
+          - "Store/MobileInfo/**"
+          - "Store/WebSocketStore.swift"
+          - "Store/WifiDirectSessionStore.swift"
+          - "Store/VehiclesStore.swift"
+          - "Store/VehiclesStore+*.swift"
+          - "Utils/WebsocketHelper.swift"
+          - "Components/ModeSwitch.swift"
+      - path: Resources
     dependencies:
       - package: SwiftMessages
       - package: Kingfisher

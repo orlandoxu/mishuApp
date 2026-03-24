@@ -1,4 +1,5 @@
 import Foundation
+import CoreLocation
 
 struct AlbumAsset: Decodable, Hashable {
   let id: String
