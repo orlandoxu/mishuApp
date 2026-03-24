@@ -9,8 +9,8 @@
 // final class EnvironmentStore {
 //   static let shared = EnvironmentStore()
 
-//   private let environmentKey = "tuyun_environment"
-//   private let baseURLOverrideKey = "tuyun_base_url_override"
+//   private let environmentKey = "mishu_environment"
+//   private let baseURLOverrideKey = "mishu_base_url_override"
 
 //   var environment: AppEnvironment {
 //     get { AppEnvironment(rawValue: UserDefaults.standard.string(forKey: environmentKey) ?? "") ?? .production }

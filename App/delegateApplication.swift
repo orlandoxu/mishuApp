@@ -5,7 +5,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
   lazy var wechatDelegate = WeChatOpenSDKDelegate()
 
   /// deviceToken存储的key
-  private let deviceTokenKey = "tuyun_ios_device_token"
+  private let deviceTokenKey = "mishu_ios_device_token"
 
   func application(
     _: UIApplication,

@@ -21,8 +21,8 @@ enum AppEnvironment: String, CaseIterable, Identifiable {
 
 /// 定义一个常量数据结构，包含客服的URL
 enum AppConst {
-  static let environmentKey = "tuyun_environment"
-  static let environmentUserSelectedKey = "tuyun_environment_user_selected"
+  static let environmentKey = "mishu_environment"
+  static let environmentUserSelectedKey = "mishu_environment_user_selected"
 
   /// iOS 包环境标识：`true` 表示 Debug 包，`false` 表示 Release 包。
   static var iosIsDebug: Bool {

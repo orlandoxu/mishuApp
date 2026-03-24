@@ -1,4 +1,4 @@
-name: TuYun
+name: MishuApp
 options:
   bundleIdPrefix: com.spreadwin
   deploymentTarget:
@@ -27,11 +27,11 @@ settings:
     DEVELOPMENT_TEAM: 5GFMWSR59V
     DEVELOPMENT_LANGUAGE: zh-Hans
 targets:
-  TuYunApp:
+  MishuApp:
     type: application
     platform: iOS
     entitlements:
-      path: TuYunApp.entitlements
+      path: MishuApp.entitlements
       properties:
         aps-environment: development
         com.apple.developer.networking.HotspotConfiguration: true
@@ -46,14 +46,13 @@ targets:
       - package: SwiftMessages
       - package: Kingfisher
       - package: ImageViewer
-      - package: NavigationBackport
       - package: Lottie
       - package: SQLite
     settings:
       base:
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "15"
-        PRODUCT_BUNDLE_IDENTIFIER: com.spreadwin.camera
+        PRODUCT_BUNDLE_IDENTIFIER: com.spreadwin.mishuapp
         INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
         TARGETED_DEVICE_FAMILY: 1
         INFOPLIST_FILE: Info.plist
@@ -66,18 +65,18 @@ targets:
         ALWAYS_SEARCH_USER_PATHS: YES
         CFBundleDevelopmentRegion: zh-Hans
         # 小草SDK Header路径
-        HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks/XCAVPlayer/include $(SRCROOT)/TuYun/Frameworks/LinkLib/Headers $(SRCROOT)/TuYun/Frameworks/User.framework/Headers $(SRCROOT)/TuYun/Frameworks $(SRCROOT)/TuYun/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
+        HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include $(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers $(SRCROOT)/MishuApp/Frameworks/User.framework/Headers $(SRCROOT)/MishuApp/Frameworks $(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
         # 系统头文件路径
-        SYSTEM_HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks/XCAVPlayer/include $(SRCROOT)/TuYun/Frameworks/LinkLib/Headers $(SRCROOT)/TuYun/Frameworks/User.framework/Headers $(SRCROOT)/TuYun/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
+        SYSTEM_HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include $(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers $(SRCROOT)/MishuApp/Frameworks/User.framework/Headers $(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
         # 小草SDK静态库路径
-        LIBRARY_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks/XCAVPlayer"
+        LIBRARY_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks/XCAVPlayer"
         # Framework搜索路径
-        FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks"
+        FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks"
         OTHER_LDFLAGS: "$(inherited) -ObjC -lz -lbz2 -lc++ -lsqlite3 -liconv -lresolv -framework VideoToolbox -framework AudioToolbox -framework CoreAudio -framework AVFoundation -framework OpenGLES -framework UIKit"
     info:
       path: Info.plist
       properties:
-        CFBundleDisplayName: 路刻
+        CFBundleDisplayName: Mishu AI
         UILaunchStoryboardName: LaunchScreen
         UIUserInterfaceStyle: Light
         WeChatAppID: wx8069f4359e40557e
@@ -130,4 +129,4 @@ targets:
       gatherCoverageData: false
       build:
         targets:
-          TuYunApp: all
+          MishuApp: all

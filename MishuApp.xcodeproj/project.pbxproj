@@ -1,0 +1,2263 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02EBEE9322AAC304BDB926E1 /* TCardPlaybackController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 274AF5680EC2771D9EF11B56 /* TCardPlaybackController.swift */; };
+		03408DFA392D40249689A2F8 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE18431A86D0A8E60222256A /* Theme.swift */; };
+		03D4C1AD7F4D5CF6A4EAF00A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F6A148D73F0F54D74394A3 /* Message.swift */; };
+		05639FFD6CC2C920C935C0DA /* AlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09ABF821732601805B3FD49C /* AlbumView.swift */; };
+		05CE3AEA23A5150F3096AAC0 /* BindingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F7C27BC648C4A240C53C0 /* BindingStore.swift */; };
+		062E576B777E233E079F6449 /* View+pickerAddBgColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CF66FCCFB47272D4E2284 /* View+pickerAddBgColor.swift */; };
+		076E3C9114F0454A00BBB708 /* DeinitDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */; };
+		0853C33C3864B6EA6EFE0933 /* SettingTimeWindowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C96340D96B9F2EFC30BFA04 /* SettingTimeWindowItem.swift */; };
+		087EABA1ACF572A0D1EFA23B /* LogoutButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85E19527DC6679E7FDC354AA /* LogoutButton.swift */; };
+		0BC12988DF435DE1904976AA /* BusinessError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0671FC51D99DBDC970F529 /* BusinessError.swift */; };
+		0C228BECD68ECFD5D5107B96 /* WifiDirectConnectingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA52D82CC9C574FDF40B554B /* WifiDirectConnectingPage.swift */; };
+		0C8BD32C9FD3D15C92F704EB /* View+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E085146C880C5608E81A63B /* View+SafeArea.swift */; };
+		0CBF90B0E7A8499EA848C9FD /* NicknameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C237D61F4A8DE38AF9F4CB8D /* NicknameEditView.swift */; };
+		0CFD06088B1E9A84D76EBE4B /* AlbumAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1D3D07929B66B7DC983CD5 /* AlbumAPI.swift */; };
+		0D6882A5FD8D000C6E0EDE53 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285CF11D29EBB4755B728EB /* LocationService.swift */; };
+		11B067F7F3F8FCC7D320053E /* TCardControlBar.v.swift in Sources */ = {isa = PBXBuildFile; fileRef = 07882A2EDD0B65A05688C614 /* TCardControlBar.v.swift */; };
+		13EF72403BDB2828E93ECF88 /* String+timeValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE846109D38237FC8E25DE9 /* String+timeValid.swift */; };
+		147D545888946B3A97317509 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DBEF42D1977086DCA12003F /* Pods_MishuApp.framework */; };
+		14E956CC86EE4026E658CBB2 /* TimelineScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A7B52DBA2B121F351E079BC /* TimelineScrollView.swift */; };
+		15410D252504541C8E8655E5 /* View+keyboardAvoiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */; };
+		1557EDD7FC55A829A965DDC8 /* Order.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDC2320A3106411E1B638162 /* Order.swift */; };
+		15D26DAA3710DB702E5A696E /* CarBrandSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6885B953FBEC418E0DB78A5 /* CarBrandSelectionView.swift */; };
+		15F72D2E0FEC4ECB1D926A1E /* OcrAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 620A88871128A59ACAFAB98D /* OcrAPI.swift */; };
+		16F8133F1901AEB8B5356D41 /* SettingReadonlyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAF7F0C726BFD4034B8EDE8 /* SettingReadonlyItem.swift */; };
+		170BB8BDCA817B69033CE865 /* SettingSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10CC0B2CCAA5301A2192152C /* SettingSelectionView.swift */; };
+		18AF10616EEB9509F44524A2 /* VehiclesStore+Binding.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9F600758B37C8C037993897 /* VehiclesStore+Binding.swift */; };
+		1935255005DA4B7C4AA10E44 /* AppNavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20BAA1E3296CCCA926127B6 /* AppNavigationModel.swift */; };
+		1BD83826590CC2971450E121 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = E7220BCADE6E89E920AAA3E5 /* ImageViewer */; };
+		1CE2938EDB333DA3545E5CFB /* LocalAlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CAF9DD3E4957750D14335FA /* LocalAlbumCell.swift */; };
+		1E463D9AE8BD205A9E6D752F /* SettingVoiceCommandView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38926AADD75CC490215DABB9 /* SettingVoiceCommandView.swift */; };
+		1F36B4E31685F977169890CE /* TravelReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3CA56E12A762969FF654A /* TravelReport.swift */; };
+		1F4A2FC060C5E121E98B97EF /* TCardMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A6AB425A823B233DA6E2D081 /* TCardMapView.swift */; };
+		1FB225119D614BE776C28FCE /* MeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DFD9F141941E1F8AF63E315 /* MeView.swift */; };
+		1FBDE7ACE39311DDC1054CF5 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAC82D5863EA313442DE4EB /* AppRoute.swift */; };
+		21054619923775554D862E0A /* CarSeriesSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D01701D7649033457F9C0BE /* CarSeriesSelectionView.swift */; };
+		21E7F4728504CC722A178354 /* VehiclesStore+VehicleDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7B56564F5087639CE18381 /* VehiclesStore+VehicleDetail.swift */; };
+		22AF15402D8ADE019CF99AE9 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F13EC8284F84EF8951D9AD12 /* StatusBarView.swift */; };
+		23A237A1DD83EEFBF835E30B /* OrderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CA2CAAF10CC871F11ED1C8 /* OrderAPI.swift */; };
+		23F28A22E6BF12B248CDF5BD /* Sim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C936D630FF1508E40E64E79 /* Sim.swift */; };
+		23FAF47616C31C0BECB7EE2C /* Const.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4310A01D1AC1284B8CAB25A4 /* Const.swift */; };
+		24A8594A8C43596D72257971 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96F478C4F0F9660FA8FC261A /* Car.swift */; };
+		25B95530AA73C4B2C2A776B6 /* MobileInfoPermissionPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38A97D718955A1CA3F7CE238 /* MobileInfoPermissionPlugin.swift */; };
+		26674833CF36D26A9CA12F68 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32403045A6D58709AAE4A0C5 /* CameraPicker.swift */; };
+		2714418D1A5A195B0B4C8DBC /* GeocodeAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ECF311700F52DDF7DFCC174 /* GeocodeAPI.swift */; };
+		28A072440E2F584E4DC39827 /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 372706400EEFA2363F61251A /* UserAvatar.swift */; };
+		28E7E1AB565AC9F5C3DCF1E5 /* TCardTimelineView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B697C56D4ADF4BE1DF474670 /* TCardTimelineView.swift */; };
+		2942758A5EAE64506A4762D1 /* FunctionBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7AACAC2FFC665F1516B248AF /* FunctionBarView.swift */; };
+		2985942279BD7FE4A8CEE6FE /* MessageEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 749CBA444584B7DF77EF3134 /* MessageEmptyView.swift */; };
+		2C0DAB6424061AD012C577EF /* AssetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AD0AF88B4B419219102B53E0 /* AssetCell.swift */; };
+		2DBF018C3F6ED34540B0417C /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D9CBE2EFBE8F8D262A7C7C7 /* APIClient.swift */; };
+		2EC76677D3C66158177319FA /* VehicleSettingsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B4F5352F7B8D28A472F3A55 /* VehicleSettingsListView.swift */; };
+		2ECF240614AE89897BC8A1E1 /* ConfigAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = E189037A0417038B54C2B60F /* ConfigAPI.swift */; };
+		2F5128AA78AB84567746B92B /* WebsocketHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D102FCF9B42AAAF16CE1FD75 /* WebsocketHelper.swift */; };
+		2FB49974F101C8D59B089E87 /* LoginBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37C364910BF75CF4B4B88D02 /* LoginBackgroundView.swift */; };
+		338367AA561EC3318A7B3F96 /* VehicleSettingsUpdatingOverlayModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15052E3225B0818134C324F /* VehicleSettingsUpdatingOverlayModifier.swift */; };
+		350A91EE856D2D8B4BA0A0D3 /* SettingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60346A0A14963B43749164F6 /* SettingAPI.swift */; };
+		359C26B1C27C32A772DBDA19 /* TripReportSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484C7570FF5E54F60DDC6F82 /* TripReportSummaryView.swift */; };
+		369603427EACEFE9E025CF93 /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */; };
+		36F954E85CBC820AC800D265 /* MeView.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D85A06E3D8A538F22327A8 /* MeView.vm.swift */; };
+		37B97CE22A68879BE7EDC529 /* MessageTabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 54D735FD66B5D2C44385F243 /* MessageTabs.swift */; };
+		3800C910059F3E8DA0C30B05 /* UserInfoEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 926D15D3DF21E15C043AD431 /* UserInfoEditView.swift */; };
+		3A657742A35BF01EDE3CAE9F /* MeSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0A099D61BA4E21E8C7F1C27 /* MeSettingView.swift */; };
+		3B68E3B0074EF555C119044A /* CarBrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F5B37E2606D369FB397906 /* CarBrandAPI.swift */; };
+		3B94BCB3FAF3298C9726632B /* QRCodePhotoPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03C7B2921054EE87FC573B91 /* QRCodePhotoPicker.swift */; };
+		3C2A49E6FC547861F06942D6 /* TimelineZoomLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812DCC21E08290978D413A8A /* TimelineZoomLevel.swift */; };
+		3C32323B02F82E77AF2D4E40 /* SettingGpsDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874F22F6A61BD327CAB73036 /* SettingGpsDetailView.swift */; };
+		3DA2A2BD379EBE6E5B03B5CA /* LicensePlateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */; };
+		40C8DC5AAFD18003171F71CE /* LoginActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097B4DD8C56743B3CCF4F72 /* LoginActionView.swift */; };
+		41D9A1EC82E92BE4F300CD66 /* TCardReplayGpsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D69124DD757112C2A03C8E2E /* TCardReplayGpsService.swift */; };
+		4273E19DD0A52A53C2F52F0C /* CarInfoStep4View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20348427A28E7A37F52DA70D /* CarInfoStep4View.swift */; };
+		4389B0799DB2F7330E463824 /* SocketMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */; };
+		43BC3476960526E8719228B5 /* QRCodeBindingScanFrameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A556B39961309CE6495916AF /* QRCodeBindingScanFrameView.swift */; };
+		43F36358BB5FEEEAFCE41FC4 /* MishuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F43B763B5336BF52C97F0E /* MishuApp.swift */; };
+		44AB53CFC5CF387120D2A494 /* PageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26F9D6D44A1B34E30E66AD75 /* PageViewController.swift */; };
+		44CF889931F108CC5E8568A0 /* RouteParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B72822ECCFE58E04CEA7DFD /* RouteParser.swift */; };
+		45009782C948F8565C367BBD /* EnvironmentValues+Namespace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 631D21E7BC858AE3E33DD0B3 /* EnvironmentValues+Namespace.swift */; };
+		45183BFB3900368898E4F62E /* VehicleHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A56B1FCD2EB202F6A2EF350 /* VehicleHeaderView.swift */; };
+		464C164AFFCC410B5F4B5933 /* VehicleLive.UIState.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = E9E723A7CB908E56B1CDDCC4 /* VehicleLive.UIState.vm.swift */; };
+		485F8D4E500FC5E04BBB2701 /* LoginInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76A602A343D7BFD2341AC09 /* LoginInputView.swift */; };
+		4A0D80DCA3D0AABCA4594FB7 /* Color+brightness.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C0B2C3E3CB4867E6439540C /* Color+brightness.swift */; };
+		4BE0569F125C181DA57445DA /* View+onDragWithEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED1B4C6B894054AEA1AC551 /* View+onDragWithEnd.swift */; };
+		4C0C1D191A1444CB8D31422A /* VehiclesStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA79123D1537B84355294FE7 /* VehiclesStore.swift */; };
+		4D70C68B171B48B08F3C618B /* Calendar+relativeDateString.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF9568547873C692FE153296 /* Calendar+relativeDateString.swift */; };
+		4D79F3C34370F51C687A907A /* KeyedDecodingContainer+safeDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3052BD2C0FA99D0FF399429D /* KeyedDecodingContainer+safeDecode.swift */; };
+		4DBE8A6405AA912C8518C72C /* delegateApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 353A6412F1515CD25FDE1112 /* delegateApplication.swift */; };
+		4EA47173249C7EA15D2E4DBE /* ManualBindView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE58BA733B8A8392DD9C3CFA /* ManualBindView.swift */; };
+		506B3CEA92BB3A3216CD3B6C /* VehicleMoreActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079B8528B379EEAD9A7FD8B5 /* VehicleMoreActionView.swift */; };
+		50F45E929048EA881874A7B9 /* String+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48C3866EF23B98D47D0C7CC5 /* String+extension.swift */; };
+		5136D83C389A638B7447BB62 /* MobileInfoStateReportBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 591F72C83C9DECCDCC423167 /* MobileInfoStateReportBuilder.swift */; };
+		53A54836B4C48EA665A23AA7 /* View+toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618B70532359390CDB5B2D34 /* View+toast.swift */; };
+		5604362D6C3331F67E41DB3B /* WifiStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4C13891119AC7FAC0A27F64 /* WifiStore.swift */; };
+		565D6E2CCB13DFFFAAE95922 /* MapAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E04AB3753D4B559D603B66 /* MapAreaView.swift */; };
+		573011C3FF5C254A6022FA21 /* VehicleDashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8CB8CD2D696488D20240667 /* VehicleDashboardView.swift */; };
+		596DFDDA5D5FC7CC0D7E1A76 /* SnapFullPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E7FDC4C557CABBFC4DE2F68 /* SnapFullPreview.swift */; };
+		5A263EC36B52CCD92750EF67 /* VinKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 287AB1997F7A763BD6BFEF5B /* VinKeyboard.swift */; };
+		5B10B309974F4949908273C4 /* CloudBenefitsResourceModals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5763B627EB92711E438795ED /* CloudBenefitsResourceModals.swift */; };
+		5B997C25E04D35593DB52136 /* VehicleSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5F48786301013B0678824236 /* VehicleSettingsView.swift */; };
+		5CC05EEA308234AABE368386 /* Array+rotated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7559A373DF492C117ACA4B9A /* Array+rotated.swift */; };
+		5D54BBCECF1EF7768B5137CE /* ImageViewerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */; };
+		5D662DAC22765426630FA35F /* PackageModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0681AED3E146F98DD21AA963 /* PackageModels.swift */; };
+		5E0900D716A4790DBDB15A24 /* WifiBindingConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89FB8CFD43A3293C1B78837A /* WifiBindingConnectionView.swift */; };
+		5E250A0D6C9C4D294C8BE25E /* LiveUserLocationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8956EC2FC5C2BD1FC1BAD5 /* LiveUserLocationStore.swift */; };
+		5E59CA7556B38D58C3379103 /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9D10596F1A64E7B3D89237 /* Chapter.swift */; };
+		5E83B02A6E9895B164DF5D5F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFB50AAAB01D705EBADE2 /* BlurView.swift */; };
+		5EC8A4EC8B7634DC39840EA9 /* SettingFolderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDB6F643FD3CDA3EA309B0F0 /* SettingFolderItem.swift */; };
+		5FE4B2A869C1DC5B5D71AD68 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 46AAC4A254FE881DF1B94951 /* Success.json */; };
+		60FDF6B4147850565C086503 /* VehicleLive.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FB5D33A300BFCC924C4918D /* VehicleLive.vm.swift */; };
+		61DDF9A3DF8FA020307DC50A /* LiveVideoFullscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0DC4B9F1F5FFAB6A43CA24AD /* LiveVideoFullscreenView.swift */; };
+		629C4C0004F11120D9D809EF /* VehicleLive.Nav.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB9E248F7EE218B86887E87 /* VehicleLive.Nav.vm.swift */; };
+		62D33D4C2FFB4D8B31579111 /* VehicleDeviceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1896FCED58C500CFF450641 /* VehicleDeviceAPI.swift */; };
+		64A6033A34656A9A55AC92AC /* Date+tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD55579B782394CFD188DD91 /* Date+tools.swift */; };
+		6518178CDD475509A1668A3B /* LocationPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06448451E7BE9F569323114A /* LocationPermissionStore.swift */; };
+		6811329FCB304B05EB353422 /* Double+exten.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DAD98DA94619B8EBE43A77 /* Double+exten.swift */; };
+		6954FB5D86163CF937537FB3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C50FDF99CDD65BF4BE78634D /* Kingfisher */; };
+		6B448CA25D3AB703AD93AA4A /* BottomActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 901DB48EB9EACC6706CFD868 /* BottomActionsView.swift */; };
+		6CA388FA6FCB3C747AACA73E /* AlbumListView.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF7CE67A402E634186ACE88A /* AlbumListView.vm.swift */; };
+		6CA9DFF08E36751FB701A5DC /* Color+randomItemColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26A4416AB0319B82575D6C /* Color+randomItemColor.swift */; };
+		6CD070AD7529D16EC2EC03B7 /* VehicleListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE458CBE2278779D9A912D49 /* VehicleListView.swift */; };
+		6D6BFF576A69659F121EDF5A /* LiveVideoQuality.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11A0F087589121BD0C2E71F0 /* LiveVideoQuality.swift */; };
+		6E480B5989CF85D61A0FBCAF /* WifiDirect.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A74A0CCFE5615E365DEFADD /* WifiDirect.vm.swift */; };
+		6FA8A3D5CD47E148C7E7CADA /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC1AE4522DCA84C0522AF3A /* Setting.swift */; };
+		71072FF9F13D6E5B4D3BAFA5 /* IAPAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5197D50E514A63149ACB1 /* IAPAPI.swift */; };
+		72973E82E0A7BD973F0A0F56 /* ServiceRightsModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 426D5C41D2CDD69982DA7E83 /* ServiceRightsModal.swift */; };
+		72C9112F58CC4624EA433A2E /* Gps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1BC3CFCA653F86B0C413D6 /* Gps.swift */; };
+		7676788CF9F79E9BF71D2F93 /* WifiDirectSessionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FF552F3F4CB9E1A06A5F3CF /* WifiDirectSessionStore.swift */; };
+		777F5B044592B921A02F1DDE /* VehiclesStore+Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9680A038FB3366BFB0C54FB6 /* VehiclesStore+Live.swift */; };
+		7990E84E83729CA4D44D520F /* TimelineCanvasView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C2D367EB12E40280CC4EB0C /* TimelineCanvasView.swift */; };
+		7994DFF02A6B22CB6AF0E6A4 /* VideoViewerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8AE8618CE8002275A79A3A /* VideoViewerManager.swift */; };
+		7AA4F12A881A099F196B975D /* AssetDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0B7E41D06FA4D6330C81E4F /* AssetDetailView.swift */; };
+		7B118CA1EF9B9CF41ADF62A2 /* LocalAssetFullPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0B10A5AF48477A0D094A49 /* LocalAssetFullPreview.swift */; };
+		7BFDB262FA458B54B1DE160B /* CarInfoStep1View.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B1ED22EFB4EFFDEBBE02A6 /* CarInfoStep1View.swift */; };
+		7DF79EA3D808B3A9989BA026 /* VehicleEditMileageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C85A24A1524167263828856 /* VehicleEditMileageView.swift */; };
+		7E93F96B1338044D6FCBEC4C /* Header4LiveView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF07A41109D48AE7F4352FA /* Header4LiveView.swift */; };
+		80887640818BBDEDF90A88E4 /* VehicleEditVinView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2109B439D3566B90EDB54D47 /* VehicleEditVinView.swift */; };
+		80A4B98A15954B7B7B1E4763 /* AlbumListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4706BA907B0DF0F9B8C37BA3 /* AlbumListView.swift */; };
+		81CE5DABA25F9AB030223FE9 /* SnapPreviewList.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3CB9EE32A51D17FF32C33B1 /* SnapPreviewList.swift */; };
+		84C76CA8769ED1B73B7615E2 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = E014F15329552CE4F34F6001 /* SwiftMessages */; };
+		88657E3E8B72D09573852017 /* ListItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C1639B29EC4446BD58A5A75 /* ListItemCell.swift */; };
+		88799049FC2C20CDEB1EF93A /* View+fontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4894EBEC26F455E25E1595 /* View+fontStyle.swift */; };
+		8879B4AC68494B16C2D8C53B /* VehicleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DAF148D859D99620BB32DD8 /* VehicleAPI.swift */; };
+		899B373ABDDFB9699A8C1D8C /* View+SwipeActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA39E7B21013F38185BBFD00 /* View+SwipeActions.swift */; };
+		8A2B2CACE4A9099B62BBD53C /* OrderListPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 208895D4D6065FF0945DB5E4 /* OrderListPage.swift */; };
+		8A463CA8F08740568C05BBD6 /* delegateNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = EA7D068E8E34EA40052B6321 /* delegateNotification.swift */; };
+		8A694B3DDD3276C18300F10C /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 716FB78626409C0DC5588D85 /* QRCodeScannerView.swift */; };
+		8A8211622A2A706AFF4D41E6 /* View+glassEffectBelow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073138F10B1B32E2033B98EE /* View+glassEffectBelow.swift */; };
+		8A821AE689371F9A4A1FEF14 /* VehicleLiveMapBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863460AED3957097A046DE02 /* VehicleLiveMapBootstrap.swift */; };
+		8C91825AD8D98D7CEF030BC1 /* TripListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E1C61BA58E3652A666454D /* TripListView.swift */; };
+		8D7412C2C8992771D7955084 /* OrderListView.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0378CEE89AACA25064DCB2C9 /* OrderListView.vm.swift */; };
+		8E7E6C998DE39DDCCB4F37C0 /* CloudAlbumView.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA24291CF558365C0A5A26DD /* CloudAlbumView.vm.swift */; };
+		8F211DB3C8932CF6AE318490 /* TripCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 858944D209C88EE9B446B00B /* TripCell.swift */; };
+		90C10B72EF5B1546062B1AFF /* VehicleEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D32D7DBD248DE227C994014 /* VehicleEmptyView.swift */; };
+		90F6AAEB2743DC1D66AEA11A /* AlbumAsset.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0DEDE087734E2D1E28B6780 /* AlbumAsset.swift */; };
+		9122ECF5A1E2664281C03BC1 /* Copyable+copy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2727B8247822618DBCA2365A /* Copyable+copy.swift */; };
+		91758342455ACAA175CF08E0 /* SettingProgressItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FD8644CA70B93853B864C9F /* SettingProgressItem.swift */; };
+		92F03C1BE353EAB2E78805F4 /* CashierView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30C193245896A1B89967487E /* CashierView.swift */; };
+		9396372B597EB9D6C9997D71 /* SettingButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B586FEEFC84F7B94E8C0047 /* SettingButtonItem.swift */; };
+		9459DE74F13F9AA44D11FEB1 /* SettingResultDemo.json in Resources */ = {isa = PBXBuildFile; fileRef = 7A70B70A71A1562A0F21BA87 /* SettingResultDemo.json */; };
+		9491BF611250F40D7EE35322 /* LoginLogoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5530E0D3809BD717552C281A /* LoginLogoView.swift */; };
+		95B88E03160CC5B3AC69A8EB /* Success.lottie in Resources */ = {isa = PBXBuildFile; fileRef = BAFDFB2DD56BFDBAD1213FD1 /* Success.lottie */; };
+		97EF0445542F57037E175664 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468BD6AEF889C1748F814EBB /* UserAPI.swift */; };
+		99AFD1745FAC2983E9742F59 /* PasswordEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E87D0083550008AC0CE3116 /* PasswordEditView.swift */; };
+		9ABB1919037F06EA71BAD8D2 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF062E43463F9E3A368E0B6 /* LazyView.swift */; };
+		9AF90481C693EA0FC72A37BB /* WifiDirectOpeningPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEE51E26976AC5BECEF73BBC /* WifiDirectOpeningPage.swift */; };
+		9B787329E14979BC09B0F87A /* WifiBindingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80281F1B1B75DDD488631A9B /* WifiBindingView.swift */; };
+		9BFEDBB9E67AFA63C01939EF /* LiveVideoControlsBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 64FC1AEF82D7DEAB6BBC0A9C /* LiveVideoControlsBar.swift */; };
+		9E017A1797940F451E15CFE8 /* VehicleEditFuelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5468B90CB60083F3191B685A /* VehicleEditFuelView.swift */; };
+		9E4141E04F27F5AF8E3DE6E0 /* View+toPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839667A37B1A11EF6861373B /* View+toPopover.swift */; };
+		9EC798E1B28A0E5BE112D5D8 /* PayAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D5234203C45E5A983055334 /* PayAPI.swift */; };
+		9F0840A5745E51078B451A4A /* CarInfoStep2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9581B6D35A06CA0D53324531 /* CarInfoStep2View.swift */; };
+		9F34762898C160410759D953 /* VehicleLive.v.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F862C7AA45FB7B3BFF3C7B4 /* VehicleLive.v.swift */; };
+		9FF186A82FBFD84066D274D0 /* CloudBenefitsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27E15536997EB7C4D0DF23E8 /* CloudBenefitsView.swift */; };
+		A031D2687E6BE3E38AE1DABD /* View+hideScrollIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */; };
+		A0D28AD184E847E4AA97E302 /* View+rotationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CCD83925B81940196051A /* View+rotationIcon.swift */; };
+		A3014656ED79663F9234335A /* VehicleInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B3ADABBEBDF98B2CDE0D7A2 /* VehicleInfoView.swift */; };
+		A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 31BD492FD73E659CC04017FE /* Lottie */; };
+		A5ECE171DF4551718270E8C3 /* LoginAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD180D7C6C69936845DBB30 /* LoginAgreementView.swift */; };
+		A6141F3575FD0C76041D8FC9 /* AppNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EDAB590B1D32B14DE0D0D6 /* AppNavigationStack.swift */; };
+		A671BA68C9F138C56BB23D99 /* AlbumAsset.md in Resources */ = {isa = PBXBuildFile; fileRef = BC7BD6D91DEFA3BD9B38ADC7 /* AlbumAsset.md */; };
+		A791DD51F80F4AAA8AC8D91F /* WheelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5ECD9AC956B416209CCF53C /* WheelPicker.swift */; };
+		A8775F2219E35DB002BC1608 /* WifiDirectFailurePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9011126E86EE7D328E0427B /* WifiDirectFailurePage.swift */; };
+		AA76C5E715FE8B659881C975 /* VinInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8DD5775DB2649B3E8DA86CFE /* VinInputView.swift */; };
+		AAC7452FF5B4A0E48B1528AA /* UnreadBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A3915DF2245E983E313EE8D /* UnreadBadge.swift */; };
+		AD96307A9F737CF70753B5B3 /* LicensePlateKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78AD43937AE2D6AF8F5EB4E9 /* LicensePlateKeyboard.swift */; };
+		ADE2234816B2860E7514D4CF /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3FDA2FF5DD5ACE62862BCF03 /* LoginView.swift */; };
+		AF80A2CF3FFCCDE07B6BCFC6 /* TextField+autoFocus.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC36F2232D98F6E1A1DC6EFE /* TextField+autoFocus.swift */; };
+		AFA6C191F419F75DB8EAFC7C /* CloudAlbumType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21922D1D8110B23E59602497 /* CloudAlbumType.swift */; };
+		AFD00FB8E04D1404EB48B0CE /* TCardDateSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 104EA8AB74215DBEFE399692 /* TCardDateSelectorView.swift */; };
+		B1E526324CDAA5ACD2A53BB2 /* ActiveLandingIntroPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D73BB053F69CA39E9C913FC0 /* ActiveLandingIntroPage.swift */; };
+		B2511C8039398736674F13C4 /* ActiveLanding.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3754066D410AE353E198A5F2 /* ActiveLanding.vm.swift */; };
+		B3C57C764FAED2DC9D6BE183 /* VehicleEditLicensePlateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F47BDB409E44427E08A335F /* VehicleEditLicensePlateView.swift */; };
+		B429E8E0331B172150E25AD8 /* OrientationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 03FAEFBEDC8F7B2D338B42C6 /* OrientationManager.swift */; };
+		B441B50F4849272BAF964972 /* LocalNetworkPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502D3E9BB7BA7FF84054B86D /* LocalNetworkPermissionStore.swift */; };
+		B558F9A8B8F66526D68674E8 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9E7E4FF7705C85E47880C9E /* MainTabView.swift */; };
+		B57EB20EC5DA08833A5B616A /* View+bottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0E782321DD214193F551CEE /* View+bottomSheet.swift */; };
+		B591EC2A5B10167BBFC3DCB7 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0310824E68AE6503AA7107FB /* MessageView.swift */; };
+		B5CAD50765327BF0C027A21A /* UmengService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DD075FE3F361A05588716C0 /* UmengService.swift */; };
+		B7B091DC9020886A447515E1 /* VehicleSettingsSubPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3740CC118C63406143C22C1 /* VehicleSettingsSubPageView.swift */; };
+		B7B328F1DC052395C0AFAF53 /* VehicleLive.Mode.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CAD3A445B3545AA4998EB68 /* VehicleLive.Mode.vm.swift */; };
+		B8860118D500236E9B419937 /* TCardPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654696DE3B2EC22F643DDC75 /* TCardPlayerView.swift */; };
+		B9A86939694777D1B93A0E59 /* delegateWechat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3104D7A052AB317BC94B97E4 /* delegateWechat.swift */; };
+		B9FB7C8E8985AC7E42723CA4 /* SettingSwitchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32DC5F95072D7809B5983663 /* SettingSwitchItem.swift */; };
+		BA0B1CCEC973DA4D1C387580 /* VehiclesStore+Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = D142BA69A790CA9BA6BD1CBD /* VehiclesStore+Socket.swift */; };
+		BA10B5F93E3BDD9200A41AA2 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBBA60409498052E1D222836 /* AuthAPI.swift */; };
+		BC3096CBC8A42D11388CED37 /* OrderCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F7DC0EF40E52255FE815C /* OrderCardView.swift */; };
+		BCE0A4D2C8508DF69C2678C3 /* NavHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BDF40A9BDDFB19F876C29F /* NavHeader.swift */; };
+		BD10F53D967A61EEBB869044 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E4A4A474B601348C3668CF9A /* SQLite */; };
+		C090404C7D797ACF99E400B2 /* WifiDirect.v.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26E55B49FFCCD9D9474F79AA /* WifiDirect.v.swift */; };
+		C1A7E335E236AC3773DEC1D3 /* Map4Live.swift in Sources */ = {isa = PBXBuildFile; fileRef = 99FD01F7DA69EB33E76A33C2 /* Map4Live.swift */; };
+		C1CA187530EF081633745F45 /* Map4LiveCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EE02BC01744A4E0D229A36B /* Map4LiveCoordinator.swift */; };
+		C2FA58515742798C1F412A1A /* UIApplication+dismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */; };
+		C31F0C4B5BBA88C4103322E3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E9D3273168AA95F279E17E /* User.swift */; };
+		C3B70CE0D4ED287DBA42476B /* PackageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207A171493D1BE287ECDBA82 /* PackageAPI.swift */; };
+		C4450E8594319E2C650604B3 /* MessageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB39B71FE653C829C1D7B731 /* MessageAPI.swift */; };
+		C492BD762CCF1F96E35ACF85 /* UIKitTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6BD1E7F934FAAAFB719118D6 /* UIKitTextField.swift */; };
+		C4B56D598B3238E9B7358EE0 /* QRCodeBindingHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76A82C031931D294F0DBB7B9 /* QRCodeBindingHeaderView.swift */; };
+		C5D8CF46AB7C5BB73CC7FD83 /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FEF442EE6147818CC077C9 /* VideoPlayerView.swift */; };
+		C6829A97C51BE68B52718947 /* View+FullBrandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE69C127D034996F54D8691 /* View+FullBrandButton.swift */; };
+		C75099F3B36671FDD02BEED1 /* Map4LiveAnnotationViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29CB9DB303057C5CD7677E7B /* Map4LiveAnnotationViews.swift */; };
+		C7DE035C709CB75556F1B1AA /* CloudAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCE462AD4007F0802F123952 /* CloudAlbumView.swift */; };
+		C8A255957696BCE03C3DA1E8 /* View+pickerBgReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EC7B520DCB4120253FCC43 /* View+pickerBgReset.swift */; };
+		CAB6056953BCCC8402890429 /* QRCodeBindingControlsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B8996A8532D0A2D1665BD33 /* QRCodeBindingControlsView.swift */; };
+		CB7043BA0F68F8D0386270C4 /* WebContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A92EC7554021C2BB9FB35 /* WebContainerView.swift */; };
+		CBA3FF3649607E0CDC1BA661 /* AlbumCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE9E1EEB1C2A0E275868CACF /* AlbumCell.swift */; };
+		CBBA4DFB1EBA548267688852 /* TCardReplayFullscreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA2DE5199802A12B4BEDC83 /* TCardReplayFullscreenView.swift */; };
+		CC3BE9C193D40EB6E5D773E5 /* QualityPopupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABDBF4590AF7BB069A2D297E /* QualityPopupView.swift */; };
+		CCB6393040FB2E736DA53F9F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707102ED28257EB5EE2939B4 /* Storage.swift */; };
+		CE86446CAD2FC069C15093C9 /* VehiclesStore+Cloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = E94849D9C5712D537B5C7881 /* VehiclesStore+Cloud.swift */; };
+		CF563EB095EB7DD91102A587 /* LoginView.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 068AB5D0C96A5C640ECE8FFA /* LoginView.vm.swift */; };
+		D07A1C0A7B45FDC83708FE5B /* ActiveLanding.v.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731B23E6929CD7835E150FB1 /* ActiveLanding.v.swift */; };
+		D0CD38F72A97EDF776E4A0FE /* CloudPlanComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4304F31E504B9B9B0E7F8FE2 /* CloudPlanComponents.swift */; };
+		D1C0500784D5A78BB92C053A /* View+toAnyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8E86FD8E46E26113B058991 /* View+toAnyView.swift */; };
+		D2E6CCFC603B7500E45A8A68 /* View+taskFor14.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF4429E3353147F3FD9B8846 /* View+taskFor14.swift */; };
+		D2F2AC1328859E18D0B4EB1C /* UINavigationController+gestureRecognizerShouldBegin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D384E04F16020D2CF326318 /* UINavigationController+gestureRecognizerShouldBegin.swift */; };
+		D48A44B12182F898E9A485A8 /* ModeSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39902A0D24535EEC05C55C3D /* ModeSwitch.swift */; };
+		D4C5CE7B43DB1AA39ABC25F2 /* VehicleDetailStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0190EC1ED87BF47B02E0394D /* VehicleDetailStatusView.swift */; };
+		D58D3E359DA55CE1DD06E8F2 /* AppDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */; };
+		D5C3DAC930C95027135BF630 /* ResourceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56E3F953177EB3341DDA120E /* ResourceAPI.swift */; };
+		D66D3AABE61EEC03486CAA8B /* DeviceCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD68058A7CED5443B132C3FE /* DeviceCardView.swift */; };
+		D68B79E10494FADB87D6791A /* LiveVideoPaneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81CDA77E98B34A1EE6093FBE /* LiveVideoPaneView.swift */; };
+		D7EF1487D243C419A17B64C5 /* LiquidGlassModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58AD957BDBC6A17C0A884CB5 /* LiquidGlassModifier.swift */; };
+		D81F1E76B59836EE7CFB9B30 /* UIImage+resize.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CCFE4852FA963FA927BC1F7 /* UIImage+resize.swift */; };
+		D84E054C55368163384DEB2E /* View+matchedGeometryEffectIfLet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9BDFE481520DC0F1BD0E94 /* View+matchedGeometryEffectIfLet.swift */; };
+		D8A7747BDC06637D9AB5531E /* TemplateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE73FD683A3F5DA5DDD04B7D /* TemplateStore.swift */; };
+		D919333D6678D7A5612089A6 /* LocalAlbumStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98FAEB7CBFB73B23DCA8F802 /* LocalAlbumStore.swift */; };
+		D9408D714C4FFE9638F692FC /* View+processControll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C2CA37AEA0622DC49C801E9 /* View+processControll.swift */; };
+		D9C61A339332EA8AEF2E3D43 /* AlbumDetailMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC95087D69C8427573E8B486 /* AlbumDetailMapView.swift */; };
+		DA1E2F1D8811A002B5BB6496 /* WifiDirectIgnitionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DE2EF4BCD559FB53F04A00D /* WifiDirectIgnitionPage.swift */; };
+		DA2BD386B9BE5B1F20AA2E17 /* VehicleFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EDB2B749B0E8CC40CC3B242 /* VehicleFolder.swift */; };
+		DA341B2ED4DE6308BC639598 /* TripAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82EB8BF4782D42E8B82832EA /* TripAPI.swift */; };
+		DD6D7B4100F44FF0AD7E0931 /* SettingRadioItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 981CC20FEDE452AE192FCFF6 /* SettingRadioItem.swift */; };
+		DDE3FDF74EDDC03E3AAA92B5 /* VehicleQuickAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D39FB9C365D7256C6D7063D /* VehicleQuickAction.swift */; };
+		DED96156EFACB63113B6621F /* QRCodeBindingBottomBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBEB894516AD3648F55AC6E /* QRCodeBindingBottomBarView.swift */; };
+		DEE597EF4D3B6A6723C9CF47 /* WifiBindingNoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 036504378D7683BDEBE9C405 /* WifiBindingNoticeView.swift */; };
+		DF8D89BE242E73D5867E091E /* OrderListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDE98C8903B63A0A8537BBCB /* OrderListView.swift */; };
+		DF8DCB64F430DE27C1696F31 /* MeMenuCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A79FADF87DB444BFFE9EBA7 /* MeMenuCard.swift */; };
+		DFE490E3C224905F80BBF919 /* MeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 589C6FBB58D8E156E8A6E397 /* MeHeaderView.swift */; };
+		E02F2BBC71DB77744BF615E6 /* View+popupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3B1C097E7802ED289EB430 /* View+popupTest.swift */; };
+		E0AD0A05860D5DC3DF3EE272 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EECE16755DF84C6E81DFBF /* MessageItem.swift */; };
+		E227D972C96A8071EA961B00 /* SimAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = C759BE8A063E309DFF534477 /* SimAPI.swift */; };
+		E26880BC66086B721EA103BF /* MessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFAE1AFA172CC78B2F62BEB1 /* MessageCell.swift */; };
+		E39A55FC815C165AD18FE146 /* SettingLogoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377D26655DD8046D99A86C79 /* SettingLogoItem.swift */; };
+		E3CAA263F7DE6D804097DA55 /* TCardReplayModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9B789B887C2A6F917AE2684 /* TCardReplayModels.swift */; };
+		E4919620219EBB6DA3F3ECD6 /* GpsUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBCA74C57A2E35043E96C25 /* GpsUtil.swift */; };
+		E4BB6D06DB4453A498EC06AA /* CancellableBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8B165A6B9CB30D2E4477C /* CancellableBag.swift */; };
+		E537B2173569FFC931A57BC0 /* View+cssPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FECF7FCDC61193C1E384F4 /* View+cssPadding.swift */; };
+		E5A1388E47AE5BF520F8DCB7 /* CloudPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AD063EFB16DCB2FBBA945DA /* CloudPlanView.swift */; };
+		E6656F5372CF6A25EC477A69 /* WifiBottomActionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC73EFF8405073B8351D48A /* WifiBottomActionsView.swift */; };
+		E6C62AE3593EABAED4899938 /* TCardReplay.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 964835C23AE1895FA2699732 /* TCardReplay.vm.swift */; };
+		E6E79D93F694897004C3E9DD /* VehicleDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11427CD9EAA6CD726E01B676 /* VehicleDetailView.swift */; };
+		E743B891D9E7F0B40C2CFE7D /* ActionAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB29F371787B906F202317EC /* ActionAPI.swift */; };
+		E92DEC5AB24F94E11DE8EED7 /* SettingSysNotifyItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F564B616C180E4245238ABAE /* SettingSysNotifyItem.swift */; };
+		EA08A463583ABF687D41FAB4 /* VehicleEditNicknameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B4F13DA3C437688F53359E7 /* VehicleEditNicknameView.swift */; };
+		EA9C1C28B99C359A7BB739E7 /* View+KeyboardDismissModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D27527AFBFFA564061EE09 /* View+KeyboardDismissModifier.swift */; };
+		EC1D2160E378F8EB931C8953 /* VehicleLive.Talk.vm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C590E209B46C7CFBB4FCD58 /* VehicleLive.Talk.vm.swift */; };
+		EC4F48DFABC130C5A9E76390 /* QRCodeBinding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4BCF65DA37EA54C50CFADCBE /* QRCodeBinding.swift */; };
+		EC659105DE5387A58A0B00FC /* MeTextTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39F92935B852BF14460305E8 /* MeTextTitle.swift */; };
+		EDF495C5B3AC8513BDAD0E42 /* WifiDirectSuccessPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E03A8E14483988814827EB7C /* WifiDirectSuccessPage.swift */; };
+		EE79047DAD6E992E7337BEA2 /* UploadAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = B890AC9EF1AD4CA8AC8EDF30 /* UploadAPI.swift */; };
+		EE88FED701D24DAF502BE4C3 /* View+shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5076130C1CE8117FD8EB3A /* View+shadow.swift */; };
+		EEFF160E30FFDD8233E91CED /* ActiveLandingSuccessPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68D8F045975FC2BB80C23A9B /* ActiveLandingSuccessPage.swift */; };
+		F0A0E6FCD01B694FC853F773 /* SecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F50C366BAA0EB5879D1D21 /* SecureTextField.swift */; };
+		F1665B4DA8D1CA101875C302 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB469B7432C466BC2A56337F /* Assets.xcassets */; };
+		F17521D3BB382791BF612F6D /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFF3611510DE9148A0D6438 /* Color+Hex.swift */; };
+		F1CDE4B9822B519A6AD8B25B /* View+popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7E18F0DFDE73F69962A4F /* View+popup.swift */; };
+		F27466A2486613C26C9588E6 /* OBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C366865F5039F72FB8950353 /* OBD.swift */; };
+		F30E67BA7DA5B7A95A45C640 /* EnvironmentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549AD0D898A18205EB199F8 /* EnvironmentStore.swift */; };
+		F57429D0E30D2BCD92519155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */; };
+		F61DD087453DED1D4BA48B70 /* SettingInputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39471880BC27FD71877B8B2 /* SettingInputItem.swift */; };
+		F670DE75A01C93E91F6F1F75 /* MessageTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275A0F852F236D052AA8D2 /* MessageTable.swift */; };
+		F80AFE50D808F98D854FEAF9 /* CarInfoStep3View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FE4B500D769695D9493CEDC /* CarInfoStep3View.swift */; };
+		F88E3CD6C2B78E111FFE81A0 /* CameraPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */; };
+		F9215EDCBB8BA57F7C11B612 /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FD508224DE4E937C29691F /* MessageStore.swift */; };
+		F92BE8AD4EF1086122FA7C6B /* VehicleMessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E19A8CD9BD59D9A5358D71D /* VehicleMessageList.swift */; };
+		F9364C8DBE3B1610D4BE86FB /* TCardReplayLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 324D2BF92998D958F98281E1 /* TCardReplayLog.swift */; };
+		F963FE40C8C8028A9F2985C8 /* AppDatabaseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D064E86CD3F0D139972F59F /* AppDatabaseConfig.swift */; };
+		F9AADDCF21930304F8482A72 /* LocalAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 267B0D589B2B920E5FBE36D4 /* LocalAlbumView.swift */; };
+		F9C2C4CC5D70AE2389BACAA2 /* PaymentSuccessView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80229BA2D2B29B8C218DF510 /* PaymentSuccessView.swift */; };
+		FA3F9AB58C09C61BDD1F9E4D /* ObdAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 630BA788625E7FB5CAB94C2D /* ObdAPI.swift */; };
+		FA8F7B3B0FA5CA9C614364C0 /* NoticePermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9FC04AA8EF783B903DC6FDB4 /* NoticePermissionStore.swift */; };
+		FC5B161811D8735696DE8F4D /* CarBrand.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7C517888536E55D711E5BC4 /* CarBrand.swift */; };
+		FC67B70C298F814A968C361A /* PinyinUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8469670CA147D2B0B9238E /* PinyinUtils.swift */; };
+		FDB18A8B66C5267F89449E11 /* WeChatServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E1281F85E0729E2D3FE7A4 /* WeChatServiceView.swift */; };
+		FE05DBE7CD06A8657BE3F52C /* WebSocketStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8D126F5A1477B42028346C6F /* WebSocketStore.swift */; };
+		FEBEED4431E79257139F3087 /* SelfStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF0BF6E56F2AB6489625F070 /* SelfStore.swift */; };
+		FEDCE2AEB97D445CF6890049 /* VehicleDetailHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B1DC7EA920A00760E8998DA /* VehicleDetailHeaderView.swift */; };
+		FF3AF37413278C7978E09B19 /* Vehicle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9944D78FC2126DF6433454EE /* Vehicle.swift */; };
+		FFAB03A14A0C84FEC8AC7DBD /* AppStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929DDF98400CACD894E849E /* AppStateStore.swift */; };
+		FFD40964FE708A92318E7E6F /* MobileInfoStoreSerializers.swift in Sources */ = {isa = PBXBuildFile; fileRef = FA53DBF1FF6DED5B0F1E1768 /* MobileInfoStoreSerializers.swift */; };
+		FFE29CF6929B30788626B515 /* TCardReplay.v.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE1944E4B37FA8C7B3C375EC /* TCardReplay.v.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		00F5B37E2606D369FB397906 /* CarBrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBrandAPI.swift; sourceTree = "<group>"; };
+		0190EC1ED87BF47B02E0394D /* VehicleDetailStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailStatusView.swift; sourceTree = "<group>"; };
+		02FEF442EE6147818CC077C9 /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		0310824E68AE6503AA7107FB /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
+		036504378D7683BDEBE9C405 /* WifiBindingNoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiBindingNoticeView.swift; sourceTree = "<group>"; };
+		0378CEE89AACA25064DCB2C9 /* OrderListView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListView.vm.swift; sourceTree = "<group>"; };
+		03C7B2921054EE87FC573B91 /* QRCodePhotoPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodePhotoPicker.swift; sourceTree = "<group>"; };
+		03FAEFBEDC8F7B2D338B42C6 /* OrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationManager.swift; sourceTree = "<group>"; };
+		05E9D3273168AA95F279E17E /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		06448451E7BE9F569323114A /* LocationPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationPermissionStore.swift; sourceTree = "<group>"; };
+		0681AED3E146F98DD21AA963 /* PackageModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageModels.swift; sourceTree = "<group>"; };
+		068AB5D0C96A5C640ECE8FFA /* LoginView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.vm.swift; sourceTree = "<group>"; };
+		073138F10B1B32E2033B98EE /* View+glassEffectBelow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+glassEffectBelow.swift"; sourceTree = "<group>"; };
+		074CF66FCCFB47272D4E2284 /* View+pickerAddBgColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+pickerAddBgColor.swift"; sourceTree = "<group>"; };
+		07882A2EDD0B65A05688C614 /* TCardControlBar.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardControlBar.v.swift; sourceTree = "<group>"; };
+		079B8528B379EEAD9A7FD8B5 /* VehicleMoreActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleMoreActionView.swift; sourceTree = "<group>"; };
+		08DAD98DA94619B8EBE43A77 /* Double+exten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+exten.swift"; sourceTree = "<group>"; };
+		08F43B763B5336BF52C97F0E /* MishuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishuApp.swift; sourceTree = "<group>"; };
+		09ABF821732601805B3FD49C /* AlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumView.swift; sourceTree = "<group>"; };
+		0C590E209B46C7CFBB4FCD58 /* VehicleLive.Talk.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLive.Talk.vm.swift; sourceTree = "<group>"; };
+		0CB9E248F7EE218B86887E87 /* VehicleLive.Nav.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLive.Nav.vm.swift; sourceTree = "<group>"; };
+		0D5076130C1CE8117FD8EB3A /* View+shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+shadow.swift"; sourceTree = "<group>"; };
+		0DBEF42D1977086DCA12003F /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0DC4B9F1F5FFAB6A43CA24AD /* LiveVideoFullscreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVideoFullscreenView.swift; sourceTree = "<group>"; };
+		0DFD9F141941E1F8AF63E315 /* MeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.swift; sourceTree = "<group>"; };
+		0ECF311700F52DDF7DFCC174 /* GeocodeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodeAPI.swift; sourceTree = "<group>"; };
+		104EA8AB74215DBEFE399692 /* TCardDateSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardDateSelectorView.swift; sourceTree = "<group>"; };
+		10CC0B2CCAA5301A2192152C /* SettingSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSelectionView.swift; sourceTree = "<group>"; };
+		11427CD9EAA6CD726E01B676 /* VehicleDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailView.swift; sourceTree = "<group>"; };
+		11A0F087589121BD0C2E71F0 /* LiveVideoQuality.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVideoQuality.swift; sourceTree = "<group>"; };
+		15BDF40A9BDDFB19F876C29F /* NavHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavHeader.swift; sourceTree = "<group>"; };
+		18E1281F85E0729E2D3FE7A4 /* WeChatServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeChatServiceView.swift; sourceTree = "<group>"; };
+		1B1DC7EA920A00760E8998DA /* VehicleDetailHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDetailHeaderView.swift; sourceTree = "<group>"; };
+		1B3ADABBEBDF98B2CDE0D7A2 /* VehicleInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleInfoView.swift; sourceTree = "<group>"; };
+		1B586FEEFC84F7B94E8C0047 /* SettingButtonItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingButtonItem.swift; sourceTree = "<group>"; };
+		1D01701D7649033457F9C0BE /* CarSeriesSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarSeriesSelectionView.swift; sourceTree = "<group>"; };
+		1D8469670CA147D2B0B9238E /* PinyinUtils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinyinUtils.swift; sourceTree = "<group>"; };
+		1E085146C880C5608E81A63B /* View+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SafeArea.swift"; sourceTree = "<group>"; };
+		20348427A28E7A37F52DA70D /* CarInfoStep4View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoStep4View.swift; sourceTree = "<group>"; };
+		207A171493D1BE287ECDBA82 /* PackageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PackageAPI.swift; sourceTree = "<group>"; };
+		208895D4D6065FF0945DB5E4 /* OrderListPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListPage.swift; sourceTree = "<group>"; };
+		2109B439D3566B90EDB54D47 /* VehicleEditVinView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEditVinView.swift; sourceTree = "<group>"; };
+		21922D1D8110B23E59602497 /* CloudAlbumType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudAlbumType.swift; sourceTree = "<group>"; };
+		267B0D589B2B920E5FBE36D4 /* LocalAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAlbumView.swift; sourceTree = "<group>"; };
+		26E55B49FFCCD9D9474F79AA /* WifiDirect.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirect.v.swift; sourceTree = "<group>"; };
+		26F9D6D44A1B34E30E66AD75 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
+		2727B8247822618DBCA2365A /* Copyable+copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Copyable+copy.swift"; sourceTree = "<group>"; };
+		274AF5680EC2771D9EF11B56 /* TCardPlaybackController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardPlaybackController.swift; sourceTree = "<group>"; };
+		27E15536997EB7C4D0DF23E8 /* CloudBenefitsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBenefitsView.swift; sourceTree = "<group>"; };
+		287AB1997F7A763BD6BFEF5B /* VinKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinKeyboard.swift; sourceTree = "<group>"; };
+		29CB9DB303057C5CD7677E7B /* Map4LiveAnnotationViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map4LiveAnnotationViews.swift; sourceTree = "<group>"; };
+		2A79FADF87DB444BFFE9EBA7 /* MeMenuCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeMenuCard.swift; sourceTree = "<group>"; };
+		2B4F13DA3C437688F53359E7 /* VehicleEditNicknameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEditNicknameView.swift; sourceTree = "<group>"; };
+		2C0CCD83925B81940196051A /* View+rotationIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+rotationIcon.swift"; sourceTree = "<group>"; };
+		2C1639B29EC4446BD58A5A75 /* ListItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemCell.swift; sourceTree = "<group>"; };
+		2CAF9DD3E4957750D14335FA /* LocalAlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAlbumCell.swift; sourceTree = "<group>"; };
+		3052BD2C0FA99D0FF399429D /* KeyedDecodingContainer+safeDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+safeDecode.swift"; sourceTree = "<group>"; };
+		30C193245896A1B89967487E /* CashierView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CashierView.swift; sourceTree = "<group>"; };
+		3104D7A052AB317BC94B97E4 /* delegateWechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateWechat.swift; sourceTree = "<group>"; };
+		31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionStore.swift; sourceTree = "<group>"; };
+		31A5197D50E514A63149ACB1 /* IAPAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPAPI.swift; sourceTree = "<group>"; };
+		32403045A6D58709AAE4A0C5 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		324D2BF92998D958F98281E1 /* TCardReplayLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardReplayLog.swift; sourceTree = "<group>"; };
+		32DC5F95072D7809B5983663 /* SettingSwitchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSwitchItem.swift; sourceTree = "<group>"; };
+		353A6412F1515CD25FDE1112 /* delegateApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateApplication.swift; sourceTree = "<group>"; };
+		372706400EEFA2363F61251A /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
+		3754066D410AE353E198A5F2 /* ActiveLanding.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLanding.vm.swift; sourceTree = "<group>"; };
+		377D26655DD8046D99A86C79 /* SettingLogoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingLogoItem.swift; sourceTree = "<group>"; };
+		37C364910BF75CF4B4B88D02 /* LoginBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBackgroundView.swift; sourceTree = "<group>"; };
+		38926AADD75CC490215DABB9 /* SettingVoiceCommandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingVoiceCommandView.swift; sourceTree = "<group>"; };
+		38A97D718955A1CA3F7CE238 /* MobileInfoPermissionPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileInfoPermissionPlugin.swift; sourceTree = "<group>"; };
+		39902A0D24535EEC05C55C3D /* ModeSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModeSwitch.swift; sourceTree = "<group>"; };
+		39F92935B852BF14460305E8 /* MeTextTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeTextTitle.swift; sourceTree = "<group>"; };
+		3A7B52DBA2B121F351E079BC /* TimelineScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineScrollView.swift; sourceTree = "<group>"; };
+		3B72822ECCFE58E04CEA7DFD /* RouteParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteParser.swift; sourceTree = "<group>"; };
+		3D384E04F16020D2CF326318 /* UINavigationController+gestureRecognizerShouldBegin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+gestureRecognizerShouldBegin.swift"; sourceTree = "<group>"; };
+		3DAF148D859D99620BB32DD8 /* VehicleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleAPI.swift; sourceTree = "<group>"; };
+		3E7FDC4C557CABBFC4DE2F68 /* SnapFullPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapFullPreview.swift; sourceTree = "<group>"; };
+		3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerManager.swift; sourceTree = "<group>"; };
+		3FDA2FF5DD5ACE62862BCF03 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		426D5C41D2CDD69982DA7E83 /* ServiceRightsModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceRightsModal.swift; sourceTree = "<group>"; };
+		4285CF11D29EBB4755B728EB /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
+		42D27527AFBFFA564061EE09 /* View+KeyboardDismissModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+KeyboardDismissModifier.swift"; sourceTree = "<group>"; };
+		4304F31E504B9B9B0E7F8FE2 /* CloudPlanComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudPlanComponents.swift; sourceTree = "<group>"; };
+		4310A01D1AC1284B8CAB25A4 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
+		4549AD0D898A18205EB199F8 /* EnvironmentStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentStore.swift; sourceTree = "<group>"; };
+		468BD6AEF889C1748F814EBB /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
+		46AAC4A254FE881DF1B94951 /* Success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
+		4706BA907B0DF0F9B8C37BA3 /* AlbumListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListView.swift; sourceTree = "<group>"; };
+		481F7C27BC648C4A240C53C0 /* BindingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BindingStore.swift; sourceTree = "<group>"; };
+		484C7570FF5E54F60DDC6F82 /* TripReportSummaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripReportSummaryView.swift; sourceTree = "<group>"; };
+		48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideScrollIndicators.swift"; sourceTree = "<group>"; };
+		48C3866EF23B98D47D0C7CC5 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
+		48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
+		49F50C366BAA0EB5879D1D21 /* SecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextField.swift; sourceTree = "<group>"; };
+		4A74A0CCFE5615E365DEFADD /* WifiDirect.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirect.vm.swift; sourceTree = "<group>"; };
+		4BCF65DA37EA54C50CFADCBE /* QRCodeBinding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBinding.swift; sourceTree = "<group>"; };
+		4C96340D96B9F2EFC30BFA04 /* SettingTimeWindowItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTimeWindowItem.swift; sourceTree = "<group>"; };
+		4D1D3D07929B66B7DC983CD5 /* AlbumAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumAPI.swift; sourceTree = "<group>"; };
+		4D32D7DBD248DE227C994014 /* VehicleEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEmptyView.swift; sourceTree = "<group>"; };
+		4D5234203C45E5A983055334 /* PayAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayAPI.swift; sourceTree = "<group>"; };
+		4D9CBE2EFBE8F8D262A7C7C7 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		4EE02BC01744A4E0D229A36B /* Map4LiveCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map4LiveCoordinator.swift; sourceTree = "<group>"; };
+		4F862C7AA45FB7B3BFF3C7B4 /* VehicleLive.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLive.v.swift; sourceTree = "<group>"; };
+		502D3E9BB7BA7FF84054B86D /* LocalNetworkPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNetworkPermissionStore.swift; sourceTree = "<group>"; };
+		5097B4DD8C56743B3CCF4F72 /* LoginActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginActionView.swift; sourceTree = "<group>"; };
+		5468B90CB60083F3191B685A /* VehicleEditFuelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEditFuelView.swift; sourceTree = "<group>"; };
+		54D735FD66B5D2C44385F243 /* MessageTabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTabs.swift; sourceTree = "<group>"; };
+		5530E0D3809BD717552C281A /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
+		55EC7B520DCB4120253FCC43 /* View+pickerBgReset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+pickerBgReset.swift"; sourceTree = "<group>"; };
+		56E3F953177EB3341DDA120E /* ResourceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceAPI.swift; sourceTree = "<group>"; };
+		5763B627EB92711E438795ED /* CloudBenefitsResourceModals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudBenefitsResourceModals.swift; sourceTree = "<group>"; };
+		589C6FBB58D8E156E8A6E397 /* MeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeHeaderView.swift; sourceTree = "<group>"; };
+		58AD957BDBC6A17C0A884CB5 /* LiquidGlassModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlassModifier.swift; sourceTree = "<group>"; };
+		591F72C83C9DECCDCC423167 /* MobileInfoStateReportBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileInfoStateReportBuilder.swift; sourceTree = "<group>"; };
+		5A26A4416AB0319B82575D6C /* Color+randomItemColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+randomItemColor.swift"; sourceTree = "<group>"; };
+		5C2CA37AEA0622DC49C801E9 /* View+processControll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+processControll.swift"; sourceTree = "<group>"; };
+		5DF062E43463F9E3A368E0B6 /* LazyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LazyView.swift; sourceTree = "<group>"; };
+		5E7640AB7B9657AA8AD14F66 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
+		5F48786301013B0678824236 /* VehicleSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSettingsView.swift; sourceTree = "<group>"; };
+		60346A0A14963B43749164F6 /* SettingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingAPI.swift; sourceTree = "<group>"; };
+		60FD508224DE4E937C29691F /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
+		618B70532359390CDB5B2D34 /* View+toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toast.swift"; sourceTree = "<group>"; };
+		620A88871128A59ACAFAB98D /* OcrAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OcrAPI.swift; sourceTree = "<group>"; };
+		630BA788625E7FB5CAB94C2D /* ObdAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObdAPI.swift; sourceTree = "<group>"; };
+		631D21E7BC858AE3E33DD0B3 /* EnvironmentValues+Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Namespace.swift"; sourceTree = "<group>"; };
+		64FC1AEF82D7DEAB6BBC0A9C /* LiveVideoControlsBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVideoControlsBar.swift; sourceTree = "<group>"; };
+		654696DE3B2EC22F643DDC75 /* TCardPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardPlayerView.swift; sourceTree = "<group>"; };
+		65E1C61BA58E3652A666454D /* TripListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripListView.swift; sourceTree = "<group>"; };
+		66F6A148D73F0F54D74394A3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		68D8F045975FC2BB80C23A9B /* ActiveLandingSuccessPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLandingSuccessPage.swift; sourceTree = "<group>"; };
+		69275A0F852F236D052AA8D2 /* MessageTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTable.swift; sourceTree = "<group>"; };
+		69F7E18F0DFDE73F69962A4F /* View+popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popup.swift"; sourceTree = "<group>"; };
+		6BD1E7F934FAAAFB719118D6 /* UIKitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTextField.swift; sourceTree = "<group>"; };
+		6C8AE8618CE8002275A79A3A /* VideoViewerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoViewerManager.swift; sourceTree = "<group>"; };
+		6CAD3A445B3545AA4998EB68 /* VehicleLive.Mode.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLive.Mode.vm.swift; sourceTree = "<group>"; };
+		6CCFE4852FA963FA927BC1F7 /* UIImage+resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
+		6CD3CA56E12A762969FF654A /* TravelReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelReport.swift; sourceTree = "<group>"; };
+		6CE69C127D034996F54D8691 /* View+FullBrandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FullBrandButton.swift"; sourceTree = "<group>"; };
+		6D064E86CD3F0D139972F59F /* AppDatabaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabaseConfig.swift; sourceTree = "<group>"; };
+		6DC1AE4522DCA84C0522AF3A /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		6E87D0083550008AC0CE3116 /* PasswordEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordEditView.swift; sourceTree = "<group>"; };
+		6EC73EFF8405073B8351D48A /* WifiBottomActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiBottomActionsView.swift; sourceTree = "<group>"; };
+		6FD8644CA70B93853B864C9F /* SettingProgressItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingProgressItem.swift; sourceTree = "<group>"; };
+		707102ED28257EB5EE2939B4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
+		70CA2CAAF10CC871F11ED1C8 /* OrderAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAPI.swift; sourceTree = "<group>"; };
+		716FB78626409C0DC5588D85 /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
+		72EDAB590B1D32B14DE0D0D6 /* AppNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationStack.swift; sourceTree = "<group>"; };
+		72EECE16755DF84C6E81DFBF /* MessageItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
+		731B23E6929CD7835E150FB1 /* ActiveLanding.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLanding.v.swift; sourceTree = "<group>"; };
+		749CBA444584B7DF77EF3134 /* MessageEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageEmptyView.swift; sourceTree = "<group>"; };
+		7559A373DF492C117ACA4B9A /* Array+rotated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+rotated.swift"; sourceTree = "<group>"; };
+		76A82C031931D294F0DBB7B9 /* QRCodeBindingHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBindingHeaderView.swift; sourceTree = "<group>"; };
+		78AD43937AE2D6AF8F5EB4E9 /* LicensePlateKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensePlateKeyboard.swift; sourceTree = "<group>"; };
+		7A70B70A71A1562A0F21BA87 /* SettingResultDemo.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SettingResultDemo.json; sourceTree = "<group>"; };
+		7AACAC2FFC665F1516B248AF /* FunctionBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FunctionBarView.swift; sourceTree = "<group>"; };
+		7C2D367EB12E40280CC4EB0C /* TimelineCanvasView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineCanvasView.swift; sourceTree = "<group>"; };
+		7C85A24A1524167263828856 /* VehicleEditMileageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEditMileageView.swift; sourceTree = "<group>"; };
+		7D1BC3CFCA653F86B0C413D6 /* Gps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gps.swift; sourceTree = "<group>"; };
+		7DAC82D5863EA313442DE4EB /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		7DE2EF4BCD559FB53F04A00D /* WifiDirectIgnitionPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirectIgnitionPage.swift; sourceTree = "<group>"; };
+		7E19A8CD9BD59D9A5358D71D /* VehicleMessageList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleMessageList.swift; sourceTree = "<group>"; };
+		7F47BDB409E44427E08A335F /* VehicleEditLicensePlateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleEditLicensePlateView.swift; sourceTree = "<group>"; };
+		80229BA2D2B29B8C218DF510 /* PaymentSuccessView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentSuccessView.swift; sourceTree = "<group>"; };
+		80281F1B1B75DDD488631A9B /* WifiBindingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiBindingView.swift; sourceTree = "<group>"; };
+		802EFB50AAAB01D705EBADE2 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
+		812DCC21E08290978D413A8A /* TimelineZoomLevel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimelineZoomLevel.swift; sourceTree = "<group>"; };
+		81CDA77E98B34A1EE6093FBE /* LiveVideoPaneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveVideoPaneView.swift; sourceTree = "<group>"; };
+		82EB8BF4782D42E8B82832EA /* TripAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripAPI.swift; sourceTree = "<group>"; };
+		839667A37B1A11EF6861373B /* View+toPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toPopover.swift"; sourceTree = "<group>"; };
+		858944D209C88EE9B446B00B /* TripCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripCell.swift; sourceTree = "<group>"; };
+		85E19527DC6679E7FDC354AA /* LogoutButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogoutButton.swift; sourceTree = "<group>"; };
+		863460AED3957097A046DE02 /* VehicleLiveMapBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLiveMapBootstrap.swift; sourceTree = "<group>"; };
+		874F22F6A61BD327CAB73036 /* SettingGpsDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingGpsDetailView.swift; sourceTree = "<group>"; };
+		89FB8CFD43A3293C1B78837A /* WifiBindingConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiBindingConnectionView.swift; sourceTree = "<group>"; };
+		8A3915DF2245E983E313EE8D /* UnreadBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadge.swift; sourceTree = "<group>"; };
+		8A56B1FCD2EB202F6A2EF350 /* VehicleHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleHeaderView.swift; sourceTree = "<group>"; };
+		8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeinitDetector.swift; sourceTree = "<group>"; };
+		8B0B10A5AF48477A0D094A49 /* LocalAssetFullPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAssetFullPreview.swift; sourceTree = "<group>"; };
+		8B4F5352F7B8D28A472F3A55 /* VehicleSettingsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSettingsListView.swift; sourceTree = "<group>"; };
+		8B8996A8532D0A2D1665BD33 /* QRCodeBindingControlsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBindingControlsView.swift; sourceTree = "<group>"; };
+		8D126F5A1477B42028346C6F /* WebSocketStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebSocketStore.swift; sourceTree = "<group>"; };
+		8D39FB9C365D7256C6D7063D /* VehicleQuickAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleQuickAction.swift; sourceTree = "<group>"; };
+		8DD5775DB2649B3E8DA86CFE /* VinInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VinInputView.swift; sourceTree = "<group>"; };
+		8F8956EC2FC5C2BD1FC1BAD5 /* LiveUserLocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserLocationStore.swift; sourceTree = "<group>"; };
+		8F8F7DC0EF40E52255FE815C /* OrderCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderCardView.swift; sourceTree = "<group>"; };
+		8F9D10596F1A64E7B3D89237 /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
+		8FBEB894516AD3648F55AC6E /* QRCodeBindingBottomBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBindingBottomBarView.swift; sourceTree = "<group>"; };
+		8FF07A41109D48AE7F4352FA /* Header4LiveView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Header4LiveView.swift; sourceTree = "<group>"; };
+		901DB48EB9EACC6706CFD868 /* BottomActionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomActionsView.swift; sourceTree = "<group>"; };
+		926D15D3DF21E15C043AD431 /* UserInfoEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoEditView.swift; sourceTree = "<group>"; };
+		9581B6D35A06CA0D53324531 /* CarInfoStep2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoStep2View.swift; sourceTree = "<group>"; };
+		964835C23AE1895FA2699732 /* TCardReplay.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardReplay.vm.swift; sourceTree = "<group>"; };
+		9680A038FB3366BFB0C54FB6 /* VehiclesStore+Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VehiclesStore+Live.swift"; sourceTree = "<group>"; };
+		96F478C4F0F9660FA8FC261A /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		97E8B165A6B9CB30D2E4477C /* CancellableBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellableBag.swift; sourceTree = "<group>"; };
+		981CC20FEDE452AE192FCFF6 /* SettingRadioItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingRadioItem.swift; sourceTree = "<group>"; };
+		98FAEB7CBFB73B23DCA8F802 /* LocalAlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAlbumStore.swift; sourceTree = "<group>"; };
+		9944D78FC2126DF6433454EE /* Vehicle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vehicle.swift; sourceTree = "<group>"; };
+		99FD01F7DA69EB33E76A33C2 /* Map4Live.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Map4Live.swift; sourceTree = "<group>"; };
+		9AD063EFB16DCB2FBBA945DA /* CloudPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudPlanView.swift; sourceTree = "<group>"; };
+		9BB119E1E689D5CA4EE34D8E /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
+		9C0B2C3E3CB4867E6439540C /* Color+brightness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+brightness.swift"; sourceTree = "<group>"; };
+		9C936D630FF1508E40E64E79 /* Sim.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sim.swift; sourceTree = "<group>"; };
+		9DD075FE3F361A05588716C0 /* UmengService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmengService.swift; sourceTree = "<group>"; };
+		9EDB2B749B0E8CC40CC3B242 /* VehicleFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleFolder.swift; sourceTree = "<group>"; };
+		9FB5D33A300BFCC924C4918D /* VehicleLive.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLive.vm.swift; sourceTree = "<group>"; };
+		9FC04AA8EF783B903DC6FDB4 /* NoticePermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePermissionStore.swift; sourceTree = "<group>"; };
+		9FE4B500D769695D9493CEDC /* CarInfoStep3View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoStep3View.swift; sourceTree = "<group>"; };
+		9FF552F3F4CB9E1A06A5F3CF /* WifiDirectSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirectSessionStore.swift; sourceTree = "<group>"; };
+		A0B7E41D06FA4D6330C81E4F /* AssetDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetDetailView.swift; sourceTree = "<group>"; };
+		A0D85A06E3D8A538F22327A8 /* MeView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeView.vm.swift; sourceTree = "<group>"; };
+		A0DEDE087734E2D1E28B6780 /* AlbumAsset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumAsset.swift; sourceTree = "<group>"; };
+		A0E782321DD214193F551CEE /* View+bottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+bottomSheet.swift"; sourceTree = "<group>"; };
+		A4C13891119AC7FAC0A27F64 /* WifiStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiStore.swift; sourceTree = "<group>"; };
+		A556B39961309CE6495916AF /* QRCodeBindingScanFrameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeBindingScanFrameView.swift; sourceTree = "<group>"; };
+		A6AB425A823B233DA6E2D081 /* TCardMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardMapView.swift; sourceTree = "<group>"; };
+		A76A602A343D7BFD2341AC09 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
+		A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cornerRadius.swift"; sourceTree = "<group>"; };
+		A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+dismissKeyboard.swift"; sourceTree = "<group>"; };
+		AA52D82CC9C574FDF40B554B /* WifiDirectConnectingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirectConnectingPage.swift; sourceTree = "<group>"; };
+		AB469B7432C466BC2A56337F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ABDBF4590AF7BB069A2D297E /* QualityPopupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QualityPopupView.swift; sourceTree = "<group>"; };
+		ABE846109D38237FC8E25DE9 /* String+timeValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+timeValid.swift"; sourceTree = "<group>"; };
+		AC36F2232D98F6E1A1DC6EFE /* TextField+autoFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+autoFocus.swift"; sourceTree = "<group>"; };
+		AD0AF88B4B419219102B53E0 /* AssetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssetCell.swift; sourceTree = "<group>"; };
+		AE1944E4B37FA8C7B3C375EC /* TCardReplay.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardReplay.v.swift; sourceTree = "<group>"; };
+		AEE51E26976AC5BECEF73BBC /* WifiDirectOpeningPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirectOpeningPage.swift; sourceTree = "<group>"; };
+		B3CB9EE32A51D17FF32C33B1 /* SnapPreviewList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnapPreviewList.swift; sourceTree = "<group>"; };
+		B697C56D4ADF4BE1DF474670 /* TCardTimelineView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardTimelineView.swift; sourceTree = "<group>"; };
+		B890AC9EF1AD4CA8AC8EDF30 /* UploadAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadAPI.swift; sourceTree = "<group>"; };
+		B9B789B887C2A6F917AE2684 /* TCardReplayModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardReplayModels.swift; sourceTree = "<group>"; };
+		B9E7E4FF7705C85E47880C9E /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		B9F600758B37C8C037993897 /* VehiclesStore+Binding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VehiclesStore+Binding.swift"; sourceTree = "<group>"; };
+		BA79123D1537B84355294FE7 /* VehiclesStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehiclesStore.swift; sourceTree = "<group>"; };
+		BAFDFB2DD56BFDBAD1213FD1 /* Success.lottie */ = {isa = PBXFileReference; path = Success.lottie; sourceTree = "<group>"; };
+		BB29F371787B906F202317EC /* ActionAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionAPI.swift; sourceTree = "<group>"; };
+		BC7BD6D91DEFA3BD9B38ADC7 /* AlbumAsset.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = AlbumAsset.md; sourceTree = "<group>"; };
+		BC95087D69C8427573E8B486 /* AlbumDetailMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumDetailMapView.swift; sourceTree = "<group>"; };
+		BD7B56564F5087639CE18381 /* VehiclesStore+VehicleDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VehiclesStore+VehicleDetail.swift"; sourceTree = "<group>"; };
+		BEFF3611510DE9148A0D6438 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
+		C237D61F4A8DE38AF9F4CB8D /* NicknameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NicknameEditView.swift; sourceTree = "<group>"; };
+		C366865F5039F72FB8950353 /* OBD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OBD.swift; sourceTree = "<group>"; };
+		C3740CC118C63406143C22C1 /* VehicleSettingsSubPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSettingsSubPageView.swift; sourceTree = "<group>"; };
+		C5FECF7FCDC61193C1E384F4 /* View+cssPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cssPadding.swift"; sourceTree = "<group>"; };
+		C6885B953FBEC418E0DB78A5 /* CarBrandSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBrandSelectionView.swift; sourceTree = "<group>"; };
+		C759BE8A063E309DFF534477 /* SimAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimAPI.swift; sourceTree = "<group>"; };
+		CA4894EBEC26F455E25E1595 /* View+fontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+fontStyle.swift"; sourceTree = "<group>"; };
+		CDC2320A3106411E1B638162 /* Order.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Order.swift; sourceTree = "<group>"; };
+		CE58BA733B8A8392DD9C3CFA /* ManualBindView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualBindView.swift; sourceTree = "<group>"; };
+		CE73FD683A3F5DA5DDD04B7D /* TemplateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TemplateStore.swift; sourceTree = "<group>"; };
+		CE9E1EEB1C2A0E275868CACF /* AlbumCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumCell.swift; sourceTree = "<group>"; };
+		CF4429E3353147F3FD9B8846 /* View+taskFor14.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+taskFor14.swift"; sourceTree = "<group>"; };
+		CFAE1AFA172CC78B2F62BEB1 /* MessageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageCell.swift; sourceTree = "<group>"; };
+		CFAF7F0C726BFD4034B8EDE8 /* SettingReadonlyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingReadonlyItem.swift; sourceTree = "<group>"; };
+		CFD180D7C6C69936845DBB30 /* LoginAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAgreementView.swift; sourceTree = "<group>"; };
+		D102FCF9B42AAAF16CE1FD75 /* WebsocketHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebsocketHelper.swift; sourceTree = "<group>"; };
+		D142BA69A790CA9BA6BD1CBD /* VehiclesStore+Socket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VehiclesStore+Socket.swift"; sourceTree = "<group>"; };
+		D1896FCED58C500CFF450641 /* VehicleDeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDeviceAPI.swift; sourceTree = "<group>"; };
+		D5ECD9AC956B416209CCF53C /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
+		D69124DD757112C2A03C8E2E /* TCardReplayGpsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardReplayGpsService.swift; sourceTree = "<group>"; };
+		D73BB053F69CA39E9C913FC0 /* ActiveLandingIntroPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveLandingIntroPage.swift; sourceTree = "<group>"; };
+		D8E86FD8E46E26113B058991 /* View+toAnyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toAnyView.swift"; sourceTree = "<group>"; };
+		DB39B71FE653C829C1D7B731 /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
+		DCE462AD4007F0802F123952 /* CloudAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudAlbumView.swift; sourceTree = "<group>"; };
+		DD68058A7CED5443B132C3FE /* DeviceCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceCardView.swift; sourceTree = "<group>"; };
+		DDE98C8903B63A0A8537BBCB /* OrderListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderListView.swift; sourceTree = "<group>"; };
+		DE458CBE2278779D9A912D49 /* VehicleListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleListView.swift; sourceTree = "<group>"; };
+		DF0BF6E56F2AB6489625F070 /* SelfStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfStore.swift; sourceTree = "<group>"; };
+		E03A8E14483988814827EB7C /* WifiDirectSuccessPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirectSuccessPage.swift; sourceTree = "<group>"; };
+		E0A099D61BA4E21E8C7F1C27 /* MeSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeSettingView.swift; sourceTree = "<group>"; };
+		E15052E3225B0818134C324F /* VehicleSettingsUpdatingOverlayModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleSettingsUpdatingOverlayModifier.swift; sourceTree = "<group>"; };
+		E189037A0417038B54C2B60F /* ConfigAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigAPI.swift; sourceTree = "<group>"; };
+		E1E04AB3753D4B559D603B66 /* MapAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAreaView.swift; sourceTree = "<group>"; };
+		E31A92EC7554021C2BB9FB35 /* WebContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebContainerView.swift; sourceTree = "<group>"; };
+		E39471880BC27FD71877B8B2 /* SettingInputItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingInputItem.swift; sourceTree = "<group>"; };
+		E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessage.swift; sourceTree = "<group>"; };
+		E46A655DB9CB57294BFF38F5 /* AMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AMap-Bridging-Header.h"; sourceTree = "<group>"; };
+		E4B1ED22EFB4EFFDEBBE02A6 /* CarInfoStep1View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarInfoStep1View.swift; sourceTree = "<group>"; };
+		E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+keyboardAvoiding.swift"; sourceTree = "<group>"; };
+		E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensePlateInputView.swift; sourceTree = "<group>"; };
+		E929DDF98400CACD894E849E /* AppStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateStore.swift; sourceTree = "<group>"; };
+		E94849D9C5712D537B5C7881 /* VehiclesStore+Cloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "VehiclesStore+Cloud.swift"; sourceTree = "<group>"; };
+		E9E723A7CB908E56B1CDDCC4 /* VehicleLive.UIState.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleLive.UIState.vm.swift; sourceTree = "<group>"; };
+		EA7D068E8E34EA40052B6321 /* delegateNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateNotification.swift; sourceTree = "<group>"; };
+		EB7999A31D2B60C18AEDCDB1 /* MishuApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MishuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBBA60409498052E1D222836 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		EC9BDFE481520DC0F1BD0E94 /* View+matchedGeometryEffectIfLet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+matchedGeometryEffectIfLet.swift"; sourceTree = "<group>"; };
+		ECBCA74C57A2E35043E96C25 /* GpsUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GpsUtil.swift; sourceTree = "<group>"; };
+		EE0671FC51D99DBDC970F529 /* BusinessError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessError.swift; sourceTree = "<group>"; };
+		EED1B4C6B894054AEA1AC551 /* View+onDragWithEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+onDragWithEnd.swift"; sourceTree = "<group>"; };
+		EF3B1C097E7802ED289EB430 /* View+popupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popupTest.swift"; sourceTree = "<group>"; };
+		F13EC8284F84EF8951D9AD12 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		F20BAA1E3296CCCA926127B6 /* AppNavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationModel.swift; sourceTree = "<group>"; };
+		F564B616C180E4245238ABAE /* SettingSysNotifyItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSysNotifyItem.swift; sourceTree = "<group>"; };
+		F7C517888536E55D711E5BC4 /* CarBrand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBrand.swift; sourceTree = "<group>"; };
+		F8CB8CD2D696488D20240667 /* VehicleDashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDashboardView.swift; sourceTree = "<group>"; };
+		F9011126E86EE7D328E0427B /* WifiDirectFailurePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiDirectFailurePage.swift; sourceTree = "<group>"; };
+		FA24291CF558365C0A5A26DD /* CloudAlbumView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudAlbumView.vm.swift; sourceTree = "<group>"; };
+		FA39E7B21013F38185BBFD00 /* View+SwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SwipeActions.swift"; sourceTree = "<group>"; };
+		FA53DBF1FF6DED5B0F1E1768 /* MobileInfoStoreSerializers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MobileInfoStoreSerializers.swift; sourceTree = "<group>"; };
+		FCA2DE5199802A12B4BEDC83 /* TCardReplayFullscreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCardReplayFullscreenView.swift; sourceTree = "<group>"; };
+		FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		FD55579B782394CFD188DD91 /* Date+tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+tools.swift"; sourceTree = "<group>"; };
+		FDB6F643FD3CDA3EA309B0F0 /* SettingFolderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFolderItem.swift; sourceTree = "<group>"; };
+		FE18431A86D0A8E60222256A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		FF7CE67A402E634186ACE88A /* AlbumListView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumListView.vm.swift; sourceTree = "<group>"; };
+		FF9568547873C692FE153296 /* Calendar+relativeDateString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+relativeDateString.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4D23B3AFD8D791F0174E8D7F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84C76CA8769ED1B73B7615E2 /* SwiftMessages in Frameworks */,
+				6954FB5D86163CF937537FB3 /* Kingfisher in Frameworks */,
+				1BD83826590CC2971450E121 /* ImageViewer in Frameworks */,
+				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
+				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
+				147D545888946B3A97317509 /* Pods_MishuApp.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0301FE3CED1C4ABF9D809846 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				07882A2EDD0B65A05688C614 /* TCardControlBar.v.swift */,
+				104EA8AB74215DBEFE399692 /* TCardDateSelectorView.swift */,
+				A6AB425A823B233DA6E2D081 /* TCardMapView.swift */,
+				654696DE3B2EC22F643DDC75 /* TCardPlayerView.swift */,
+				FCA2DE5199802A12B4BEDC83 /* TCardReplayFullscreenView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		0642A556B2887E78AEEF6D4E /* vehicleLive */ = {
+			isa = PBXGroup;
+			children = (
+				4F862C7AA45FB7B3BFF3C7B4 /* VehicleLive.v.swift */,
+				9FB5D33A300BFCC924C4918D /* VehicleLive.vm.swift */,
+				9D03CAF66C49614BFCD5CF21 /* Components */,
+				8B155289FCDDBC8C3F736AB9 /* Components4Map */,
+				21CE65C1CEC7715C0140F39B /* Components4Preview */,
+				E26E1E36B84C5A884D664478 /* Components4VideoPlayer */,
+				43CD0F19B6186DF2C8589BB5 /* Modifier */,
+				EF2541D8EC963D24DB69C830 /* VMParts */,
+			);
+			path = vehicleLive;
+			sourceTree = "<group>";
+		};
+		103E82715253ECDEBE1D3597 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				274AF5680EC2771D9EF11B56 /* TCardPlaybackController.swift */,
+				D69124DD757112C2A03C8E2E /* TCardReplayGpsService.swift */,
+				324D2BF92998D958F98281E1 /* TCardReplayLog.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		12C64B52A12B02DA918D5A16 /* VehicleListView */ = {
+			isa = PBXGroup;
+			children = (
+				DE458CBE2278779D9A912D49 /* VehicleListView.swift */,
+				89DE71B3A103136C7A1A7E58 /* Component */,
+			);
+			path = VehicleListView;
+			sourceTree = "<group>";
+		};
+		19FAADC770652F803F20BE5A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				CFAE1AFA172CC78B2F62BEB1 /* MessageCell.swift */,
+				749CBA444584B7DF77EF3134 /* MessageEmptyView.swift */,
+				72EECE16755DF84C6E81DFBF /* MessageItem.swift */,
+				54D735FD66B5D2C44385F243 /* MessageTabs.swift */,
+				9EDB2B749B0E8CC40CC3B242 /* VehicleFolder.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		1BA0BB699A5E62CCA00B802F /* Album */ = {
+			isa = PBXGroup;
+			children = (
+				09ABF821732601805B3FD49C /* AlbumView.swift */,
+			);
+			path = Album;
+			sourceTree = "<group>";
+		};
+		21CE65C1CEC7715C0140F39B /* Components4Preview */ = {
+			isa = PBXGroup;
+			children = (
+				3E7FDC4C557CABBFC4DE2F68 /* SnapFullPreview.swift */,
+				B3CB9EE32A51D17FF32C33B1 /* SnapPreviewList.swift */,
+			);
+			path = Components4Preview;
+			sourceTree = "<group>";
+		};
+		2982765E6E4F6CAA1B614313 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4549AD0D898A18205EB199F8 /* EnvironmentStore.swift */,
+				707102ED28257EB5EE2939B4 /* Storage.swift */,
+				9DD075FE3F361A05588716C0 /* UmengService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		30D736B2557CCBBD9A57A4FE /* CloudAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				4706BA907B0DF0F9B8C37BA3 /* AlbumListView.swift */,
+				FF7CE67A402E634186ACE88A /* AlbumListView.vm.swift */,
+				A0B7E41D06FA4D6330C81E4F /* AssetDetailView.swift */,
+				DCE462AD4007F0802F123952 /* CloudAlbumView.swift */,
+				FA24291CF558365C0A5A26DD /* CloudAlbumView.vm.swift */,
+				267B0D589B2B920E5FBE36D4 /* LocalAlbumView.swift */,
+				F07E20590C27C825B3DBF1EE /* Components */,
+				FD876E0C46BE72E80A3AF4A6 /* LocalAlbum */,
+			);
+			path = CloudAlbum;
+			sourceTree = "<group>";
+		};
+		36F3AF80DC402CA8416576A2 /* Binding */ = {
+			isa = PBXGroup;
+			children = (
+				4F2CEBC4324B48585A5034F9 /* CarInfo */,
+				530EC7028EC029A1E671A954 /* ManualBinding */,
+				934FF5E80742928E1DA1AEB3 /* QRCodeBinding */,
+				A8C82DDA8801D2E4D7BDD1C8 /* Wifi */,
+			);
+			path = Binding;
+			sourceTree = "<group>";
+		};
+		3C99760B79249F8A38BFD574 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				AB469B7432C466BC2A56337F /* Assets.xcassets */,
+				FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */,
+				46AAC4A254FE881DF1B94951 /* Success.json */,
+				BAFDFB2DD56BFDBAD1213FD1 /* Success.lottie */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		3F8C10573213BD2010E6E245 /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				E15052E3225B0818134C324F /* VehicleSettingsUpdatingOverlayModifier.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
+		43CD0F19B6186DF2C8589BB5 /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				58AD957BDBC6A17C0A884CB5 /* LiquidGlassModifier.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
+		4F2CEBC4324B48585A5034F9 /* CarInfo */ = {
+			isa = PBXGroup;
+			children = (
+				C6885B953FBEC418E0DB78A5 /* CarBrandSelectionView.swift */,
+				E4B1ED22EFB4EFFDEBBE02A6 /* CarInfoStep1View.swift */,
+				9581B6D35A06CA0D53324531 /* CarInfoStep2View.swift */,
+				9FE4B500D769695D9493CEDC /* CarInfoStep3View.swift */,
+				20348427A28E7A37F52DA70D /* CarInfoStep4View.swift */,
+				1D01701D7649033457F9C0BE /* CarSeriesSelectionView.swift */,
+				95A46230143EFDCAE9D000F5 /* Components */,
+			);
+			path = CarInfo;
+			sourceTree = "<group>";
+		};
+		5076DB7155F6EA2487D7C62C /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				8FBEB894516AD3648F55AC6E /* QRCodeBindingBottomBarView.swift */,
+				8B8996A8532D0A2D1665BD33 /* QRCodeBindingControlsView.swift */,
+				76A82C031931D294F0DBB7B9 /* QRCodeBindingHeaderView.swift */,
+				A556B39961309CE6495916AF /* QRCodeBindingScanFrameView.swift */,
+				03C7B2921054EE87FC573B91 /* QRCodePhotoPicker.swift */,
+				716FB78626409C0DC5588D85 /* QRCodeScannerView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		530EC7028EC029A1E671A954 /* ManualBinding */ = {
+			isa = PBXGroup;
+			children = (
+				CE58BA733B8A8392DD9C3CFA /* ManualBindView.swift */,
+			);
+			path = ManualBinding;
+			sourceTree = "<group>";
+		};
+		5564364F6EB05C661C2BA062 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				3FDA2FF5DD5ACE62862BCF03 /* LoginView.swift */,
+				068AB5D0C96A5C640ECE8FFA /* LoginView.vm.swift */,
+				AFBE122C3623489248ACE45A /* Component */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		55A6D2866A06B014DF2ADA5F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				7559A373DF492C117ACA4B9A /* Array+rotated.swift */,
+				FF9568547873C692FE153296 /* Calendar+relativeDateString.swift */,
+				9C0B2C3E3CB4867E6439540C /* Color+brightness.swift */,
+				BEFF3611510DE9148A0D6438 /* Color+Hex.swift */,
+				5A26A4416AB0319B82575D6C /* Color+randomItemColor.swift */,
+				2727B8247822618DBCA2365A /* Copyable+copy.swift */,
+				FD55579B782394CFD188DD91 /* Date+tools.swift */,
+				08DAD98DA94619B8EBE43A77 /* Double+exten.swift */,
+				631D21E7BC858AE3E33DD0B3 /* EnvironmentValues+Namespace.swift */,
+				3052BD2C0FA99D0FF399429D /* KeyedDecodingContainer+safeDecode.swift */,
+				48C3866EF23B98D47D0C7CC5 /* String+extension.swift */,
+				ABE846109D38237FC8E25DE9 /* String+timeValid.swift */,
+				AC36F2232D98F6E1A1DC6EFE /* TextField+autoFocus.swift */,
+				A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */,
+				6CCFE4852FA963FA927BC1F7 /* UIImage+resize.swift */,
+				3D384E04F16020D2CF326318 /* UINavigationController+gestureRecognizerShouldBegin.swift */,
+				A0E782321DD214193F551CEE /* View+bottomSheet.swift */,
+				A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */,
+				C5FECF7FCDC61193C1E384F4 /* View+cssPadding.swift */,
+				CA4894EBEC26F455E25E1595 /* View+fontStyle.swift */,
+				073138F10B1B32E2033B98EE /* View+glassEffectBelow.swift */,
+				48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */,
+				E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */,
+				42D27527AFBFFA564061EE09 /* View+KeyboardDismissModifier.swift */,
+				EC9BDFE481520DC0F1BD0E94 /* View+matchedGeometryEffectIfLet.swift */,
+				EED1B4C6B894054AEA1AC551 /* View+onDragWithEnd.swift */,
+				074CF66FCCFB47272D4E2284 /* View+pickerAddBgColor.swift */,
+				55EC7B520DCB4120253FCC43 /* View+pickerBgReset.swift */,
+				69F7E18F0DFDE73F69962A4F /* View+popup.swift */,
+				EF3B1C097E7802ED289EB430 /* View+popupTest.swift */,
+				5C2CA37AEA0622DC49C801E9 /* View+processControll.swift */,
+				2C0CCD83925B81940196051A /* View+rotationIcon.swift */,
+				1E085146C880C5608E81A63B /* View+SafeArea.swift */,
+				0D5076130C1CE8117FD8EB3A /* View+shadow.swift */,
+				FA39E7B21013F38185BBFD00 /* View+SwipeActions.swift */,
+				CF4429E3353147F3FD9B8846 /* View+taskFor14.swift */,
+				D8E86FD8E46E26113B058991 /* View+toAnyView.swift */,
+				618B70532359390CDB5B2D34 /* View+toast.swift */,
+				839667A37B1A11EF6861373B /* View+toPopover.swift */,
+				D5ECD9AC956B416209CCF53C /* WheelPicker.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		5BBC31132BE0FC8CF80B1071 /* Plugins */ = {
+			isa = PBXGroup;
+			children = (
+				38A97D718955A1CA3F7CE238 /* MobileInfoPermissionPlugin.swift */,
+			);
+			path = Plugins;
+			sourceTree = "<group>";
+		};
+		5DAC8874BDAC75E5583C199A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				1B586FEEFC84F7B94E8C0047 /* SettingButtonItem.swift */,
+				FDB6F643FD3CDA3EA309B0F0 /* SettingFolderItem.swift */,
+				E39471880BC27FD71877B8B2 /* SettingInputItem.swift */,
+				377D26655DD8046D99A86C79 /* SettingLogoItem.swift */,
+				6FD8644CA70B93853B864C9F /* SettingProgressItem.swift */,
+				981CC20FEDE452AE192FCFF6 /* SettingRadioItem.swift */,
+				CFAF7F0C726BFD4034B8EDE8 /* SettingReadonlyItem.swift */,
+				32DC5F95072D7809B5983663 /* SettingSwitchItem.swift */,
+				F564B616C180E4245238ABAE /* SettingSysNotifyItem.swift */,
+				4C96340D96B9F2EFC30BFA04 /* SettingTimeWindowItem.swift */,
+				8B4F5352F7B8D28A472F3A55 /* VehicleSettingsListView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		68731EF656929B7FE2D65373 /* VehicleSettings */ = {
+			isa = PBXGroup;
+			children = (
+				874F22F6A61BD327CAB73036 /* SettingGpsDetailView.swift */,
+				10CC0B2CCAA5301A2192152C /* SettingSelectionView.swift */,
+				38926AADD75CC490215DABB9 /* SettingVoiceCommandView.swift */,
+				C3740CC118C63406143C22C1 /* VehicleSettingsSubPageView.swift */,
+				5F48786301013B0678824236 /* VehicleSettingsView.swift */,
+				5DAC8874BDAC75E5583C199A /* Components */,
+				3F8C10573213BD2010E6E245 /* Modifier */,
+			);
+			path = VehicleSettings;
+			sourceTree = "<group>";
+		};
+		6BA15B5565F888C5A06C8A90 /* VehicleAPI */ = {
+			isa = PBXGroup;
+			children = (
+				D1896FCED58C500CFF450641 /* VehicleDeviceAPI.swift */,
+			);
+			path = VehicleAPI;
+			sourceTree = "<group>";
+		};
+		71DEA75AA51B50493F081038 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EB7999A31D2B60C18AEDCDB1 /* MishuApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		72ABB0B925B1EFCEA43A2320 /* WifiDirect */ = {
+			isa = PBXGroup;
+			children = (
+				26E55B49FFCCD9D9474F79AA /* WifiDirect.v.swift */,
+				4A74A0CCFE5615E365DEFADD /* WifiDirect.vm.swift */,
+				CF94ECE14F7BD5D280E81F76 /* Components */,
+			);
+			path = WifiDirect;
+			sourceTree = "<group>";
+		};
+		791DDA307C1E4223A569C72E /* CloudService */ = {
+			isa = PBXGroup;
+			children = (
+				30C193245896A1B89967487E /* CashierView.swift */,
+				27E15536997EB7C4D0DF23E8 /* CloudBenefitsView.swift */,
+				9AD063EFB16DCB2FBBA945DA /* CloudPlanView.swift */,
+				80229BA2D2B29B8C218DF510 /* PaymentSuccessView.swift */,
+				9D8D763F391730D29D717F10 /* Components */,
+			);
+			path = CloudService;
+			sourceTree = "<group>";
+		};
+		7A626EE2AB303278AEB7671D /* Web */ = {
+			isa = PBXGroup;
+			children = (
+				E31A92EC7554021C2BB9FB35 /* WebContainerView.swift */,
+			);
+			path = Web;
+			sourceTree = "<group>";
+		};
+		7B330FAE57703F3C5FB48D28 = {
+			isa = PBXGroup;
+			children = (
+				7D15C0C0E13CE4BD7739B9BF /* App */,
+				3C99760B79249F8A38BFD574 /* Resources */,
+				71DEA75AA51B50493F081038 /* Products */,
+				B870C44AB82D6735DBB17015 /* Pods */,
+				C94C649B15852D937421CAAD /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		7C53E6B1C97902C254CBE9F1 /* TCardReplay */ = {
+			isa = PBXGroup;
+			children = (
+				AE1944E4B37FA8C7B3C375EC /* TCardReplay.v.swift */,
+				964835C23AE1895FA2699732 /* TCardReplay.vm.swift */,
+				0301FE3CED1C4ABF9D809846 /* Components */,
+				B83DE3544BA29C3424B17465 /* Components4TimeLine */,
+				103E82715253ECDEBE1D3597 /* Services */,
+			);
+			path = TCardReplay;
+			sourceTree = "<group>";
+		};
+		7CF24F188160184770A610DD /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */,
+				6D064E86CD3F0D139972F59F /* AppDatabaseConfig.swift */,
+				69275A0F852F236D052AA8D2 /* MessageTable.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		7D15C0C0E13CE4BD7739B9BF /* App */ = {
+			isa = PBXGroup;
+			children = (
+				E46A655DB9CB57294BFF38F5 /* AMap-Bridging-Header.h */,
+				4310A01D1AC1284B8CAB25A4 /* Const.swift */,
+				353A6412F1515CD25FDE1112 /* delegateApplication.swift */,
+				EA7D068E8E34EA40052B6321 /* delegateNotification.swift */,
+				3104D7A052AB317BC94B97E4 /* delegateWechat.swift */,
+				08F43B763B5336BF52C97F0E /* MishuApp.swift */,
+				FE18431A86D0A8E60222256A /* Theme.swift */,
+				F0087C8A62B04070C5C39A8B /* API */,
+				D144530CB31F685C37F6BD2B /* Components */,
+				7CF24F188160184770A610DD /* Database */,
+				C37CB2A52AC186507E5DEFBB /* Models */,
+				8800E11072AF87C69ED72C50 /* Navigation */,
+				823150AADE3B003FB7096195 /* Pages */,
+				2982765E6E4F6CAA1B614313 /* Services */,
+				8C776BD1D7DEBCFD4AE4B70B /* Store */,
+				96CC49613744AF6430E6A32F /* Utils */,
+				6BA15B5565F888C5A06C8A90 /* VehicleAPI */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		823150AADE3B003FB7096195 /* Pages */ = {
+			isa = PBXGroup;
+			children = (
+				B9E7E4FF7705C85E47880C9E /* MainTabView.swift */,
+				9C1EB2B99F6CE4B14550EC18 /* ActiveLanding */,
+				1BA0BB699A5E62CCA00B802F /* Album */,
+				36F3AF80DC402CA8416576A2 /* Binding */,
+				30D736B2557CCBBD9A57A4FE /* CloudAlbum */,
+				791DDA307C1E4223A569C72E /* CloudService */,
+				5564364F6EB05C661C2BA062 /* Login */,
+				FAA53B0776E244FAF5EF9BD5 /* Me */,
+				8AB2C76E37C1EACB2F988ACB /* Message */,
+				BB4EC20F1EF39FB47A8585F9 /* Order */,
+				7C53E6B1C97902C254CBE9F1 /* TCardReplay */,
+				AFF40BA262B657FB265DDFB7 /* VehicleDetail */,
+				EEAA723CF4C5519FA4C08299 /* VehicleInfo */,
+				12C64B52A12B02DA918D5A16 /* VehicleListView */,
+				0642A556B2887E78AEEF6D4E /* vehicleLive */,
+				68731EF656929B7FE2D65373 /* VehicleSettings */,
+				7A626EE2AB303278AEB7671D /* Web */,
+				72ABB0B925B1EFCEA43A2320 /* WifiDirect */,
+			);
+			path = Pages;
+			sourceTree = "<group>";
+		};
+		8800E11072AF87C69ED72C50 /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				F20BAA1E3296CCCA926127B6 /* AppNavigationModel.swift */,
+				72EDAB590B1D32B14DE0D0D6 /* AppNavigationStack.swift */,
+				7DAC82D5863EA313442DE4EB /* AppRoute.swift */,
+				3B72822ECCFE58E04CEA7DFD /* RouteParser.swift */,
+			);
+			path = Navigation;
+			sourceTree = "<group>";
+		};
+		89DE71B3A103136C7A1A7E58 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				DD68058A7CED5443B132C3FE /* DeviceCardView.swift */,
+				4D32D7DBD248DE227C994014 /* VehicleEmptyView.swift */,
+				8A56B1FCD2EB202F6A2EF350 /* VehicleHeaderView.swift */,
+				079B8528B379EEAD9A7FD8B5 /* VehicleMoreActionView.swift */,
+				8D39FB9C365D7256C6D7063D /* VehicleQuickAction.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		8AB2C76E37C1EACB2F988ACB /* Message */ = {
+			isa = PBXGroup;
+			children = (
+				0310824E68AE6503AA7107FB /* MessageView.swift */,
+				7E19A8CD9BD59D9A5358D71D /* VehicleMessageList.swift */,
+				19FAADC770652F803F20BE5A /* Components */,
+			);
+			path = Message;
+			sourceTree = "<group>";
+		};
+		8B155289FCDDBC8C3F736AB9 /* Components4Map */ = {
+			isa = PBXGroup;
+			children = (
+				99FD01F7DA69EB33E76A33C2 /* Map4Live.swift */,
+				29CB9DB303057C5CD7677E7B /* Map4LiveAnnotationViews.swift */,
+				4EE02BC01744A4E0D229A36B /* Map4LiveCoordinator.swift */,
+				863460AED3957097A046DE02 /* VehicleLiveMapBootstrap.swift */,
+			);
+			path = Components4Map;
+			sourceTree = "<group>";
+		};
+		8C776BD1D7DEBCFD4AE4B70B /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				E929DDF98400CACD894E849E /* AppStateStore.swift */,
+				481F7C27BC648C4A240C53C0 /* BindingStore.swift */,
+				31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */,
+				8F8956EC2FC5C2BD1FC1BAD5 /* LiveUserLocationStore.swift */,
+				98FAEB7CBFB73B23DCA8F802 /* LocalAlbumStore.swift */,
+				502D3E9BB7BA7FF84054B86D /* LocalNetworkPermissionStore.swift */,
+				06448451E7BE9F569323114A /* LocationPermissionStore.swift */,
+				60FD508224DE4E937C29691F /* MessageStore.swift */,
+				9FC04AA8EF783B903DC6FDB4 /* NoticePermissionStore.swift */,
+				DF0BF6E56F2AB6489625F070 /* SelfStore.swift */,
+				7A70B70A71A1562A0F21BA87 /* SettingResultDemo.json */,
+				CE73FD683A3F5DA5DDD04B7D /* TemplateStore.swift */,
+				BA79123D1537B84355294FE7 /* VehiclesStore.swift */,
+				B9F600758B37C8C037993897 /* VehiclesStore+Binding.swift */,
+				E94849D9C5712D537B5C7881 /* VehiclesStore+Cloud.swift */,
+				9680A038FB3366BFB0C54FB6 /* VehiclesStore+Live.swift */,
+				D142BA69A790CA9BA6BD1CBD /* VehiclesStore+Socket.swift */,
+				BD7B56564F5087639CE18381 /* VehiclesStore+VehicleDetail.swift */,
+				8D126F5A1477B42028346C6F /* WebSocketStore.swift */,
+				9FF552F3F4CB9E1A06A5F3CF /* WifiDirectSessionStore.swift */,
+				A4C13891119AC7FAC0A27F64 /* WifiStore.swift */,
+				F12E29B85B57E621D8AAA326 /* MobileInfo */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		934FF5E80742928E1DA1AEB3 /* QRCodeBinding */ = {
+			isa = PBXGroup;
+			children = (
+				4BCF65DA37EA54C50CFADCBE /* QRCodeBinding.swift */,
+				5076DB7155F6EA2487D7C62C /* Component */,
+			);
+			path = QRCodeBinding;
+			sourceTree = "<group>";
+		};
+		95A46230143EFDCAE9D000F5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				32403045A6D58709AAE4A0C5 /* CameraPicker.swift */,
+				8DD5775DB2649B3E8DA86CFE /* VinInputView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		96CC49613744AF6430E6A32F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				97E8B165A6B9CB30D2E4477C /* CancellableBag.swift */,
+				8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */,
+				ECBCA74C57A2E35043E96C25 /* GpsUtil.swift */,
+				5DF062E43463F9E3A368E0B6 /* LazyView.swift */,
+				4285CF11D29EBB4755B728EB /* LocationService.swift */,
+				1D8469670CA147D2B0B9238E /* PinyinUtils.swift */,
+				D102FCF9B42AAAF16CE1FD75 /* WebsocketHelper.swift */,
+				55A6D2866A06B014DF2ADA5F /* Extensions */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		9C1EB2B99F6CE4B14550EC18 /* ActiveLanding */ = {
+			isa = PBXGroup;
+			children = (
+				731B23E6929CD7835E150FB1 /* ActiveLanding.v.swift */,
+				3754066D410AE353E198A5F2 /* ActiveLanding.vm.swift */,
+				DAC0ED31FD69057D1FF4BCBE /* Components */,
+			);
+			path = ActiveLanding;
+			sourceTree = "<group>";
+		};
+		9D03CAF66C49614BFCD5CF21 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				901DB48EB9EACC6706CFD868 /* BottomActionsView.swift */,
+				7AACAC2FFC665F1516B248AF /* FunctionBarView.swift */,
+				8FF07A41109D48AE7F4352FA /* Header4LiveView.swift */,
+				E1E04AB3753D4B559D603B66 /* MapAreaView.swift */,
+				F13EC8284F84EF8951D9AD12 /* StatusBarView.swift */,
+				6EC73EFF8405073B8351D48A /* WifiBottomActionsView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		9D8D763F391730D29D717F10 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5763B627EB92711E438795ED /* CloudBenefitsResourceModals.swift */,
+				4304F31E504B9B9B0E7F8FE2 /* CloudPlanComponents.swift */,
+				426D5C41D2CDD69982DA7E83 /* ServiceRightsModal.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A8C82DDA8801D2E4D7BDD1C8 /* Wifi */ = {
+			isa = PBXGroup;
+			children = (
+				89FB8CFD43A3293C1B78837A /* WifiBindingConnectionView.swift */,
+				036504378D7683BDEBE9C405 /* WifiBindingNoticeView.swift */,
+				80281F1B1B75DDD488631A9B /* WifiBindingView.swift */,
+			);
+			path = Wifi;
+			sourceTree = "<group>";
+		};
+		AFBE122C3623489248ACE45A /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				5097B4DD8C56743B3CCF4F72 /* LoginActionView.swift */,
+				CFD180D7C6C69936845DBB30 /* LoginAgreementView.swift */,
+				37C364910BF75CF4B4B88D02 /* LoginBackgroundView.swift */,
+				A76A602A343D7BFD2341AC09 /* LoginInputView.swift */,
+				5530E0D3809BD717552C281A /* LoginLogoView.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		AFF40BA262B657FB265DDFB7 /* VehicleDetail */ = {
+			isa = PBXGroup;
+			children = (
+				11427CD9EAA6CD726E01B676 /* VehicleDetailView.swift */,
+				ED3F68DC9F61D16FA79FE133 /* Components */,
+			);
+			path = VehicleDetail;
+			sourceTree = "<group>";
+		};
+		B83DE3544BA29C3424B17465 /* Components4TimeLine */ = {
+			isa = PBXGroup;
+			children = (
+				B697C56D4ADF4BE1DF474670 /* TCardTimelineView.swift */,
+				7C2D367EB12E40280CC4EB0C /* TimelineCanvasView.swift */,
+				3A7B52DBA2B121F351E079BC /* TimelineScrollView.swift */,
+				812DCC21E08290978D413A8A /* TimelineZoomLevel.swift */,
+			);
+			path = Components4TimeLine;
+			sourceTree = "<group>";
+		};
+		B870C44AB82D6735DBB17015 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5E7640AB7B9657AA8AD14F66 /* Pods-MishuApp.debug.xcconfig */,
+				9BB119E1E689D5CA4EE34D8E /* Pods-MishuApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
+		BB4EC20F1EF39FB47A8585F9 /* Order */ = {
+			isa = PBXGroup;
+			children = (
+				DDE98C8903B63A0A8537BBCB /* OrderListView.swift */,
+				0378CEE89AACA25064DCB2C9 /* OrderListView.vm.swift */,
+				CA6A3A3BED48656AA7C6333A /* Components */,
+			);
+			path = Order;
+			sourceTree = "<group>";
+		};
+		C29ED4B1928D82B6B0FED1C4 /* Modifier */ = {
+			isa = PBXGroup;
+			children = (
+				6CE69C127D034996F54D8691 /* View+FullBrandButton.swift */,
+			);
+			path = Modifier;
+			sourceTree = "<group>";
+		};
+		C37CB2A52AC186507E5DEFBB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BC7BD6D91DEFA3BD9B38ADC7 /* AlbumAsset.md */,
+				A0DEDE087734E2D1E28B6780 /* AlbumAsset.swift */,
+				EE0671FC51D99DBDC970F529 /* BusinessError.swift */,
+				96F478C4F0F9660FA8FC261A /* Car.swift */,
+				F7C517888536E55D711E5BC4 /* CarBrand.swift */,
+				8F9D10596F1A64E7B3D89237 /* Chapter.swift */,
+				7D1BC3CFCA653F86B0C413D6 /* Gps.swift */,
+				66F6A148D73F0F54D74394A3 /* Message.swift */,
+				C366865F5039F72FB8950353 /* OBD.swift */,
+				CDC2320A3106411E1B638162 /* Order.swift */,
+				0681AED3E146F98DD21AA963 /* PackageModels.swift */,
+				6DC1AE4522DCA84C0522AF3A /* Setting.swift */,
+				9C936D630FF1508E40E64E79 /* Sim.swift */,
+				E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */,
+				B9B789B887C2A6F917AE2684 /* TCardReplayModels.swift */,
+				6CD3CA56E12A762969FF654A /* TravelReport.swift */,
+				05E9D3273168AA95F279E17E /* User.swift */,
+				9944D78FC2126DF6433454EE /* Vehicle.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		C94C649B15852D937421CAAD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0DBEF42D1977086DCA12003F /* Pods_MishuApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		CA6A3A3BED48656AA7C6333A /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				8F8F7DC0EF40E52255FE815C /* OrderCardView.swift */,
+				208895D4D6065FF0945DB5E4 /* OrderListPage.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		CF94ECE14F7BD5D280E81F76 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				AA52D82CC9C574FDF40B554B /* WifiDirectConnectingPage.swift */,
+				F9011126E86EE7D328E0427B /* WifiDirectFailurePage.swift */,
+				7DE2EF4BCD559FB53F04A00D /* WifiDirectIgnitionPage.swift */,
+				AEE51E26976AC5BECEF73BBC /* WifiDirectOpeningPage.swift */,
+				E03A8E14483988814827EB7C /* WifiDirectSuccessPage.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		D144530CB31F685C37F6BD2B /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				802EFB50AAAB01D705EBADE2 /* BlurView.swift */,
+				3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */,
+				E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */,
+				78AD43937AE2D6AF8F5EB4E9 /* LicensePlateKeyboard.swift */,
+				39902A0D24535EEC05C55C3D /* ModeSwitch.swift */,
+				15BDF40A9BDDFB19F876C29F /* NavHeader.swift */,
+				03FAEFBEDC8F7B2D338B42C6 /* OrientationManager.swift */,
+				26F9D6D44A1B34E30E66AD75 /* PageViewController.swift */,
+				49F50C366BAA0EB5879D1D21 /* SecureTextField.swift */,
+				6BD1E7F934FAAAFB719118D6 /* UIKitTextField.swift */,
+				8A3915DF2245E983E313EE8D /* UnreadBadge.swift */,
+				372706400EEFA2363F61251A /* UserAvatar.swift */,
+				6C8AE8618CE8002275A79A3A /* VideoViewerManager.swift */,
+				287AB1997F7A763BD6BFEF5B /* VinKeyboard.swift */,
+				C29ED4B1928D82B6B0FED1C4 /* Modifier */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		DAC0ED31FD69057D1FF4BCBE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D73BB053F69CA39E9C913FC0 /* ActiveLandingIntroPage.swift */,
+				68D8F045975FC2BB80C23A9B /* ActiveLandingSuccessPage.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		E26E1E36B84C5A884D664478 /* Components4VideoPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				64FC1AEF82D7DEAB6BBC0A9C /* LiveVideoControlsBar.swift */,
+				0DC4B9F1F5FFAB6A43CA24AD /* LiveVideoFullscreenView.swift */,
+				81CDA77E98B34A1EE6093FBE /* LiveVideoPaneView.swift */,
+				11A0F087589121BD0C2E71F0 /* LiveVideoQuality.swift */,
+				ABDBF4590AF7BB069A2D297E /* QualityPopupView.swift */,
+				02FEF442EE6147818CC077C9 /* VideoPlayerView.swift */,
+			);
+			path = Components4VideoPlayer;
+			sourceTree = "<group>";
+		};
+		ED3F68DC9F61D16FA79FE133 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				858944D209C88EE9B446B00B /* TripCell.swift */,
+				65E1C61BA58E3652A666454D /* TripListView.swift */,
+				484C7570FF5E54F60DDC6F82 /* TripReportSummaryView.swift */,
+				F8CB8CD2D696488D20240667 /* VehicleDashboardView.swift */,
+				1B1DC7EA920A00760E8998DA /* VehicleDetailHeaderView.swift */,
+				0190EC1ED87BF47B02E0394D /* VehicleDetailStatusView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		EEAA723CF4C5519FA4C08299 /* VehicleInfo */ = {
+			isa = PBXGroup;
+			children = (
+				5468B90CB60083F3191B685A /* VehicleEditFuelView.swift */,
+				7F47BDB409E44427E08A335F /* VehicleEditLicensePlateView.swift */,
+				7C85A24A1524167263828856 /* VehicleEditMileageView.swift */,
+				2B4F13DA3C437688F53359E7 /* VehicleEditNicknameView.swift */,
+				2109B439D3566B90EDB54D47 /* VehicleEditVinView.swift */,
+				1B3ADABBEBDF98B2CDE0D7A2 /* VehicleInfoView.swift */,
+			);
+			path = VehicleInfo;
+			sourceTree = "<group>";
+		};
+		EF2541D8EC963D24DB69C830 /* VMParts */ = {
+			isa = PBXGroup;
+			children = (
+				6CAD3A445B3545AA4998EB68 /* VehicleLive.Mode.vm.swift */,
+				0CB9E248F7EE218B86887E87 /* VehicleLive.Nav.vm.swift */,
+				0C590E209B46C7CFBB4FCD58 /* VehicleLive.Talk.vm.swift */,
+				E9E723A7CB908E56B1CDDCC4 /* VehicleLive.UIState.vm.swift */,
+			);
+			path = VMParts;
+			sourceTree = "<group>";
+		};
+		F0087C8A62B04070C5C39A8B /* API */ = {
+			isa = PBXGroup;
+			children = (
+				BB29F371787B906F202317EC /* ActionAPI.swift */,
+				4D1D3D07929B66B7DC983CD5 /* AlbumAPI.swift */,
+				4D9CBE2EFBE8F8D262A7C7C7 /* APIClient.swift */,
+				EBBA60409498052E1D222836 /* AuthAPI.swift */,
+				00F5B37E2606D369FB397906 /* CarBrandAPI.swift */,
+				E189037A0417038B54C2B60F /* ConfigAPI.swift */,
+				0ECF311700F52DDF7DFCC174 /* GeocodeAPI.swift */,
+				31A5197D50E514A63149ACB1 /* IAPAPI.swift */,
+				DB39B71FE653C829C1D7B731 /* MessageAPI.swift */,
+				630BA788625E7FB5CAB94C2D /* ObdAPI.swift */,
+				620A88871128A59ACAFAB98D /* OcrAPI.swift */,
+				70CA2CAAF10CC871F11ED1C8 /* OrderAPI.swift */,
+				207A171493D1BE287ECDBA82 /* PackageAPI.swift */,
+				4D5234203C45E5A983055334 /* PayAPI.swift */,
+				56E3F953177EB3341DDA120E /* ResourceAPI.swift */,
+				60346A0A14963B43749164F6 /* SettingAPI.swift */,
+				C759BE8A063E309DFF534477 /* SimAPI.swift */,
+				82EB8BF4782D42E8B82832EA /* TripAPI.swift */,
+				B890AC9EF1AD4CA8AC8EDF30 /* UploadAPI.swift */,
+				468BD6AEF889C1748F814EBB /* UserAPI.swift */,
+				3DAF148D859D99620BB32DD8 /* VehicleAPI.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		F07E20590C27C825B3DBF1EE /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				CE9E1EEB1C2A0E275868CACF /* AlbumCell.swift */,
+				BC95087D69C8427573E8B486 /* AlbumDetailMapView.swift */,
+				AD0AF88B4B419219102B53E0 /* AssetCell.swift */,
+				21922D1D8110B23E59602497 /* CloudAlbumType.swift */,
+				2C1639B29EC4446BD58A5A75 /* ListItemCell.swift */,
+				2CAF9DD3E4957750D14335FA /* LocalAlbumCell.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		F12E29B85B57E621D8AAA326 /* MobileInfo */ = {
+			isa = PBXGroup;
+			children = (
+				591F72C83C9DECCDCC423167 /* MobileInfoStateReportBuilder.swift */,
+				FA53DBF1FF6DED5B0F1E1768 /* MobileInfoStoreSerializers.swift */,
+				5BBC31132BE0FC8CF80B1071 /* Plugins */,
+			);
+			path = MobileInfo;
+			sourceTree = "<group>";
+		};
+		F2662814D4D8E29072434438 /* Component */ = {
+			isa = PBXGroup;
+			children = (
+				85E19527DC6679E7FDC354AA /* LogoutButton.swift */,
+				589C6FBB58D8E156E8A6E397 /* MeHeaderView.swift */,
+				2A79FADF87DB444BFFE9EBA7 /* MeMenuCard.swift */,
+				39F92935B852BF14460305E8 /* MeTextTitle.swift */,
+			);
+			path = Component;
+			sourceTree = "<group>";
+		};
+		FAA53B0776E244FAF5EF9BD5 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				E0A099D61BA4E21E8C7F1C27 /* MeSettingView.swift */,
+				0DFD9F141941E1F8AF63E315 /* MeView.swift */,
+				A0D85A06E3D8A538F22327A8 /* MeView.vm.swift */,
+				C237D61F4A8DE38AF9F4CB8D /* NicknameEditView.swift */,
+				6E87D0083550008AC0CE3116 /* PasswordEditView.swift */,
+				926D15D3DF21E15C043AD431 /* UserInfoEditView.swift */,
+				18E1281F85E0729E2D3FE7A4 /* WeChatServiceView.swift */,
+				F2662814D4D8E29072434438 /* Component */,
+			);
+			path = Me;
+			sourceTree = "<group>";
+		};
+		FD876E0C46BE72E80A3AF4A6 /* LocalAlbum */ = {
+			isa = PBXGroup;
+			children = (
+				8B0B10A5AF48477A0D094A49 /* LocalAssetFullPreview.swift */,
+			);
+			path = LocalAlbum;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EC21A6BCB2C7EF1100958F1B /* MishuApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
+			buildPhases = (
+				69321D045AE38C3797D91ED4 /* [CP] Check Pods Manifest.lock */,
+				4A5D5B52068640738302AC7E /* Sources */,
+				95F099E6F5FDD0A3D39B443E /* Resources */,
+				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MishuApp;
+			packageProductDependencies = (
+				E014F15329552CE4F34F6001 /* SwiftMessages */,
+				C50FDF99CDD65BF4BE78634D /* Kingfisher */,
+				E7220BCADE6E89E920AAA3E5 /* ImageViewer */,
+				31BD492FD73E659CC04017FE /* Lottie */,
+				E4A4A474B601348C3668CF9A /* SQLite */,
+			);
+			productName = MishuApp;
+			productReference = EB7999A31D2B60C18AEDCDB1 /* MishuApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D6D75EA408534C7017DF1A7C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					EC21A6BCB2C7EF1100958F1B = {
+						DevelopmentTeam = 5GFMWSR59V;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 4CB8C1612999F5DE7BBB7AF3 /* Build configuration list for PBXProject "MishuApp" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 7B330FAE57703F3C5FB48D28;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				9609333CA596EF123FE89A11 /* XCRemoteSwiftPackageReference "ImageViewer" */,
+				699C5343721DF821AC18A9E2 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				D15EB8F0DAB57C3006F0BC07 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				6B4CE4D181116E0B66D71288 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
+				259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 71DEA75AA51B50493F081038 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EC21A6BCB2C7EF1100958F1B /* MishuApp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		95F099E6F5FDD0A3D39B443E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A671BA68C9F138C56BB23D99 /* AlbumAsset.md in Resources */,
+				F1665B4DA8D1CA101875C302 /* Assets.xcassets in Resources */,
+				F57429D0E30D2BCD92519155 /* LaunchScreen.storyboard in Resources */,
+				9459DE74F13F9AA44D11FEB1 /* SettingResultDemo.json in Resources */,
+				5FE4B2A869C1DC5B5D71AD68 /* Success.json in Resources */,
+				95B88E03160CC5B3AC69A8EB /* Success.lottie in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		69321D045AE38C3797D91ED4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MishuApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4A5D5B52068640738302AC7E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2DBF018C3F6ED34540B0417C /* APIClient.swift in Sources */,
+				E743B891D9E7F0B40C2CFE7D /* ActionAPI.swift in Sources */,
+				D07A1C0A7B45FDC83708FE5B /* ActiveLanding.v.swift in Sources */,
+				B2511C8039398736674F13C4 /* ActiveLanding.vm.swift in Sources */,
+				B1E526324CDAA5ACD2A53BB2 /* ActiveLandingIntroPage.swift in Sources */,
+				EEFF160E30FFDD8233E91CED /* ActiveLandingSuccessPage.swift in Sources */,
+				0CFD06088B1E9A84D76EBE4B /* AlbumAPI.swift in Sources */,
+				90F6AAEB2743DC1D66AEA11A /* AlbumAsset.swift in Sources */,
+				CBA3FF3649607E0CDC1BA661 /* AlbumCell.swift in Sources */,
+				D9C61A339332EA8AEF2E3D43 /* AlbumDetailMapView.swift in Sources */,
+				80A4B98A15954B7B7B1E4763 /* AlbumListView.swift in Sources */,
+				6CA388FA6FCB3C747AACA73E /* AlbumListView.vm.swift in Sources */,
+				05639FFD6CC2C920C935C0DA /* AlbumView.swift in Sources */,
+				D58D3E359DA55CE1DD06E8F2 /* AppDatabase.swift in Sources */,
+				F963FE40C8C8028A9F2985C8 /* AppDatabaseConfig.swift in Sources */,
+				1935255005DA4B7C4AA10E44 /* AppNavigationModel.swift in Sources */,
+				A6141F3575FD0C76041D8FC9 /* AppNavigationStack.swift in Sources */,
+				1FBDE7ACE39311DDC1054CF5 /* AppRoute.swift in Sources */,
+				FFAB03A14A0C84FEC8AC7DBD /* AppStateStore.swift in Sources */,
+				5CC05EEA308234AABE368386 /* Array+rotated.swift in Sources */,
+				2C0DAB6424061AD012C577EF /* AssetCell.swift in Sources */,
+				7AA4F12A881A099F196B975D /* AssetDetailView.swift in Sources */,
+				BA10B5F93E3BDD9200A41AA2 /* AuthAPI.swift in Sources */,
+				05CE3AEA23A5150F3096AAC0 /* BindingStore.swift in Sources */,
+				5E83B02A6E9895B164DF5D5F /* BlurView.swift in Sources */,
+				6B448CA25D3AB703AD93AA4A /* BottomActionsView.swift in Sources */,
+				0BC12988DF435DE1904976AA /* BusinessError.swift in Sources */,
+				4D70C68B171B48B08F3C618B /* Calendar+relativeDateString.swift in Sources */,
+				F88E3CD6C2B78E111FFE81A0 /* CameraPermissionStore.swift in Sources */,
+				26674833CF36D26A9CA12F68 /* CameraPicker.swift in Sources */,
+				E4BB6D06DB4453A498EC06AA /* CancellableBag.swift in Sources */,
+				24A8594A8C43596D72257971 /* Car.swift in Sources */,
+				FC5B161811D8735696DE8F4D /* CarBrand.swift in Sources */,
+				3B68E3B0074EF555C119044A /* CarBrandAPI.swift in Sources */,
+				15D26DAA3710DB702E5A696E /* CarBrandSelectionView.swift in Sources */,
+				7BFDB262FA458B54B1DE160B /* CarInfoStep1View.swift in Sources */,
+				9F0840A5745E51078B451A4A /* CarInfoStep2View.swift in Sources */,
+				F80AFE50D808F98D854FEAF9 /* CarInfoStep3View.swift in Sources */,
+				4273E19DD0A52A53C2F52F0C /* CarInfoStep4View.swift in Sources */,
+				21054619923775554D862E0A /* CarSeriesSelectionView.swift in Sources */,
+				92F03C1BE353EAB2E78805F4 /* CashierView.swift in Sources */,
+				5E59CA7556B38D58C3379103 /* Chapter.swift in Sources */,
+				AFA6C191F419F75DB8EAFC7C /* CloudAlbumType.swift in Sources */,
+				C7DE035C709CB75556F1B1AA /* CloudAlbumView.swift in Sources */,
+				8E7E6C998DE39DDCCB4F37C0 /* CloudAlbumView.vm.swift in Sources */,
+				5B10B309974F4949908273C4 /* CloudBenefitsResourceModals.swift in Sources */,
+				9FF186A82FBFD84066D274D0 /* CloudBenefitsView.swift in Sources */,
+				D0CD38F72A97EDF776E4A0FE /* CloudPlanComponents.swift in Sources */,
+				E5A1388E47AE5BF520F8DCB7 /* CloudPlanView.swift in Sources */,
+				F17521D3BB382791BF612F6D /* Color+Hex.swift in Sources */,
+				4A0D80DCA3D0AABCA4594FB7 /* Color+brightness.swift in Sources */,
+				6CA9DFF08E36751FB701A5DC /* Color+randomItemColor.swift in Sources */,
+				2ECF240614AE89897BC8A1E1 /* ConfigAPI.swift in Sources */,
+				23FAF47616C31C0BECB7EE2C /* Const.swift in Sources */,
+				9122ECF5A1E2664281C03BC1 /* Copyable+copy.swift in Sources */,
+				64A6033A34656A9A55AC92AC /* Date+tools.swift in Sources */,
+				076E3C9114F0454A00BBB708 /* DeinitDetector.swift in Sources */,
+				D66D3AABE61EEC03486CAA8B /* DeviceCardView.swift in Sources */,
+				6811329FCB304B05EB353422 /* Double+exten.swift in Sources */,
+				F30E67BA7DA5B7A95A45C640 /* EnvironmentStore.swift in Sources */,
+				45009782C948F8565C367BBD /* EnvironmentValues+Namespace.swift in Sources */,
+				2942758A5EAE64506A4762D1 /* FunctionBarView.swift in Sources */,
+				2714418D1A5A195B0B4C8DBC /* GeocodeAPI.swift in Sources */,
+				72C9112F58CC4624EA433A2E /* Gps.swift in Sources */,
+				E4919620219EBB6DA3F3ECD6 /* GpsUtil.swift in Sources */,
+				7E93F96B1338044D6FCBEC4C /* Header4LiveView.swift in Sources */,
+				71072FF9F13D6E5B4D3BAFA5 /* IAPAPI.swift in Sources */,
+				5D54BBCECF1EF7768B5137CE /* ImageViewerManager.swift in Sources */,
+				4D79F3C34370F51C687A907A /* KeyedDecodingContainer+safeDecode.swift in Sources */,
+				9ABB1919037F06EA71BAD8D2 /* LazyView.swift in Sources */,
+				3DA2A2BD379EBE6E5B03B5CA /* LicensePlateInputView.swift in Sources */,
+				AD96307A9F737CF70753B5B3 /* LicensePlateKeyboard.swift in Sources */,
+				D7EF1487D243C419A17B64C5 /* LiquidGlassModifier.swift in Sources */,
+				88657E3E8B72D09573852017 /* ListItemCell.swift in Sources */,
+				5E250A0D6C9C4D294C8BE25E /* LiveUserLocationStore.swift in Sources */,
+				9BFEDBB9E67AFA63C01939EF /* LiveVideoControlsBar.swift in Sources */,
+				61DDF9A3DF8FA020307DC50A /* LiveVideoFullscreenView.swift in Sources */,
+				D68B79E10494FADB87D6791A /* LiveVideoPaneView.swift in Sources */,
+				6D6BFF576A69659F121EDF5A /* LiveVideoQuality.swift in Sources */,
+				1CE2938EDB333DA3545E5CFB /* LocalAlbumCell.swift in Sources */,
+				D919333D6678D7A5612089A6 /* LocalAlbumStore.swift in Sources */,
+				F9AADDCF21930304F8482A72 /* LocalAlbumView.swift in Sources */,
+				7B118CA1EF9B9CF41ADF62A2 /* LocalAssetFullPreview.swift in Sources */,
+				B441B50F4849272BAF964972 /* LocalNetworkPermissionStore.swift in Sources */,
+				6518178CDD475509A1668A3B /* LocationPermissionStore.swift in Sources */,
+				0D6882A5FD8D000C6E0EDE53 /* LocationService.swift in Sources */,
+				40C8DC5AAFD18003171F71CE /* LoginActionView.swift in Sources */,
+				A5ECE171DF4551718270E8C3 /* LoginAgreementView.swift in Sources */,
+				2FB49974F101C8D59B089E87 /* LoginBackgroundView.swift in Sources */,
+				485F8D4E500FC5E04BBB2701 /* LoginInputView.swift in Sources */,
+				9491BF611250F40D7EE35322 /* LoginLogoView.swift in Sources */,
+				ADE2234816B2860E7514D4CF /* LoginView.swift in Sources */,
+				CF563EB095EB7DD91102A587 /* LoginView.vm.swift in Sources */,
+				087EABA1ACF572A0D1EFA23B /* LogoutButton.swift in Sources */,
+				B558F9A8B8F66526D68674E8 /* MainTabView.swift in Sources */,
+				4EA47173249C7EA15D2E4DBE /* ManualBindView.swift in Sources */,
+				C1A7E335E236AC3773DEC1D3 /* Map4Live.swift in Sources */,
+				C75099F3B36671FDD02BEED1 /* Map4LiveAnnotationViews.swift in Sources */,
+				C1CA187530EF081633745F45 /* Map4LiveCoordinator.swift in Sources */,
+				565D6E2CCB13DFFFAAE95922 /* MapAreaView.swift in Sources */,
+				DFE490E3C224905F80BBF919 /* MeHeaderView.swift in Sources */,
+				DF8DCB64F430DE27C1696F31 /* MeMenuCard.swift in Sources */,
+				3A657742A35BF01EDE3CAE9F /* MeSettingView.swift in Sources */,
+				EC659105DE5387A58A0B00FC /* MeTextTitle.swift in Sources */,
+				1FB225119D614BE776C28FCE /* MeView.swift in Sources */,
+				36F954E85CBC820AC800D265 /* MeView.vm.swift in Sources */,
+				03D4C1AD7F4D5CF6A4EAF00A /* Message.swift in Sources */,
+				C4450E8594319E2C650604B3 /* MessageAPI.swift in Sources */,
+				E26880BC66086B721EA103BF /* MessageCell.swift in Sources */,
+				2985942279BD7FE4A8CEE6FE /* MessageEmptyView.swift in Sources */,
+				E0AD0A05860D5DC3DF3EE272 /* MessageItem.swift in Sources */,
+				F9215EDCBB8BA57F7C11B612 /* MessageStore.swift in Sources */,
+				F670DE75A01C93E91F6F1F75 /* MessageTable.swift in Sources */,
+				37B97CE22A68879BE7EDC529 /* MessageTabs.swift in Sources */,
+				B591EC2A5B10167BBFC3DCB7 /* MessageView.swift in Sources */,
+				43F36358BB5FEEEAFCE41FC4 /* MishuApp.swift in Sources */,
+				25B95530AA73C4B2C2A776B6 /* MobileInfoPermissionPlugin.swift in Sources */,
+				5136D83C389A638B7447BB62 /* MobileInfoStateReportBuilder.swift in Sources */,
+				FFD40964FE708A92318E7E6F /* MobileInfoStoreSerializers.swift in Sources */,
+				D48A44B12182F898E9A485A8 /* ModeSwitch.swift in Sources */,
+				BCE0A4D2C8508DF69C2678C3 /* NavHeader.swift in Sources */,
+				0CBF90B0E7A8499EA848C9FD /* NicknameEditView.swift in Sources */,
+				FA8F7B3B0FA5CA9C614364C0 /* NoticePermissionStore.swift in Sources */,
+				F27466A2486613C26C9588E6 /* OBD.swift in Sources */,
+				FA3F9AB58C09C61BDD1F9E4D /* ObdAPI.swift in Sources */,
+				15F72D2E0FEC4ECB1D926A1E /* OcrAPI.swift in Sources */,
+				1557EDD7FC55A829A965DDC8 /* Order.swift in Sources */,
+				23A237A1DD83EEFBF835E30B /* OrderAPI.swift in Sources */,
+				BC3096CBC8A42D11388CED37 /* OrderCardView.swift in Sources */,
+				8A2B2CACE4A9099B62BBD53C /* OrderListPage.swift in Sources */,
+				DF8D89BE242E73D5867E091E /* OrderListView.swift in Sources */,
+				8D7412C2C8992771D7955084 /* OrderListView.vm.swift in Sources */,
+				B429E8E0331B172150E25AD8 /* OrientationManager.swift in Sources */,
+				C3B70CE0D4ED287DBA42476B /* PackageAPI.swift in Sources */,
+				5D662DAC22765426630FA35F /* PackageModels.swift in Sources */,
+				44AB53CFC5CF387120D2A494 /* PageViewController.swift in Sources */,
+				99AFD1745FAC2983E9742F59 /* PasswordEditView.swift in Sources */,
+				9EC798E1B28A0E5BE112D5D8 /* PayAPI.swift in Sources */,
+				F9C2C4CC5D70AE2389BACAA2 /* PaymentSuccessView.swift in Sources */,
+				FC67B70C298F814A968C361A /* PinyinUtils.swift in Sources */,
+				EC4F48DFABC130C5A9E76390 /* QRCodeBinding.swift in Sources */,
+				DED96156EFACB63113B6621F /* QRCodeBindingBottomBarView.swift in Sources */,
+				CAB6056953BCCC8402890429 /* QRCodeBindingControlsView.swift in Sources */,
+				C4B56D598B3238E9B7358EE0 /* QRCodeBindingHeaderView.swift in Sources */,
+				43BC3476960526E8719228B5 /* QRCodeBindingScanFrameView.swift in Sources */,
+				3B94BCB3FAF3298C9726632B /* QRCodePhotoPicker.swift in Sources */,
+				8A694B3DDD3276C18300F10C /* QRCodeScannerView.swift in Sources */,
+				CC3BE9C193D40EB6E5D773E5 /* QualityPopupView.swift in Sources */,
+				D5C3DAC930C95027135BF630 /* ResourceAPI.swift in Sources */,
+				44CF889931F108CC5E8568A0 /* RouteParser.swift in Sources */,
+				F0A0E6FCD01B694FC853F773 /* SecureTextField.swift in Sources */,
+				FEBEED4431E79257139F3087 /* SelfStore.swift in Sources */,
+				72973E82E0A7BD973F0A0F56 /* ServiceRightsModal.swift in Sources */,
+				6FA8A3D5CD47E148C7E7CADA /* Setting.swift in Sources */,
+				350A91EE856D2D8B4BA0A0D3 /* SettingAPI.swift in Sources */,
+				9396372B597EB9D6C9997D71 /* SettingButtonItem.swift in Sources */,
+				5EC8A4EC8B7634DC39840EA9 /* SettingFolderItem.swift in Sources */,
+				3C32323B02F82E77AF2D4E40 /* SettingGpsDetailView.swift in Sources */,
+				F61DD087453DED1D4BA48B70 /* SettingInputItem.swift in Sources */,
+				E39A55FC815C165AD18FE146 /* SettingLogoItem.swift in Sources */,
+				91758342455ACAA175CF08E0 /* SettingProgressItem.swift in Sources */,
+				DD6D7B4100F44FF0AD7E0931 /* SettingRadioItem.swift in Sources */,
+				16F8133F1901AEB8B5356D41 /* SettingReadonlyItem.swift in Sources */,
+				170BB8BDCA817B69033CE865 /* SettingSelectionView.swift in Sources */,
+				B9FB7C8E8985AC7E42723CA4 /* SettingSwitchItem.swift in Sources */,
+				E92DEC5AB24F94E11DE8EED7 /* SettingSysNotifyItem.swift in Sources */,
+				0853C33C3864B6EA6EFE0933 /* SettingTimeWindowItem.swift in Sources */,
+				1E463D9AE8BD205A9E6D752F /* SettingVoiceCommandView.swift in Sources */,
+				23F28A22E6BF12B248CDF5BD /* Sim.swift in Sources */,
+				E227D972C96A8071EA961B00 /* SimAPI.swift in Sources */,
+				596DFDDA5D5FC7CC0D7E1A76 /* SnapFullPreview.swift in Sources */,
+				81CE5DABA25F9AB030223FE9 /* SnapPreviewList.swift in Sources */,
+				4389B0799DB2F7330E463824 /* SocketMessage.swift in Sources */,
+				22AF15402D8ADE019CF99AE9 /* StatusBarView.swift in Sources */,
+				CCB6393040FB2E736DA53F9F /* Storage.swift in Sources */,
+				50F45E929048EA881874A7B9 /* String+extension.swift in Sources */,
+				13EF72403BDB2828E93ECF88 /* String+timeValid.swift in Sources */,
+				11B067F7F3F8FCC7D320053E /* TCardControlBar.v.swift in Sources */,
+				AFD00FB8E04D1404EB48B0CE /* TCardDateSelectorView.swift in Sources */,
+				1F4A2FC060C5E121E98B97EF /* TCardMapView.swift in Sources */,
+				02EBEE9322AAC304BDB926E1 /* TCardPlaybackController.swift in Sources */,
+				B8860118D500236E9B419937 /* TCardPlayerView.swift in Sources */,
+				FFE29CF6929B30788626B515 /* TCardReplay.v.swift in Sources */,
+				E6C62AE3593EABAED4899938 /* TCardReplay.vm.swift in Sources */,
+				CBBA4DFB1EBA548267688852 /* TCardReplayFullscreenView.swift in Sources */,
+				41D9A1EC82E92BE4F300CD66 /* TCardReplayGpsService.swift in Sources */,
+				F9364C8DBE3B1610D4BE86FB /* TCardReplayLog.swift in Sources */,
+				E3CAA263F7DE6D804097DA55 /* TCardReplayModels.swift in Sources */,
+				28E7E1AB565AC9F5C3DCF1E5 /* TCardTimelineView.swift in Sources */,
+				D8A7747BDC06637D9AB5531E /* TemplateStore.swift in Sources */,
+				AF80A2CF3FFCCDE07B6BCFC6 /* TextField+autoFocus.swift in Sources */,
+				03408DFA392D40249689A2F8 /* Theme.swift in Sources */,
+				7990E84E83729CA4D44D520F /* TimelineCanvasView.swift in Sources */,
+				14E956CC86EE4026E658CBB2 /* TimelineScrollView.swift in Sources */,
+				3C2A49E6FC547861F06942D6 /* TimelineZoomLevel.swift in Sources */,
+				1F36B4E31685F977169890CE /* TravelReport.swift in Sources */,
+				DA341B2ED4DE6308BC639598 /* TripAPI.swift in Sources */,
+				8F211DB3C8932CF6AE318490 /* TripCell.swift in Sources */,
+				8C91825AD8D98D7CEF030BC1 /* TripListView.swift in Sources */,
+				359C26B1C27C32A772DBDA19 /* TripReportSummaryView.swift in Sources */,
+				C2FA58515742798C1F412A1A /* UIApplication+dismissKeyboard.swift in Sources */,
+				D81F1E76B59836EE7CFB9B30 /* UIImage+resize.swift in Sources */,
+				C492BD762CCF1F96E35ACF85 /* UIKitTextField.swift in Sources */,
+				D2F2AC1328859E18D0B4EB1C /* UINavigationController+gestureRecognizerShouldBegin.swift in Sources */,
+				B5CAD50765327BF0C027A21A /* UmengService.swift in Sources */,
+				AAC7452FF5B4A0E48B1528AA /* UnreadBadge.swift in Sources */,
+				EE79047DAD6E992E7337BEA2 /* UploadAPI.swift in Sources */,
+				C31F0C4B5BBA88C4103322E3 /* User.swift in Sources */,
+				97EF0445542F57037E175664 /* UserAPI.swift in Sources */,
+				28A072440E2F584E4DC39827 /* UserAvatar.swift in Sources */,
+				3800C910059F3E8DA0C30B05 /* UserInfoEditView.swift in Sources */,
+				FF3AF37413278C7978E09B19 /* Vehicle.swift in Sources */,
+				8879B4AC68494B16C2D8C53B /* VehicleAPI.swift in Sources */,
+				573011C3FF5C254A6022FA21 /* VehicleDashboardView.swift in Sources */,
+				FEDCE2AEB97D445CF6890049 /* VehicleDetailHeaderView.swift in Sources */,
+				D4C5CE7B43DB1AA39ABC25F2 /* VehicleDetailStatusView.swift in Sources */,
+				E6E79D93F694897004C3E9DD /* VehicleDetailView.swift in Sources */,
+				62D33D4C2FFB4D8B31579111 /* VehicleDeviceAPI.swift in Sources */,
+				9E017A1797940F451E15CFE8 /* VehicleEditFuelView.swift in Sources */,
+				B3C57C764FAED2DC9D6BE183 /* VehicleEditLicensePlateView.swift in Sources */,
+				7DF79EA3D808B3A9989BA026 /* VehicleEditMileageView.swift in Sources */,
+				EA08A463583ABF687D41FAB4 /* VehicleEditNicknameView.swift in Sources */,
+				80887640818BBDEDF90A88E4 /* VehicleEditVinView.swift in Sources */,
+				90C10B72EF5B1546062B1AFF /* VehicleEmptyView.swift in Sources */,
+				DA2BD386B9BE5B1F20AA2E17 /* VehicleFolder.swift in Sources */,
+				45183BFB3900368898E4F62E /* VehicleHeaderView.swift in Sources */,
+				A3014656ED79663F9234335A /* VehicleInfoView.swift in Sources */,
+				6CD070AD7529D16EC2EC03B7 /* VehicleListView.swift in Sources */,
+				B7B328F1DC052395C0AFAF53 /* VehicleLive.Mode.vm.swift in Sources */,
+				629C4C0004F11120D9D809EF /* VehicleLive.Nav.vm.swift in Sources */,
+				EC1D2160E378F8EB931C8953 /* VehicleLive.Talk.vm.swift in Sources */,
+				464C164AFFCC410B5F4B5933 /* VehicleLive.UIState.vm.swift in Sources */,
+				9F34762898C160410759D953 /* VehicleLive.v.swift in Sources */,
+				60FDF6B4147850565C086503 /* VehicleLive.vm.swift in Sources */,
+				8A821AE689371F9A4A1FEF14 /* VehicleLiveMapBootstrap.swift in Sources */,
+				F92BE8AD4EF1086122FA7C6B /* VehicleMessageList.swift in Sources */,
+				506B3CEA92BB3A3216CD3B6C /* VehicleMoreActionView.swift in Sources */,
+				DDE3FDF74EDDC03E3AAA92B5 /* VehicleQuickAction.swift in Sources */,
+				2EC76677D3C66158177319FA /* VehicleSettingsListView.swift in Sources */,
+				B7B091DC9020886A447515E1 /* VehicleSettingsSubPageView.swift in Sources */,
+				338367AA561EC3318A7B3F96 /* VehicleSettingsUpdatingOverlayModifier.swift in Sources */,
+				5B997C25E04D35593DB52136 /* VehicleSettingsView.swift in Sources */,
+				18AF10616EEB9509F44524A2 /* VehiclesStore+Binding.swift in Sources */,
+				CE86446CAD2FC069C15093C9 /* VehiclesStore+Cloud.swift in Sources */,
+				777F5B044592B921A02F1DDE /* VehiclesStore+Live.swift in Sources */,
+				BA0B1CCEC973DA4D1C387580 /* VehiclesStore+Socket.swift in Sources */,
+				21E7F4728504CC722A178354 /* VehiclesStore+VehicleDetail.swift in Sources */,
+				4C0C1D191A1444CB8D31422A /* VehiclesStore.swift in Sources */,
+				C5D8CF46AB7C5BB73CC7FD83 /* VideoPlayerView.swift in Sources */,
+				7994DFF02A6B22CB6AF0E6A4 /* VideoViewerManager.swift in Sources */,
+				C6829A97C51BE68B52718947 /* View+FullBrandButton.swift in Sources */,
+				EA9C1C28B99C359A7BB739E7 /* View+KeyboardDismissModifier.swift in Sources */,
+				0C8BD32C9FD3D15C92F704EB /* View+SafeArea.swift in Sources */,
+				899B373ABDDFB9699A8C1D8C /* View+SwipeActions.swift in Sources */,
+				B57EB20EC5DA08833A5B616A /* View+bottomSheet.swift in Sources */,
+				369603427EACEFE9E025CF93 /* View+cornerRadius.swift in Sources */,
+				E537B2173569FFC931A57BC0 /* View+cssPadding.swift in Sources */,
+				88799049FC2C20CDEB1EF93A /* View+fontStyle.swift in Sources */,
+				8A8211622A2A706AFF4D41E6 /* View+glassEffectBelow.swift in Sources */,
+				A031D2687E6BE3E38AE1DABD /* View+hideScrollIndicators.swift in Sources */,
+				15410D252504541C8E8655E5 /* View+keyboardAvoiding.swift in Sources */,
+				D84E054C55368163384DEB2E /* View+matchedGeometryEffectIfLet.swift in Sources */,
+				4BE0569F125C181DA57445DA /* View+onDragWithEnd.swift in Sources */,
+				062E576B777E233E079F6449 /* View+pickerAddBgColor.swift in Sources */,
+				C8A255957696BCE03C3DA1E8 /* View+pickerBgReset.swift in Sources */,
+				F1CDE4B9822B519A6AD8B25B /* View+popup.swift in Sources */,
+				E02F2BBC71DB77744BF615E6 /* View+popupTest.swift in Sources */,
+				D9408D714C4FFE9638F692FC /* View+processControll.swift in Sources */,
+				A0D28AD184E847E4AA97E302 /* View+rotationIcon.swift in Sources */,
+				EE88FED701D24DAF502BE4C3 /* View+shadow.swift in Sources */,
+				D2E6CCFC603B7500E45A8A68 /* View+taskFor14.swift in Sources */,
+				D1C0500784D5A78BB92C053A /* View+toAnyView.swift in Sources */,
+				9E4141E04F27F5AF8E3DE6E0 /* View+toPopover.swift in Sources */,
+				53A54836B4C48EA665A23AA7 /* View+toast.swift in Sources */,
+				AA76C5E715FE8B659881C975 /* VinInputView.swift in Sources */,
+				5A263EC36B52CCD92750EF67 /* VinKeyboard.swift in Sources */,
+				FDB18A8B66C5267F89449E11 /* WeChatServiceView.swift in Sources */,
+				CB7043BA0F68F8D0386270C4 /* WebContainerView.swift in Sources */,
+				FE05DBE7CD06A8657BE3F52C /* WebSocketStore.swift in Sources */,
+				2F5128AA78AB84567746B92B /* WebsocketHelper.swift in Sources */,
+				A791DD51F80F4AAA8AC8D91F /* WheelPicker.swift in Sources */,
+				5E0900D716A4790DBDB15A24 /* WifiBindingConnectionView.swift in Sources */,
+				DEE597EF4D3B6A6723C9CF47 /* WifiBindingNoticeView.swift in Sources */,
+				9B787329E14979BC09B0F87A /* WifiBindingView.swift in Sources */,
+				E6656F5372CF6A25EC477A69 /* WifiBottomActionsView.swift in Sources */,
+				C090404C7D797ACF99E400B2 /* WifiDirect.v.swift in Sources */,
+				6E480B5989CF85D61A0FBCAF /* WifiDirect.vm.swift in Sources */,
+				0C228BECD68ECFD5D5107B96 /* WifiDirectConnectingPage.swift in Sources */,
+				A8775F2219E35DB002BC1608 /* WifiDirectFailurePage.swift in Sources */,
+				DA1E2F1D8811A002B5BB6496 /* WifiDirectIgnitionPage.swift in Sources */,
+				9AF90481C693EA0FC72A37BB /* WifiDirectOpeningPage.swift in Sources */,
+				7676788CF9F79E9BF71D2F93 /* WifiDirectSessionStore.swift in Sources */,
+				EDF495C5B3AC8513BDAD0E42 /* WifiDirectSuccessPage.swift in Sources */,
+				5604362D6C3331F67E41DB3B /* WifiStore.swift in Sources */,
+				4DBE8A6405AA912C8518C72C /* delegateApplication.swift in Sources */,
+				8A463CA8F08740568C05BBD6 /* delegateNotification.swift in Sources */,
+				B9A86939694777D1B93A0E59 /* delegateWechat.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		219E832CB9B5B2BD12CF69CE /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9BB119E1E689D5CA4EE34D8E /* Pods-MishuApp.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CFBundleDevelopmentRegion = "zh-Hans";
+				CODE_SIGN_ENTITLEMENTS = MishuApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include",
+					"$(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks/User.framework/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks",
+					"$(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers",
+				);
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks/XCAVPlayer",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lz",
+					"-lbz2",
+					"-lc++",
+					"-lsqlite3",
+					"-liconv",
+					"-lresolv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					CoreAudio,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					OpenGLES,
+					"-framework",
+					UIKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp;
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "App/AMap-Bridging-Header.h";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include",
+					"$(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks/User.framework/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers",
+				);
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		54765F167B97365F7967FC83 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E7640AB7B9657AA8AD14F66 /* Pods-MishuApp.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CFBundleDevelopmentRegion = "zh-Hans";
+				CODE_SIGN_ENTITLEMENTS = MishuApp.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 15;
+				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks",
+				);
+				GENERATE_INFOPLIST_FILE = NO;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include",
+					"$(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks/User.framework/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks",
+					"$(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers",
+				);
+				INFOPLIST_FILE = Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks/XCAVPlayer",
+				);
+				MARKETING_VERSION = 1.0.0;
+				OTHER_LDFLAGS = (
+					"$(inherited)",
+					"-ObjC",
+					"-lz",
+					"-lbz2",
+					"-lc++",
+					"-lsqlite3",
+					"-liconv",
+					"-lresolv",
+					"-framework",
+					VideoToolbox,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					CoreAudio,
+					"-framework",
+					AVFoundation,
+					"-framework",
+					OpenGLES,
+					"-framework",
+					UIKit,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp;
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "App/AMap-Bridging-Header.h";
+				SYSTEM_HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include",
+					"$(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks/User.framework/Headers",
+					"$(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers",
+				);
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		85D47C386420BA35DF71356F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_LANGUAGE = "zh-Hans";
+				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		BC8AD51029311CFAA66A14BD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_LANGUAGE = "zh-Hans";
+				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				54765F167B97365F7967FC83 /* Debug */,
+				219E832CB9B5B2BD12CF69CE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		4CB8C1612999F5DE7BBB7AF3 /* Build configuration list for PBXProject "MishuApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				85D47C386420BA35DF71356F /* Debug */,
+				BC8AD51029311CFAA66A14BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftKickMobile/SwiftMessages.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 9.0.6;
+			};
+		};
+		699C5343721DF821AC18A9E2 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.0;
+			};
+		};
+		6B4CE4D181116E0B66D71288 /* XCRemoteSwiftPackageReference "SQLite.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.15.5;
+			};
+		};
+		9609333CA596EF123FE89A11 /* XCRemoteSwiftPackageReference "ImageViewer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Krisiacik/ImageViewer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 7.0.0;
+			};
+		};
+		D15EB8F0DAB57C3006F0BC07 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/airbnb/lottie-ios";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.5.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		31BD492FD73E659CC04017FE /* Lottie */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D15EB8F0DAB57C3006F0BC07 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			productName = Lottie;
+		};
+		C50FDF99CDD65BF4BE78634D /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 699C5343721DF821AC18A9E2 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		E014F15329552CE4F34F6001 /* SwiftMessages */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */;
+			productName = SwiftMessages;
+		};
+		E4A4A474B601348C3668CF9A /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6B4CE4D181116E0B66D71288 /* XCRemoteSwiftPackageReference "SQLite.swift" */;
+			productName = SQLite;
+		};
+		E7220BCADE6E89E920AAA3E5 /* ImageViewer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9609333CA596EF123FE89A11 /* XCRemoteSwiftPackageReference "ImageViewer" */;
+			productName = ImageViewer;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = D6D75EA408534C7017DF1A7C /* Project object */;
+}

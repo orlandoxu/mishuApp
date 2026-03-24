@@ -16,7 +16,7 @@ final class LocalAlbumStore: ObservableObject {
   @Published private(set) var authorization: PHAuthorizationStatus
   @Published private(set) var assets: [PHAsset] = []
 
-  private static let albumTitle = "路刻本地相册"
+  private static let albumTitle = "Mishu AI本地相册"
 
   private init() {
     authorization = LocalAlbumStore.authorizationStatus()

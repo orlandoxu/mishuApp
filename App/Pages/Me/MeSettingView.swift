@@ -51,7 +51,7 @@ struct MeSettingView: View {
                 handleLogoTap()
               }
 
-            Text("路刻")
+            Text("Mishu AI")
               .font(.system(size: 18, weight: .bold))
               .foregroundColor(Color(hex: "0x111111"))
 
@@ -284,7 +284,7 @@ struct MeSettingView: View {
 
     AppConst.setEnvironment(target)
     currentEnvironmentRaw = target.rawValue
-    UserDefaults.standard.removeObject(forKey: "tuyun_base_url_override")
+    UserDefaults.standard.removeObject(forKey: "mishu_base_url_override")
     URLCache.shared.removeAllCachedResponses()
     if let cookies = HTTPCookieStorage.shared.cookies {
       for cookie in cookies {

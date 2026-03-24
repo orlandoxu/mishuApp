@@ -9,7 +9,7 @@ enum AppDatabaseConfig {
       appropriateFor: nil,
       create: true
     )
-    let dir = base.appendingPathComponent("TuYun", isDirectory: true)
+    let dir = base.appendingPathComponent("MishuApp", isDirectory: true)
     if !fm.fileExists(atPath: dir.path) {
       try fm.createDirectory(at: dir, withIntermediateDirectories: true)
     }

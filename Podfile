@@ -2,7 +2,7 @@ platform :ios, '14.0'
 
 inhibit_all_warnings!
 
-target 'TuYunApp' do
+target 'MishuApp' do
   use_frameworks! :linkage => :static
 
   # 微信SDK

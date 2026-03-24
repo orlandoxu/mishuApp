@@ -8,7 +8,7 @@ final class NoticePermissionStore: NSObject, ObservableObject {
   @Published private(set) var authorizationStatus: UNAuthorizationStatus = .notDetermined
   @Published private(set) var deviceToken: String?
 
-  private let deviceTokenKey = "tuyun_ios_device_token"
+  private let deviceTokenKey = "mishu_ios_device_token"
 
   override private init() {
     super.init()

@@ -157,13 +157,13 @@ final class APIClient {
   }
 
   private static func resolvedBaseURL() -> URL {
-    if let override = UserDefaults.standard.string(forKey: "tuyun_base_url_override"),
+    if let override = UserDefaults.standard.string(forKey: "mishu_base_url_override"),
        let url = URL(string: override)
     {
       return url
     }
 
-    // let env = UserDefaults.standard.string(forKey: "tuyun_environment") ?? ""
+    // let env = UserDefaults.standard.string(forKey: "mishu_environment") ?? ""
 
     return AppConst.apiBaseURL
   }
@@ -237,7 +237,7 @@ final class APIClient {
 
     // Step 3. 添加认证头
     // TODO: 这儿可能要改改，要看看小镜的登录，是怎么做的，用的什么方案。大概率不是Bearer
-    var authToken = UserDefaults.standard.string(forKey: "tuyun_auth_token")
+    var authToken = UserDefaults.standard.string(forKey: "mishu_auth_token")
     // #if targetEnvironment(simulator)
     //   if authToken == nil || authToken?.isEmpty == true {
     //     authToken = "2tfz3JA6gx5YqF17r"

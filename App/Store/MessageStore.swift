@@ -26,7 +26,7 @@ final class MessageStore: ObservableObject {
   // MARK: - Private Properties
 
   /// UserDefaults 中保存最后同步时间的前缀 key
-  private let lastUpdateTimeKeyPrefix = "tuyun_message_last_update_time"
+  private let lastUpdateTimeKeyPrefix = "mishu_message_last_update_time"
 
   /// 行车记录仪消息类型集合
   private let recorderTypes: Set<String> = ["drive", "event", "recorder"]

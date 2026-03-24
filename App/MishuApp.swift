@@ -3,16 +3,16 @@ import SwiftUI
 import UIKit
 
 @main
-struct TuYunApp: App {
+struct MishuApp: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
-  @AppStorage("tuyun_first_start") private var isFirstStart: Bool = true
+  @AppStorage("mishu_first_start") private var isFirstStart: Bool = true
   @AppStorage(AppConst.environmentKey) private var environmentRaw: String = AppEnvironment.testing.rawValue
   @AppStorage(AppConst.environmentUserSelectedKey) private var environmentUserSelected: Bool = false
 
   init() {
     print("BundleID:", Bundle.main.bundleIdentifier ?? "")
     // TODO: 开发阶段，这个先不要删除
-    // UserDefaults.standard.set("zmBiNeSRj5uM36pb", forKey: "tuyun_auth_token")
+    // UserDefaults.standard.set("zmBiNeSRj5uM36pb", forKey: "mishu_auth_token")
     let appearance = UINavigationBarAppearance()
 
     // 将导航栏设置为"完全不透明"

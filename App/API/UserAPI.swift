@@ -148,7 +148,7 @@ final class UserAPI {
     }
 
     let payload = AppVerifyCodePayload(
-      // registrationID: UserDefaults.standard.string(forKey: "tuyun_registration_id") ?? "",
+      // registrationID: UserDefaults.standard.string(forKey: "mishu_registration_id") ?? "",
       phoneImei: deviceUUID(),
       mobile: mobile,
       code: code,

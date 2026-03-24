@@ -1,4 +1,3 @@
-import NavigationBackport
 import SwiftUI
 
 struct AppNavigationStack: View {
@@ -6,7 +5,7 @@ struct AppNavigationStack: View {
   @Namespace private var namespace
 
   var body: some View {
-    NBNavigationStack(
+    NavigationStack(
       path: Binding(
         get: { model.path },
         set: { model.handleSystemPathUpdate($0) }
@@ -18,7 +17,7 @@ struct AppNavigationStack: View {
         .onAppear {
           AppStateStore.shared.markRootViewReady()
         }
-        .nbNavigationDestination(for: NavigationPathItem.self) { item in
+        .navigationDestination(for: NavigationPathItem.self) { item in
           item.route.view()
             .environment(\.nsGlobal, namespace)
             .navigationBarHidden(true)

@@ -6,8 +6,8 @@ import SwiftUI
 final class SelfStore: ObservableObject {
   static let shared = SelfStore()
 
-  private let tokenKey = "tuyun_auth_token"
-  private let userKey = "tuyun_auth_user"
+  private let tokenKey = "mishu_auth_token"
+  private let userKey = "mishu_auth_user"
 
   @Published private(set) var token: String? = nil
 

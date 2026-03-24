@@ -448,7 +448,7 @@ private enum MapNavigationApp: CaseIterable {
   }
 
   func navigationURL(to coordinate: CLLocationCoordinate2D) -> URL? {
-    let appName = (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String) ?? "TuYun"
+    let appName = (Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String) ?? "MishuApp"
     let destinationName = "车辆位置"
     let encodedAppName = appName.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? appName
     let encodedDestinationName =
@@ -465,8 +465,8 @@ private enum MapNavigationApp: CaseIterable {
       urlString =
         "iosamap://path?sourceApplication=\(encodedAppName)&dlat=\(latitude)&dlon=\(longitude)&dname=\(encodedDestinationName)&dev=0&t=0"
     case .tencent:
-      let referer = (Bundle.main.bundleIdentifier ?? "com.spreadwin.camera")
-        .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "com.spreadwin.camera"
+      let referer = (Bundle.main.bundleIdentifier ?? "com.spreadwin.mishuapp")
+        .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "com.spreadwin.mishuapp"
       urlString =
         "qqmap://map/routeplan?type=drive&tocoord=\(latitude),\(longitude)&to=\(encodedDestinationName)&policy=0&referer=\(referer)"
     }

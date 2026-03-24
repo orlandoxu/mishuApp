@@ -97,7 +97,7 @@ final class VehiclesStore: ObservableObject {
 private extension VehiclesStore {
   var vehicleCacheKey: String {
     let userSegment = SelfStore.shared.selfUser?.userId ?? "default"
-    return "tuyun_vehicle_list_cache_v\(vehicleListCacheSchemaVersion)_\(userSegment)"
+    return "mishu_vehicle_list_cache_v\(vehicleListCacheSchemaVersion)_\(userSegment)"
   }
 
   func mergeVehiclesPreservingTransientFields(incoming: [VehicleModel]) -> [VehicleModel] {
