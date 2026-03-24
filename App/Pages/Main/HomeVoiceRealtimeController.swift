@@ -13,7 +13,9 @@ final class HomeVoiceRealtimeController: ObservableObject {
   private let speechService = HomeVolcSpeechRecognitionService()
 
   private var committedFingerprints: Set<String> = []
-  private var lastPreviewFingerprint: String = ""
+  private var confirmedText: String = ""
+  private var previewText: String = ""
+  private var previewFingerprint: String = ""
 
   init() {
     bindServices()
@@ -25,7 +27,9 @@ final class HomeVoiceRealtimeController: ObservableObject {
     recognizedText = ""
     lastErrorMessage = nil
     committedFingerprints.removeAll()
-    lastPreviewFingerprint = ""
+    confirmedText = ""
+    previewText = ""
+    previewFingerprint = ""
 
     requestMicPermissionAndConfigureSession { [weak self] granted in
       guard let self else {
@@ -127,6 +131,8 @@ final class HomeVoiceRealtimeController: ObservableObject {
 
     if let latestPreview {
       updatePreview(latestPreview.text, utterance: latestPreview.utterance)
+    } else {
+      clearPreviewIfNeeded()
     }
   }
 
@@ -135,33 +141,69 @@ final class HomeVoiceRealtimeController: ObservableObject {
     guard !committedFingerprints.contains(fp) else { return }
 
     committedFingerprints.insert(fp)
-    if recognizedText.isEmpty {
-      recognizedText = text
-    } else {
-      recognizedText += text
+    confirmedText = mergeByOverlap(base: confirmedText, incoming: text)
+
+    if previewFingerprint == fp || previewText == text {
+      previewText = ""
+      previewFingerprint = ""
     }
+
+    publishRecognizedText()
   }
 
   private func updatePreview(_ text: String, utterance: HomeASRUtterance) {
     let fp = fingerprint(utterance: utterance, text: text)
-    if fp == lastPreviewFingerprint {
+    guard !committedFingerprints.contains(fp) else {
+      clearPreviewIfNeeded()
       return
     }
 
-    lastPreviewFingerprint = fp
-
-    let base = recognizedText
-    if base.isEmpty {
-      recognizedText = text
-    } else {
-      recognizedText = base + text
+    if fp == previewFingerprint, text == previewText {
+      return
     }
+
+    previewFingerprint = fp
+    previewText = text
+    publishRecognizedText()
   }
 
   private func fingerprint(utterance: HomeASRUtterance, text: String) -> String {
     let start = utterance.startMs.map(String.init) ?? "na"
     let end = utterance.endMs.map(String.init) ?? "na"
     return "\(start)|\(end)|\(text)"
+  }
+
+  private func clearPreviewIfNeeded() {
+    guard !previewText.isEmpty || !previewFingerprint.isEmpty else { return }
+    previewText = ""
+    previewFingerprint = ""
+    publishRecognizedText()
+  }
+
+  private func publishRecognizedText() {
+    recognizedText = (confirmedText + previewText).trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+
+  private func mergeByOverlap(base: String, incoming: String) -> String {
+    guard !incoming.isEmpty else { return base }
+    guard !base.isEmpty else { return incoming }
+
+    if base.hasSuffix(incoming) {
+      return base
+    }
+
+    let maxOverlap = min(base.count, incoming.count)
+    if maxOverlap > 0 {
+      for overlap in stride(from: maxOverlap, through: 1, by: -1) {
+        let baseSuffix = String(base.suffix(overlap))
+        let incomingPrefix = String(incoming.prefix(overlap))
+        if baseSuffix == incomingPrefix {
+          return base + incoming.dropFirst(overlap)
+        }
+      }
+    }
+
+    return base + incoming
   }
 
   private func requestMicPermissionAndConfigureSession(completion: @escaping (Bool) -> Void) {
