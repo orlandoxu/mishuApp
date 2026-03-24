@@ -1,0 +1,42 @@
+docs
+todo.swift
+
+.DS_Store
+.vscode
+.trae
+
+DerivedData
+build
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+# 通过 xcodegen generate 生成的项目
+TuYun.xcodeproj
+TuYun.xcworkspace
+xcuserdata/
+.VSCodeCounter
+
+.swiftpm/
+.build/
+.build.xcresult
+
+Pods/
+Podfile.lock
+
+# 子模块
+uiPng
+ui2
+*.html
+
+# 日志不需要提交
+*.log
+log
+
+# 小草demo去掉
+IOSDemo
+IOSDemoDoc
+.claude
+.idea
+
+# 本地 socket 测试脚本（包含临时 token，不入库）
+App/DebugScripts/socket-ping-monitor.mjs

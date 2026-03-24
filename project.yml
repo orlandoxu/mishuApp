@@ -1,0 +1,133 @@
+name: TuYun
+options:
+  bundleIdPrefix: com.spreadwin
+  deploymentTarget:
+    iOS: "16.0"
+packages:
+  SwiftMessages:
+    url: https://github.com/SwiftKickMobile/SwiftMessages.git
+    from: 9.0.6
+  Kingfisher:
+    url: https://github.com/onevcat/Kingfisher.git
+    from: 8.0.0
+  ImageViewer:
+    url: https://github.com/Krisiacik/ImageViewer
+    from: 7.0.0
+  Lottie:
+    url: https://github.com/airbnb/lottie-ios
+    from: 4.5.2
+  SQLite:
+    url: https://github.com/stephencelis/SQLite.swift.git
+    from: 0.15.5
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    ASSETCATALOG_COMPILER_APPICON_NAME: "AppIcon"
+    CODE_SIGN_STYLE: Automatic
+    DEVELOPMENT_TEAM: 5GFMWSR59V
+    DEVELOPMENT_LANGUAGE: zh-Hans
+targets:
+  TuYunApp:
+    type: application
+    platform: iOS
+    entitlements:
+      path: TuYunApp.entitlements
+      properties:
+        aps-environment: development
+        com.apple.developer.networking.HotspotConfiguration: true
+        com.apple.developer.networking.wifi-info: true
+        com.apple.developer.associated-domains:
+          - applinks:wx-server-dev.spreadwin.com
+          - applinks:wx-server.spreadwin.com
+    sources:
+      - App
+      - Resources
+    dependencies:
+      - package: SwiftMessages
+      - package: Kingfisher
+      - package: ImageViewer
+      - package: NavigationBackport
+      - package: Lottie
+      - package: SQLite
+    settings:
+      base:
+        MARKETING_VERSION: "1.0.0"
+        CURRENT_PROJECT_VERSION: "15"
+        PRODUCT_BUNDLE_IDENTIFIER: com.spreadwin.camera
+        INFOPLIST_KEY_LSApplicationCategoryType: "public.app-category.utilities"
+        TARGETED_DEVICE_FAMILY: 1
+        INFOPLIST_FILE: Info.plist
+        GENERATE_INFOPLIST_FILE: "NO"
+        ENABLE_APPINTENTS_METADATA_PROCESSING: "NO"
+        SWIFT_OBJC_BRIDGING_HEADER: App/AMap-Bridging-Header.h
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: 5GFMWSR59V
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ALWAYS_SEARCH_USER_PATHS: YES
+        CFBundleDevelopmentRegion: zh-Hans
+        # 小草SDK Header路径
+        HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks/XCAVPlayer/include $(SRCROOT)/TuYun/Frameworks/LinkLib/Headers $(SRCROOT)/TuYun/Frameworks/User.framework/Headers $(SRCROOT)/TuYun/Frameworks $(SRCROOT)/TuYun/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
+        # 系统头文件路径
+        SYSTEM_HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks/XCAVPlayer/include $(SRCROOT)/TuYun/Frameworks/LinkLib/Headers $(SRCROOT)/TuYun/Frameworks/User.framework/Headers $(SRCROOT)/TuYun/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
+        # 小草SDK静态库路径
+        LIBRARY_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks/XCAVPlayer"
+        # Framework搜索路径
+        FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/TuYun/Frameworks"
+        OTHER_LDFLAGS: "$(inherited) -ObjC -lz -lbz2 -lc++ -lsqlite3 -liconv -lresolv -framework VideoToolbox -framework AudioToolbox -framework CoreAudio -framework AVFoundation -framework OpenGLES -framework UIKit"
+    info:
+      path: Info.plist
+      properties:
+        CFBundleDisplayName: 路刻
+        UILaunchStoryboardName: LaunchScreen
+        UIUserInterfaceStyle: Light
+        WeChatAppID: wx8069f4359e40557e
+        WeChatUniversalLink: "https://wx-server.spreadwin.com/app/"
+        LSApplicationQueriesSchemes:
+          - weixin
+          - wechat
+          - weixinULAPI
+          - weixinURLParamsAPI
+          - iosamap
+          - baidumap
+          - qqmap
+        CFBundleURLTypes:
+          - CFBundleTypeRole: Editor
+            CFBundleURLName: weixin
+            CFBundleURLSchemes:
+              - wx8069f4359e40557e
+        NSCameraUsageDescription: "用于扫码绑定设备"
+        NSMicrophoneUsageDescription: "用于直播对讲功能（向设备发送语音）"
+        NSLocationWhenInUseUsageDescription: "用于获取定位城市和地图显示"
+        NSLocalNetworkUsageDescription: "用于连接记录仪设备并获取设备信息"
+        NSPhotoLibraryUsageDescription: "用于从相册选择二维码图片进行识别"
+        NSPhotoLibraryAddUsageDescription: "用于保存图片和视频到系统相册"
+        UMengAppKey: "699d567f6f259537c7620d17"
+        UMengChannel: "App Store"
+        UMengLogEnabled: false
+        NSBonjourServices:
+          - "_http._tcp"
+          - "_https._tcp"
+        NSAppTransportSecurity:
+          NSAllowsLocalNetworking: true
+          NSExceptionDomains:
+            spreadwin.com:
+              NSIncludesSubdomains: true
+              NSTemporaryExceptionAllowsInsecureHTTPLoads: true
+            spreadwin.cn:
+              NSIncludesSubdomains: true
+              NSTemporaryExceptionAllowsInsecureHTTPLoads: true
+            restios.amap.com:
+              NSIncludesSubdomains: true
+              NSTemporaryExceptionAllowsInsecureHTTPLoads: true
+            iot-sohan.cn:
+              NSIncludesSubdomains: true
+              NSTemporaryExceptionAllowsInsecureHTTPLoads: true
+            4s12580.com:
+              NSIncludesSubdomains: true
+              NSTemporaryExceptionAllowsInsecureHTTPLoads: true
+    scheme:
+      testTargets: []
+      gatherCoverageData: false
+      build:
+        targets:
+          TuYunApp: all

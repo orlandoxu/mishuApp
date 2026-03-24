@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_base_snapshot_voice.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

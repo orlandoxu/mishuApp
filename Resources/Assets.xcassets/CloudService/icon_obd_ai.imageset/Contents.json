@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_obd_ai.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

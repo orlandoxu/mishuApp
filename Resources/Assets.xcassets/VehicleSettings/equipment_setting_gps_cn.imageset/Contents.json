@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "equipment_setting_gps_cn.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

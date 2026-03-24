@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_package_arraw_right.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_service_qrcode.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

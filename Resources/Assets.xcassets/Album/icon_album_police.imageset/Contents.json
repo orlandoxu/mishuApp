@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icon_album_police.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

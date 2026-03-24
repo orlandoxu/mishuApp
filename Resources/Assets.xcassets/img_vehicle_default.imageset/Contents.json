@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "img_vehicle_default.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
