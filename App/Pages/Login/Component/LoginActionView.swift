@@ -28,13 +28,8 @@ struct LoginActionView: View {
             .frame(height: 50)
 
           if isWorking {
-            if #available(iOS 15.0, *) {
-              ProgressView()
-                .tint(.white)
-            } else {
-              ProgressView()
-                .progressViewStyle(CircularProgressViewStyle(tint: .white))
-            }
+            ProgressView()
+              .tint(.white)
           } else {
             Text("登录")
               .font(.system(size: 16, weight: .bold))

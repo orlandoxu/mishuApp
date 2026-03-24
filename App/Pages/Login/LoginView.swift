@@ -171,7 +171,7 @@ struct LoginView: View {
           // Step 2. 同步写入登录态并跳转首页
           SelfStore.shared.applyLogin(data)
           isWorking = false
-          appNavigation.root = .mainTab(.recorder)
+          appNavigation.root = .mainTab(.home)
         case let .failure(error):
           isWorking = false
         }

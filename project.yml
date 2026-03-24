@@ -40,7 +40,32 @@ targets:
           - applinks:wx-server-dev.spreadwin.com
           - applinks:wx-server.spreadwin.com
     sources:
-      - App
+      - App/MishuApp.swift
+      - App/Const.swift
+      - App/Theme.swift
+      - App/delegateApplication.swift
+      - App/delegateNotification.swift
+      - App/delegateWechat.swift
+      - App/Navigation
+      - App/Pages/Login
+      - App/Pages/MainTabView.swift
+      - App/Pages/Web/BasicWebView.swift
+      - App/Store/AppStateStore.swift
+      - App/Store/SelfStore.swift
+      - App/API/APIClient.swift
+      - App/API/UserAPI.swift
+      - App/Models/User.swift
+      - App/Models/BusinessError.swift
+      - App/Services/Storage.swift
+      - App/Services/UmengService.swift
+      - App/Components/SecureTextField.swift
+      - App/Components/OrientationManager.swift
+      - App/Utils/Extensions/Color+Hex.swift
+      - App/Utils/Extensions/KeyedDecodingContainer+safeDecode.swift
+      - App/Utils/Extensions/TextField+autoFocus.swift
+      - App/Utils/Extensions/UIApplication+dismissKeyboard.swift
+      - App/Utils/Extensions/View+taskFor14.swift
+      - App/Utils/Extensions/View+toast.swift
       - Resources
     dependencies:
       - package: SwiftMessages
@@ -58,21 +83,11 @@ targets:
         INFOPLIST_FILE: Info.plist
         GENERATE_INFOPLIST_FILE: "NO"
         ENABLE_APPINTENTS_METADATA_PROCESSING: "NO"
-        SWIFT_OBJC_BRIDGING_HEADER: App/AMap-Bridging-Header.h
         CODE_SIGN_STYLE: Automatic
         DEVELOPMENT_TEAM: 5GFMWSR59V
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ALWAYS_SEARCH_USER_PATHS: YES
         CFBundleDevelopmentRegion: zh-Hans
-        # 小草SDK Header路径
-        HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include $(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers $(SRCROOT)/MishuApp/Frameworks/User.framework/Headers $(SRCROOT)/MishuApp/Frameworks $(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
-        # 系统头文件路径
-        SYSTEM_HEADER_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks/XCAVPlayer/include $(SRCROOT)/MishuApp/Frameworks/LinkLib/Headers $(SRCROOT)/MishuApp/Frameworks/User.framework/Headers $(SRCROOT)/MishuApp/Frameworks/XCBaseLib/XCBaseLib.framework/Headers"
-        # 小草SDK静态库路径
-        LIBRARY_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks/XCAVPlayer"
-        # Framework搜索路径
-        FRAMEWORK_SEARCH_PATHS: "$(inherited) $(SRCROOT)/MishuApp/Frameworks"
-        OTHER_LDFLAGS: "$(inherited) -ObjC -lz -lbz2 -lc++ -lsqlite3 -liconv -lresolv -framework VideoToolbox -framework AudioToolbox -framework CoreAudio -framework AVFoundation -framework OpenGLES -framework UIKit"
     info:
       path: Info.plist
       properties:

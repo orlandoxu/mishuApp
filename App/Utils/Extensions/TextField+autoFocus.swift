@@ -1,19 +1,13 @@
 import SwiftUI
 
-/// 兼容 iOS 13+，iOS 15 以下仅保持可编译且不自动聚焦
 struct AutoFocusModifier: ViewModifier {
   var shouldAutoFocus: Bool
 
   func body(content: Content) -> some View {
-    if #available(iOS 15.0, *) {
-      content.modifier(AutoFocusIOS15Modifier(shouldAutoFocus: shouldAutoFocus))
-    } else {
-      content
-    }
+    content.modifier(AutoFocusIOS15Modifier(shouldAutoFocus: shouldAutoFocus))
   }
 }
 
-@available(iOS 15.0, *)
 private struct AutoFocusIOS15Modifier: ViewModifier {
   @FocusState private var isFocused: Bool
   var shouldAutoFocus: Bool
@@ -31,7 +25,6 @@ private struct AutoFocusIOS15Modifier: ViewModifier {
 
 // 下面是想办法控制 focus 状态
 
-@available(iOS 15.0, *)
 private struct FocusOnceIOS15Modifier: ViewModifier {
   @FocusState private var isFocused: Bool
   var focusOnce: Binding<Int>
@@ -50,16 +43,11 @@ private struct FocusOnceIOS15Modifier: ViewModifier {
   }
 }
 
-/// 兼容 iOS 13+，iOS 15 以下仅保持可编译且不自动聚焦
 struct FocusOnceModifier: ViewModifier {
   var focusOnce: Binding<Int>
 
   func body(content: Content) -> some View {
-    if #available(iOS 15.0, *) {
-      content.modifier(FocusOnceIOS15Modifier(focusOnce: focusOnce))
-    } else {
-      content
-    }
+    content.modifier(FocusOnceIOS15Modifier(focusOnce: focusOnce))
   }
 }
 
@@ -69,7 +57,6 @@ extension View {
     modifier(AutoFocusModifier(shouldAutoFocus: shouldAutoFocus))
   }
 
-  /// 支持ios 13+，非常麻烦
   func focusOneTime(_ focusOnce: Binding<Int>) -> some View {
     modifier(FocusOnceModifier(focusOnce: focusOnce))
   }

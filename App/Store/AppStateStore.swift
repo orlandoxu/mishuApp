@@ -6,17 +6,15 @@ final class AppStateStore: ObservableObject {
   static let shared = AppStateStore()
 
   @Published private(set) var pendingLinkURLString: String? = nil
-
-  // 下面是启动的时候的一些步骤是否完成
-  @Published private(set) var bootstrapFinished: Bool = false // 引导完成
-  @Published private(set) var rootViewReady: Bool = false // 根视图准备就绪
-  @Published private(set) var userInfoRefreshed: Bool = false // 用户信息是否刷新完成
-  @Published private(set) var messageSynced: Bool = false // 消息是否同步完成
+  @Published private(set) var bootstrapFinished: Bool = false
+  @Published private(set) var rootViewReady: Bool = false
+  @Published private(set) var userInfoRefreshed: Bool = false
+  @Published private(set) var messageSynced: Bool = false
 
   private init() {}
 
   var canJumpPendingLink: Bool {
-    bootstrapFinished && rootViewReady && userInfoRefreshed && messageSynced
+    bootstrapFinished && rootViewReady
   }
 
   func markBootstrapFinished() {
@@ -31,12 +29,10 @@ final class AppStateStore: ObservableObject {
 
   func markUserInfoRefreshed() {
     userInfoRefreshed = true
-    handlePendingLinkIfPossible()
   }
 
   func markMessageSynced() {
     messageSynced = true
-    handlePendingLinkIfPossible()
   }
 
   func cachePendingLink(urlString: String?) {
@@ -68,17 +64,12 @@ final class AppStateStore: ObservableObject {
     let navigation = AppNavigationModel.shared
     switch route {
     case let .page(path, params, _):
-      if path == "/message" {
-        navigation.root = .mainTab(.message)
-      } else if let navRoute = NavigationRoute(path: path, params: params) {
+      if let navRoute = NavigationRoute(path: path, params: params) {
         if case .login = navigation.root {
-          navigation.root = .mainTab(.recorder)
+          navigation.root = .mainTab(.home)
         }
         navigation.popToRoot()
         navigation.push(navRoute)
-      } else {
-        clearPendingLink()
-        return
       }
     }
 
