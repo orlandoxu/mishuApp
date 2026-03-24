@@ -16,6 +16,7 @@
 		0C8BD32C9FD3D15C92F704EB /* View+SafeArea.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E085146C880C5608E81A63B /* View+SafeArea.swift */; };
 		0CCDD19BB8F0ECB2FEA99253 /* HomeVolcASRModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CE97D02AA795638E113A9D /* HomeVolcASRModels.swift */; };
 		0CFD06088B1E9A84D76EBE4B /* AlbumAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D1D3D07929B66B7DC983CD5 /* AlbumAPI.swift */; };
+		0D5D4ECDBB76D963A85EEB88 /* MishuAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F828384D33BC9E4F62B434 /* MishuAppUITests.swift */; };
 		0D6882A5FD8D000C6E0EDE53 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285CF11D29EBB4755B728EB /* LocationService.swift */; };
 		13EF72403BDB2828E93ECF88 /* String+timeValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE846109D38237FC8E25DE9 /* String+timeValid.swift */; };
 		15410D252504541C8E8655E5 /* View+keyboardAvoiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */; };
@@ -24,6 +25,7 @@
 		1935255005DA4B7C4AA10E44 /* AppNavigationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F20BAA1E3296CCCA926127B6 /* AppNavigationModel.swift */; };
 		1BD83826590CC2971450E121 /* ImageViewer in Frameworks */ = {isa = PBXBuildFile; productRef = E7220BCADE6E89E920AAA3E5 /* ImageViewer */; };
 		1F36B4E31685F977169890CE /* TravelReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CD3CA56E12A762969FF654A /* TravelReport.swift */; };
+		1F726508F25A68D722C28582 /* HomeVoiceTranscriptAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33A2B892D0801E0283A7847B /* HomeVoiceTranscriptAssembler.swift */; };
 		1FBDE7ACE39311DDC1054CF5 /* AppRoute.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7DAC82D5863EA313442DE4EB /* AppRoute.swift */; };
 		23A237A1DD83EEFBF835E30B /* OrderAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CA2CAAF10CC871F11ED1C8 /* OrderAPI.swift */; };
 		23F28A22E6BF12B248CDF5BD /* Sim.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C936D630FF1508E40E64E79 /* Sim.swift */; };
@@ -73,6 +75,7 @@
 		6954FB5D86163CF937537FB3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C50FDF99CDD65BF4BE78634D /* Kingfisher */; };
 		6CA9DFF08E36751FB701A5DC /* Color+randomItemColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26A4416AB0319B82575D6C /* Color+randomItemColor.swift */; };
 		6FA8A3D5CD47E148C7E7CADA /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC1AE4522DCA84C0522AF3A /* Setting.swift */; };
+		7035B1E6649314A7F5622042 /* HomeVoiceTranscriptAssemblerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B9A9D9D482B7F60E263DA5 /* HomeVoiceTranscriptAssemblerTests.swift */; };
 		71072FF9F13D6E5B4D3BAFA5 /* IAPAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A5197D50E514A63149ACB1 /* IAPAPI.swift */; };
 		72C9112F58CC4624EA433A2E /* Gps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1BC3CFCA653F86B0C413D6 /* Gps.swift */; };
 		7994DFF02A6B22CB6AF0E6A4 /* VideoViewerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C8AE8618CE8002275A79A3A /* VideoViewerManager.swift */; };
@@ -162,6 +165,23 @@
 		FFAB03A14A0C84FEC8AC7DBD /* AppStateStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E929DDF98400CACD894E849E /* AppStateStore.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		8F4135A4283DDF9087C6CCBA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D6D75EA408534C7017DF1A7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC21A6BCB2C7EF1100958F1B;
+			remoteInfo = MishuApp;
+		};
+		DB2D5B7ADD8669FA7FFB16DB /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D6D75EA408534C7017DF1A7C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EC21A6BCB2C7EF1100958F1B;
+			remoteInfo = MishuApp;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		00F5B37E2606D369FB397906 /* CarBrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBrandAPI.swift; sourceTree = "<group>"; };
 		03FAEFBEDC8F7B2D338B42C6 /* OrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationManager.swift; sourceTree = "<group>"; };
@@ -188,6 +208,7 @@
 		3104D7A052AB317BC94B97E4 /* delegateWechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateWechat.swift; sourceTree = "<group>"; };
 		31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionStore.swift; sourceTree = "<group>"; };
 		31A5197D50E514A63149ACB1 /* IAPAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPAPI.swift; sourceTree = "<group>"; };
+		33A2B892D0801E0283A7847B /* HomeVoiceTranscriptAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVoiceTranscriptAssembler.swift; sourceTree = "<group>"; };
 		353A6412F1515CD25FDE1112 /* delegateApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateApplication.swift; sourceTree = "<group>"; };
 		372706400EEFA2363F61251A /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		37C364910BF75CF4B4B88D02 /* LoginBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBackgroundView.swift; sourceTree = "<group>"; };
@@ -247,9 +268,11 @@
 		7A9FF837A38A5C22491DE52D /* HomeVoiceRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVoiceRecorder.swift; sourceTree = "<group>"; };
 		7D1BC3CFCA653F86B0C413D6 /* Gps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gps.swift; sourceTree = "<group>"; };
 		7DAC82D5863EA313442DE4EB /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
+		802977BCD5035302C08772DA /* MishuAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MishuAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		802EFB50AAAB01D705EBADE2 /* BlurView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlurView.swift; sourceTree = "<group>"; };
 		82EB8BF4782D42E8B82832EA /* TripAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripAPI.swift; sourceTree = "<group>"; };
 		839667A37B1A11EF6861373B /* View+toPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toPopover.swift"; sourceTree = "<group>"; };
+		84F828384D33BC9E4F62B434 /* MishuAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishuAppUITests.swift; sourceTree = "<group>"; };
 		8A3915DF2245E983E313EE8D /* UnreadBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadge.swift; sourceTree = "<group>"; };
 		8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeinitDetector.swift; sourceTree = "<group>"; };
 		8F8956EC2FC5C2BD1FC1BAD5 /* LiveUserLocationStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveUserLocationStore.swift; sourceTree = "<group>"; };
@@ -288,6 +311,8 @@
 		CF4429E3353147F3FD9B8846 /* View+taskFor14.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+taskFor14.swift"; sourceTree = "<group>"; };
 		CFD180D7C6C69936845DBB30 /* LoginAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAgreementView.swift; sourceTree = "<group>"; };
 		D1896FCED58C500CFF450641 /* VehicleDeviceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleDeviceAPI.swift; sourceTree = "<group>"; };
+		D3B9A9D9D482B7F60E263DA5 /* HomeVoiceTranscriptAssemblerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVoiceTranscriptAssemblerTests.swift; sourceTree = "<group>"; };
+		D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MishuAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5ECD9AC956B416209CCF53C /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
 		D8E86FD8E46E26113B058991 /* View+toAnyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toAnyView.swift"; sourceTree = "<group>"; };
 		DB39B71FE653C829C1D7B731 /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
@@ -356,6 +381,7 @@
 				0B065773E3128DE15E0FFEFA /* HomeAudioStreamCapture.swift */,
 				3D45DC2B8F8E2AA015B479D7 /* HomeVoiceRealtimeController.swift */,
 				7A9FF837A38A5C22491DE52D /* HomeVoiceRecorder.swift */,
+				33A2B892D0801E0283A7847B /* HomeVoiceTranscriptAssembler.swift */,
 				59CE97D02AA795638E113A9D /* HomeVolcASRModels.swift */,
 				6390E22AD69128A34399A072 /* HomeVolcSpeechRecognitionService.swift */,
 				8E91342B3E023AA3982A7513 /* Components */,
@@ -443,6 +469,8 @@
 			isa = PBXGroup;
 			children = (
 				EB7999A31D2B60C18AEDCDB1 /* MishuApp.app */,
+				D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */,
+				802977BCD5035302C08772DA /* MishuAppUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -460,6 +488,8 @@
 			children = (
 				7D15C0C0E13CE4BD7739B9BF /* App */,
 				3C99760B79249F8A38BFD574 /* Resources */,
+				F54D5BBFBF95C147DFA64B69 /* UI */,
+				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				71DEA75AA51B50493F081038 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -574,6 +604,15 @@
 			path = Component;
 			sourceTree = "<group>";
 		};
+		C01BE3C61FFB8B861C1C8C40 /* Unit */ = {
+			isa = PBXGroup;
+			children = (
+				D3B9A9D9D482B7F60E263DA5 /* HomeVoiceTranscriptAssemblerTests.swift */,
+			);
+			name = Unit;
+			path = Tests/Unit;
+			sourceTree = "<group>";
+		};
 		C29ED4B1928D82B6B0FED1C4 /* Modifier */ = {
 			isa = PBXGroup;
 			children = (
@@ -655,14 +694,23 @@
 			path = API;
 			sourceTree = "<group>";
 		};
-		"TEMP_7FAA9004-6714-4509-8B34-9F9C13E33CB4" /* ManualBinding */ = {
+		F54D5BBFBF95C147DFA64B69 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				84F828384D33BC9E4F62B434 /* MishuAppUITests.swift */,
+			);
+			name = UI;
+			path = Tests/UI;
+			sourceTree = "<group>";
+		};
+		"TEMP_1893562D-0EB4-4910-830D-8EF1F548FE9F" /* ManualBinding */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = ManualBinding;
 			sourceTree = "<group>";
 		};
-		"TEMP_C5959E83-6AB2-4857-BDC3-90BF1E04B1B1" /* Binding */ = {
+		"TEMP_244613F2-B82B-423A-A2A3-8FA6229C66C3" /* Binding */ = {
 			isa = PBXGroup;
 			children = (
 			);
@@ -672,6 +720,42 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		B926751AC9C2DF24264D496E /* MishuAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 076303195B043AEAD115B018 /* Build configuration list for PBXNativeTarget "MishuAppUITests" */;
+			buildPhases = (
+				5F4765EE92503672FF2F3FA3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				A6314545CD08D46D5821D7C0 /* PBXTargetDependency */,
+			);
+			name = MishuAppUITests;
+			packageProductDependencies = (
+			);
+			productName = MishuAppUITests;
+			productReference = 802977BCD5035302C08772DA /* MishuAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		BE46818425FC5C9A1392BF7B /* MishuAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D6294874AAAED5766C554ED8 /* Build configuration list for PBXNativeTarget "MishuAppTests" */;
+			buildPhases = (
+				DD7C81A8D641289E280C0498 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */,
+			);
+			name = MishuAppTests;
+			packageProductDependencies = (
+			);
+			productName = MishuAppTests;
+			productReference = D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		EC21A6BCB2C7EF1100958F1B /* MishuApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
@@ -705,6 +789,15 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					B926751AC9C2DF24264D496E = {
+						DevelopmentTeam = 5GFMWSR59V;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EC21A6BCB2C7EF1100958F1B;
+					};
+					BE46818425FC5C9A1392BF7B = {
+						DevelopmentTeam = 5GFMWSR59V;
+						ProvisioningStyle = Automatic;
+					};
 					EC21A6BCB2C7EF1100958F1B = {
 						DevelopmentTeam = 5GFMWSR59V;
 						ProvisioningStyle = Automatic;
@@ -733,6 +826,8 @@
 			projectRoot = "";
 			targets = (
 				EC21A6BCB2C7EF1100958F1B /* MishuApp */,
+				BE46818425FC5C9A1392BF7B /* MishuAppTests */,
+				B926751AC9C2DF24264D496E /* MishuAppUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -797,6 +892,7 @@
 				09E7CAD6FB8D82248E24AA1F /* HomeVoiceInteractionView.swift in Sources */,
 				630DA9CDD7670627C2A1A846 /* HomeVoiceRealtimeController.swift in Sources */,
 				86BCB428E0856425B46F5433 /* HomeVoiceRecorder.swift in Sources */,
+				1F726508F25A68D722C28582 /* HomeVoiceTranscriptAssembler.swift in Sources */,
 				0CCDD19BB8F0ECB2FEA99253 /* HomeVolcASRModels.swift in Sources */,
 				28E596233FD5923D44D4BF4A /* HomeVolcSpeechRecognitionService.swift in Sources */,
 				71072FF9F13D6E5B4D3BAFA5 /* IAPAPI.swift in Sources */,
@@ -903,9 +999,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5F4765EE92503672FF2F3FA3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0D5D4ECDBB76D963A85EEB88 /* MishuAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DD7C81A8D641289E280C0498 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7035B1E6649314A7F5622042 /* HomeVoiceTranscriptAssemblerTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		A6314545CD08D46D5821D7C0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC21A6BCB2C7EF1100958F1B /* MishuApp */;
+			targetProxy = 8F4135A4283DDF9087C6CCBA /* PBXContainerItemProxy */;
+		};
+		C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EC21A6BCB2C7EF1100958F1B /* MishuApp */;
+			targetProxy = DB2D5B7ADD8669FA7FFB16DB /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		0611663A59BBF136044C6FF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MishuApp;
+			};
+			name = Release;
+		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -932,6 +1074,23 @@
 			};
 			name = Release;
 		};
+		4197B1381E2CDF3CBA630833 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.uitests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = MishuApp;
+			};
+			name = Debug;
+		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -955,6 +1114,23 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		5DA61D4F5944681FB99AED36 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MishuApp.app/MishuApp";
 			};
 			name = Debug;
 		};
@@ -1025,6 +1201,23 @@
 			};
 			name = Debug;
 		};
+		AFC3EE22BEEF84E4F81FDD31 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.tests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MishuApp.app/MishuApp";
+			};
+			name = Release;
+		};
 		BC8AD51029311CFAA66A14BD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1088,6 +1281,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		076303195B043AEAD115B018 /* Build configuration list for PBXNativeTarget "MishuAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4197B1381E2CDF3CBA630833 /* Debug */,
+				0611663A59BBF136044C6FF5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1102,6 +1304,15 @@
 			buildConfigurations = (
 				85D47C386420BA35DF71356F /* Debug */,
 				BC8AD51029311CFAA66A14BD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D6294874AAAED5766C554ED8 /* Build configuration list for PBXNativeTarget "MishuAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5DA61D4F5944681FB99AED36 /* Debug */,
+				AFC3EE22BEEF84E4F81FDD31 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

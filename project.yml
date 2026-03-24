@@ -126,8 +126,33 @@ targets:
               NSIncludesSubdomains: true
               NSTemporaryExceptionAllowsInsecureHTTPLoads: true
     scheme:
-      testTargets: []
-      gatherCoverageData: false
+      testTargets:
+        - MishuAppTests
+        - MishuAppUITests
+      gatherCoverageData: true
       build:
         targets:
           MishuApp: all
+  MishuAppTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: Tests/Unit
+    dependencies:
+      - target: MishuApp
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: "YES"
+        PRODUCT_BUNDLE_IDENTIFIER: com.spreadwin.mishuapp.tests
+  MishuAppUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - path: Tests/UI
+    dependencies:
+      - target: MishuApp
+    settings:
+      base:
+        TEST_TARGET_NAME: MishuApp
+        GENERATE_INFOPLIST_FILE: "YES"
+        PRODUCT_BUNDLE_IDENTIFIER: com.spreadwin.mishuapp.uitests

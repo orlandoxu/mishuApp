@@ -12,10 +12,7 @@ final class HomeVoiceRealtimeController: ObservableObject {
   private let captureService = HomeAudioStreamCapture()
   private let speechService = HomeVolcSpeechRecognitionService()
 
-  private var committedFingerprints: Set<String> = []
-  private var confirmedText: String = ""
-  private var previewText: String = ""
-  private var previewFingerprint: String = ""
+  private var transcriptAssembler = HomeVoiceTranscriptAssembler()
 
   init() {
     bindServices()
@@ -26,10 +23,7 @@ final class HomeVoiceRealtimeController: ObservableObject {
   func startListening(completion: @escaping (Bool) -> Void) {
     recognizedText = ""
     lastErrorMessage = nil
-    committedFingerprints.removeAll()
-    confirmedText = ""
-    previewText = ""
-    previewFingerprint = ""
+    transcriptAssembler.reset()
 
     requestMicPermissionAndConfigureSession { [weak self] granted in
       guard let self else {
@@ -116,94 +110,7 @@ final class HomeVoiceRealtimeController: ObservableObject {
   private var cancellables: Set<AnyCancellable> = []
 
   private func consumeUtterances(_ utterances: [HomeASRUtterance]) {
-    var latestPreview: (text: String, utterance: HomeASRUtterance)?
-
-    for utterance in utterances {
-      let normalized = utterance.text.trimmingCharacters(in: .whitespacesAndNewlines)
-      guard !normalized.isEmpty else { continue }
-
-      if utterance.definite {
-        commitDefiniteIfNeeded(normalized, utterance: utterance)
-      } else {
-        latestPreview = (normalized, utterance)
-      }
-    }
-
-    if let latestPreview {
-      updatePreview(latestPreview.text, utterance: latestPreview.utterance)
-    } else {
-      clearPreviewIfNeeded()
-    }
-  }
-
-  private func commitDefiniteIfNeeded(_ text: String, utterance: HomeASRUtterance) {
-    let fp = fingerprint(utterance: utterance, text: text)
-    guard !committedFingerprints.contains(fp) else { return }
-
-    committedFingerprints.insert(fp)
-    confirmedText = mergeByOverlap(base: confirmedText, incoming: text)
-
-    if previewFingerprint == fp || previewText == text {
-      previewText = ""
-      previewFingerprint = ""
-    }
-
-    publishRecognizedText()
-  }
-
-  private func updatePreview(_ text: String, utterance: HomeASRUtterance) {
-    let fp = fingerprint(utterance: utterance, text: text)
-    guard !committedFingerprints.contains(fp) else {
-      clearPreviewIfNeeded()
-      return
-    }
-
-    if fp == previewFingerprint, text == previewText {
-      return
-    }
-
-    previewFingerprint = fp
-    previewText = text
-    publishRecognizedText()
-  }
-
-  private func fingerprint(utterance: HomeASRUtterance, text: String) -> String {
-    let start = utterance.startMs.map(String.init) ?? "na"
-    let end = utterance.endMs.map(String.init) ?? "na"
-    return "\(start)|\(end)|\(text)"
-  }
-
-  private func clearPreviewIfNeeded() {
-    guard !previewText.isEmpty || !previewFingerprint.isEmpty else { return }
-    previewText = ""
-    previewFingerprint = ""
-    publishRecognizedText()
-  }
-
-  private func publishRecognizedText() {
-    recognizedText = (confirmedText + previewText).trimmingCharacters(in: .whitespacesAndNewlines)
-  }
-
-  private func mergeByOverlap(base: String, incoming: String) -> String {
-    guard !incoming.isEmpty else { return base }
-    guard !base.isEmpty else { return incoming }
-
-    if base.hasSuffix(incoming) {
-      return base
-    }
-
-    let maxOverlap = min(base.count, incoming.count)
-    if maxOverlap > 0 {
-      for overlap in stride(from: maxOverlap, through: 1, by: -1) {
-        let baseSuffix = String(base.suffix(overlap))
-        let incomingPrefix = String(incoming.prefix(overlap))
-        if baseSuffix == incomingPrefix {
-          return base + incoming.dropFirst(overlap)
-        }
-      }
-    }
-
-    return base + incoming
+    recognizedText = transcriptAssembler.consume(utterances)
   }
 
   private func requestMicPermissionAndConfigureSession(completion: @escaping (Bool) -> Void) {
