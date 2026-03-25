@@ -1,19 +1,19 @@
 import SwiftUI
 
-struct HomeMascotSectionView: View {
-  let status: HomeVoiceStatus
+struct MascotSectionView: View {
+  let status: VoiceState
 
   var body: some View {
     VStack(spacing: 0) {
-      HomeMascotView(status: status)
-      HomeMascotStatusTextView(status: status)
+      MascotView(status: status)
+      MascotStatusTextView(status: status)
         .padding(.top, -8)
     }
   }
 }
 
-private struct HomeMascotStatusTextView: View {
-  let status: HomeVoiceStatus
+private struct MascotStatusTextView: View {
+  let status: VoiceState
 
   private var text: String {
     switch status {
@@ -39,8 +39,8 @@ private struct HomeMascotStatusTextView: View {
   }
 }
 
-private struct HomeMascotView: View {
-  let status: HomeVoiceStatus
+private struct MascotView: View {
+  let status: VoiceState
 
   @State private var floating = false
   @State private var blink = false
@@ -184,7 +184,7 @@ private struct SuccessEyeView: View {
 }
 
 private struct MouthView: View {
-  let status: HomeVoiceStatus
+  let status: VoiceState
 
   var body: some View {
     Path { path in

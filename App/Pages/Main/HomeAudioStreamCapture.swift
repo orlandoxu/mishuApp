@@ -1,7 +1,7 @@
 import AVFoundation
 import Foundation
 
-final class HomeAudioStreamCapture: NSObject, ObservableObject {
+final class AudioStreamCapture: NSObject, ObservableObject {
   private var audioEngine: AVAudioEngine?
   private var inputNode: AVAudioInputNode?
 

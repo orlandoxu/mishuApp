@@ -4,18 +4,18 @@ enum MainTab: Hashable {
   case home
 }
 
-enum HomeVoiceStatus {
+enum VoiceState {
   case idle
   case listening
   case thinking
   case success
 }
 
-struct MainTabView: View {
+struct MainView: View {
   @State private var selectedTab: MainTab = .home
-  @State private var status: HomeVoiceStatus = .idle
+  @State private var status: VoiceState = .idle
   @State private var transcript: String = ""
-  @StateObject private var realtimeController = HomeVoiceRealtimeController()
+  @StateObject private var realtimeController = VoiceRealtimeCtrl()
 
   init(initialTab: MainTab) {
     _selectedTab = State(initialValue: initialTab)
@@ -29,7 +29,7 @@ struct MainTabView: View {
 
         VStack(spacing: 0) {
           VStack(spacing: 0) {
-            HomeMascotSectionView(status: status)
+            MascotSectionView(status: status)
           }
           .frame(height: proxy.size.height * 0.40)
           .frame(maxWidth: .infinity, alignment: .bottom)
@@ -50,7 +50,7 @@ struct MainTabView: View {
           .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
           .padding(.horizontal, 32)
 
-          HomeVoiceInteractionView(
+          VoiceActionView(
             status: status,
             level: realtimeController.audioLevel,
             onTap: toggleInteraction
@@ -64,18 +64,11 @@ struct MainTabView: View {
     }
     .onChange(of: realtimeController.lastErrorMessage, perform: { error in
       guard let error, !error.isEmpty else { return }
-      transcript = error
-      status = .success
-      resetToIdleAfterDelay(1.6)
+      showResult(error, resetDelay: 1.6)
     })
     .onChange(of: realtimeController.recognizedText, perform: { text in
       guard status == .listening else { return }
-      let normalized = text.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
-      if normalized.isEmpty {
-        transcript = "正在实时识别..."
-      } else {
-        transcript = normalized
-      }
+      transcript = liveTranscript(from: text)
     })
   }
 
@@ -86,35 +79,48 @@ struct MainTabView: View {
   // Step 1. 空闲态点击后请求麦克风并真实开始录音
   // Step 2. 录音中再次点击则停止录音并进入过渡状态
   private func toggleInteraction() {
-    if status == .idle {
-      status = .thinking
-      transcript = "正在连接语音服务..."
-      realtimeController.startListening { success in
-        if success {
-          status = .listening
-          transcript = "正在实时识别..."
-        } else {
-          status = .success
-          transcript = realtimeController.lastErrorMessage ?? "语音识别启动失败"
-          resetToIdleAfterDelay(2.0)
-        }
-      }
-      return
-    }
+    guard status == .idle || status == .listening else { return }
+    status == .idle ? startVoiceFlow() : stopVoiceFlow()
+  }
 
-    if status == .listening {
-      status = .thinking
-      transcript = "已停止录音，正在汇总识别结果..."
-      realtimeController.stopListening { finalText in
-        status = .success
-        if finalText.isEmpty {
-          transcript = "未识别到清晰语音"
-        } else {
-          transcript = finalText
-        }
-        resetToIdleAfterDelay(1.8)
-      }
+  // Step 1. 进入连接阶段并发起实时识别
+  // Step 2. 根据结果切换到监听态或失败态
+  private func startVoiceFlow() {
+    status = .thinking
+    transcript = "正在连接语音服务..."
+    realtimeController.startListening { success in
+      success ? showListening() : showStartError()
     }
+  }
+
+  // Step 1. 从监听态进入汇总阶段
+  // Step 2. 展示最终识别结果并回到空闲态
+  private func stopVoiceFlow() {
+    status = .thinking
+    transcript = "已停止录音，正在汇总识别结果..."
+    realtimeController.stopListening { finalText in
+      showResult(finalText.isEmpty ? "未识别到清晰语音" : finalText, resetDelay: 1.8)
+    }
+  }
+
+  private func showListening() {
+    status = .listening
+    transcript = "正在实时识别..."
+  }
+
+  private func showStartError() {
+    showResult(realtimeController.lastErrorMessage ?? "语音识别启动失败", resetDelay: 2.0)
+  }
+
+  private func showResult(_ text: String, resetDelay: TimeInterval) {
+    status = .success
+    transcript = text
+    resetToIdleAfterDelay(resetDelay)
+  }
+
+  private func liveTranscript(from text: String) -> String {
+    let normalized = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    return normalized.isEmpty ? "正在实时识别..." : normalized
   }
 
   // Step 1. 延迟回到空闲态

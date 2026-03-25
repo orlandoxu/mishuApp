@@ -1,7 +1,7 @@
 import Compression
 import Foundation
 
-final class HomeVolcSpeechRecognitionService: ObservableObject {
+final class VolcSpeechService: ObservableObject {
   private var webSocketTask: URLSessionWebSocketTask?
   private var urlSession: URLSession?
   private var startPacketWorkItem: DispatchWorkItem?
@@ -10,10 +10,10 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
   @Published private(set) var isRecording: Bool = false
   @Published private(set) var connectionError: String = ""
 
-  var onUtterancesRecognized: (([HomeASRUtterance]) -> Void)?
+  var onUtterancesRecognized: (([AsrUtterance]) -> Void)?
   var onConnectionStateChanged: ((Bool) -> Void)?
   var onRecordingStarted: (() -> Void)?
-  var onRecordingStopped: ((HomeSpeechStopReason) -> Void)?
+  var onRecordingStopped: ((SpeechStopReason) -> Void)?
 
   private var sequenceNumber: UInt32 = 0
   private let resourceId = AppConst.volcSpeechResourceID
@@ -53,7 +53,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
   func sendAudio(_ data: Data) {
     guard isConnected, isRecording else { return }
     sequenceNumber += 1
-    sendRawAudioData(data, messageFlagBits: 0x00, sequence: sequenceNumber)
+    sendRawAudioData(data, messageFlagBits: 0x00)
   }
 
   private func connect() {
@@ -86,7 +86,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: work)
   }
 
-  private func disconnect(reason: HomeSpeechStopReason) {
+  private func disconnect(reason: SpeechStopReason) {
     startPacketWorkItem?.cancel()
     startPacketWorkItem = nil
 
@@ -143,37 +143,17 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
 
   private func sendEndPacket() {
     sequenceNumber += 1
-    sendRawAudioData(Data(), messageFlagBits: 0x02, sequence: sequenceNumber)
+    sendRawAudioData(Data(), messageFlagBits: 0x02)
   }
 
-  private func sendRawAudioData(_ data: Data, messageFlagBits: UInt8, sequence _: UInt32) {
-    var header: UInt8 = 0
-    header |= 0x01 << 4
-    header |= 0x01 << 0
-
-    var messageFlags: UInt8 = 0
-    messageFlags |= 0x02 << 4
-    messageFlags |= messageFlagBits & 0x0F
-
-    let serializationFlags: UInt8 = 0
-
-    var message = Data([header, messageFlags, serializationFlags, 0x00])
-
-    let audioSize = UInt32(data.count)
-    message.append(contentsOf: [
-      UInt8((audioSize >> 24) & 0xFF),
-      UInt8((audioSize >> 16) & 0xFF),
-      UInt8((audioSize >> 8) & 0xFF),
-      UInt8(audioSize & 0xFF),
-    ])
-
-    message.append(data)
-
-    webSocketTask?.send(.data(message)) { [weak self] error in
-      if error != nil {
-        self?.handleDisconnected()
-      }
-    }
+  private func sendRawAudioData(_ data: Data, messageFlagBits: UInt8) {
+    let message = makeMessage(
+      payload: data,
+      messageType: 0x02,
+      messageFlagBits: messageFlagBits,
+      serialization: 0
+    )
+    sendMessageData(message)
   }
 
   private enum MessageType {
@@ -186,35 +166,38 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
   }
 
   private func sendRawMessage(data: Data, messageType: MessageType) {
-    var header: UInt8 = 0
-    header |= 0x01 << 4
-    header |= 0x01 << 0
+    let message = makeMessage(
+      payload: data,
+      messageType: messageTypeNibble(for: messageType),
+      messageFlagBits: 0,
+      serialization: 0x01
+    )
+    sendMessageData(message)
+  }
 
-    var messageFlags: UInt8 = 0
-    switch messageType {
-    case .clientRequest:
-      messageFlags |= 0x01 << 4
-    }
-
-    var serializationFlags: UInt8 = 0
-    serializationFlags |= 0x01 << 4
+  private func makeMessage(payload: Data, messageType: UInt8, messageFlagBits: UInt8, serialization: UInt8) -> Data {
+    let header: UInt8 = (0x01 << 4) | (0x01 << 0)
+    let messageFlags: UInt8 = (messageType << 4) | (messageFlagBits & 0x0F)
+    let serializationFlags: UInt8 = serialization << 4
 
     var message = Data([header, messageFlags, serializationFlags, 0x00])
+    message.appendUInt32(UInt32(payload.count))
+    message.append(payload)
+    return message
+  }
 
-    let size = UInt32(data.count)
-    message.append(contentsOf: [
-      UInt8((size >> 24) & 0xFF),
-      UInt8((size >> 16) & 0xFF),
-      UInt8((size >> 8) & 0xFF),
-      UInt8(size & 0xFF),
-    ])
-
-    message.append(data)
-
+  private func sendMessageData(_ message: Data) {
     webSocketTask?.send(.data(message)) { [weak self] error in
       if error != nil {
         self?.handleDisconnected()
       }
+    }
+  }
+
+  private func messageTypeNibble(for type: MessageType) -> UInt8 {
+    switch type {
+    case .clientRequest:
+      return 0x01
     }
   }
 
@@ -313,12 +296,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
       isConnected = true
       isRecording = true
       onConnectionStateChanged?(true)
-
-      if connectionCompletion != nil {
-        connectionCompletion?(true)
-        connectionCompletion = nil
-      }
-
+      finishConnection(success: true)
       onRecordingStarted?()
     }
 
@@ -331,7 +309,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
     }
   }
 
-  private func parseUtterances(from result: [String: Any]) -> [HomeASRUtterance] {
+  private func parseUtterances(from result: [String: Any]) -> [AsrUtterance] {
     guard let rawUtterances = result["utterances"] as? [[String: Any]] else {
       return []
     }
@@ -344,7 +322,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
       let definite = parseDefinite(item["definite"])
       let startMs = item["start_time"] as? Int ?? item["start_ms"] as? Int
       let endMs = item["end_time"] as? Int ?? item["end_ms"] as? Int
-      return HomeASRUtterance(text: text, definite: definite, startMs: startMs, endMs: endMs)
+      return AsrUtterance(text: text, definite: definite, startMs: startMs, endMs: endMs)
     }
   }
 
@@ -373,10 +351,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
       self.isRecording = false
       self.onConnectionStateChanged?(false)
 
-      if self.connectionCompletion != nil {
-        self.connectionCompletion?(false)
-        self.connectionCompletion = nil
-      }
+      self.finishConnection(success: false)
 
       if wasRecording {
         self.onRecordingStopped?(.disconnected)
@@ -385,5 +360,22 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
       self.webSocketTask?.cancel(with: .goingAway, reason: nil)
       self.webSocketTask = nil
     }
+  }
+
+  private func finishConnection(success: Bool) {
+    guard let completion = connectionCompletion else { return }
+    completion(success)
+    connectionCompletion = nil
+  }
+}
+
+private extension Data {
+  mutating func appendUInt32(_ value: UInt32) {
+    append(contentsOf: [
+      UInt8((value >> 24) & 0xFF),
+      UInt8((value >> 16) & 0xFF),
+      UInt8((value >> 8) & 0xFF),
+      UInt8(value & 0xFF),
+    ])
   }
 }

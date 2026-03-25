@@ -1,6 +1,6 @@
 import Foundation
 
-struct HomeVoiceTranscriptAssembler {
+struct VoiceTextAssembler {
   private var committedFingerprints: Set<String> = []
   private var confirmedText: String = ""
   private var previewText: String = ""
@@ -17,8 +17,8 @@ struct HomeVoiceTranscriptAssembler {
     previewFingerprint = ""
   }
 
-  mutating func consume(_ utterances: [HomeASRUtterance]) -> String {
-    var latestPreview: (text: String, utterance: HomeASRUtterance)?
+  mutating func consume(_ utterances: [AsrUtterance]) -> String {
+    var latestPreview: (text: String, utterance: AsrUtterance)?
 
     for utterance in utterances {
       let normalized = utterance.text.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -40,7 +40,7 @@ struct HomeVoiceTranscriptAssembler {
     return currentText
   }
 
-  private mutating func commitDefiniteIfNeeded(_ text: String, utterance: HomeASRUtterance) {
+  private mutating func commitDefiniteIfNeeded(_ text: String, utterance: AsrUtterance) {
     let fp = fingerprint(utterance: utterance, text: text)
     guard !committedFingerprints.contains(fp) else { return }
 
@@ -53,7 +53,7 @@ struct HomeVoiceTranscriptAssembler {
     }
   }
 
-  private mutating func updatePreview(_ text: String, utterance: HomeASRUtterance) {
+  private mutating func updatePreview(_ text: String, utterance: AsrUtterance) {
     let fp = fingerprint(utterance: utterance, text: text)
     guard !committedFingerprints.contains(fp) else {
       clearPreviewIfNeeded()
@@ -74,7 +74,7 @@ struct HomeVoiceTranscriptAssembler {
     previewFingerprint = ""
   }
 
-  private func fingerprint(utterance: HomeASRUtterance, text: String) -> String {
+  private func fingerprint(utterance: AsrUtterance, text: String) -> String {
     let start = utterance.startMs.map(String.init) ?? "na"
     let end = utterance.endMs.map(String.init) ?? "na"
     return "\(start)|\(end)|\(text)"

@@ -33,7 +33,7 @@ private struct RootHostView: View {
     case .login:
       LoginView()
     case let .mainTab(tab):
-      MainTabView(initialTab: tab)
+      MainView(initialTab: tab)
     }
   }
 }

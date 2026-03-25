@@ -3,16 +3,16 @@ import Combine
 import Foundation
 
 @MainActor
-final class HomeVoiceRealtimeController: ObservableObject {
+final class VoiceRealtimeCtrl: ObservableObject {
   @Published private(set) var isListening: Bool = false
   @Published private(set) var audioLevel: CGFloat = 0
   @Published private(set) var recognizedText: String = ""
   @Published private(set) var lastErrorMessage: String?
 
-  private let captureService = HomeAudioStreamCapture()
-  private let speechService = HomeVolcSpeechRecognitionService()
+  private let captureService = AudioStreamCapture()
+  private let speechService = VolcSpeechService()
 
-  private var transcriptAssembler = HomeVoiceTranscriptAssembler()
+  private var transcriptAssembler = VoiceTextAssembler()
 
   init() {
     bindServices()
@@ -21,9 +21,7 @@ final class HomeVoiceRealtimeController: ObservableObject {
   // Step 1. 请求麦克风权限并激活音频会话
   // Step 2. 连接火山实时识别，连接成功后再开始推送音频流
   func startListening(completion: @escaping (Bool) -> Void) {
-    recognizedText = ""
-    lastErrorMessage = nil
-    transcriptAssembler.reset()
+    resetSessionState()
 
     requestMicPermissionAndConfigureSession { [weak self] granted in
       guard let self else {
@@ -32,8 +30,7 @@ final class HomeVoiceRealtimeController: ObservableObject {
       }
 
       guard granted else {
-        self.lastErrorMessage = "麦克风权限未开启，请到系统设置中允许访问"
-        completion(false)
+        self.failStart("麦克风权限未开启，请到系统设置中允许访问", completion: completion)
         return
       }
 
@@ -44,10 +41,7 @@ final class HomeVoiceRealtimeController: ObservableObject {
         }
 
         guard connected else {
-          self.lastErrorMessage = self.speechService.connectionError.isEmpty
-            ? "语音识别服务连接失败"
-            : self.speechService.connectionError
-          completion(false)
+          self.failStart(self.serviceErrorText, completion: completion)
           return
         }
 
@@ -57,14 +51,14 @@ final class HomeVoiceRealtimeController: ObservableObject {
             return
           }
 
-          if audioStarted {
-            self.isListening = true
-            completion(true)
-          } else {
-            self.lastErrorMessage = "麦克风启动失败"
+          guard audioStarted else {
             self.speechService.stopRecording()
-            completion(false)
+            self.failStart("麦克风启动失败", completion: completion)
+            return
           }
+
+          self.isListening = true
+          completion(true)
         }
       }
     }
@@ -108,9 +102,23 @@ final class HomeVoiceRealtimeController: ObservableObject {
   }
 
   private var cancellables: Set<AnyCancellable> = []
+  private var serviceErrorText: String {
+    speechService.connectionError.isEmpty ? "语音识别服务连接失败" : speechService.connectionError
+  }
 
-  private func consumeUtterances(_ utterances: [HomeASRUtterance]) {
+  private func consumeUtterances(_ utterances: [AsrUtterance]) {
     recognizedText = transcriptAssembler.consume(utterances)
+  }
+
+  private func resetSessionState() {
+    recognizedText = ""
+    lastErrorMessage = nil
+    transcriptAssembler.reset()
+  }
+
+  private func failStart(_ message: String, completion: @escaping (Bool) -> Void) {
+    lastErrorMessage = message
+    completion(false)
   }
 
   private func requestMicPermissionAndConfigureSession(completion: @escaping (Bool) -> Void) {

@@ -1,13 +1,13 @@
 import Foundation
 
-struct HomeASRUtterance: Equatable {
+struct AsrUtterance: Equatable {
   let text: String
   let definite: Bool
   let startMs: Int?
   let endMs: Int?
 }
 
-enum HomeSpeechStopReason {
+enum SpeechStopReason {
   case userStopped
   case disconnected
   case completed

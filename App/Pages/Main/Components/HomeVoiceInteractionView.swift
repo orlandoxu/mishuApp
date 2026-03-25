@@ -1,7 +1,7 @@
 import SwiftUI
 
-struct HomeVoiceInteractionView: View {
-  let status: HomeVoiceStatus
+struct VoiceActionView: View {
+  let status: VoiceState
   let level: CGFloat
   let onTap: () -> Void
 
