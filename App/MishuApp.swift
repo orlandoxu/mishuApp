@@ -80,12 +80,12 @@ struct MishuApp: App {
       }
       // 触发用户授权网络
       .taskOnce {
-        guard !isUITestingLaunch else { return }
+        guard !isUITestingLaunch, !isRunningTests else { return }
         isFirstStart = false
         _ = await UserAPI.shared.ping()
       }
       .taskOnce {
-        guard !isUITestingLaunch else { return }
+        guard !isUITestingLaunch, !isRunningTests else { return }
         await MainActor.run {
           AppStateStore.shared.markBootstrapFinished()
         }
@@ -101,6 +101,10 @@ struct MishuApp: App {
 
   private var isUITestingLaunch: Bool {
     ProcessInfo.processInfo.arguments.contains("--ui-testing")
+  }
+
+  private var isRunningTests: Bool {
+    ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
   }
 }
 

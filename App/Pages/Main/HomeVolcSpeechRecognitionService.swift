@@ -287,7 +287,7 @@ final class HomeVolcSpeechRecognitionService: ObservableObject {
 
     guard data.count >= payloadOffset + payloadSize else { return }
 
-    let payload = data.subdata(in: payloadOffset..<(payloadOffset + payloadSize))
+    let payload = data.subdata(in: payloadOffset ..< (payloadOffset + payloadSize))
     var jsonData = payload
     if compression == 1 {
       jsonData = decompressGzip(payload) ?? payload

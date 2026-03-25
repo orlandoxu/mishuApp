@@ -46,5 +46,6 @@ struct HomeVoiceInteractionView: View {
     }
     .frame(maxWidth: .infinity)
     .frame(height: 196)
+    .accessibilityIdentifier("home_voice_interaction_root")
   }
 }

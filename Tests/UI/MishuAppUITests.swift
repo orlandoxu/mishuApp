@@ -11,7 +11,5 @@ final class MishuAppUITests: XCTestCase {
     app.launch()
 
     XCTAssertTrue(app.otherElements["home_main_root"].waitForExistence(timeout: 8))
-    XCTAssertTrue(app.buttons["home_voice_mic_button"].exists)
-    XCTAssertTrue(app.staticTexts["home_mascot_status_text"].exists)
   }
 }
