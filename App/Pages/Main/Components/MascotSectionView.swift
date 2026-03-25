@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MascotSectionView: View {
-  let status: VoiceState
+  let status: VoicePhase
 
   var body: some View {
     VStack(spacing: 0) {
@@ -13,7 +13,7 @@ struct MascotSectionView: View {
 }
 
 private struct MascotStatusTextView: View {
-  let status: VoiceState
+  let status: VoicePhase
 
   private var text: String {
     switch status {
@@ -40,7 +40,7 @@ private struct MascotStatusTextView: View {
 }
 
 private struct MascotView: View {
-  let status: VoiceState
+  let status: VoicePhase
 
   @State private var floating = false
   @State private var blink = false
@@ -184,7 +184,7 @@ private struct SuccessEyeView: View {
 }
 
 private struct MouthView: View {
-  let status: VoiceState
+  let status: VoicePhase
 
   var body: some View {
     Path { path in

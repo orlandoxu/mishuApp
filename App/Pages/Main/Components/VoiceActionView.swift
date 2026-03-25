@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct VoiceActionView: View {
-  let status: VoiceState
+  let status: VoicePhase
   let level: CGFloat
   let onTap: () -> Void
 
