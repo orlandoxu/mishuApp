@@ -24,7 +24,6 @@ struct LoginView: View {
   @State private var countdownSeconds: Int = 0
   @State private var isWorking: Bool = false
   @State private var countdownTask: Task<Void, Never>?
-  @State private var alertMessage: String = ""
   @State private var activeAlert: ActiveAlert?
 
   private let viewModel = LoginViewModel()
@@ -52,7 +51,7 @@ struct LoginView: View {
           countdownSeconds: countdownSeconds,
           canGetCode: canGetCode,
           isWorking: isWorking,
-          onTapGetCode: onTapGetCode
+          onTapGetCode: tapGetCode
         )
 
         Spacer().frame(height: 30)
@@ -61,7 +60,7 @@ struct LoginView: View {
           canLogin: canLogin,
           isWorking: isWorking,
           isPasswordLogin: $isPasswordLogin,
-          onTapLogin: onTapLogin
+          onTapLogin: tapLogin
         )
 
         Spacer()
@@ -103,18 +102,31 @@ struct LoginView: View {
     countdownSeconds == 0 && viewModel.canRequestCode(phoneText: phoneText, zoneCode: zoneCode)
   }
 
-  private var canLogin: Bool {
-    let trimmedPhone = phoneText.trimmingCharacters(in: .whitespacesAndNewlines)
-    let normalizedCode = codeText.filter { $0.isNumber }
-    let isPhoneValid = !trimmedPhone.isEmpty
-    let isAuthValid =
-      isPasswordLogin
-        ? !passwordText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-        : normalizedCode.count == 6
-    return isPhoneValid && isAuthValid
+  private var phoneValue: String {
+    phoneText.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
-  private func onTapGetCode() {
+  private var codeValue: String {
+    codeText.filter { $0.isNumber }
+  }
+
+  private var passValue: String {
+    passwordText.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+
+  private var authValid: Bool {
+    isPasswordLogin ? !passValue.isEmpty : codeValue.count == 6
+  }
+
+  private var loginPhone: String {
+    zoneCode + phoneText
+  }
+
+  private var canLogin: Bool {
+    !phoneValue.isEmpty && authValid
+  }
+
+  private func tapGetCode() {
     // Step 1. 校验当前状态
     guard canGetCode else { return }
     isWorking = true
@@ -127,15 +139,15 @@ struct LoginView: View {
         switch result {
         case .success:
           startCountdown(seconds: 60)
-        case let .failure(error):
-          isWorking = false
+        case .failure:
+          break
         }
       }
     }
   }
 
-  private func onTapLogin() {
-    if !agreed {
+  private func tapLogin() {
+    guard agreed else {
       activeAlert = .agreement
       return
     }
@@ -149,16 +161,14 @@ struct LoginView: View {
       let result: Result<LoginData, LoginFlowError>
       if isPasswordLogin {
         result = await viewModel.requestLoginByPassword(
-          // phoneText: phoneText,
-          phoneText: zoneCode + phoneText,
+          phoneText: loginPhone,
           passwordText: passwordText,
           zoneCode: zoneCode,
           agreementAccepted: agreed
         )
       } else {
         result = await viewModel.requestLogin(
-          // phoneText: phoneText,
-          phoneText: zoneCode + phoneText,
+          phoneText: loginPhone,
           codeText: codeText,
           zoneCode: zoneCode,
           agreementAccepted: agreed
@@ -166,14 +176,14 @@ struct LoginView: View {
       }
 
       await MainActor.run {
+        isWorking = false
         switch result {
         case let .success(data):
           // Step 2. 同步写入登录态并跳转首页
           SelfStore.shared.applyLogin(data)
-          isWorking = false
           appNavigation.root = .mainTab(.home)
-        case let .failure(error):
-          isWorking = false
+        case .failure:
+          break
         }
       }
     }
