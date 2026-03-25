@@ -148,7 +148,7 @@ struct LoginView: View {
     Task {
       let result: Result<LoginData, LoginFlowError>
       if isPasswordLogin {
-        result = await viewModel.requestLoginByPassword(
+        result = await viewModel.requestPassLogin(
           phoneText: phoneText,
           passwordText: passwordText,
           zoneCode: zoneCode,

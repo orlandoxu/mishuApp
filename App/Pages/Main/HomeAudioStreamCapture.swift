@@ -6,7 +6,7 @@ final class AudioStreamCapture: NSObject, ObservableObject {
   private var inputNode: AVAudioInputNode?
 
   var onAudioData: ((Data) -> Void)?
-  var onRecordingStateChanged: ((Bool) -> Void)?
+  var onRecordState: ((Bool) -> Void)?
 
   @Published private(set) var isRecording: Bool = false
   @Published private(set) var audioLevel: CGFloat = 0
@@ -38,7 +38,7 @@ final class AudioStreamCapture: NSObject, ObservableObject {
 
     isRecording = false
     audioLevel = 0
-    onRecordingStateChanged?(false)
+    onRecordState?(false)
   }
 
   private func startAudio(completion: @escaping (Bool) -> Void) {
@@ -85,7 +85,7 @@ final class AudioStreamCapture: NSObject, ObservableObject {
       try audioEngine.start()
       isRecording = true
       startRetryCount = 0
-      onRecordingStateChanged?(true)
+      onRecordState?(true)
       completion(true)
     } catch {
       if startRetryCount < 1 {

@@ -79,7 +79,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
       self?.speechService.sendAudio(data)
     }
 
-    captureService.onRecordingStateChanged = { [weak self] started in
+    captureService.onRecordState = { [weak self] started in
       if !started {
         self?.isListening = false
       }

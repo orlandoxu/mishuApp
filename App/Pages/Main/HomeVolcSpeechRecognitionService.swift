@@ -4,14 +4,14 @@ import Foundation
 final class VolcSpeechService: ObservableObject {
   private var webSocketTask: URLSessionWebSocketTask?
   private var urlSession: URLSession?
-  private var startPacketWorkItem: DispatchWorkItem?
+  private var startPacketTask: DispatchWorkItem?
 
   @Published private(set) var isConnected: Bool = false
   @Published private(set) var isRecording: Bool = false
   @Published private(set) var connectionError: String = ""
 
   var onUtterancesRecognized: (([AsrUtterance]) -> Void)?
-  var onConnectionStateChanged: ((Bool) -> Void)?
+  var onConnState: ((Bool) -> Void)?
   var onRecordingStarted: (() -> Void)?
   var onRecordingStopped: ((SpeechStopReason) -> Void)?
 
@@ -77,18 +77,18 @@ final class VolcSpeechService: ObservableObject {
 
     receiveMessage()
 
-    startPacketWorkItem?.cancel()
+    startPacketTask?.cancel()
     let work = DispatchWorkItem { [weak self] in
       guard let self, self.webSocketTask != nil else { return }
       self.sendStartPacket()
     }
-    startPacketWorkItem = work
+    startPacketTask = work
     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: work)
   }
 
   private func disconnect(reason: SpeechStopReason) {
-    startPacketWorkItem?.cancel()
-    startPacketWorkItem = nil
+    startPacketTask?.cancel()
+    startPacketTask = nil
 
     webSocketTask?.cancel(with: .goingAway, reason: nil)
     webSocketTask = nil
@@ -97,7 +97,7 @@ final class VolcSpeechService: ObservableObject {
     isConnected = false
     isRecording = false
 
-    onConnectionStateChanged?(false)
+    onConnState?(false)
 
     if wasConnected {
       onRecordingStopped?(reason)
@@ -284,10 +284,8 @@ final class VolcSpeechService: ObservableObject {
   }
 
   private func processRecognitionResult(_ json: [String: Any]) {
-    if let error = json["error"] as? [String: Any] {
-      if let message = error["message"] as? String {
-        connectionError = message
-      }
+    if let message = (json["error"] as? [String: Any])?["message"] as? String {
+      connectionError = message
       handleDisconnected()
       return
     }
@@ -295,7 +293,7 @@ final class VolcSpeechService: ObservableObject {
     if json["result"] != nil, !isConnected {
       isConnected = true
       isRecording = true
-      onConnectionStateChanged?(true)
+      onConnState?(true)
       finishConnection(success: true)
       onRecordingStarted?()
     }
@@ -349,7 +347,7 @@ final class VolcSpeechService: ObservableObject {
 
       self.isConnected = false
       self.isRecording = false
-      self.onConnectionStateChanged?(false)
+      self.onConnState?(false)
 
       self.finishConnection(success: false)
 

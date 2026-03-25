@@ -83,7 +83,7 @@ struct LoginViewModel {
     return .success(data)
   }
 
-  func requestLoginByPassword(
+  func requestPassLogin(
     phoneText: String,
     passwordText: String,
     zoneCode: String,
