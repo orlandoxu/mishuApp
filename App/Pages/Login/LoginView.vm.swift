@@ -15,7 +15,7 @@ struct LoginViewModel {
 
   private func normalizedLocalPhone(phoneText: String, zoneCode: String) -> String? {
     // Step 1. 统一过滤掉自动填充中的空格、+、- 等非数字字符
-    var digits = digitsOnly(phoneText.trimmingCharacters(in: .whitespacesAndNewlines))
+    var digits = digitsOnly(phoneText)
     if digits.isEmpty { return nil }
 
     // Step 2. 处理常见国际前缀（00）与区号前缀
@@ -43,8 +43,7 @@ struct LoginViewModel {
   func canRequestCode(phoneText: String, zoneCode: String) -> Bool {
     // Step 1. 简单校验手机号是否可请求验证码（对齐 flutter：+86 严格校验，其它区号放宽）
     guard normalizedMobile(phoneText: phoneText, zoneCode: zoneCode) != nil else { return false }
-    let trimmedZone = zoneCode.trimmingCharacters(in: .whitespacesAndNewlines)
-    if trimmedZone != "+86" { return true }
+    if zoneCode != "+86" { return true }
     guard let localPhone = normalizedLocalPhone(phoneText: phoneText, zoneCode: zoneCode) else { return false }
     let pattern = #"^1[3-9]\d{9}$"#
     return localPhone.range(of: pattern, options: .regularExpression) != nil
@@ -74,11 +73,11 @@ struct LoginViewModel {
     guard let mobile = normalizedMobile(phoneText: phoneText, zoneCode: zoneCode), !mobile.isEmpty else {
       return .failure(.invalidPhone)
     }
-    let trimmedCode = codeText.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !trimmedCode.isEmpty else { return .failure(.invalidCode) }
+    let code = codeText.filter { $0.isNumber }
+    guard !code.isEmpty else { return .failure(.invalidCode) }
 
     // Step 2. 发起登录请求
-    guard let data = await UserAPI.shared.login(mobile: mobile, code: trimmedCode) else {
+    guard let data = await UserAPI.shared.login(mobile: mobile, code: code) else {
       return .failure(.missingToken)
     }
     return .success(data)
@@ -95,11 +94,10 @@ struct LoginViewModel {
     guard let mobile = normalizedMobile(phoneText: phoneText, zoneCode: zoneCode), !mobile.isEmpty else {
       return .failure(.invalidPhone)
     }
-    let trimmedPassword = passwordText.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !trimmedPassword.isEmpty else { return .failure(.invalidCode) }
+    guard !passwordText.isEmpty else { return .failure(.invalidCode) }
 
     // Step 2. 发起登录请求
-    guard let data = await UserAPI.shared.loginByPassword(mobile: mobile, password: trimmedPassword) else {
+    guard let data = await UserAPI.shared.loginByPassword(mobile: mobile, password: passwordText) else {
       return .failure(.missingToken)
     }
     return .success(data)

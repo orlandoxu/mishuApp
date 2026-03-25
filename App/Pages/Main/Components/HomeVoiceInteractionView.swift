@@ -5,11 +5,11 @@ struct VoiceActionView: View {
   let level: CGFloat
   let onTap: () -> Void
 
-  private var isListening: Bool { status == .listening }
-  private var isThinking: Bool { status == .thinking }
-  private var isActive: Bool { isListening || isThinking }
-
   var body: some View {
+    let isListening = status == .listening
+    let isThinking = status == .thinking
+    let isActive = isListening || isThinking
+
     ZStack {
       if isListening {
         VoiceListeningRippleView(level: level)

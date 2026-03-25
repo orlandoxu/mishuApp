@@ -119,8 +119,7 @@ struct MainView: View {
   }
 
   private func liveTranscript(from text: String) -> String {
-    let normalized = text.trimmingCharacters(in: .whitespacesAndNewlines)
-    return normalized.isEmpty ? "正在实时识别..." : normalized
+    text.isEmpty ? "正在实时识别..." : text
   }
 
   // Step 1. 延迟回到空闲态

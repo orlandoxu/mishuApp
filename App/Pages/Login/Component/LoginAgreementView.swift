@@ -9,13 +9,13 @@ struct LoginAgreementView: View {
     return preferred.contains("Hans") || preferred.contains("zh-Hans") || preferred.contains("zh-CN")
   }
 
-  private func getUseAgreementUrl() -> String {
+  private var useAgreeURL: String {
     isHans
       ? "https://wx-server.spreadwin.com/services/frontpage/html/TuYunUserTerm.html"
       : "https://wx-server.spreadwin.com/services/frontpage/html/TuYunUserTerm_HK.html"
   }
 
-  private func getPrivacyPolicyUrl() -> String {
+  private var privacyURL: String {
     isHans
       ? "https://wx-server.spreadwin.com/services/frontpage/html/TuYunPrivateTerm.html"
       : "https://wx-server.spreadwin.com/services/frontpage/html/TuYunPrivateTerm_HK.html"
@@ -69,11 +69,8 @@ struct LoginAgreementView: View {
       .buttonStyle(.plain)
 
       HyperlinkText(text: agreementAttributedText, onLinkTap: { url in
-        if url.host == "agreement" {
-          openExternalLink(getUseAgreementUrl())
-        } else if url.host == "privacy" {
-          openExternalLink(getPrivacyPolicyUrl())
-        }
+        if url.host == "agreement" { return openExternalLink(useAgreeURL) }
+        if url.host == "privacy" { return openExternalLink(privacyURL) }
       }, onToggle: {
         agreed.toggle()
       })

@@ -23,7 +23,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
   func startListening(completion: @escaping (Bool) -> Void) {
     resetSessionState()
 
-    requestMicPermissionAndConfigureSession { [weak self] granted in
+    requestMicAuth { [weak self] granted in
       guard let self else {
         completion(false)
         return
@@ -71,7 +71,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
     speechService.stopRecording()
 
     isListening = false
-    completion(recognizedText.trimmingCharacters(in: .whitespacesAndNewlines))
+    completion(recognizedText)
   }
 
   private func bindServices() {
@@ -121,7 +121,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
     completion(false)
   }
 
-  private func requestMicPermissionAndConfigureSession(completion: @escaping (Bool) -> Void) {
+  private func requestMicAuth(completion: @escaping (Bool) -> Void) {
     let session = AVAudioSession.sharedInstance()
 
     switch session.recordPermission {

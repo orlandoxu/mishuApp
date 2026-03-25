@@ -25,7 +25,7 @@ final class AudioStreamCapture: NSObject, ObservableObject {
 
     startRetryCount = 0
     DispatchQueue.main.async {
-      self.setupAndStartRecording(completion: completion)
+      self.startAudio(completion: completion)
     }
   }
 
@@ -41,7 +41,7 @@ final class AudioStreamCapture: NSObject, ObservableObject {
     onRecordingStateChanged?(false)
   }
 
-  private func setupAndStartRecording(completion: @escaping (Bool) -> Void) {
+  private func startAudio(completion: @escaping (Bool) -> Void) {
     audioEngine = AVAudioEngine()
     guard let audioEngine else {
       completion(false)
@@ -77,10 +77,10 @@ final class AudioStreamCapture: NSObject, ObservableObject {
       self?.processAudioBuffer(buffer, converter: converter, outputFormat: desiredFormat)
     }
 
-    doStartAudioEngine(audioEngine, completion: completion)
+    startEngine(audioEngine, completion: completion)
   }
 
-  private func doStartAudioEngine(_ audioEngine: AVAudioEngine, completion: @escaping (Bool) -> Void) {
+  private func startEngine(_ audioEngine: AVAudioEngine, completion: @escaping (Bool) -> Void) {
     do {
       try audioEngine.start()
       isRecording = true
@@ -94,7 +94,7 @@ final class AudioStreamCapture: NSObject, ObservableObject {
         audioEngine.stop()
         self.audioEngine = nil
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) { [weak self] in
-          self?.setupAndStartRecording(completion: completion)
+          self?.startAudio(completion: completion)
         }
         return
       }

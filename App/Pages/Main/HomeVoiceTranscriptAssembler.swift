@@ -7,7 +7,7 @@ struct VoiceTextAssembler {
   private var previewFingerprint: String = ""
 
   var currentText: String {
-    (confirmedText + previewText).trimmingCharacters(in: .whitespacesAndNewlines)
+    confirmedText + previewText
   }
 
   mutating func reset() {
@@ -21,7 +21,7 @@ struct VoiceTextAssembler {
     var latestPreview: (text: String, utterance: AsrUtterance)?
 
     for utterance in utterances {
-      let normalized = utterance.text.trimmingCharacters(in: .whitespacesAndNewlines)
+      let normalized = utterance.text
       guard !normalized.isEmpty else { continue }
 
       if utterance.definite {

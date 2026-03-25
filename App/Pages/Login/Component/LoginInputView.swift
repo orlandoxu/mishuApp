@@ -12,7 +12,7 @@ struct LoginInputView: View {
   var onTapGetCode: () -> Void
 
   @State private var isPasswordVisible: Bool = false
-  private let supportedZoneCodes = ["+852", "+853", "+886", "+86"]
+  private let zoneList = ["+852", "+853", "+886", "+86"]
 
   /// 当前是否可以发送验证码
   var canSendCode: Bool {
@@ -59,7 +59,7 @@ struct LoginInputView: View {
           .font(.system(size: 16))
           .frame(maxWidth: .infinity, alignment: .leading)
           .onChange(of: phoneText) { newValue in
-            normalizePhoneInputIfNeeded(newValue)
+            normalizePhone(newValue)
           }
       }
       .padding(.horizontal, 14)
@@ -141,12 +141,12 @@ struct LoginInputView: View {
     .padding(.horizontal, 30)
   }
 
-  private func normalizePhoneInputIfNeeded(_ rawInput: String) {
+  private func normalizePhone(_ rawInput: String) {
     let compact = rawInput.components(separatedBy: .whitespacesAndNewlines).joined()
     guard !compact.isEmpty else { return }
 
     // Step 1. 识别并提取支持的区号前缀，若有则同步更新区号
-    if let matchedZone = supportedZoneCodes.first(where: { compact.hasPrefix($0) }) {
+    if let matchedZone = zoneList.first(where: { compact.hasPrefix($0) }) {
       let localPart = String(compact.dropFirst(matchedZone.count)).filter { $0.isNumber }
       if zoneCode != matchedZone {
         zoneCode = matchedZone
@@ -160,7 +160,7 @@ struct LoginInputView: View {
     // Step 2. 兼容 00 前缀形式（如 0086 / 00852）
     if compact.hasPrefix("00") {
       let candidateZoneDigits = String(compact.dropFirst(2))
-      if let matchedZone = supportedZoneCodes.first(where: { candidateZoneDigits.hasPrefix(String($0.dropFirst())) }) {
+      if let matchedZone = zoneList.first(where: { candidateZoneDigits.hasPrefix(String($0.dropFirst())) }) {
         let zoneDigits = String(matchedZone.dropFirst())
         let localPart = String(candidateZoneDigits.dropFirst(zoneDigits.count)).filter { $0.isNumber }
         if zoneCode != matchedZone {

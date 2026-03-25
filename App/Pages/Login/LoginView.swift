@@ -102,28 +102,16 @@ struct LoginView: View {
     countdownSeconds == 0 && viewModel.canRequestCode(phoneText: phoneText, zoneCode: zoneCode)
   }
 
-  private var phoneValue: String {
-    phoneText.trimmingCharacters(in: .whitespacesAndNewlines)
-  }
-
   private var codeValue: String {
     codeText.filter { $0.isNumber }
   }
 
-  private var passValue: String {
-    passwordText.trimmingCharacters(in: .whitespacesAndNewlines)
-  }
-
   private var authValid: Bool {
-    isPasswordLogin ? !passValue.isEmpty : codeValue.count == 6
-  }
-
-  private var loginPhone: String {
-    zoneCode + phoneText
+    isPasswordLogin ? !passwordText.isEmpty : codeValue.count == 6
   }
 
   private var canLogin: Bool {
-    !phoneValue.isEmpty && authValid
+    !phoneText.isEmpty && authValid
   }
 
   private func tapGetCode() {
@@ -161,14 +149,14 @@ struct LoginView: View {
       let result: Result<LoginData, LoginFlowError>
       if isPasswordLogin {
         result = await viewModel.requestLoginByPassword(
-          phoneText: loginPhone,
+          phoneText: phoneText,
           passwordText: passwordText,
           zoneCode: zoneCode,
           agreementAccepted: agreed
         )
       } else {
         result = await viewModel.requestLogin(
-          phoneText: loginPhone,
+          phoneText: phoneText,
           codeText: codeText,
           zoneCode: zoneCode,
           agreementAccepted: agreed
