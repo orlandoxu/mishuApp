@@ -109,6 +109,8 @@ targets:
         DoubaoEmbeddingBaseURL: "https://ark.cn-beijing.volces.com/api/v3"
         DoubaoEmbeddingModel: "text-240715"
         DoubaoEmbeddingDimension: 2048
+        DoubaoChatBaseURL: "https://ark.cn-beijing.volces.com/api/v3"
+        DoubaoChatModel: "doubao-seed-2-0-lite"
         MemoryIngestEndpoint: "/v1/ai/memory/ingest"
         NSBonjourServices:
           - "_http._tcp"

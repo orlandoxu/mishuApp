@@ -102,6 +102,9 @@ enum AppConst {
   static var doubaoEmbeddingApiKey: String {
     let override = UserDefaults.standard.string(forKey: "mishu_doubao_embedding_api_key") ?? ""
     if !override.isEmpty { return override }
+    // 用户要求：先将 key 直接放到 Const.swift 里，后续可再迁移到更安全方案。
+    let inline = "82831d8d-ac01-4049-a4bf-d4b4eeb0d63e"
+    if !inline.isEmpty { return inline }
     return Bundle.main.object(forInfoDictionaryKey: "DoubaoEmbeddingAPIKey") as? String ?? ""
   }
 
@@ -131,6 +134,20 @@ enum AppConst {
     if !override.isEmpty { return override }
     return Bundle.main.object(forInfoDictionaryKey: "MemoryIngestEndpoint") as? String
       ?? "/v1/ai/memory/ingest"
+  }
+
+  static var doubaoChatBaseURL: String {
+    let override = UserDefaults.standard.string(forKey: "mishu_doubao_chat_base_url") ?? ""
+    if !override.isEmpty { return override }
+    return Bundle.main.object(forInfoDictionaryKey: "DoubaoChatBaseURL") as? String
+      ?? "https://ark.cn-beijing.volces.com/api/v3"
+  }
+
+  static var doubaoChatModel: String {
+    let override = UserDefaults.standard.string(forKey: "mishu_doubao_chat_model") ?? ""
+    if !override.isEmpty { return override }
+    return Bundle.main.object(forInfoDictionaryKey: "DoubaoChatModel") as? String
+      ?? "doubao-seed-2-0-lite"
   }
 
   /// static let gaoDeKey = "ffe3d26208fb8adb73ce6ff5c76f4462"

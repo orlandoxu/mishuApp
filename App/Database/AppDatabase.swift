@@ -24,6 +24,7 @@ final class AppDatabase {
     _ = try? connection.run("PRAGMA journal_mode = WAL")
 
     try MessageTable.createIfNeeded(in: connection)
+    try MemoryTable.createIfNeeded(in: connection, embeddingDimension: AppConst.doubaoEmbeddingDimension)
     db = connection
   }
 

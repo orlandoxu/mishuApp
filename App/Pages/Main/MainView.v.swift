@@ -53,6 +53,7 @@ struct MainView: View {
   @State private var selectedTab: MainTab = .home
   @State private var status: VoiceState = .idle
   @StateObject private var realtimeController = VoiceRealtimeCtrl()
+  @State private var simulatorInput: String = ""
 
   init(initialTab: MainTab) {
     _selectedTab = State(initialValue: initialTab)
@@ -83,6 +84,26 @@ struct MainView: View {
                 .transition(.opacity)
                 .accessibilityIdentifier("home_voice_status_text")
             }
+
+            #if targetEnvironment(simulator)
+              VStack(spacing: 10) {
+                TextField("模拟输入文本（替代语音）", text: $simulatorInput)
+                  .textFieldStyle(.roundedBorder)
+                  .font(.system(size: 14))
+                  .accessibilityIdentifier("home_simulator_input")
+                Button(action: submitSimulatorInput) {
+                  Text("提交模拟输入")
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.white)
+                    .padding(.horizontal, 14)
+                    .padding(.vertical, 8)
+                    .background(Color.black.opacity(0.78))
+                    .cornerRadius(8)
+                }
+                .accessibilityIdentifier("home_simulator_submit")
+              }
+              .padding(.top, 16)
+            #endif
           }
           .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
           .padding(.horizontal, 32)
@@ -136,6 +157,13 @@ struct MainView: View {
     status = .thinking(.summarizing)
     realtimeController.stopListening { finalText in
       showResult(finalText.isEmpty ? "未识别到清晰语音" : finalText, resetDelay: 1.8)
+    }
+  }
+
+  private func submitSimulatorInput() {
+    status = .thinking(.summarizing)
+    realtimeController.processTextInputForTesting(simulatorInput) { output in
+      showResult(output, resetDelay: 2.0)
     }
   }
 

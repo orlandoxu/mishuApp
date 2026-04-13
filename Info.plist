@@ -121,6 +121,10 @@
 	<string>text-240715</string>
 	<key>DoubaoEmbeddingDimension</key>
 	<integer>2048</integer>
+	<key>DoubaoChatBaseURL</key>
+	<string>https://ark.cn-beijing.volces.com/api/v3</string>
+	<key>DoubaoChatModel</key>
+	<string>doubao-seed-2-0-lite</string>
 	<key>MemoryIngestEndpoint</key>
 	<string>/v1/ai/memory/ingest</string>
 	<key>WeChatAppID</key>

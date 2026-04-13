@@ -62,7 +62,7 @@ final class SQLiteVecIntegrationTests: XCTestCase {
     var errMsg: UnsafeMutablePointer<CChar>?
     let rc = sqlite3_exec(db, sql, nil, nil, &errMsg)
     guard rc == SQLITE_OK else {
-      let msg = errMsg.map(String.init(cString:)) ?? "sqlite3_exec failed with code \(rc)"
+      let msg = errMsg.map { String(cString: $0) } ?? "sqlite3_exec failed with code \(rc)"
       sqlite3_free(errMsg)
       throw NSError(domain: "SQLiteVecIntegrationTests", code: Int(rc), userInfo: [NSLocalizedDescriptionKey: msg])
     }

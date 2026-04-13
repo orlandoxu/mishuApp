@@ -71,12 +71,30 @@ final class VoiceRealtimeCtrl: ObservableObject {
 
     isListening = false
     let finalText = recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
-    if !finalText.isEmpty {
-      Task {
-        await memoryPipeline.processIfNeeded(text: finalText)
+    guard !finalText.isEmpty else {
+      completion(recognizedText)
+      return
+    }
+    Task {
+      let reply = await memoryPipeline.processUserInput(finalText)
+      await MainActor.run {
+        completion(reply)
       }
     }
-    completion(recognizedText)
+  }
+
+  func processTextInputForTesting(_ text: String, completion: @escaping (String) -> Void) {
+    let finalText = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !finalText.isEmpty else {
+      completion("请输入测试文本")
+      return
+    }
+    Task {
+      let reply = await memoryPipeline.processUserInput(finalText)
+      await MainActor.run {
+        completion(reply)
+      }
+    }
   }
 
   private func bindServices() {
