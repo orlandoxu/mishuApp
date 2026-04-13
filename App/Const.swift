@@ -35,11 +35,6 @@ enum AppConst {
 
   static let weChatServiceToken = "9XYGTGWtq2xveMrMZdJg4Hv7RiYC4AbwmDiQlhwGvBhWMCX4k_gt_1MsKCdTqBMM-zXaTHF178EAZpVV9-7nhseZaD0NI5-1"
 
-  /// 这个目前是默认
-  static var apiBaseURLDev: URL {
-    URL(string: "https://api-dev.spreadwin.cn")!
-  }
-
   static var apiBaseURLProd: URL {
     URL(string: "https://api.spreadwin.cn")!
   }
@@ -61,7 +56,7 @@ enum AppConst {
     case .production:
       return apiBaseURLProd
     case .testing:
-      return apiBaseURLDev
+      return apiBaseURLProd
     }
   }
 
@@ -71,7 +66,7 @@ enum AppConst {
     case .production:
       return URL(string: "wss://api.spreadwin.cn/ws/v1/application")!
     case .testing:
-      return URL(string: "wss://api-dev.spreadwin.cn/ws/v1/application")!
+      return URL(string: "wss://api.spreadwin.cn/ws/v1/application")!
     }
   }
 
