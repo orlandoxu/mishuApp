@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0243A20C8885115CCD6D600D /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B793D80FED4F4BA07AFC267 /* Pods_MishuApp.framework */; };
 		0287DC85F8B1CF07E7C41253 /* AsrModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B9FB86CA466D924F04CED1F6 /* AsrModel.swift */; };
 		03408DFA392D40249689A2F8 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE18431A86D0A8E60222256A /* Theme.swift */; };
 		03D4C1AD7F4D5CF6A4EAF00A /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66F6A148D73F0F54D74394A3 /* Message.swift */; };
@@ -39,6 +38,7 @@
 		350A91EE856D2D8B4BA0A0D3 /* SettingAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60346A0A14963B43749164F6 /* SettingAPI.swift */; };
 		36959361A288761DDF3AD3A9 /* AudioCapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554F112E4ED3DD023F1AE7F2 /* AudioCapService.swift */; };
 		369603427EACEFE9E025CF93 /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */; };
+		381F36D125490BA60AED63BA /* SQLiteVecIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9DA5E6A398C3FE36C8DBA /* SQLiteVecIntegrationTests.swift */; };
 		3B68E3B0074EF555C119044A /* CarBrandAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F5B37E2606D369FB397906 /* CarBrandAPI.swift */; };
 		3DA2A2BD379EBE6E5B03B5CA /* LicensePlateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */; };
 		40C8DC5AAFD18003171F71CE /* LoginActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097B4DD8C56743B3CCF4F72 /* LoginActionView.swift */; };
@@ -65,6 +65,7 @@
 		64A6033A34656A9A55AC92AC /* Date+tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD55579B782394CFD188DD91 /* Date+tools.swift */; };
 		6518178CDD475509A1668A3B /* LocationPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06448451E7BE9F569323114A /* LocationPermissionStore.swift */; };
 		6811329FCB304B05EB353422 /* Double+exten.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08DAD98DA94619B8EBE43A77 /* Double+exten.swift */; };
+		689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */; };
 		6954FB5D86163CF937537FB3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = C50FDF99CDD65BF4BE78634D /* Kingfisher */; };
 		6CA9DFF08E36751FB701A5DC /* Color+randomItemColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26A4416AB0319B82575D6C /* Color+randomItemColor.swift */; };
 		6FA8A3D5CD47E148C7E7CADA /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DC1AE4522DCA84C0522AF3A /* Setting.swift */; };
@@ -109,6 +110,7 @@
 		BCE0A4D2C8508DF69C2678C3 /* NavHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BDF40A9BDDFB19F876C29F /* NavHeader.swift */; };
 		BD10F53D967A61EEBB869044 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E4A4A474B601348C3668CF9A /* SQLite */; };
 		C0829D34B872C52EE4DBE038 /* VoiceThinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */; };
+		C27FCF4FB17AE9E36AA36B20 /* SQLiteVecBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712F426A50BF909FE22B66C5 /* SQLiteVecBootstrap.swift */; };
 		C2FA58515742798C1F412A1A /* UIApplication+dismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */; };
 		C31F0C4B5BBA88C4103322E3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05E9D3273168AA95F279E17E /* User.swift */; };
 		C3B70CE0D4ED287DBA42476B /* PackageAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 207A171493D1BE287ECDBA82 /* PackageAPI.swift */; };
@@ -148,6 +150,7 @@
 		F27466A2486613C26C9588E6 /* OBD.swift in Sources */ = {isa = PBXBuildFile; fileRef = C366865F5039F72FB8950353 /* OBD.swift */; };
 		F30E67BA7DA5B7A95A45C640 /* EnvironmentStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4549AD0D898A18205EB199F8 /* EnvironmentStore.swift */; };
 		F57429D0E30D2BCD92519155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */; };
+		F59CA40E7E2F45BB21055CE4 /* SQLiteVec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		F670DE75A01C93E91F6F1F75 /* MessageTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69275A0F852F236D052AA8D2 /* MessageTable.swift */; };
 		F88E3CD6C2B78E111FFE81A0 /* CameraPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */; };
 		F9215EDCBB8BA57F7C11B612 /* MessageStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60FD508224DE4E937C29691F /* MessageStore.swift */; };
@@ -177,6 +180,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		C55A6B9625DD1204216721B2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F59CA40E7E2F45BB21055CE4 /* SQLiteVec.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		00F5B37E2606D369FB397906 /* CarBrandAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarBrandAPI.swift; sourceTree = "<group>"; };
 		03FAEFBEDC8F7B2D338B42C6 /* OrientationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrientationManager.swift; sourceTree = "<group>"; };
@@ -190,6 +207,7 @@
 		08F43B763B5336BF52C97F0E /* MishuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishuApp.swift; sourceTree = "<group>"; };
 		0D5076130C1CE8117FD8EB3A /* View+shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+shadow.swift"; sourceTree = "<group>"; };
 		0ECF311700F52DDF7DFCC174 /* GeocodeAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeocodeAPI.swift; sourceTree = "<group>"; };
+		10F9DA5E6A398C3FE36C8DBA /* SQLiteVecIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteVecIntegrationTests.swift; sourceTree = "<group>"; };
 		13BBAE42DA576F46B6B1DB5B /* VoiceRippleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRippleView.swift; sourceTree = "<group>"; };
 		15BDF40A9BDDFB19F876C29F /* NavHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavHeader.swift; sourceTree = "<group>"; };
 		17D398FA157E07E7C6ADE4E6 /* TextAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAssembler.swift; sourceTree = "<group>"; };
@@ -244,7 +262,6 @@
 		631D21E7BC858AE3E33DD0B3 /* EnvironmentValues+Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Namespace.swift"; sourceTree = "<group>"; };
 		64EE75721E2076D68F2A8697 /* MainView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.vm.swift; sourceTree = "<group>"; };
 		66F6A148D73F0F54D74394A3 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		680BF74E136FD416929E9775 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		69275A0F852F236D052AA8D2 /* MessageTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTable.swift; sourceTree = "<group>"; };
 		69F7E18F0DFDE73F69962A4F /* View+popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popup.swift"; sourceTree = "<group>"; };
 		6BD1E7F934FAAAFB719118D6 /* UIKitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTextField.swift; sourceTree = "<group>"; };
@@ -256,10 +273,10 @@
 		6DC1AE4522DCA84C0522AF3A /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		707102ED28257EB5EE2939B4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		70CA2CAAF10CC871F11ED1C8 /* OrderAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderAPI.swift; sourceTree = "<group>"; };
+		712F426A50BF909FE22B66C5 /* SQLiteVecBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteVecBootstrap.swift; sourceTree = "<group>"; };
 		72EDAB590B1D32B14DE0D0D6 /* AppNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationStack.swift; sourceTree = "<group>"; };
 		7559A373DF492C117ACA4B9A /* Array+rotated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+rotated.swift"; sourceTree = "<group>"; };
 		78AD43937AE2D6AF8F5EB4E9 /* LicensePlateKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensePlateKeyboard.swift; sourceTree = "<group>"; };
-		7B793D80FED4F4BA07AFC267 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7D1BC3CFCA653F86B0C413D6 /* Gps.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gps.swift; sourceTree = "<group>"; };
 		7DAC82D5863EA313442DE4EB /* AppRoute.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppRoute.swift; sourceTree = "<group>"; };
 		802977BCD5035302C08772DA /* MishuAppUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MishuAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -284,7 +301,6 @@
 		A76A602A343D7BFD2341AC09 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
 		A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cornerRadius.swift"; sourceTree = "<group>"; };
 		A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+dismissKeyboard.swift"; sourceTree = "<group>"; };
-		A91952C3987EFD73A0FF706E /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		AB129E3E75440C24B3C00C78 /* MascotSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSectionView.swift; sourceTree = "<group>"; };
 		AB469B7432C466BC2A56337F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ABE846109D38237FC8E25DE9 /* String+timeValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+timeValid.swift"; sourceTree = "<group>"; };
@@ -320,6 +336,7 @@
 		EB7999A31D2B60C18AEDCDB1 /* MishuApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MishuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBBA60409498052E1D222836 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		EC9BDFE481520DC0F1BD0E94 /* View+matchedGeometryEffectIfLet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+matchedGeometryEffectIfLet.swift"; sourceTree = "<group>"; };
+		ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SQLiteVec.xcframework; path = "Vendor/sqlite-vec/SQLiteVec.xcframework"; sourceTree = "<group>"; };
 		EE0671FC51D99DBDC970F529 /* BusinessError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessError.swift; sourceTree = "<group>"; };
 		EED1B4C6B894054AEA1AC551 /* View+onDragWithEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+onDragWithEnd.swift"; sourceTree = "<group>"; };
 		EF3B1C097E7802ED289EB430 /* View+popupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popupTest.swift"; sourceTree = "<group>"; };
@@ -342,7 +359,7 @@
 				1BD83826590CC2971450E121 /* ImageViewer in Frameworks */,
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
-				0243A20C8885115CCD6D600D /* Pods_MishuApp.framework in Frameworks */,
+				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,16 +406,6 @@
 				BAFDFB2DD56BFDBAD1213FD1 /* Success.lottie */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		40380C2ED8EF3CC9B5FB4FCC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				680BF74E136FD416929E9775 /* Pods-MishuApp.debug.xcconfig */,
-				A91952C3987EFD73A0FF706E /* Pods-MishuApp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		5564364F6EB05C661C2BA062 /* Login */ = {
@@ -483,9 +490,8 @@
 				3C99760B79249F8A38BFD574 /* Resources */,
 				F54D5BBFBF95C147DFA64B69 /* UI */,
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
+				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
-				40380C2ED8EF3CC9B5FB4FCC /* Pods */,
-				E273ADB462B6027005037CF4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -495,6 +501,7 @@
 				48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */,
 				6D064E86CD3F0D139972F59F /* AppDatabaseConfig.swift */,
 				69275A0F852F236D052AA8D2 /* MessageTable.swift */,
+				712F426A50BF909FE22B66C5 /* SQLiteVecBootstrap.swift */,
 			);
 			path = Database;
 			sourceTree = "<group>";
@@ -520,6 +527,14 @@
 				96CC49613744AF6430E6A32F /* Utils */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		823150AADE3B003FB7096195 /* Pages */ = {
@@ -607,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				D3B9A9D9D482B7F60E263DA5 /* HomeVoiceTranscriptAssemblerTests.swift */,
+				10F9DA5E6A398C3FE36C8DBA /* SQLiteVecIntegrationTests.swift */,
 			);
 			name = Unit;
 			path = Tests/Unit;
@@ -663,14 +679,6 @@
 				C29ED4B1928D82B6B0FED1C4 /* Modifier */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		E273ADB462B6027005037CF4 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				7B793D80FED4F4BA07AFC267 /* Pods_MishuApp.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		F0087C8A62B04070C5C39A8B /* API */ = {
@@ -733,6 +741,8 @@
 				A6314545CD08D46D5821D7C0 /* PBXTargetDependency */,
 			);
 			name = MishuAppUITests;
+			packageProductDependencies = (
+			);
 			productName = MishuAppUITests;
 			productReference = 802977BCD5035302C08772DA /* MishuAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -749,6 +759,8 @@
 				C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */,
 			);
 			name = MishuAppTests;
+			packageProductDependencies = (
+			);
 			productName = MishuAppTests;
 			productReference = D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -757,10 +769,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
-				6F1E0E515C712F2364A1C8E7 /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
+				C55A6B9625DD1204216721B2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -820,7 +832,6 @@
 				259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 71DEA75AA51B50493F081038 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -844,31 +855,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		6F1E0E515C712F2364A1C8E7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MishuApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A5D5B52068640738302AC7E /* Sources */ = {
@@ -951,6 +937,7 @@
 				9EC798E1B28A0E5BE112D5D8 /* PayAPI.swift in Sources */,
 				D5C3DAC930C95027135BF630 /* ResourceAPI.swift in Sources */,
 				44CF889931F108CC5E8568A0 /* RouteParser.swift in Sources */,
+				C27FCF4FB17AE9E36AA36B20 /* SQLiteVecBootstrap.swift in Sources */,
 				F0A0E6FCD01B694FC853F773 /* SecureTextField.swift in Sources */,
 				FEBEED4431E79257139F3087 /* SelfStore.swift in Sources */,
 				6FA8A3D5CD47E148C7E7CADA /* Setting.swift in Sources */,
@@ -1030,6 +1017,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7035B1E6649314A7F5622042 /* HomeVoiceTranscriptAssemblerTests.swift in Sources */,
+				381F36D125490BA60AED63BA /* SQLiteVecIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1068,7 +1056,6 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A91952C3987EFD73A0FF706E /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1079,6 +1066,10 @@
 				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 5GFMWSR59V;
 				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Vendor/sqlite-vec\"",
+				);
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
@@ -1112,7 +1103,6 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 680BF74E136FD416929E9775 /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1123,6 +1113,10 @@
 				CURRENT_PROJECT_VERSION = 15;
 				DEVELOPMENT_TEAM = 5GFMWSR59V;
 				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"Vendor/sqlite-vec\"",
+				);
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";

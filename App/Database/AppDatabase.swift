@@ -19,6 +19,7 @@ final class AppDatabase {
     let fileURL = try AppDatabaseConfig.databaseFileURL(userId: normalizedUserId)
 
     let connection = try Connection(fileURL.path)
+    try SQLiteVecBootstrap.install(on: connection)
     _ = try? connection.run("PRAGMA foreign_keys = OFF")
     _ = try? connection.run("PRAGMA journal_mode = WAL")
 
