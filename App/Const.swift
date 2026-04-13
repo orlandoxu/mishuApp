@@ -95,12 +95,48 @@ enum AppConst {
     Bundle.main.object(forInfoDictionaryKey: "UMengLogEnabled") as? Bool ?? false
   }
 
-  // 火山（豆包）实时语音识别配置（来源：voiceInput 子模块已验证可用配置）
+  // 火山（豆包）实时语音识别配置
   static let volcSpeechAppID = "6627245859"
   static let volcSpeechAccessKey = "894c4c83-6c8f-4b3b-8154-79b9fc97d545"
   static let volcSpeechSecretKey = "TmGjtW8Zciu6b36nRHKiRJjix43Q0aJR"
   static let volcSpeechResourceID = "volc.seedasr.sauc.duration"
   static let volcSpeechServerURL = "wss://openspeech.bytedance.com/api/v3/sauc/bigmodel_async"
+
+  // Doubao Embedding（火山方舟）配置
+  // 支持通过 UserDefaults 动态覆盖，便于真机调试时快速切换。
+  static var doubaoEmbeddingApiKey: String {
+    let override = UserDefaults.standard.string(forKey: "mishu_doubao_embedding_api_key") ?? ""
+    if !override.isEmpty { return override }
+    return Bundle.main.object(forInfoDictionaryKey: "DoubaoEmbeddingAPIKey") as? String ?? ""
+  }
+
+  static var doubaoEmbeddingBaseURL: String {
+    let override = UserDefaults.standard.string(forKey: "mishu_doubao_embedding_base_url") ?? ""
+    if !override.isEmpty { return override }
+    return Bundle.main.object(forInfoDictionaryKey: "DoubaoEmbeddingBaseURL") as? String
+      ?? "https://ark.cn-beijing.volces.com/api/v3"
+  }
+
+  static var doubaoEmbeddingModel: String {
+    let override = UserDefaults.standard.string(forKey: "mishu_doubao_embedding_model") ?? ""
+    if !override.isEmpty { return override }
+    return Bundle.main.object(forInfoDictionaryKey: "DoubaoEmbeddingModel") as? String ?? "text-240715"
+  }
+
+  static var doubaoEmbeddingDimension: Int {
+    let override = UserDefaults.standard.integer(forKey: "mishu_doubao_embedding_dimension")
+    if override > 0 { return override }
+    let infoValue = Bundle.main.object(forInfoDictionaryKey: "DoubaoEmbeddingDimension") as? Int
+    return infoValue ?? 2048
+  }
+
+  // 业务后端落库接口（服务端负责真正写 MySQL）
+  static var memoryIngestEndpoint: String {
+    let override = UserDefaults.standard.string(forKey: "mishu_memory_ingest_endpoint") ?? ""
+    if !override.isEmpty { return override }
+    return Bundle.main.object(forInfoDictionaryKey: "MemoryIngestEndpoint") as? String
+      ?? "/v1/ai/memory/ingest"
+  }
 
   /// static let gaoDeKey = "ffe3d26208fb8adb73ce6ff5c76f4462"
   static let gaoDeKey = "6a62c0d860ebc2050b23bf5055ab5431"

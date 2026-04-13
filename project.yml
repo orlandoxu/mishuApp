@@ -105,6 +105,11 @@ targets:
         UMengAppKey: "699d567f6f259537c7620d17"
         UMengChannel: "App Store"
         UMengLogEnabled: false
+        DoubaoEmbeddingAPIKey: ""
+        DoubaoEmbeddingBaseURL: "https://ark.cn-beijing.volces.com/api/v3"
+        DoubaoEmbeddingModel: "text-240715"
+        DoubaoEmbeddingDimension: 2048
+        MemoryIngestEndpoint: "/v1/ai/memory/ingest"
         NSBonjourServices:
           - "_http._tcp"
           - "_https._tcp"

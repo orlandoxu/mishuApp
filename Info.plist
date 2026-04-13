@@ -113,6 +113,16 @@
 	<string>App Store</string>
 	<key>UMengLogEnabled</key>
 	<false/>
+	<key>DoubaoEmbeddingAPIKey</key>
+	<string></string>
+	<key>DoubaoEmbeddingBaseURL</key>
+	<string>https://ark.cn-beijing.volces.com/api/v3</string>
+	<key>DoubaoEmbeddingModel</key>
+	<string>text-240715</string>
+	<key>DoubaoEmbeddingDimension</key>
+	<integer>2048</integer>
+	<key>MemoryIngestEndpoint</key>
+	<string>/v1/ai/memory/ingest</string>
 	<key>WeChatAppID</key>
 	<string>wx8069f4359e40557e</string>
 	<key>WeChatUniversalLink</key>

@@ -9,6 +9,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
 
   private let captureService = AudioStreamCapture()
   private let speechService = VolcSpeechService()
+  private let memoryPipeline = VoiceMemoryPipeline.shared
 
   private var transcriptAssembler = VoiceTextAssembler()
 
@@ -69,6 +70,12 @@ final class VoiceRealtimeCtrl: ObservableObject {
     speechService.stopRecording()
 
     isListening = false
+    let finalText = recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !finalText.isEmpty {
+      Task {
+        await memoryPipeline.processIfNeeded(text: finalText)
+      }
+    }
     completion(recognizedText)
   }
 
