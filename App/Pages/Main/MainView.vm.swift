@@ -1,11 +1,9 @@
 import AVFoundation
-import Combine
 import Foundation
 
 @MainActor
 final class VoiceRealtimeCtrl: ObservableObject {
   @Published private(set) var isListening: Bool = false
-  @Published private(set) var audioLevel: CGFloat = 0
   @Published private(set) var recognizedText: String = ""
   @Published private(set) var lastErrorMessage: String?
 
@@ -92,16 +90,8 @@ final class VoiceRealtimeCtrl: ObservableObject {
     speechService.onRecordingStopped = { [weak self] _ in
       self?.isListening = false
     }
-
-    captureService.$audioLevel
-      .receive(on: RunLoop.main)
-      .sink { [weak self] level in
-        self?.audioLevel = level
-      }
-      .store(in: &cancellables)
   }
 
-  private var cancellables: Set<AnyCancellable> = []
   private var serviceErrorText: String {
     speechService.connectionError.isEmpty ? "语音识别服务连接失败" : speechService.connectionError
   }

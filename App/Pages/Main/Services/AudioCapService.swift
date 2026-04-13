@@ -9,7 +9,6 @@ final class AudioStreamCapture: NSObject, ObservableObject {
   var onRecordState: ((Bool) -> Void)?
 
   @Published private(set) var isRecording: Bool = false
-  @Published private(set) var audioLevel: CGFloat = 0
 
   private let sampleRate: Double = 16000
   private let channels: AVAudioChannelCount = 1
@@ -37,7 +36,6 @@ final class AudioStreamCapture: NSObject, ObservableObject {
     audioEngine = nil
 
     isRecording = false
-    audioLevel = 0
     onRecordState?(false)
   }
 
@@ -134,22 +132,8 @@ final class AudioStreamCapture: NSObject, ObservableObject {
 
       let data = Data(bytes: channelData[0], count: Int(convertedBuffer.frameLength) * 2)
       DispatchQueue.main.async { [weak self] in
-        self?.calculateAudioLevel(buffer: buffer)
         self?.onAudioData?(data)
       }
     }
-  }
-
-  private func calculateAudioLevel(buffer: AVAudioPCMBuffer) {
-    guard let channelData = buffer.floatChannelData else { return }
-
-    let channelDataValue = channelData.pointee
-    let channelDataValueArray = stride(from: 0, to: Int(buffer.frameLength), by: buffer.stride).map { channelDataValue[$0] }
-
-    let rms = sqrt(channelDataValueArray.map { $0 * $0 }.reduce(0, +) / Float(buffer.frameLength))
-    let avgPower = 20 * log10(rms)
-    let normalizedValue = max(0, min(1, (avgPower + 80) / 80))
-
-    audioLevel = CGFloat(normalizedValue)
   }
 }

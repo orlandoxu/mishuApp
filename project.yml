@@ -2,7 +2,7 @@ name: MishuApp
 options:
   bundleIdPrefix: com.spreadwin
   deploymentTarget:
-    iOS: "16.0"
+    iOS: "16"
 packages:
   SwiftMessages:
     url: https://github.com/SwiftKickMobile/SwiftMessages.git

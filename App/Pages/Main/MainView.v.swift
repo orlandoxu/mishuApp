@@ -89,7 +89,6 @@ struct MainView: View {
 
           VoiceActionView(
             status: status.phase,
-            level: realtimeController.audioLevel,
             onTap: toggleInteraction
           )
           .frame(height: proxy.size.height * 0.22)

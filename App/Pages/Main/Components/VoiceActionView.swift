@@ -2,7 +2,6 @@ import SwiftUI
 
 struct VoiceActionView: View {
   let status: VoicePhase
-  let level: CGFloat
   let onTap: () -> Void
 
   var body: some View {
@@ -11,15 +10,9 @@ struct VoiceActionView: View {
     let isActive = isListening || isThinking
 
     ZStack {
-      if isListening {
-        VoiceListeningRippleView(level: level)
-          .transition(.opacity)
-          .accessibilityIdentifier("home_voice_visualizer")
-      }
-
-      if isThinking {
+      if isActive {
         VoiceThinkingIndicatorView()
-          .accessibilityIdentifier("home_voice_thinking")
+          .accessibilityIdentifier("home_voice_indicator")
       }
 
       Button(action: onTap) {
