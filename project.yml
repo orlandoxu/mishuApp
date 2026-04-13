@@ -98,6 +98,7 @@ targets:
               - wx8069f4359e40557e
         NSCameraUsageDescription: "用于扫码绑定设备"
         NSMicrophoneUsageDescription: "用于直播对讲功能（向设备发送语音）"
+        NSSpeechRecognitionUsageDescription: "用于将语音内容转写为文字"
         NSLocationWhenInUseUsageDescription: "用于获取定位城市和地图显示"
         NSLocalNetworkUsageDescription: "用于连接记录仪设备并获取设备信息"
         NSPhotoLibraryUsageDescription: "用于从相册选择二维码图片进行识别"

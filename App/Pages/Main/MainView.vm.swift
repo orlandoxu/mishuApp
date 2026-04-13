@@ -8,12 +8,13 @@ final class VoiceRealtimeCtrl: ObservableObject {
   @Published private(set) var lastErrorMessage: String?
 
   private let captureService = AudioStreamCapture()
-  private let speechService = VolcSpeechService()
+  private let speechService: SpeechRecognitionService
   private let memoryPipeline = VoiceMemoryPipeline.shared
 
   private var transcriptAssembler = VoiceTextAssembler()
 
   init() {
+    speechService = SpeechRecognitionServiceFactory.makeService()
     bindServices()
   }
 
