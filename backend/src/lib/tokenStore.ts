@@ -1,6 +1,6 @@
 import crypto from 'node:crypto';
-import { config, type RedisUser } from '../config/config.js';
-import { redis } from '../common/redisInstance.js';
+import { config, type RedisUser } from '../config/config';
+import { redis } from '../common/redisInstance';
 
 const TOKEN_EXPIRE = config.redisKey.loginToken.expire;
 

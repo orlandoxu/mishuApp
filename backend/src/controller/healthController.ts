@@ -1,13 +1,12 @@
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import { REPLY } from '../common/error.js';
-import { InfraHealthService } from '../service/infraHealthService.js';
+import { InfraHealthService } from '../service/infraHealthService';
 
+// DONE-AI: 删除冗余 HealthPayload 类型，直接让 TypeScript 从 ok(...) 推导返回结构。
 export class HealthController {
-  static async health(_request: FastifyRequest, _reply: FastifyReply): Promise<never> {
+  static async health(_request: FastifyRequest) {
     const dependencies = await InfraHealthService.checkDependencies();
 
-    REPLY({
-      status: 'ok',
+    return ok({
+      status: 'ok' as const,
       uptimeSeconds: Math.round(process.uptime()),
       timestamp: new Date().toISOString(),
       dependencies,

@@ -1,5 +1,5 @@
-import { MongoDbConn } from '../lib/mongoDbConn.js';
-import { config } from '../config/config.js';
+import { MongoDbConn } from '../lib/mongoDbConn';
+import { config } from '../config/config';
 
 const mongoDbConn = new MongoDbConn({
   host: config.mongodb.HOST,

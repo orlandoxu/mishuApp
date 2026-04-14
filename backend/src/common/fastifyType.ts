@@ -1,4 +1,4 @@
-import type { RedisUser } from '../config/config.js';
+import type { RedisUser } from '../config/config';
 
 declare module 'fastify' {
   interface FastifyRequest {

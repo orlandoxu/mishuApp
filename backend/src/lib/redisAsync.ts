@@ -1,21 +1,14 @@
-import RedisImport, { type RedisKey } from 'ioredis';
-import type { RedisNodeConfig } from '../config/config.js';
-
-type RedisClient = {
-  ping(): Promise<string>;
-  set(key: RedisKey, value: string, mode?: 'EX', ttl?: number): Promise<'OK' | null>;
-  get(key: RedisKey): Promise<string | null>;
-  expire(key: RedisKey, ttl: number): Promise<number>;
-  del(key: RedisKey): Promise<number>;
-};
+import RedisImport, { type RedisKey } from "ioredis";
+// DONE-AI: 现在是 Bun + ESNext(Bundler) 方案，源码保持 TS 扩展名无后缀导入即可。
+import type { RedisNodeConfig } from "../config/config";
 
 export default class RedisAsync {
-  private readonly client: RedisClient;
+  private readonly client: RedisImport;
 
   constructor(redisConfig: RedisNodeConfig[] | RedisNodeConfig) {
     const node = Array.isArray(redisConfig) ? redisConfig[0] : redisConfig;
-    const RedisCtor = RedisImport as unknown as new (options: RedisNodeConfig) => RedisClient;
-    this.client = new RedisCtor(node);
+    // DONE-AI: 删除中间 RedisClient 类型，直接使用 ioredis 原生类型。
+    this.client = new RedisImport(node);
   }
 
   async ping(): Promise<string> {
@@ -24,9 +17,9 @@ export default class RedisAsync {
 
   async set(key: RedisKey, value: string, ttl = 0): Promise<boolean> {
     const ret = ttl
-      ? await this.client.set(key, value, 'EX', ttl)
+      ? await this.client.set(key, value, "EX", ttl)
       : await this.client.set(key, value);
-    return ret === 'OK';
+    return ret === "OK";
   }
 
   async get(key: RedisKey, ttl = 0): Promise<string | null> {

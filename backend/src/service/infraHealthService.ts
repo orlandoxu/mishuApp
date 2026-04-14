@@ -1,5 +1,5 @@
-import { dbConn } from '../common/mongoInstance.js';
-import { redis } from '../common/redisInstance.js';
+import { dbConn } from '../common/mongoInstance';
+import { redis } from '../common/redisInstance';
 
 export type DependencyHealth = {
   redis: 'ok' | 'error';

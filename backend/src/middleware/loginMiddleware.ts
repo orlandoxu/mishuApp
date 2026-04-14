@@ -1,6 +1,5 @@
-import type { FastifyReply, FastifyRequest } from 'fastify';
-import { ASSERT, Ret } from '../common/error.js';
-import { UserTokenService } from '../service/userTokenService.js';
+import { ASSERT, Ret } from '../common/error';
+import { UserTokenService } from '../service/userTokenService';
 
 export async function loginMiddleware(request: FastifyRequest, _reply: FastifyReply): Promise<void> {
   if (request.routeOptions.config?.noAuth) {

@@ -1,8 +1,4 @@
-import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+import path from 'node:path';
 
 export interface RedisUser {
   id: string;
@@ -68,7 +64,7 @@ export const config = {
     uNoId2uId: 'in-uNoId2uId-',
   },
   yjs: {
-    storePath: dirname(dirname(__dirname)) + '/docs',
+    storePath: path.resolve(process.cwd(), 'docs'),
   },
   domain: {
     api: process.env.BACKEND_API_DOMAIN ?? 'http://localhost:3000',

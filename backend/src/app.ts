@@ -1,13 +1,13 @@
-import './common/fastifyType.js';
+import './common/globals';
+import './common/fastifyType';
 
-import Fastify, { type FastifyInstance, type FastifyReply, type FastifyRequest } from 'fastify';
+import Fastify, { type FastifyInstance } from 'fastify';
 import cors from '@fastify/cors';
-import chalk from 'chalk';
 
-import { RestError, RestErrorWithData } from './common/error.js';
-import { config } from './config/config.js';
-import { loginMiddleware } from './middleware/loginMiddleware.js';
-import { registerRoutes } from './routes/routes.js';
+import { RestError } from './common/error';
+import { config } from './config/config';
+import { loginMiddleware } from './middleware/loginMiddleware';
+import { registerRoutes } from './routes/routes';
 
 export async function createApp(): Promise<FastifyInstance> {
   const app = Fastify({ logger: false });
@@ -18,7 +18,7 @@ export async function createApp(): Promise<FastifyInstance> {
 
   app.addHook('onRequest', (request: FastifyRequest, _reply: FastifyReply, done) => {
     request.logStart = process.hrtime.bigint();
-    console.log(chalk.yellow(`Request: ${request.method} ${request.raw.url ?? ''}`));
+    console.log(`Request: ${request.method} ${request.raw.url ?? ''}`);
     done();
   });
 
@@ -27,13 +27,11 @@ export async function createApp(): Promise<FastifyInstance> {
     if (start) {
       const durationMs = Number(process.hrtime.bigint() - start) / 1_000_000;
       const logs = [
-        chalk.green(
-          `Response: ${request.method} ${request.raw.url ?? ''} ${durationMs.toFixed(1)}ms ${reply.statusCode}`
-        ),
+        `Response: ${request.method} ${request.raw.url ?? ''} ${durationMs.toFixed(1)}ms ${reply.statusCode}`,
       ];
 
       if (config.app.nodeEnv !== 'production') {
-        logs.push(chalk.white(typeof payload === 'string' ? payload : JSON.stringify(payload)));
+        logs.push(typeof payload === 'string' ? payload : JSON.stringify(payload));
       }
 
       console.log(...logs);
@@ -45,11 +43,6 @@ export async function createApp(): Promise<FastifyInstance> {
   app.setErrorHandler((error, _request, reply) => {
     if (error instanceof RestError) {
       reply.status(200).send({ ret: error.code ?? 10000, msg: error.message ?? '系统内部错误，请稍后重试' });
-      return;
-    }
-
-    if (error instanceof RestErrorWithData) {
-      reply.status(200).send({ ret: error.code ?? 0, msg: error.message ?? '', data: error.data });
       return;
     }
 

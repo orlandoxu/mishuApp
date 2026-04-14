@@ -1,5 +1,5 @@
-import { loadUserByToken, issueToken } from '../lib/tokenStore.js';
-import type { RedisUser } from '../config/config.js';
+import { loadUserByToken, issueToken } from '../lib/tokenStore';
+import type { RedisUser } from '../config/config';
 
 export class UserTokenService {
   static async ensureLastUserRedis(token: string): Promise<RedisUser | null> {
