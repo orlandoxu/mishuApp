@@ -13,6 +13,9 @@ build
 # 通过 xcodegen generate 生成的项目
 TuYun.xcodeproj
 TuYun.xcworkspace
+# 迁移到 monorepo 后，防止误把根目录误生成的工程提交
+MishuApp.xcodeproj
+MishuApp.xcworkspace
 xcuserdata/
 .VSCodeCounter
 
@@ -28,6 +31,13 @@ uiPng
 ui2
 *.html
 
+# Monorepo: backend 本地依赖与构建产物
+backend/node_modules/
+backend/dist/
+backend/.env
+backend/.env.*
+!backend/.env.example
+
 # 日志不需要提交
 *.log
 log
@@ -39,4 +49,4 @@ IOSDemoDoc
 .idea
 
 # 本地 socket 测试脚本（包含临时 token，不入库）
-App/DebugScripts/socket-ping-monitor.mjs
+ios/App/DebugScripts/socket-ping-monitor.mjs

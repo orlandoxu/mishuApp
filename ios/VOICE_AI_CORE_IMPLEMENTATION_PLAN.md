@@ -52,7 +52,7 @@ Out of scope for this delivery:
 2. Unit: `VoiceTurnTextRulesTests`
    - clarification merge
 3. Build/test command baseline:
-   - `xcodebuild test -project MishuApp.xcodeproj -scheme MishuApp -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.4' -only-testing:MishuAppTests/MemoryIntentPlanTests -only-testing:MishuAppTests/VoiceTurnTextRulesTests`
+   - `xcodebuild test -project ios/MishuApp.xcodeproj -scheme MishuApp -destination 'platform=iOS Simulator,name=iPhone 17,OS=26.4' -only-testing:MishuAppTests/MemoryIntentPlanTests -only-testing:MishuAppTests/VoiceTurnTextRulesTests`
 
 ## 6. Current Risks and Follow-ups
 1. Simulator test link currently depends on missing UMeng frameworks in local environment.

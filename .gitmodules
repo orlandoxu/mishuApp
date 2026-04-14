@@ -1,3 +1,6 @@
 [submodule "mishuAppUI"]
 	path = mishuAppUI
 	url = git@github.com:orlandoxu/mishuAppUI.git
+[submodule "SDao"]
+	path = SDao
+	url = git@github.com:orlandoxu/SDao.git

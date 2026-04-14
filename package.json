@@ -1,0 +1,13 @@
+{
+  "name": "mishu-monorepo",
+  "private": true,
+  "version": "0.0.1",
+  "packageManager": "pnpm@10.17.1",
+  "scripts": {
+    "lint": "pnpm -r --if-present lint",
+    "build": "pnpm -r build",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "backend:dev": "pnpm --filter @mishu/backend dev",
+    "ui:dev": "pnpm --filter react-example dev"
+  }
+}

@@ -55,6 +55,7 @@
 		5D54BBCECF1EF7768B5137CE /* ImageViewerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */; };
 		5E83B02A6E9895B164DF5D5F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFB50AAAB01D705EBADE2 /* BlurView.swift */; };
 		5FE4B2A869C1DC5B5D71AD68 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 46AAC4A254FE881DF1B94951 /* Success.json */; };
+		60C90B260556D1F0417CF53B /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A5AB20A31D909F6F9BA355A /* Pods_MishuApp.framework */; };
 		625F0FEF941E0F4823A3C266 /* MemoryIntentPlanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 276EFD09D2C5546F4BFB8EBA /* MemoryIntentPlanTests.swift */; };
 		64A6033A34656A9A55AC92AC /* Date+tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD55579B782394CFD188DD91 /* Date+tools.swift */; };
 		6518178CDD475509A1668A3B /* LocationPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06448451E7BE9F569323114A /* LocationPermissionStore.swift */; };
@@ -126,13 +127,13 @@
 		E537B2173569FFC931A57BC0 /* View+cssPadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5FECF7FCDC61193C1E384F4 /* View+cssPadding.swift */; };
 		E8B552F1CB6E2CA5DDEA9124 /* DoubaoChatAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9771E32B41D8845FA85247E9 /* DoubaoChatAPI.swift */; };
 		EA9C1C28B99C359A7BB739E7 /* View+KeyboardDismissModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42D27527AFBFFA564061EE09 /* View+KeyboardDismissModifier.swift */; };
-		EE6657D944011D81BB73FC5B /* TextTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB40B202C0EE235088AE3478 /* TextTools.swift */; };
 		EE88FED701D24DAF502BE4C3 /* View+shadow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D5076130C1CE8117FD8EB3A /* View+shadow.swift */; };
 		EFE37A1E9B71924557348B1A /* MemoryVectorStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF70799BB11361A715C2829C /* MemoryVectorStoreTests.swift */; };
 		F0A0E6FCD01B694FC853F773 /* SecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F50C366BAA0EB5879D1D21 /* SecureTextField.swift */; };
 		F1665B4DA8D1CA101875C302 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB469B7432C466BC2A56337F /* Assets.xcassets */; };
 		F16F3F5B44D3C99330CC22E0 /* VoiceTurnTextRulesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D35356CB2F4D069FAF953248 /* VoiceTurnTextRulesTests.swift */; };
 		F17521D3BB382791BF612F6D /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFF3611510DE9148A0D6438 /* Color+Hex.swift */; };
+		F1B605AF38400268B6ED15A5 /* TextClean.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63B303DFA494810336816A0F /* TextClean.swift */; };
 		F1CDE4B9822B519A6AD8B25B /* View+popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7E18F0DFDE73F69962A4F /* View+popup.swift */; };
 		F57429D0E30D2BCD92519155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */; };
 		F59CA40E7E2F45BB21055CE4 /* SQLiteVec.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -238,10 +239,12 @@
 		60FD508224DE4E937C29691F /* MessageStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageStore.swift; sourceTree = "<group>"; };
 		618B70532359390CDB5B2D34 /* View+toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toast.swift"; sourceTree = "<group>"; };
 		631D21E7BC858AE3E33DD0B3 /* EnvironmentValues+Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Namespace.swift"; sourceTree = "<group>"; };
+		63B303DFA494810336816A0F /* TextClean.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextClean.swift; sourceTree = "<group>"; };
 		64EE75721E2076D68F2A8697 /* MainView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.vm.swift; sourceTree = "<group>"; };
 		6600B906EB9DB84DEF4E0E45 /* RouteEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteEngine.swift; sourceTree = "<group>"; };
 		69275A0F852F236D052AA8D2 /* MessageTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTable.swift; sourceTree = "<group>"; };
 		69F7E18F0DFDE73F69962A4F /* View+popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popup.swift"; sourceTree = "<group>"; };
+		6A5AB20A31D909F6F9BA355A /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		6BD1E7F934FAAAFB719118D6 /* UIKitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTextField.swift; sourceTree = "<group>"; };
 		6CCFE4852FA963FA927BC1F7 /* UIImage+resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
 		6CE69C127D034996F54D8691 /* View+FullBrandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FullBrandButton.swift"; sourceTree = "<group>"; };
@@ -299,12 +302,12 @@
 		DF70799BB11361A715C2829C /* MemoryVectorStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVectorStoreTests.swift; sourceTree = "<group>"; };
 		E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessage.swift; sourceTree = "<group>"; };
 		E46A655DB9CB57294BFF38F5 /* AMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AMap-Bridging-Header.h"; sourceTree = "<group>"; };
+		E52C348C6135B49E5CE8B823 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+keyboardAvoiding.swift"; sourceTree = "<group>"; };
 		E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensePlateInputView.swift; sourceTree = "<group>"; };
 		E929DDF98400CACD894E849E /* AppStateStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStateStore.swift; sourceTree = "<group>"; };
 		EA7D068E8E34EA40052B6321 /* delegateNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateNotification.swift; sourceTree = "<group>"; };
 		EABBC907F0FDA97D9614BCF1 /* DeviceResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceResource.swift; sourceTree = "<group>"; };
-		EB40B202C0EE235088AE3478 /* TextTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextTools.swift; sourceTree = "<group>"; };
 		EB7999A31D2B60C18AEDCDB1 /* MishuApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = MishuApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EC9BDFE481520DC0F1BD0E94 /* View+matchedGeometryEffectIfLet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+matchedGeometryEffectIfLet.swift"; sourceTree = "<group>"; };
 		ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = SQLiteVec.xcframework; path = "Vendor/sqlite-vec/SQLiteVec.xcframework"; sourceTree = "<group>"; };
@@ -313,6 +316,7 @@
 		EF3B1C097E7802ED289EB430 /* View+popupTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popupTest.swift"; sourceTree = "<group>"; };
 		F20BAA1E3296CCCA926127B6 /* AppNavigationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationModel.swift; sourceTree = "<group>"; };
 		F6D2B0C64471C4CCFBCC3221 /* MemoryTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryTable.swift; sourceTree = "<group>"; };
+		F8B317C82A6E1C7AF01487DA /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		FA39E7B21013F38185BBFD00 /* View+SwipeActions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SwipeActions.swift"; sourceTree = "<group>"; };
 		FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD55579B782394CFD188DD91 /* Date+tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+tools.swift"; sourceTree = "<group>"; };
@@ -332,6 +336,7 @@
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
 				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
+				60C90B260556D1F0417CF53B /* Pods_MishuApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -345,6 +350,16 @@
 				83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */,
 			);
 			path = VoiceAnimations;
+			sourceTree = "<group>";
+		};
+		24B017AD8AE7826CACE9E8DB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E52C348C6135B49E5CE8B823 /* Pods-MishuApp.debug.xcconfig */,
+				F8B317C82A6E1C7AF01487DA /* Pods-MishuApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		2982765E6E4F6CAA1B614313 /* Services */ = {
@@ -389,7 +404,7 @@
 				C032AEA26129E86B9BC1AA6A /* RouteLog.swift */,
 				3FE20A36382940709522835A /* RouteModel.swift */,
 				5BD544E9867437A467ECD021 /* SessionStore.swift */,
-				EB40B202C0EE235088AE3478 /* TextTools.swift */,
+				63B303DFA494810336816A0F /* TextClean.swift */,
 			);
 			path = AgentRoute;
 			sourceTree = "<group>";
@@ -478,6 +493,7 @@
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
+				24B017AD8AE7826CACE9E8DB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -522,6 +538,7 @@
 			isa = PBXGroup;
 			children = (
 				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
+				6A5AB20A31D909F6F9BA355A /* Pods_MishuApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -715,8 +732,6 @@
 				A6314545CD08D46D5821D7C0 /* PBXTargetDependency */,
 			);
 			name = MishuAppUITests;
-			packageProductDependencies = (
-			);
 			productName = MishuAppUITests;
 			productReference = 802977BCD5035302C08772DA /* MishuAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -733,8 +748,6 @@
 				C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */,
 			);
 			name = MishuAppTests;
-			packageProductDependencies = (
-			);
 			productName = MishuAppTests;
 			productReference = D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -743,6 +756,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
+				440BA29050321C58E644BC11 /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
@@ -806,6 +820,7 @@
 				259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 71DEA75AA51B50493F081038 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -829,6 +844,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		440BA29050321C58E644BC11 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MishuApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A5D5B52068640738302AC7E /* Sources */ = {
@@ -913,8 +953,8 @@
 				50F45E929048EA881874A7B9 /* String+extension.swift in Sources */,
 				13EF72403BDB2828E93ECF88 /* String+timeValid.swift in Sources */,
 				DBEDD57BC88F46F12B919D0F /* TextAssembler.swift in Sources */,
+				F1B605AF38400268B6ED15A5 /* TextClean.swift in Sources */,
 				AF80A2CF3FFCCDE07B6BCFC6 /* TextField+autoFocus.swift in Sources */,
-				EE6657D944011D81BB73FC5B /* TextTools.swift in Sources */,
 				03408DFA392D40249689A2F8 /* Theme.swift in Sources */,
 				C2FA58515742798C1F412A1A /* UIApplication+dismissKeyboard.swift in Sources */,
 				D81F1E76B59836EE7CFB9B30 /* UIImage+resize.swift in Sources */,
@@ -1016,6 +1056,7 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F8B317C82A6E1C7AF01487DA /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1063,6 +1104,7 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E52C348C6135B49E5CE8B823 /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
