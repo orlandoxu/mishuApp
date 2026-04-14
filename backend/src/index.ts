@@ -1,5 +1,26 @@
-export function bootstrap(): void {
-  console.log("backend scaffold ready");
+import { createApp } from './app.js';
+import { config } from './config/config.js';
+
+export async function bootstrap(): Promise<void> {
+  const app = await createApp();
+
+  await app.listen({
+    port: config.app.port,
+    host: config.app.host,
+  });
+
+  console.log(`backend listening on http://${config.app.host}:${config.app.port}`);
 }
 
-bootstrap();
+bootstrap().catch((error) => {
+  console.error('backend startup failed', error);
+  process.exit(1);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('There was an uncaught error', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
