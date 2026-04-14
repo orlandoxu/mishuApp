@@ -53,6 +53,9 @@ export const config = {
   },
   ws: {
     path: process.env.BACKEND_WS_PATH ?? '/house',
+    wsEnabled: parseBool(process.env.BACKEND_WS_ENABLED, true),
+    wsHost: process.env.BACKEND_WS_HOST ?? '0.0.0.0',
+    wsPort: parsePort(process.env.BACKEND_WS_PORT, 3001),
     wssEnabled: parseBool(process.env.BACKEND_WSS_ENABLED, true),
     wssHost: process.env.BACKEND_WSS_HOST ?? '0.0.0.0',
     wssPort: parsePort(process.env.BACKEND_WSS_PORT, 3100),

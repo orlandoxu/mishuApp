@@ -8,7 +8,7 @@
     "skipLibCheck": true,
     "noEmit": true,
     "rootDir": "src",
-    "types": ["node", "ws"]
+    "types": ["bun", "node"]
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts"]
 }

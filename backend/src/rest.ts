@@ -1,15 +1,16 @@
 import './common/globals';
 import './common/fastifyType';
 
-import Fastify, { type FastifyInstance } from 'fastify';
+import Fastify from 'fastify';
 import cors from '@fastify/cors';
 
 import { RestError } from './common/error';
 import { config } from './config/config';
 import { loginMiddleware } from './middleware/loginMiddleware';
 import { registerRoutes } from './routes/routes';
+import { bootstrapWebSocketServices } from './websocket/bootstrap';
 
-export async function createApp(): Promise<FastifyInstance> {
+export async function bootstrap(): Promise<void> {
   const app = Fastify({ logger: false });
 
   await app.register(cors, {
@@ -53,5 +54,25 @@ export async function createApp(): Promise<FastifyInstance> {
   app.addHook('preHandler', loginMiddleware);
   registerRoutes(app);
 
-  return app;
+  await app.listen({
+    port: config.app.port,
+    host: config.app.host,
+  });
+
+  await bootstrapWebSocketServices();
+
+  console.log(`backend listening on http://${config.app.host}:${config.app.port}`);
 }
+
+bootstrap().catch((error) => {
+  console.error('backend startup failed', error);
+  process.exit(1);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('There was an uncaught error', error);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+});
