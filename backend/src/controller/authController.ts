@@ -7,7 +7,7 @@ export class AuthController {
     const body = (request.body ?? {}) as Record<string, unknown>;
     const name = typeof body.name === 'string' && body.name.trim() ? body.name.trim() : 'demo';
 
-    const result = UserTokenService.mockLogin(name);
+    const result = await UserTokenService.mockLogin(name);
     REPLY(result);
   }
 

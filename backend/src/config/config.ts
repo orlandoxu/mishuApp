@@ -1,3 +1,9 @@
+import { fileURLToPath } from 'node:url';
+import { dirname } from 'node:path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 export interface RedisUser {
   id: string;
   noId: number;
@@ -9,9 +15,26 @@ export interface RedisUser {
   v: number;
 }
 
+export type RedisNodeConfig = {
+  host: string;
+  port: number;
+  username: string;
+  password: string;
+  db: number;
+};
+
 function parsePort(value: string | undefined, fallback: number): number {
   const parsed = Number(value);
   if (!Number.isFinite(parsed) || parsed <= 0) {
+    return fallback;
+  }
+
+  return parsed;
+}
+
+function parseDb(value: string | undefined, fallback: number): number {
+  const parsed = Number(value);
+  if (!Number.isInteger(parsed) || parsed < 0) {
     return fallback;
   }
 
@@ -28,4 +51,46 @@ export const config = {
     tokenPrefix: 'tk-',
     tokenExpireSeconds: 3600 * 24 * 7,
   },
+  redisKey: {
+    userVersion: { key: 'tkv-' },
+    loginToken: { key: '', expire: 3600 * 24 * 7 },
+    userPermission: { key: 'user-p-', expire: 10 * 60 },
+    userProjectPermission: { key: 'user-pp-', expire: 10 * 60 },
+    userInProject: { key: 'user-in-p-', expire: 30 * 60 },
+    projectIndependent: { key: 'pj-i-', expire: 30 * 60 },
+    userIsProjectOwner: { key: 'pj-isOwner-', expire: 30 * 60 },
+    projectUsers: { key: 'pj-u-', expire: 30 * 60 },
+  },
+  inMemoryKey: {
+    pNoId2pId: 'in-pNoId2pId-',
+    pId2pNoId: 'in-pId2pNoId-',
+    uId2uNoId: 'in-uId2uNoId-',
+    uNoId2uId: 'in-uNoId2uId-',
+  },
+  yjs: {
+    storePath: dirname(dirname(__dirname)) + '/docs',
+  },
+  domain: {
+    api: process.env.BACKEND_API_DOMAIN ?? 'http://localhost:3000',
+    web: process.env.BACKEND_WEB_DOMAIN ?? 'http://localhost:8200',
+  },
+  mongodb: {
+    HOST: process.env.BACKEND_MONGO_HOST ?? '47.119.165.152:27017',
+    USER: process.env.BACKEND_MONGO_USER ?? 'bun',
+    PASSWD: process.env.BACKEND_MONGO_PASSWD ?? 'bunReal839923',
+    DATABASE: process.env.BACKEND_MONGO_DATABASE ?? 'bun',
+    AUTHSOURCE: process.env.BACKEND_MONGO_AUTHSOURCE ?? 'admin',
+    REPLICASET: process.env.BACKEND_MONGO_REPLICASET ?? '',
+  },
+  redis: [
+    {
+      host: process.env.BACKEND_REDIS_HOST ?? 'experiment.redis.rds.aliyuncs.com',
+      port: parsePort(process.env.BACKEND_REDIS_PORT, 6379),
+      username: process.env.BACKEND_REDIS_USERNAME ?? 'experiment',
+      password: process.env.BACKEND_REDIS_PASSWORD ?? 'bunReal839923',
+      db: parseDb(process.env.BACKEND_REDIS_DB, 16),
+    },
+  ] as RedisNodeConfig[],
 };
+
+export type AppConfig = typeof config;

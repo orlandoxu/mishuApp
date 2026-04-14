@@ -17,7 +17,7 @@ export async function loginMiddleware(request: FastifyRequest, _reply: FastifyRe
 
   ASSERT(token, '未登录', Ret.NotLogin);
 
-  const user = UserTokenService.ensureLastUserRedis(token);
+  const user = await UserTokenService.ensureLastUserRedis(token);
   ASSERT(user, '未登录', Ret.NotLogin);
   ASSERT(user.status !== 'ban', '用户已经被禁用', Ret.UserBaned);
 

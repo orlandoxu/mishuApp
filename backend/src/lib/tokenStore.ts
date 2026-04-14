@@ -1,37 +1,43 @@
 import crypto from 'node:crypto';
 import { config, type RedisUser } from '../config/config.js';
+import { redis } from '../common/redisInstance.js';
 
-type SessionRecord = {
-  user: RedisUser;
-  expireAt: number;
-};
-
-const tokenStore = new Map<string, SessionRecord>();
+const TOKEN_EXPIRE = config.redisKey.loginToken.expire;
 
 function nowMs(): number {
   return Date.now();
 }
 
-export function issueToken(user: RedisUser): string {
-  const raw = `${user.id}:${crypto.randomUUID()}`;
+function normalizeUser(payload: Partial<RedisUser>): RedisUser {
+  return {
+    id: payload.id ?? '',
+    noId: payload.noId ?? 0,
+    realName: payload.realName ?? '',
+    company: payload.company ?? '',
+    status: payload.status === 'ban' ? 'ban' : 'active',
+    iVer: payload.iVer ?? 1,
+    sVer: payload.sVer ?? 1,
+    v: payload.v ?? 1,
+  };
+}
+
+export async function issueToken(user: RedisUser): Promise<string> {
+  const raw = `${user.id}:${crypto.randomUUID()}:${nowMs()}`;
   const token = `${config.auth.tokenPrefix}${Buffer.from(raw).toString('base64url')}`;
-  tokenStore.set(token, {
-    user,
-    expireAt: nowMs() + config.auth.tokenExpireSeconds * 1000,
-  });
+  await redis.set(token, JSON.stringify(user), TOKEN_EXPIRE);
   return token;
 }
 
-export function loadUserByToken(token: string): RedisUser | null {
-  const record = tokenStore.get(token);
-  if (!record) {
+export async function loadUserByToken(token: string): Promise<RedisUser | null> {
+  const payload = await redis.get(token, TOKEN_EXPIRE);
+  if (!payload) {
     return null;
   }
 
-  if (record.expireAt <= nowMs()) {
-    tokenStore.delete(token);
+  try {
+    const parsed = JSON.parse(payload) as Partial<RedisUser>;
+    return normalizeUser(parsed);
+  } catch {
     return null;
   }
-
-  return record.user;
 }
