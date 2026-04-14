@@ -1,6 +1,6 @@
 import { dbConn } from '../common/mongoInstance';
 import { redis } from '../common/redisInstance';
-import { wsRuntimeState, type WsStatus } from '../websocket/runtimeState';
+import { wsRuntimeState, type WsStatus } from '../socket';
 
 export type DependencyHealth = {
   redis: 'ok' | 'error';

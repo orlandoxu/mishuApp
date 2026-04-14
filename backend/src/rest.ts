@@ -8,7 +8,7 @@ import { RestError } from './common/error';
 import { config } from './config/config';
 import { loginMiddleware } from './middleware/loginMiddleware';
 import { registerRoutes } from './routes/routes';
-import { bootstrapWebSocketServices } from './websocket/bootstrap';
+import { bootstrapWebSocketServices } from './socket';
 
 export async function bootstrap(): Promise<void> {
   const app = Fastify({ logger: false });
