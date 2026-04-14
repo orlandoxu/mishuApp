@@ -37,11 +37,29 @@ function parseDb(value: string | undefined, fallback: number): number {
   return parsed;
 }
 
+function parseBool(value: string | undefined, fallback: boolean): boolean {
+  if (value === undefined) {
+    return fallback;
+  }
+
+  return ['1', 'true', 'yes', 'on'].includes(value.toLowerCase());
+}
+
 export const config = {
   app: {
     host: process.env.BACKEND_HOST ?? '0.0.0.0',
     port: parsePort(process.env.BACKEND_PORT, 3000),
     nodeEnv: process.env.NODE_ENV ?? 'development',
+  },
+  ws: {
+    path: process.env.BACKEND_WS_PATH ?? '/house',
+    wssEnabled: parseBool(process.env.BACKEND_WSS_ENABLED, true),
+    wssHost: process.env.BACKEND_WSS_HOST ?? '0.0.0.0',
+    wssPort: parsePort(process.env.BACKEND_WSS_PORT, 3100),
+    wssKeyPath:
+      process.env.BACKEND_WSS_KEY_PATH ?? path.resolve(process.cwd(), '../SDao/cert/local/landeng.fun.key'),
+    wssCertPath:
+      process.env.BACKEND_WSS_CERT_PATH ?? path.resolve(process.cwd(), '../SDao/cert/local/landeng.fun.pem'),
   },
   auth: {
     tokenPrefix: 'tk-',

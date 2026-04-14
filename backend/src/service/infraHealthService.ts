@@ -1,9 +1,18 @@
 import { dbConn } from '../common/mongoInstance';
 import { redis } from '../common/redisInstance';
+import { wsRuntimeState, type WsStatus } from '../websocket/runtimeState';
 
 export type DependencyHealth = {
   redis: 'ok' | 'error';
   mongodb: 'ok' | 'error';
+  websocket: {
+    ws: WsStatus;
+    wss: WsStatus;
+    wsClients: number;
+    wssClients: number;
+    wssError?: string;
+    wssCertNotAfter?: string;
+  };
 };
 
 export class InfraHealthService {
@@ -22,6 +31,14 @@ export class InfraHealthService {
     return {
       redis: redisState,
       mongodb: mongoState,
+      websocket: {
+        ws: wsRuntimeState.ws,
+        wss: wsRuntimeState.wss,
+        wsClients: wsRuntimeState.wsClients,
+        wssClients: wsRuntimeState.wssClients,
+        wssError: wsRuntimeState.wssError,
+        wssCertNotAfter: wsRuntimeState.wssCertNotAfter,
+      },
     };
   }
 }
