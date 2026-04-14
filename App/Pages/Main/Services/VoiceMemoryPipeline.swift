@@ -1,22 +1,28 @@
 import Foundation
 
+/// 语音入口主流水线：将意图路由与执行委托给 RouteEngine。
 final class VoiceMemoryPipeline {
   static let shared = VoiceMemoryPipeline()
 
   private let embeddingAPI: DoubaoEmbeddingAPI
   private let chatAPI: DoubaoChatAPI
   private let memoryAPI: MemoryAPI
+  private let routeEngine: RouteEngine
 
+  /// 构造流水线，并注入可替换的 API 与路由依赖。
   init(
     embeddingAPI: DoubaoEmbeddingAPI = .shared,
     chatAPI: DoubaoChatAPI = .shared,
-    memoryAPI: MemoryAPI = .shared
+    memoryAPI: MemoryAPI = .shared,
+    routeEngine: RouteEngine = RouteEngine()
   ) {
     self.embeddingAPI = embeddingAPI
     self.chatAPI = chatAPI
     self.memoryAPI = memoryAPI
+    self.routeEngine = routeEngine
   }
 
+  /// 处理一轮用户文本输入，返回最终回复内容。
   func processUserInput(_ text: String) async -> String {
     let cleaned = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !cleaned.isEmpty else { return "我没有听清楚，请再说一次。" }
@@ -33,33 +39,33 @@ final class VoiceMemoryPipeline {
       return cleaned
     }
 
-    let plan = await analyzeIntent(text: cleaned)
-    switch plan.normalizedIntent {
-    case .clarify:
-      if !plan.clarificationQuestion.isEmpty {
-        return plan.clarificationQuestion
-      }
-      return "我想先确认一下你的意思：你是要记录新内容，还是想查找之前的记忆？"
-    case .store:
-      return await handleStoreIntent(plan: plan, cleanedInput: cleaned, userId: userId)
-    case .retrieve:
-      return await handleRetrieveIntent(plan: plan, cleanedInput: cleaned, userId: userId)
-    case .amend:
-      return await handleAmendIntent(plan: plan, cleanedInput: cleaned, userId: userId)
-    case .chat, .unknown:
-      if !plan.directReply.isEmpty {
-        return plan.directReply
-      }
-      return cleaned
-    }
-  }
+    let routeContext = RouteContext(
+      userId: userId,
+      sessionId: userId,
+      rawText: cleaned,
+      normalizedText: cleaned,
+      createdAtMs: Int64(Date().timeIntervalSince1970 * 1000)
+    )
 
-  private func analyzeIntent(text: String) async -> MemoryIntentPlan {
+    let result = await routeEngine.run(context: routeContext, runtime: self)
+    return result.message
+  }
+}
+
+extension VoiceMemoryPipeline: RouteRuntime {
+  /// 调用对话模型生成结构化意图计划 JSON。
+  func planIntent(text: String, acts: [RouteAction]) async -> IntentPlan {
+    let candidatesText = acts.map(\.rawValue).joined(separator: ",")
+
     let system = """
     你是车载语音助手的意图路由器。
+    你只允许在候选意图集合里做判断。
     只输出 JSON，不要输出其他文本。
+
+    候选意图集合：\(candidatesText)
+
     字段：
-    - intent: string，值只能是 store/retrieve/amend/clarify/chat/unknown
+    - intent: string，必须属于候选意图集合；若都不符合则输出 clarify
     - should_store: bool
     - store_text: string
     - should_retrieve: bool
@@ -69,90 +75,123 @@ final class VoiceMemoryPipeline {
     - clarification_question: string
     - requires_confirmation: bool
     - direct_reply: string
-    规则：
-    1) 新增备忘、提醒、待办 => intent=store。
-    2) 查记忆、回忆历史 => intent=retrieve。
-    3) 修改/更正/补充旧记忆 => intent=amend，并提取 amendment_text + amendment_target_query。
-    4) 信息不完整、需要用户确认 => intent=clarify，clarification_question 必填。
-    5) 非记忆类闲聊/问候 => intent=chat。
-    6) store_text/retrieve_query 要是提炼后的短语。
-    7) direct_reply 只写给用户看的自然口语，不超过30字。
+
+    要求：
+    1) store_text/retrieve_query 要是提炼后的短语。
+    2) 不确定时 intent=clarify，并给 clarification_question。
+    3) direct_reply 只写给用户看的自然口语，不超过30字。
     """
     guard let content = await chatAPI.chat(systemPrompt: system, userPrompt: text, temperature: 0.1) else {
-      return MemoryIntentPlan.fallback(for: text)
+      return IntentPlan.fallback(for: text)
     }
-    return MemoryIntentPlan.parse(from: content) ?? MemoryIntentPlan.fallback(for: text)
+    return IntentPlan.parse(from: content) ?? IntentPlan.fallback(for: text)
   }
 
-  private func handleStoreIntent(plan: MemoryIntentPlan, cleanedInput: String, userId: String) async -> String {
-    let textToStore = plan.storeText.isEmpty ? cleanedInput : plan.storeText
-    await persistMemory(text: textToStore, userId: userId)
-
-    if plan.requiresConfirmation {
-      return plan.clarificationQuestion.isEmpty
-        ? "我先记录了这条信息。你要不要我再补上时间或地点？"
-        : plan.clarificationQuestion
-    }
-    if !plan.directReply.isEmpty {
-      return plan.directReply
-    }
-    return "好的，我已经帮你记下来了。"
+  /// 计算文本 embedding，用于路由初筛与检索。
+  func embedText(_ text: String) async -> [Double]? {
+    await embeddingAPI.embed(text: text)
   }
 
-  private func handleRetrieveIntent(plan: MemoryIntentPlan, cleanedInput: String, userId: String) async -> String {
-    let query = plan.retrieveQuery.isEmpty ? cleanedInput : plan.retrieveQuery
-    let retrieved = await retrieveMemory(userId: userId, query: query)
-    if retrieved.isEmpty {
-      return "我暂时没有找到相关记忆。你可以先说“帮我记一下...”，我会立刻保存。"
+  /// 将跟进回复分类为 cancel/confirm/reject/other。
+  func classifyFollow(_ text: String) async -> FollowIntent {
+    let system = """
+    你是后续对话分类器。
+    只输出 JSON：{"intent":"cancel|confirm|reject|other"}
+    定义：
+    - cancel：取消/算了/不改了
+    - confirm：是的/好的/继续/要
+    - reject：不要/不用/否定补充
+    - other：其余内容
+    """
+
+    guard let content = await chatAPI.chat(systemPrompt: system, userPrompt: text, temperature: 0) else {
+      return .other
     }
-    if plan.requiresConfirmation {
-      return "我找到了这些可能相关的记忆：\n\(formatCandidates(retrieved))\n请告诉我更接近哪一条。"
-    }
-    let reply = await generateAnswer(userInput: cleanedInput, memories: retrieved)
-    if let reply, !reply.isEmpty {
-      return reply
-    }
-    return "我找到了 \(retrieved.count) 条相关记忆，你想让我逐条念给你吗？"
+
+    let intent = extractIntentField(from: content)
+    return FollowIntent(rawValue: intent) ?? .other
   }
 
-  private func handleAmendIntent(plan: MemoryIntentPlan, cleanedInput: String, userId: String) async -> String {
-    let targetQuery = plan.amendmentTargetQuery.isEmpty
-      ? (plan.retrieveQuery.isEmpty ? cleanedInput : plan.retrieveQuery)
-      : plan.amendmentTargetQuery
-    let candidates = await retrieveMemory(userId: userId, query: targetQuery)
+  /// 从跟进输入中提取候选序号。
+  func pickIndex(_ text: String, max: Int) async -> Int? {
+    guard max > 0 else { return nil }
 
-    guard !candidates.isEmpty else {
-      return "我没找到可修改的历史记忆。你可以先说完整内容，我帮你重新记录。"
+    let system = """
+    你是候选项选择解析器。
+    任务：从用户输入中判断他想选择第几条候选。
+    只输出 JSON：{"selected_index":0}
+    规则：
+    - selected_index 使用 1-based（第一条=1）
+    - 若用户没有明确选择，输出 0
+    - 值不能超过 \(max)
+    """
+
+    guard let content = await chatAPI.chat(systemPrompt: system, userPrompt: text, temperature: 0) else {
+      return nil
     }
 
-    let amendmentText = plan.amendmentText.isEmpty ? plan.storeText : plan.amendmentText
-    guard !amendmentText.isEmpty else {
-      return plan.clarificationQuestion.isEmpty
-        ? "你想补充或修改成什么内容？可以直接告诉我。"
-        : plan.clarificationQuestion
+    guard let selected = extractIntField(from: content, key: "selected_index") else {
+      return nil
     }
-
-    if candidates.count > 1 || plan.requiresConfirmation {
-      return """
-      我找到了可能要修改的记忆：
-      \(formatCandidates(candidates))
-      请告诉我要修改第几条，我再帮你完成更新。
-      """
-    }
-
-    guard let target = candidates.first else {
-      return "我需要先确认你要修改哪条记忆。"
-    }
-    let revisedText = composeRevisedMemory(from: target.text, amendmentText: amendmentText)
-    await persistMemory(text: revisedText, userId: userId)
-
-    if !plan.directReply.isEmpty {
-      return plan.directReply
-    }
-    return "明白，我已经按你的补充更新记录：\(revisedText)"
+    guard selected >= 1, selected <= max else { return nil }
+    return selected - 1
   }
 
-  private func persistMemory(text: String, userId: String) async {
+  /// 从跟进输入中抽取“修改内容”文本。
+  func extractEditText(_ text: String) async -> String {
+    let system = """
+    你是信息抽取器。
+    从用户句子里抽取“新的修改内容”。
+    只输出 JSON：{"amendment_text":"..."}
+    如果没提到明确修改内容，返回空字符串。
+    """
+
+    guard let content = await chatAPI.chat(systemPrompt: system, userPrompt: text, temperature: 0) else {
+      return ""
+    }
+
+    return extractTextField(from: content, key: "amendment_text")
+  }
+
+  /// 为每个动作生成种子短句，用于 embedding 初筛索引初始化。
+  func seedTexts() async -> [RouteAction: [String]] {
+    let system = """
+    你是语义路由样本生成器。
+    生成用于 embedding 路由的中文短句样本。
+    只输出 JSON，格式：
+    {
+      "store": ["..."],
+      "retrieve": ["..."],
+      "amend": ["..."],
+      "clarify": ["..."],
+      "chat": ["..."]
+    }
+    每个数组给4条简短样本。
+    """
+
+    guard let content = await chatAPI.chat(systemPrompt: system, userPrompt: "生成路由样本", temperature: 0.2) else {
+      return [:]
+    }
+
+    guard let data = extractJSONBlock(from: content)?.data(using: .utf8),
+          let map = try? JSONDecoder().decode([String: [String]].self, from: data)
+    else {
+      return [:]
+    }
+
+    var result: [RouteAction: [String]] = [:]
+    for (key, values) in map {
+      guard let action = RouteAction(rawValue: key) else { continue }
+      let cleaned = values.map { $0.trimmingCharacters(in: .whitespacesAndNewlines) }.filter { !$0.isEmpty }
+      if !cleaned.isEmpty {
+        result[action] = cleaned
+      }
+    }
+    return result
+  }
+
+  /// 保存记忆到本地向量库，并触发后端入库。
+  func saveMemory(text: String, userId: String) async {
     guard let embedding = await embeddingAPI.embed(text: text) else {
       LKLog("memory store skipped: embedding failed", type: "memory", label: "warning")
       return
@@ -187,7 +226,8 @@ final class VoiceMemoryPipeline {
     )
   }
 
-  private func retrieveMemory(userId: String, query: String) async -> [MemoryRecord] {
+  /// 基于向量相似度检索相关记忆。
+  func findMemory(userId: String, query: String) async -> [MemoryRecord] {
     guard let queryEmbedding = await embeddingAPI.embed(text: query) else {
       return []
     }
@@ -199,22 +239,8 @@ final class VoiceMemoryPipeline {
     }
   }
 
-  private func composeRevisedMemory(from original: String, amendmentText: String) -> String {
-    let originalValue = original.trimmingCharacters(in: .whitespacesAndNewlines)
-    let amendmentValue = amendmentText.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !originalValue.isEmpty else { return amendmentValue }
-    guard !amendmentValue.isEmpty else { return originalValue }
-    return "修订：原记录「\(originalValue)」，补充「\(amendmentValue)」"
-  }
-
-  private func formatCandidates(_ memories: [MemoryRecord], limit: Int = 3) -> String {
-    let rows = memories.prefix(limit)
-    return rows.enumerated().map { index, item in
-      "\(index + 1). \(item.text)"
-    }.joined(separator: "\n")
-  }
-
-  private func generateAnswer(userInput: String, memories: [MemoryRecord]) async -> String? {
+  /// 根据检索记忆与当前输入生成回复。
+  func makeAnswer(userInput: String, memories: [MemoryRecord]) async -> String? {
     let memoryText: String
     if memories.isEmpty {
       memoryText = "没有检索到相关记忆。"
@@ -235,133 +261,62 @@ final class VoiceMemoryPipeline {
     """
     return await chatAPI.chat(systemPrompt: system, userPrompt: user, temperature: 0.4)
   }
-}
 
-struct MemoryIntentPlan: Codable, Equatable {
-  enum Intent: String, Codable {
-    case store
-    case retrieve
-    case amend
-    case clarify
-    case chat
-    case unknown
+  /// 组合修订后的记忆文本。
+  func makeRevised(from original: String, editText: String) -> String {
+    let originalValue = original.trimmingCharacters(in: .whitespacesAndNewlines)
+    let amendmentValue = editText.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !originalValue.isEmpty else { return amendmentValue }
+    guard !amendmentValue.isEmpty else { return originalValue }
+    return "修订：原记录「\(originalValue)」，补充「\(amendmentValue)」"
   }
 
-  let intent: Intent
-  let shouldStore: Bool
-  let storeText: String
-  let shouldRetrieve: Bool
-  let retrieveQuery: String
-  let amendmentText: String
-  let amendmentTargetQuery: String
-  let clarificationQuestion: String
-  let requiresConfirmation: Bool
-  let directReply: String
-
-  private enum CodingKeys: String, CodingKey {
-    case intent
-    case shouldStore = "should_store"
-    case storeText = "store_text"
-    case shouldRetrieve = "should_retrieve"
-    case retrieveQuery = "retrieve_query"
-    case amendmentText = "amendment_text"
-    case amendmentTargetQuery = "amendment_target_query"
-    case clarificationQuestion = "clarification_question"
-    case requiresConfirmation = "requires_confirmation"
-    case directReply = "direct_reply"
+  /// 组合补充后的记忆文本。
+  func makeSupplement(from original: String, addTxt: String) -> String {
+    let originalValue = original.trimmingCharacters(in: .whitespacesAndNewlines)
+    let supplementValue = addTxt.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !supplementValue.isEmpty else { return originalValue }
+    return "补充：原记录「\(originalValue)」，新增「\(supplementValue)」"
   }
 
-  var normalizedIntent: Intent {
-    if intent != .unknown {
-      return intent
+  /// 将候选记忆格式化为可读列表，供用户选择。
+  func formatList(_ memories: [MemoryRecord], limit: Int) -> String {
+    let rows = memories.prefix(limit)
+    return rows.enumerated().map { index, item in
+      "\(index + 1). \(item.text)"
+    }.joined(separator: "\n")
+  }
+
+  /// 从模型 JSON 输出中提取 `intent` 字段。
+  private func extractIntentField(from raw: String) -> String {
+    extractTextField(from: raw, key: "intent")
+  }
+
+  /// 从模型 JSON 输出中提取任意字符串字段。
+  private func extractTextField(from raw: String, key: String) -> String {
+    guard let data = extractJSONBlock(from: raw)?.data(using: .utf8),
+          let map = try? JSONDecoder().decode([String: String].self, from: data)
+    else {
+      return ""
     }
-    if shouldStore && shouldRetrieve {
-      return .amend
-    }
-    if shouldStore {
-      return .store
-    }
-    if shouldRetrieve {
-      return .retrieve
-    }
-    if !clarificationQuestion.isEmpty || requiresConfirmation {
-      return .clarify
-    }
-    if !directReply.isEmpty {
-      return .chat
-    }
-    return .unknown
+    return map[key]?.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
   }
 
-  static func parse(from raw: String) -> MemoryIntentPlan? {
-    let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !trimmed.isEmpty else { return nil }
-    guard let data = extractJSONBlock(from: trimmed)?.data(using: .utf8) else { return nil }
-    return try? JSONDecoder().decode(MemoryIntentPlan.self, from: data)
+  /// 从模型 JSON 输出中提取任意整数字段。
+  private func extractIntField(from raw: String, key: String) -> Int? {
+    guard let data = extractJSONBlock(from: raw)?.data(using: .utf8),
+          let map = try? JSONDecoder().decode([String: Int].self, from: data)
+    else {
+      return nil
+    }
+    return map[key]
   }
 
-  static func fallback(for input: String) -> MemoryIntentPlan {
-    let normalized = input.lowercased()
-    let store = ["记一下", "记住", "提醒", "待办", "备忘", "帮我记"].contains { normalized.contains($0) }
-    let retrieve = ["查一下", "回忆", "之前记", "我记了什么", "搜索", "找找"].contains { normalized.contains($0) }
-    let amend = ["修改", "改成", "更正", "补充", "不是", "改为"].contains { normalized.contains($0) }
-    let clarify = ["什么意思", "你确定", "不对", "没听清"].contains { normalized.contains($0) }
-    let fallbackIntent: Intent = amend ? .amend : (store ? .store : (retrieve ? .retrieve : (clarify ? .clarify : .unknown)))
-    return MemoryIntentPlan(
-      intent: fallbackIntent,
-      shouldStore: store,
-      storeText: store ? input : "",
-      shouldRetrieve: retrieve,
-      retrieveQuery: retrieve ? input : "",
-      amendmentText: amend ? input : "",
-      amendmentTargetQuery: amend ? input : "",
-      clarificationQuestion: clarify ? "你可以再具体说一下，我会按你的新指令处理。" : "",
-      requiresConfirmation: amend,
-      directReply: store ? "好的，我先帮你记下来了。" : ""
-    )
-  }
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.container(keyedBy: CodingKeys.self)
-    intent = try container.decodeIfPresent(Intent.self, forKey: .intent) ?? .unknown
-    shouldStore = try container.decodeIfPresent(Bool.self, forKey: .shouldStore) ?? false
-    storeText = try container.decodeIfPresent(String.self, forKey: .storeText) ?? ""
-    shouldRetrieve = try container.decodeIfPresent(Bool.self, forKey: .shouldRetrieve) ?? false
-    retrieveQuery = try container.decodeIfPresent(String.self, forKey: .retrieveQuery) ?? ""
-    amendmentText = try container.decodeIfPresent(String.self, forKey: .amendmentText) ?? ""
-    amendmentTargetQuery = try container.decodeIfPresent(String.self, forKey: .amendmentTargetQuery) ?? ""
-    clarificationQuestion = try container.decodeIfPresent(String.self, forKey: .clarificationQuestion) ?? ""
-    requiresConfirmation = try container.decodeIfPresent(Bool.self, forKey: .requiresConfirmation) ?? false
-    directReply = try container.decodeIfPresent(String.self, forKey: .directReply) ?? ""
-  }
-
-  init(
-    intent: Intent,
-    shouldStore: Bool,
-    storeText: String,
-    shouldRetrieve: Bool,
-    retrieveQuery: String,
-    amendmentText: String,
-    amendmentTargetQuery: String,
-    clarificationQuestion: String,
-    requiresConfirmation: Bool,
-    directReply: String
-  ) {
-    self.intent = intent
-    self.shouldStore = shouldStore
-    self.storeText = storeText
-    self.shouldRetrieve = shouldRetrieve
-    self.retrieveQuery = retrieveQuery
-    self.amendmentText = amendmentText
-    self.amendmentTargetQuery = amendmentTargetQuery
-    self.clarificationQuestion = clarificationQuestion
-    self.requiresConfirmation = requiresConfirmation
-    self.directReply = directReply
-  }
-
-  private static func extractJSONBlock(from text: String) -> String? {
-    guard let start = text.firstIndex(of: "{"), let end = text.lastIndex(of: "}") else { return nil }
+  /// 从混合文本输出中提取最外层 JSON 对象。
+  private func extractJSONBlock(from text: String) -> String? {
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard let start = trimmed.firstIndex(of: "{"), let end = trimmed.lastIndex(of: "}") else { return nil }
     guard start <= end else { return nil }
-    return String(text[start ... end])
+    return String(trimmed[start ... end])
   }
 }
