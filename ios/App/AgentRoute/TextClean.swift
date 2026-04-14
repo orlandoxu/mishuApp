@@ -13,3 +13,10 @@ enum TextTools {
     return "\(origin)；补充说明：\(supplement)"
   }
 }
+
+/// 兼容历史调用点，后续可在统一迁移后删除。
+enum TextClean {
+  static func joinAsk(originInput: String, supplementInput: String) -> String {
+    TextTools.mergeText(originInput: originInput, supplementInput: supplementInput)
+  }
+}
