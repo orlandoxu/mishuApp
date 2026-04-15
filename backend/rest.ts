@@ -59,7 +59,10 @@ export async function bootstrap(): Promise<void> {
     host: config.app.host,
   });
 
-  await bootstrapWebSocketServices();
+  // In PM2 split mode, websocket service runs in a dedicated process.
+  if (process.env.BOOTSTRAP_SOCKET_IN_REST !== 'false') {
+    await bootstrapWebSocketServices();
+  }
 
   console.log(`backend listening on http://${config.app.host}:${config.app.port}`);
 }

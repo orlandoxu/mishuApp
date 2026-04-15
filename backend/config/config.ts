@@ -56,13 +56,6 @@ export const config = {
     wsEnabled: parseBool(process.env.BACKEND_WS_ENABLED, true),
     wsHost: process.env.BACKEND_WS_HOST ?? '0.0.0.0',
     wsPort: parsePort(process.env.BACKEND_WS_PORT, 3001),
-    wssEnabled: parseBool(process.env.BACKEND_WSS_ENABLED, true),
-    wssHost: process.env.BACKEND_WSS_HOST ?? '0.0.0.0',
-    wssPort: parsePort(process.env.BACKEND_WSS_PORT, 3100),
-    wssKeyPath:
-      process.env.BACKEND_WSS_KEY_PATH ?? path.resolve(process.cwd(), '../SDao/cert/local/landeng.fun.key'),
-    wssCertPath:
-      process.env.BACKEND_WSS_CERT_PATH ?? path.resolve(process.cwd(), '../SDao/cert/local/landeng.fun.pem'),
   },
   auth: {
     tokenPrefix: 'tk-',

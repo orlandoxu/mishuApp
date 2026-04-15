@@ -7,11 +7,7 @@ export type DependencyHealth = {
   mongodb: 'ok' | 'error';
   websocket: {
     ws: WsStatus;
-    wss: WsStatus;
     wsClients: number;
-    wssClients: number;
-    wssError?: string;
-    wssCertNotAfter?: string;
   };
 };
 
@@ -33,11 +29,7 @@ export class InfraHealthService {
       mongodb: mongoState,
       websocket: {
         ws: wsRuntimeState.ws,
-        wss: wsRuntimeState.wss,
         wsClients: wsRuntimeState.wsClients,
-        wssClients: wsRuntimeState.wssClients,
-        wssError: wsRuntimeState.wssError,
-        wssCertNotAfter: wsRuntimeState.wssCertNotAfter,
       },
     };
   }
