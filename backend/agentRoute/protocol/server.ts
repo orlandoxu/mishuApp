@@ -1,69 +1,4 @@
-/**
- * AgentRoute 前后端交互协议版本号。
- * 约定：字段发生不兼容变更时必须升级版本。
- */
-export const AGENT_ROUTE_PROTOCOL_VERSION = '2026-04-14.v1';
-
-/**
- * 客户端发起 turn 请求时可携带的交互动作。
- * 说明：不是只有纯文本输入，还支持确认、候选选择、取消、重试等协议动作。
- */
-export type ClientInteraction =
-  | {
-      kind: 'user_text';
-      text: string;
-    }
-  | {
-      kind: 'confirm';
-      decision: 'confirm' | 'deny';
-      reason?: string;
-    }
-  | {
-      kind: 'slot_update';
-      slots: Record<string, string>;
-      overwrite?: boolean;
-    }
-  | {
-      kind: 'candidate_select';
-      slotKey: string;
-      value: string;
-    }
-  | {
-      kind: 'cancel';
-      reason?: string;
-    }
-  | {
-      kind: 'retry';
-      actionId?: string;
-    };
-
-/**
- * 客户端 -> 服务端：单轮请求协议。
- */
-export type ClientTurnRequest = {
-  protocolVersion?: string;
-  sessionId: string;
-  turnId: string;
-  messageId: string;
-  text: string;
-  interaction?: ClientInteraction;
-  timestamp?: number;
-  clientSessionVersion?: number;
-  history?: Array<{
-    id: string;
-    turnId: string;
-    actor: 'user' | 'assistant' | 'system';
-    text: string;
-    createdAt: number;
-  }>;
-  clientContext?: {
-    locale?: string;
-    timezone?: string;
-    platform?: 'ios' | 'android' | 'web';
-    appVersion?: string;
-    deviceId?: string;
-  };
-};
+import type { ClientDataRequest } from './client';
 
 /**
  * 服务端推荐给客户端的下一步输入类型。
@@ -73,7 +8,28 @@ export type RecommendedClientInput =
   | 'confirm_or_deny'
   | 'slot_update'
   | 'candidate_select'
+  | 'client_data_response'
   | 'none';
+
+/**
+ * 客户端渲染组件协议。
+ * 说明：前端可直接根据 componentType 做组件映射，而不是解析自然语言。
+ */
+export type RenderComponent =
+  | { componentType: 'text'; id: string; text: string }
+  | { componentType: 'kv_grid'; id: string; title: string; items: Array<{ key: string; value: string }> }
+  | { componentType: 'status_badge'; id: string; status: 'running' | 'success' | 'error'; text: string }
+  | { componentType: 'button_group'; id: string; buttons: Array<{ id: string; label: string; action: string }> }
+  | { componentType: 'timeline'; id: string; events: Array<{ title: string; at?: string; detail?: string }> }
+  | { componentType: 'list'; id: string; title: string; rows: Array<{ label: string; value?: string }> };
+
+/**
+ * 服务端给客户端的呈现建议。
+ */
+export type PresentationPayload = {
+  template: 'chat_bubble' | 'result_card' | 'confirm_sheet' | 'error_banner' | 'loading_card';
+  components: RenderComponent[];
+};
 
 /**
  * 服务端 -> 客户端：可驱动 UI 的交互指令。
@@ -99,6 +55,10 @@ export type InteractionDirective =
       summary: string;
       confirmLabel?: string;
       denyLabel?: string;
+    }
+  | {
+      type: 'request_client_data';
+      request: ClientDataRequest;
     }
   | {
       type: 'execution_status';
@@ -131,7 +91,6 @@ export type ServerProtocolEnvelope = {
 
 /**
  * 服务端 -> 客户端：单轮响应协议。
- * 说明：保留当前业务字段，同时增加 protocol 独立协议对象，便于客户端按指令渲染。
  */
 export type ServerTurnResponse = {
   sessionId: string;
@@ -170,6 +129,7 @@ export type ServerTurnResponse = {
     emphasizeSlots?: string[];
     allowCancel: boolean;
   };
+  presentation: PresentationPayload;
   actions: Array<{
     type: 'execute' | 'retry' | 'cancel' | 'switch_route' | 'none';
     route?: 'chat' | 'reminder' | 'contact' | 'task' | 'fallback';

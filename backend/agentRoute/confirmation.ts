@@ -9,6 +9,10 @@ export type ConfirmationVerdict = 'confirmed' | 'denied' | 'unknown';
  * 将用户文本解析为确认态判定结果。
  */
 export function parseConfirmation(input: AgentRouteInput): ConfirmationVerdict {
+  if (input.interaction?.kind === 'confirm') {
+    return input.interaction.decision === 'confirm' ? 'confirmed' : 'denied';
+  }
+
   const text = input.text.trim();
   if (!text) {
     return 'unknown';

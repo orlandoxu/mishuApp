@@ -6,7 +6,7 @@ import type { AgentPhase } from './types';
  */
 const PHASE_TRANSITIONS: Record<AgentPhase, ReadonlySet<AgentPhase>> = {
   intent_detected: new Set(['collecting_slots', 'awaiting_confirmation', 'ready_to_execute', 'fallback', 'cancelled']),
-  collecting_slots: new Set(['collecting_slots', 'awaiting_confirmation', 'cancelled', 'fallback']),
+  collecting_slots: new Set(['intent_detected', 'collecting_slots', 'awaiting_confirmation', 'cancelled', 'fallback']),
   awaiting_confirmation: new Set(['intent_detected', 'collecting_slots', 'ready_to_execute', 'cancelled', 'fallback']),
   ready_to_execute: new Set(['executing', 'completed', 'failed', 'fallback', 'cancelled']),
   executing: new Set(['completed', 'failed', 'fallback']),

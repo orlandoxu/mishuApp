@@ -8,18 +8,18 @@ struct DetectedDateTime: Equatable {
   let duration: TimeInterval
 }
 
-enum NaturalDateTimeDetector {
-  private static let detector: NSDataDetector? = try? NSDataDetector(
+extension NaturalEntityDetector {
+  private static let dateDetector: NSDataDetector? = try? NSDataDetector(
     types: NSTextCheckingResult.CheckingType.date.rawValue
   )
 
-  static func detect(in text: String) -> [DetectedDateTime] {
-    guard let detector, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+  static func detectDateTimes(in text: String) -> [DetectedDateTime] {
+    guard let dateDetector, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
       return []
     }
 
     let fullRange = NSRange(text.startIndex..<text.endIndex, in: text)
-    return detector.matches(in: text, options: [], range: fullRange).compactMap { result in
+    return dateDetector.matches(in: text, options: [], range: fullRange).compactMap { result in
       guard
         result.resultType == .date,
         let date = result.date,

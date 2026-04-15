@@ -18,6 +18,7 @@ import { contactRoute } from './builtinRoutes/contactRoute';
 import { fallbackRoute } from './builtinRoutes/fallbackRoute';
 import { reminderRoute } from './builtinRoutes/reminderRoute';
 import { taskRoute } from './builtinRoutes/taskRoute';
+import type { ClientDataResponsePayload } from './protocol';
 import type {
   AgentRouteInput,
   AgentRouteOutput,
@@ -105,7 +106,10 @@ export class AgentRoute {
     appendUserMessage(state, input, now);
     state.currentTurnId = input.turnId;
 
-    if (CANCEL_PATTERN.test(input.text.trim())) {
+    if (
+      input.interaction?.kind === 'cancel' ||
+      CANCEL_PATTERN.test(input.text.trim())
+    ) {
       this.setPhase(state, 'cancelled');
       state.missingSlots = [];
       resetConfirmation(state);
@@ -142,11 +146,85 @@ export class AgentRoute {
       );
       state.missingSlots = [];
       state.ambiguousSlots = {};
+      state.pendingClientDataRequest = undefined;
       resetConfirmation(state);
     }
 
+    this.applyInteractionSlotUpdate(input, state);
     this.setPhase(state, 'intent_detected');
     collectSlots(route, state, input);
+    this.refreshMissingSlots(route, state);
+
+    if (
+      input.interaction?.kind === 'client_data_response' &&
+      !this.applyClientDataResponse(route, state, input.interaction.payload)
+    ) {
+      return this.finalizeAndSave({
+        input,
+        state,
+        baseVersion,
+        route,
+        response: buildResponse({
+          input,
+          state,
+          route,
+          message: '客户端数据响应与当前请求不匹配，请重新同步后重试。',
+          executable: false,
+          display: 'error',
+          error: {
+            code: 'CLIENT_DATA_RESPONSE_MISMATCH',
+            message: 'requestId mismatch or no pending request',
+            retryable: true,
+          },
+        }),
+        now,
+      });
+    }
+    if (input.interaction?.kind === 'client_data_response') {
+      this.refreshMissingSlots(route, state);
+    }
+
+    if (state.pendingClientDataRequest) {
+      this.setPhase(state, 'collecting_slots');
+      return this.finalizeAndSave({
+        input,
+        state,
+        baseVersion,
+        route,
+        response: buildResponse({
+          input,
+          state,
+          route,
+          message: '正在等待 App 返回补充数据…',
+          executable: false,
+          display: 'loading',
+          actions: [{ type: 'none' }],
+        }),
+        now,
+      });
+    }
+
+    const clientDataRequest = route.buildClientDataRequest?.(input, state) ?? null;
+    if (clientDataRequest) {
+      state.pendingClientDataRequest = clientDataRequest;
+      this.setPhase(state, 'collecting_slots');
+      return this.finalizeAndSave({
+        input,
+        state,
+        baseVersion,
+        route,
+        response: buildResponse({
+          input,
+          state,
+          route,
+          message: '我需要从 App 获取候选数据来补全信息，请稍候。',
+          executable: false,
+          display: 'loading',
+          actions: [{ type: 'none' }],
+        }),
+        now,
+      });
+    }
 
     if (previousPhase === 'awaiting_confirmation') {
       const verdict = parseConfirmation(input);
@@ -318,6 +396,59 @@ export class AgentRoute {
         },
       }),
       now,
+    });
+  }
+
+  /**
+   * 处理客户端主动覆盖槽位（例如表单改值后回传）。
+   */
+  private applyInteractionSlotUpdate(input: AgentRouteInput, state: SessionState): void {
+    if (input.interaction?.kind !== 'slot_update') {
+      return;
+    }
+
+    const overwrite = input.interaction.overwrite ?? true;
+    for (const [slotKey, value] of Object.entries(input.interaction.slots)) {
+      const existing = state.slots[slotKey];
+      if (existing && !overwrite) {
+        continue;
+      }
+      state.slots[slotKey] = {
+        key: slotKey,
+        value,
+        confidence: 1,
+        sourceMessageId: input.messageId,
+        updatedAt: input.timestamp ?? Date.now(),
+      };
+    }
+  }
+
+  /**
+   * 处理客户端数据请求响应并应用到当前 route。
+   */
+  private applyClientDataResponse(
+    route: RoutePlugin,
+    state: SessionState,
+    payload: ClientDataResponsePayload,
+  ): boolean {
+    const pending = state.pendingClientDataRequest;
+    if (!pending || pending.requestId !== payload.requestId) {
+      return false;
+    }
+
+    state.clientDataHistory.push(payload);
+    route.applyClientDataResponse?.(state, payload);
+    state.pendingClientDataRequest = undefined;
+    return true;
+  }
+
+  /**
+   * 在路由内统一刷新 missingSlots。
+   */
+  private refreshMissingSlots(route: RoutePlugin, state: SessionState): void {
+    state.missingSlots = route.requiredSlots.filter((slotKey) => {
+      const slot = state.slots[slotKey];
+      return !slot || !slot.value.trim();
     });
   }
 

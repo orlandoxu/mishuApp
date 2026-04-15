@@ -1,4 +1,9 @@
-import type { ClientTurnRequest, ServerTurnResponse } from './protocol';
+import type {
+  ClientDataRequest,
+  ClientDataResponsePayload,
+  ClientTurnRequest,
+  ServerTurnResponse,
+} from './protocol';
 
 export type RouteId = 'chat' | 'reminder' | 'contact' | 'task' | 'fallback';
 
@@ -102,6 +107,8 @@ export type SessionState = {
   execution: SessionExecutionState;
   history: MessageRecord[];
   processedTurns: Record<string, ProcessedTurnSnapshot>;
+  pendingClientDataRequest?: ClientDataRequest;
+  clientDataHistory: ClientDataResponsePayload[];
   currentTurnId?: string;
   updatedAt: number;
 };
@@ -159,6 +166,8 @@ export type RoutePlugin = {
   buildSlotPrompt(missingSlots: string[], state: SessionState): string;
   needsConfirmation(state: SessionState): boolean;
   buildConfirmation(state: SessionState): ConfirmationPayload;
+  buildClientDataRequest?(input: AgentRouteInput, state: SessionState): ClientDataRequest | null;
+  applyClientDataResponse?(state: SessionState, payload: ClientDataResponsePayload): void;
   buildExecutionRequest(state: SessionState, input: AgentRouteInput): ExecutionRequest | null;
   buildCompletedMessage(state: SessionState): string;
 };

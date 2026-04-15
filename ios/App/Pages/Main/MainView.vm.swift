@@ -9,7 +9,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
 
   private let captureService = AudioStreamCapture()
   private let speechService: SpeechRecognitionService
-  private let memoryPipeline = VoiceMemoryPipeline.shared
+  private let agentRouteClient = AgentRouteWebSocketClient.shared
 
   private var transcriptAssembler = VoiceTextAssembler()
 
@@ -77,7 +77,12 @@ final class VoiceRealtimeCtrl: ObservableObject {
       return
     }
     Task {
-      let reply = await memoryPipeline.processUserInput(finalText)
+      let reply: String
+      do {
+        reply = try await agentRouteClient.requestReply(text: finalText)
+      } catch {
+        reply = "指令下发失败：\(error.localizedDescription)"
+      }
       await MainActor.run {
         completion(reply)
       }
@@ -91,7 +96,12 @@ final class VoiceRealtimeCtrl: ObservableObject {
       return
     }
     Task {
-      let reply = await memoryPipeline.processUserInput(finalText)
+      let reply: String
+      do {
+        reply = try await agentRouteClient.requestReply(text: finalText)
+      } catch {
+        reply = "指令下发失败：\(error.localizedDescription)"
+      }
       await MainActor.run {
         completion(reply)
       }

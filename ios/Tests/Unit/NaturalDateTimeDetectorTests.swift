@@ -4,7 +4,7 @@ import XCTest
 final class NaturalDateTimeDetectorTests: XCTestCase {
   func testDetectAbsoluteChineseDateTime() throws {
     let input = "请在2026年04月20日 15:30提醒我保养"
-    let results = NaturalDateTimeDetector.detect(in: input)
+    let results = NaturalEntityDetector.detectDateTimes(in: input)
     XCTAssertEqual(results.count, 1)
     XCTAssertEqual(results.first?.matchedText, "2026年04月20日 15:30")
 
@@ -19,7 +19,7 @@ final class NaturalDateTimeDetectorTests: XCTestCase {
 
   func testDetectAbsoluteSlashDateTime() throws {
     let input = "会议时间是 2026/05/01 08:00"
-    let results = NaturalDateTimeDetector.detect(in: input)
+    let results = NaturalEntityDetector.detectDateTimes(in: input)
     XCTAssertEqual(results.count, 1)
     XCTAssertEqual(results.first?.matchedText, "2026/05/01 08:00")
 
@@ -34,7 +34,7 @@ final class NaturalDateTimeDetectorTests: XCTestCase {
 
   func testDetectMultipleDateTimes() throws {
     let input = "4月20日上午9点开会，4月21日下午3点复盘"
-    let results = NaturalDateTimeDetector.detect(in: input)
+    let results = NaturalEntityDetector.detectDateTimes(in: input)
     XCTAssertEqual(results.count, 2)
     XCTAssertEqual(results.map(\.matchedText), ["4月20日上午9点", "4月21日下午3点"])
 
@@ -47,19 +47,19 @@ final class NaturalDateTimeDetectorTests: XCTestCase {
 
   func testDetectRelativeDateKeyword() {
     let input = "明天提醒我缴停车费"
-    let results = NaturalDateTimeDetector.detect(in: input)
+    let results = NaturalEntityDetector.detectDateTimes(in: input)
     XCTAssertEqual(results.count, 1)
     XCTAssertEqual(results.first?.matchedText, "明天")
   }
 
   func testNoDateReturnsEmpty() {
-    XCTAssertTrue(NaturalDateTimeDetector.detect(in: "只是聊聊天").isEmpty)
-    XCTAssertTrue(NaturalDateTimeDetector.detect(in: "").isEmpty)
+    XCTAssertTrue(NaturalEntityDetector.detectDateTimes(in: "只是聊聊天").isEmpty)
+    XCTAssertTrue(NaturalEntityDetector.detectDateTimes(in: "").isEmpty)
   }
 
   func testRangeMatchesOriginalText() throws {
     let input = "把年检安排在4月30日下午3点"
-    let results = NaturalDateTimeDetector.detect(in: input)
+    let results = NaturalEntityDetector.detectDateTimes(in: input)
     XCTAssertEqual(results.count, 1)
 
     guard let range = Range(try XCTUnwrap(results.first?.nsRange), in: input) else {

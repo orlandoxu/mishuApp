@@ -6,12 +6,14 @@ import Foundation
 struct SocketMessage: Decodable {
   let type: String
   let taskId: String?
+  let requestId: String?
   let payload: SocketPayload?
 
   init(from decoder: Decoder) throws {
     let container = try decoder.container(keyedBy: CodingKeys.self)
     type = try container.decode(String.self, forKey: .type)
     taskId = try container.decodeIfPresent(String.self, forKey: .taskId)
+    requestId = try container.decodeIfPresent(String.self, forKey: .requestId)
 
     // 根据type解码对应的payload
     switch type {
@@ -87,6 +89,12 @@ struct SocketMessage: Decodable {
       }
     case "mobile_info":
       payload = nil
+    case "agent_turn_result":
+      if let value = try? container.decode(AgentTurnResponse.self, forKey: .payload) {
+        payload = .agentTurnResult(value)
+      } else {
+        payload = nil
+      }
     default:
       payload = nil
     }
@@ -95,6 +103,7 @@ struct SocketMessage: Decodable {
   private enum CodingKeys: String, CodingKey {
     case type
     case taskId
+    case requestId
     case payload
   }
 }
@@ -121,6 +130,7 @@ enum SocketPayload: Decodable {
   case shutdown(ShutdownPayload)
   case error(ErrorPayload)
   case appLogUpload(AppLogUploadPayload)
+  case agentTurnResult(AgentTurnResponse)
 }
 
 // MARK: - 客户端消息Payload
@@ -232,6 +242,7 @@ enum ServerMessageType: String, Codable {
   case shutdown
   case error
   case appLogUpload = "app_log_upload"
+  case agentTurnResult = "agent_turn_result"
 }
 
 // MARK: - 推送消息事件

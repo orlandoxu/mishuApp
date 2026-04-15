@@ -1,4 +1,13 @@
-import type { AgentRouteInput, ConfirmationPayload, ExecutionRequest, RouteIntentResult, RoutePlugin, SessionState, SlotExtraction } from '../types';
+import type {
+  AgentRouteInput,
+  ConfirmationPayload,
+  ExecutionRequest,
+  RouteIntentResult,
+  RoutePlugin,
+  SessionState,
+  SlotExtraction,
+} from '../types';
+import type { ClientDataResponsePayload } from '../protocol';
 import { compactText, extractAfter, hasAnyKeyword, simpleNameGuess } from './common';
 
 const KEYWORDS = ['联系', '打电话', '电话给', '发消息', '通知'];
@@ -35,8 +44,15 @@ function extractAction(text: string): string | null {
  */
 function extractSlots(input: AgentRouteInput): SlotExtraction {
   const text = compactText(input.text);
-  const name = simpleNameGuess(text);
+  let name = simpleNameGuess(text);
   const action = extractAction(text);
+
+  if (name) {
+    name = name.replace(/(发消息.*|打电话.*|通知.*)$/u, '').trim();
+  }
+  if (name && /^(那个|上次|之前|她|他|ta)/iu.test(name)) {
+    name = null;
+  }
 
   let content = extractAfter(text, '说');
   if (!content) {
@@ -91,6 +107,60 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
   };
 }
 
+/**
+ * 在联系人缺失且用户表达“那个/上次/他/她”等指代时，请求客户端进行向量检索。
+ */
+function buildClientDataRequest(input: AgentRouteInput, state: SessionState) {
+  const lacksContactName = !state.slots.contactName?.value;
+  if (!lacksContactName) {
+    return null;
+  }
+
+  const text = input.text.trim();
+  const hasReferenceWord = /(那个|上次|之前|她|他|ta|that one)/i.test(text);
+  if (!hasReferenceWord) {
+    return null;
+  }
+
+  return {
+    requestId: `${state.sessionId}:${input.messageId}:contact_vector`,
+    kind: 'vector_memory_search' as const,
+    query: text,
+    topK: 5,
+    namespace: 'contacts',
+    reason: '联系人名称不明确，需要端侧向量检索候选联系人',
+  };
+}
+
+/**
+ * 应用客户端返回的候选数据，优先使用最高分项补全 contactName。
+ */
+function applyClientDataResponse(state: SessionState, payload: ClientDataResponsePayload): void {
+  if (payload.items.length === 0) {
+    return;
+  }
+
+  const sorted = [...payload.items].sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+  const top = sorted[0];
+  if (!top) {
+    return;
+  }
+
+  const metadataName = typeof top.metadata?.contactName === 'string' ? top.metadata.contactName : null;
+  const name = metadataName ?? top.text;
+  if (!name) {
+    return;
+  }
+
+  state.slots.contactName = {
+    key: 'contactName',
+    value: name,
+    confidence: Math.max(0.65, top.score ?? 0.65),
+    sourceMessageId: `${payload.requestId}:client_data`,
+    updatedAt: Date.now(),
+  };
+}
+
 export const contactRoute: RoutePlugin = {
   id: 'contact',
   description: 'Contact/call/message operations.',
@@ -112,6 +182,8 @@ export const contactRoute: RoutePlugin = {
     return true;
   },
   buildConfirmation,
+  buildClientDataRequest,
+  applyClientDataResponse,
   buildExecutionRequest,
   // 生成联系人动作完成态文案。
   buildCompletedMessage(state: SessionState): string {

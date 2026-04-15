@@ -28,6 +28,7 @@ export function createInitialSessionState(sessionId: string, now: number): Sessi
     },
     history: [],
     processedTurns: {},
+    clientDataHistory: [],
     updatedAt: now,
   };
 }

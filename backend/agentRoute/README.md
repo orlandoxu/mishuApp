@@ -23,6 +23,11 @@
 - 幂等、防重、版本冲突保护
 - 执行编排与异常回退
 
+## 协议文件（你最关心的部分）
+
+- 独立协议类型目录：`backend/agentRoute/protocol/`
+- 协议说明文档：`backend/agentRoute/INTERACTION_PROTOCOL.md`
+
 ## 参考 claude-code 的精华点（已落地）
 
 1. 显式运行时状态推进（借鉴 `claude-code/src/query.ts` 的循环推进思想）
