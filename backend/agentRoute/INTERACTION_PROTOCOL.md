@@ -55,6 +55,14 @@
 - `error_banner`
 - `loading_card`
 
+`presentation.components`（组件级 schema）示例类型：
+- `text`
+- `kv_grid`
+- `status_badge`
+- `button_group`
+- `timeline`
+- `list`
+
 ## C. 关键能力（你问的两点）
 
 1) 服务端主动向 App 索要数据（向量检索）

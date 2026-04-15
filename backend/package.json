@@ -8,7 +8,8 @@
     "start": "bun rest.ts",
     "build": "bun build rest.ts --target bun --outdir dist",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "lint": "bun run typecheck"
+    "lint": "bun run typecheck",
+    "test:agent-route": "bun test test/protocol.contract.test.ts"
   },
   "dependencies": {
     "@fastify/cors": "^11.1.0",
