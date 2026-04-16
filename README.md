@@ -25,30 +25,36 @@
 
 改成同一个强密码。
 
-### 3. 服务端（公网机器）启动 frps
+### 3. 一键后台启动脚本（会先终止上一个进程）
 
-示例（按你实际安装路径执行）：
+仓库根目录提供了：
+
+- `./startFrps.sh`：启动 frps（服务端）
+- `./startFrpc.sh`：启动 frpc（客户端）
+
+它们会自动：
+
+- 查找并终止同配置的旧进程
+- 使用 `nohup` 在后台启动
+- 输出日志到：
+  - `backend/nginx/frps.log`
+  - `backend/nginx/frpc.log`
+
+直接运行：
 
 ```bash
-cd /path/to/frp
-./frps -c /path/to/mishuApp/backend/nginx/frps.toml
+./startFrps.sh
+./startFrpc.sh
 ```
 
-默认端口说明：
-
-- `7000`：frpc 连接 frps 的控制端口
-- `18080`：frps HTTP 虚拟主机端口（给 nginx 反向代理使用）
-
-### 4. 本地开发机启动 backend + frpc
-
-先启动本地 backend（监听 `3000`），再启动 frpc：
+如果 `frps/frpc` 不在 PATH，可临时指定：
 
 ```bash
-cd /path/to/frp
-./frpc -c /path/to/mishuApp/backend/nginx/frpc.toml
+FRPS_BIN=/path/to/frps ./startFrps.sh
+FRPC_BIN=/path/to/frpc ./startFrpc.sh
 ```
 
-### 5. nginx 转发说明
+### 4. nginx 转发说明
 
 `backend/nginx/nginx.conf` 已增加：
 
@@ -61,7 +67,7 @@ cd /path/to/frp
 
 - `https://api.landeng.fun/local/health` -> 本地 backend 的 `/health`
 
-### 6. 重载 nginx
+### 5. 重载 nginx
 
 在公网服务器执行：
 
@@ -70,7 +76,7 @@ nginx -t
 nginx -s reload
 ```
 
-### 7. 快速验证
+### 6. 快速验证
 
 ```bash
 curl -i https://api.landeng.fun/local/health
