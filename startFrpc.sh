@@ -3,10 +3,10 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 CONF="$ROOT_DIR/backend/nginx/frpc.toml"
-LOG="/logs/frpc.log"
-FRPC_BIN=""
+LOG="$ROOT_DIR/logs/frpc.log"
+FRPC_BIN="${FRPC_BIN:-frpc}"
 
-mkdir -p "/logs"
+mkdir -p "$ROOT_DIR/logs"
 
 pkill -f "frpc.*$CONF" 2>/dev/null || true
 nohup "$FRPC_BIN" -c "$CONF" >> "$LOG" 2>&1 &
