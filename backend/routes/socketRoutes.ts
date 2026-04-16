@@ -1,6 +1,6 @@
-import { UserSocketHandler } from "../handler/socketAuthHandler";
-import { CommonSocketHandler } from "../handler/socketCommonHandler";
-import { AgentSocketHandler } from "../handler/socketAgentTurnHandler";
+import { UserHandler } from "../handler/userHandler";
+import { CommonHandler } from "../handler/commonHandler";
+import { AgentHandler } from "../handler/agentHandler";
 import type {
   SocketBusinessData,
   SocketBusinessPayload,
@@ -19,53 +19,14 @@ type HandleSocketMessageArgs = {
   ensureUserByToken: (token: string) => Promise<AuthUser | null>;
 };
 
-type SocketRoute = {
-  handler: SocketMessageHandler;
-  successType: string;
-  errorType?: string;
-  requestIdOf?: (message: SocketMessage, result: SocketHandlerResult) => string | undefined;
-};
-
 const SOCKET_OK_CODE = 0;
+const RPC_TYPE = "rpc";
 
-const routesByDomain = {
-  user: {
-    login: {
-      handler: UserSocketHandler.login,
-      successType: "loginSuccess",
-      errorType: "loginFail",
-    },
-  },
-  common: {
-    ping: {
-      handler: CommonSocketHandler.ping,
-      successType: "pong",
-    },
-    echo: {
-      handler: CommonSocketHandler.echo,
-      successType: "echoResponse",
-    },
-  },
-  agent: {
-    agent_turn: {
-      handler: AgentSocketHandler.turn,
-      successType: "agent_turn_result",
-      requestIdOf(message: SocketMessage, result: SocketHandlerResult) {
-        if (isSocketError(result)) {
-          return message.requestId;
-        }
-        const fallbackRequestId =
-          typeof result.messageId === "string" ? result.messageId : undefined;
-        return message.requestId ?? fallbackRequestId;
-      },
-    },
-  },
-} as const;
-
-const routes: Record<string, SocketRoute> = {
-  ...routesByDomain.user,
-  ...routesByDomain.common,
-  ...routesByDomain.agent,
+const routes: Record<string, SocketMessageHandler> = {
+  "user.login": UserHandler.login,
+  "common.ping": CommonHandler.ping,
+  "common.echo": CommonHandler.echo,
+  "agent.turn": AgentHandler.turn,
 };
 
 export async function handleSocketMessage(
@@ -82,19 +43,21 @@ export async function handleSocketMessage(
     return;
   }
 
-  const route = routes[message.type];
-  if (!route) {
-    send({
-      type: "error",
-      requestId: message.requestId,
-      error: "Unknown message type",
-    });
+  const routeKey = getRouteKey(message);
+  const handler = routeKey ? routes[routeKey] : undefined;
+  if (!handler) {
+    send(
+      buildRpcResponse(
+        message.requestId,
+        new SocketError("RPC_METHOD_NOT_FOUND", "Unknown rpc method"),
+      ),
+    );
     return;
   }
 
   let result: SocketHandlerResult;
   try {
-    result = await route.handler({
+    result = await handler({
       message,
       getUser,
       setUser,
@@ -105,17 +68,15 @@ export async function handleSocketMessage(
     result = new SocketError("INTERNAL_ERROR", detail);
   }
 
-  send(buildSocketResponse(route, message, result));
+  send(buildRpcResponse(resolveRequestId(message, result), result));
 }
 
-function buildSocketResponse(
-  route: SocketRoute,
-  message: SocketMessage,
+function buildRpcResponse(
+  requestId: string | undefined,
   result: SocketHandlerResult,
 ): Record<string, unknown> {
-  const requestId = route.requestIdOf?.(message, result) ?? message.requestId;
   return {
-    type: isSocketError(result) ? (route.errorType ?? "error") : route.successType,
+    type: RPC_TYPE,
     requestId,
     payload: buildBusinessPayload(result),
   };
@@ -137,4 +98,28 @@ function buildBusinessPayload(result: SocketHandlerResult): SocketBusinessPayloa
 
 function isSocketError(result: SocketHandlerResult): result is SocketError {
   return result instanceof SocketError;
+}
+
+function getRouteKey(message: SocketMessage): string | null {
+  if (message.type !== RPC_TYPE) {
+    return null;
+  }
+
+  if (typeof message.method === "string" && message.method.trim().length > 0) {
+    return message.method.trim();
+  }
+  return null;
+}
+
+function resolveRequestId(
+  message: SocketMessage,
+  result: SocketHandlerResult,
+): string | undefined {
+  if (message.requestId) {
+    return message.requestId;
+  }
+  if (isSocketError(result)) {
+    return undefined;
+  }
+  return typeof result.messageId === "string" ? result.messageId : undefined;
 }

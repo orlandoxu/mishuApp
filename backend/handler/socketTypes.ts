@@ -2,6 +2,7 @@ import type { AuthUser } from '../config/config';
 
 export type SocketMessage = {
   type: string;
+  method?: string;
   requestId?: string;
   token?: string;
   payload?: unknown;
