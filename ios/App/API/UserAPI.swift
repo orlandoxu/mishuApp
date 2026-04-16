@@ -46,31 +46,15 @@ final class UserAPI {
 
   func validateCode(mobile: String) async -> Empty? {
     await client.postRequest(
-      "/user/getCode",
-      AnyParams(["mobile": mobile]),
-      false,
-      true
+      "/user/getCode", AnyParams(["mobile": mobile]), false, true
     )
   }
 
   func login(mobile: String, code: String) async -> LoginData? {
-    struct AppVerifyCodePayload: Encodable {
-      let phoneImei: String
-      let mobile: String
-      let code: String
-    }
-
-    let payload = AppVerifyCodePayload(
-      phoneImei: deviceUUID(),
-      mobile: mobile,
-      code: code
-    )
+    let payload = AnyParams(["phoneImei": deviceUUID(), "mobile": mobile, "code": code])
 
     guard let data: LoginData = await client.postRequest(
-      "/user/appVerifyCode",
-      payload,
-      false,
-      true
+      "/user/appVerifyCode", payload, false, true
     ) else {
       return nil
     }
