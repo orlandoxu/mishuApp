@@ -24,6 +24,7 @@ fi
 
 mkdir -p "$FRP_DIR/logs"
 pkill -f "frps.*$CONF" 2>/dev/null || true
+rm -f "$LOG"
 nohup "$FRPS_BIN" -c "$CONF" >> "$LOG" 2>&1 &
 
 echo "frps started in background, log: $LOG"
