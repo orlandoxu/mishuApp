@@ -27,3 +27,5 @@ pkill -f "frpc.*$CONF" 2>/dev/null || true
 nohup "$FRPC_BIN" -c "$CONF" >> "$LOG" 2>&1 &
 
 echo "frpc started in background, log: $LOG"
+echo "tailing frpc log... press Ctrl+C to stop viewing log"
+tail -f "$LOG"
