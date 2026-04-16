@@ -3,7 +3,6 @@ import Foundation
 enum LoginFlowError: Error {
   case invalidPhone
   case invalidCode
-  case invalidPassword
   case agreementNotAccepted
   case serverMessage(String)
   case missingToken
@@ -16,8 +15,6 @@ extension LoginFlowError {
       return "请输入正确的手机号"
     case .invalidCode:
       return "请输入6位验证码"
-    case .invalidPassword:
-      return "请输入密码"
     case .agreementNotAccepted:
       return "请先阅读并同意协议"
     case let .serverMessage(message):
@@ -101,33 +98,5 @@ struct LoginViewModel {
       return .failure(.missingToken)
     }
     return .success(data)
-  }
-
-  func requestPassLogin(
-    phoneText: String,
-    passwordText: String,
-    zoneCode: String,
-    agreementAccepted: Bool
-  ) async -> Result<LoginData, LoginFlowError> {
-    // Step 1. 校验输入
-    guard agreementAccepted else { return .failure(.agreementNotAccepted) }
-    guard let mobile = normalizedMobile(phoneText: phoneText, zoneCode: zoneCode), !mobile.isEmpty else {
-      return .failure(.invalidPhone)
-    }
-    guard !passwordText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-      return .failure(.invalidPassword)
-    }
-
-    // Step 2. 发起登录请求
-    if let loginData = await UserAPI.shared.loginByPassword(mobile: mobile, password: passwordText) {
-      return .success(loginData)
-    }
-
-    // Step 3. 若账号不存在，尝试注册后直接登录（App 当前无独立注册页）
-    if let registerData = await UserAPI.shared.registerByPassword(mobile: mobile, password: passwordText) {
-      return .success(registerData)
-    }
-
-    return .failure(.serverMessage("账号或密码错误，请重试"))
   }
 }
