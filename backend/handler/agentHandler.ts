@@ -9,7 +9,7 @@ import { SocketError } from "./socketTypes";
 
 const agentRouteRuntime = new AgentRoute();
 
-export class AgentSocketHandler {
+export class AgentHandler {
   static async turn(context: SocketHandlerContext): Promise<SocketHandlerResult> {
     const user = context.getUser();
     if (!user?.id) {

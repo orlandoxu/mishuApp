@@ -2,7 +2,7 @@ import type { SocketHandlerContext, SocketHandlerResult } from "./socketTypes";
 import { SocketError } from "./socketTypes";
 // DONE-AI: 已按当前结构迁移到 handler，目录已扁平化。
 
-export class UserSocketHandler {
+export class UserHandler {
   static async login(context: SocketHandlerContext): Promise<SocketHandlerResult> {
     const { message, setUser, ensureUserByToken } = context;
     const token = typeof message.token === "string" ? message.token : "";
