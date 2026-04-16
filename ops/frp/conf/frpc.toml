@@ -13,7 +13,6 @@ type = "http"
 localIP = "127.0.0.1"
 localPort = 3000
 customDomains = ["api.landeng.fun"]
-locations = ["/local"]
 
 # 传给本地服务的 Host（可按需改成本地开发域名）
 hostHeaderRewrite = "api.landeng.fun"
