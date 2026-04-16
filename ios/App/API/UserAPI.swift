@@ -19,7 +19,8 @@ extension UserAPIError: LocalizedError {
 
 struct LoginData: Codable {
   let token: String
-  let mobile: String
+  let userId: String?
+  let mobile: String?
 }
 
 final class UserAPI {
@@ -85,6 +86,23 @@ final class UserAPI {
     guard let data: LoginData = await client.postRequest(
       "/v4/u/user/loginByAcountAndPwd",
       AnyParams(["mobile": mobile, "password": password, "phoneImei": deviceUUID()]),
+      true,
+      true
+    ) else {
+      return nil
+    }
+
+    return data.token.isEmpty ? nil : data
+  }
+
+  func registerByPassword(mobile: String, password: String) async -> LoginData? {
+    guard let data: LoginData = await client.postRequest(
+      "/v4/u/user/registerByAcountAndPwd",
+      AnyParams([
+        "mobile": mobile,
+        "password": password,
+        "nickname": "用户\(mobile.suffix(4))",
+      ]),
       true,
       true
     ) else {

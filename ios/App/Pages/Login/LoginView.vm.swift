@@ -97,9 +97,15 @@ struct LoginViewModel {
     guard !passwordText.isEmpty else { return .failure(.invalidCode) }
 
     // Step 2. 发起登录请求
-    guard let data = await UserAPI.shared.loginByPassword(mobile: mobile, password: passwordText) else {
-      return .failure(.missingToken)
+    if let loginData = await UserAPI.shared.loginByPassword(mobile: mobile, password: passwordText) {
+      return .success(loginData)
     }
-    return .success(data)
+
+    // Step 3. 若账号不存在，尝试注册后直接登录（App 当前无独立注册页）
+    if let registerData = await UserAPI.shared.registerByPassword(mobile: mobile, password: passwordText) {
+      return .success(registerData)
+    }
+
+    return .failure(.missingToken)
   }
 }

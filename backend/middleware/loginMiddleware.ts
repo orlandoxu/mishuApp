@@ -9,16 +9,16 @@ export async function loginMiddleware(request: FastifyRequest, _reply: FastifyRe
   const body = (request.body ?? {}) as Record<string, unknown>;
   const query = (request.query ?? {}) as Record<string, unknown>;
   const authHeader = request.headers.authorization;
-  const token =
+  const rawToken =
     (typeof body.token === 'string' ? body.token : undefined) ??
     (typeof query.token === 'string' ? query.token : undefined) ??
     authHeader;
+  const token = typeof rawToken === 'string' ? rawToken : null;
 
   ASSERT(token, '未登录', Ret.NotLogin);
 
-  const user = await UserTokenService.ensureLastUserRedis(token);
+  const user = await UserTokenService.ensureUserByToken(token);
   ASSERT(user, '未登录', Ret.NotLogin);
-  ASSERT(user.status !== 'ban', '用户已经被禁用', Ret.UserBaned);
 
   request.user = user;
 }

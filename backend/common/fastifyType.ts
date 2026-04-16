@@ -1,8 +1,8 @@
-import type { RedisUser } from '../config/config';
+import type { AuthUser } from '../config/config';
 
 declare module 'fastify' {
   interface FastifyRequest {
-    user?: RedisUser;
+    user?: AuthUser;
     logStart?: bigint;
   }
 

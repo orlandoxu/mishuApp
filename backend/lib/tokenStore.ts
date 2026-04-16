@@ -1,43 +1,33 @@
 import crypto from 'node:crypto';
-import { config, type RedisUser } from '../config/config';
-import { redis } from '../common/redisInstance';
+import { config } from '../config/config';
 
-const TOKEN_EXPIRE = config.redisKey.loginToken.expire;
-
-function nowMs(): number {
-  return Date.now();
+function toBase64Url(value: string): string {
+  return Buffer.from(value).toString('base64url');
 }
 
-function normalizeUser(payload: Partial<RedisUser>): RedisUser {
-  return {
-    id: payload.id ?? '',
-    noId: payload.noId ?? 0,
-    realName: payload.realName ?? '',
-    company: payload.company ?? '',
-    status: payload.status === 'ban' ? 'ban' : 'active',
-    iVer: payload.iVer ?? 1,
-    sVer: payload.sVer ?? 1,
-    v: payload.v ?? 1,
+function hmacSignature(raw: string): string {
+  return crypto.createHmac('sha256', config.auth.jwtSecret).update(raw).digest('base64url');
+}
+
+type JwtPayload = {
+  sub: string;
+  iat: number;
+  exp: number;
+};
+
+export async function issueToken(userId: string): Promise<string> {
+  const nowSec = Math.floor(Date.now() / 1000);
+  const payload: JwtPayload = {
+    sub: userId,
+    iat: nowSec,
+    exp: nowSec + config.auth.tokenExpireSeconds,
   };
-}
 
-export async function issueToken(user: RedisUser): Promise<string> {
-  const raw = `${user.id}:${crypto.randomUUID()}:${nowMs()}`;
-  const token = `${config.auth.tokenPrefix}${Buffer.from(raw).toString('base64url')}`;
-  await redis.set(token, JSON.stringify(user), TOKEN_EXPIRE);
-  return token;
-}
+  const header = { alg: 'HS256', typ: 'JWT' };
+  const headerRaw = toBase64Url(JSON.stringify(header));
+  const payloadRaw = toBase64Url(JSON.stringify(payload));
+  const raw = `${headerRaw}.${payloadRaw}`;
+  const signed = hmacSignature(raw);
 
-export async function loadUserByToken(token: string): Promise<RedisUser | null> {
-  const payload = await redis.get(token, TOKEN_EXPIRE);
-  if (!payload) {
-    return null;
-  }
-
-  try {
-    const parsed = JSON.parse(payload) as Partial<RedisUser>;
-    return normalizeUser(parsed);
-  } catch {
-    return null;
-  }
+  return `${config.auth.tokenPrefix}${raw}.${signed}`;
 }

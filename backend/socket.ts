@@ -1,19 +1,20 @@
-import { config } from './config/config';
-import { UserTokenService } from './service/userTokenService';
-import { handleSocketMessage } from './handler/socketHandler';
+import { config } from "./config/config";
+import { UserTokenService } from "./service/userTokenService";
+import { handleSocketMessage } from "./routes/socketRoutes";
+import type { AuthUser } from "./config/config";
 
-export type WsStatus = 'up' | 'down' | 'disabled';
+export type WsStatus = "up" | "down" | "disabled";
 
 export const wsRuntimeState: {
   ws: WsStatus;
   wsClients: number;
 } = {
-  ws: 'down',
+  ws: "down",
   wsClients: 0,
 };
 
 type SocketData = {
-  userId?: string;
+  user?: AuthUser | null;
 };
 
 export async function bootstrapWebSocketServices(): Promise<void> {
@@ -22,28 +23,51 @@ export async function bootstrapWebSocketServices(): Promise<void> {
 
 function startWsServer(): void {
   if (!config.ws.wsEnabled) {
-    wsRuntimeState.ws = 'disabled';
+    wsRuntimeState.ws = "disabled";
     return;
   }
 
   Bun.serve<SocketData>({
     hostname: config.ws.wsHost,
     port: config.ws.wsPort,
-    fetch(req, server) {
-      if (new URL(req.url).pathname !== config.ws.path) {
-        return new Response('Not Found', { status: 404 });
+    async fetch(req, server) {
+      const url = new URL(req.url);
+      if (url.pathname !== config.ws.path) {
+        return new Response("Not Found", { status: 404 });
       }
 
-      if (server.upgrade(req, { data: {} })) {
+      const headerToken = req.headers.get("authorization");
+      const queryToken = url.searchParams.get("token");
+      const token = headerToken ?? queryToken;
+      let user: AuthUser | null = null;
+
+      if (token) {
+        user = await UserTokenService.ensureUserByToken(token);
+        if (!user?.id) {
+          return new Response("Unauthorized", { status: 401 });
+        }
+      }
+
+      if (server.upgrade(req, { data: { user } })) {
         return undefined;
       }
 
-      return new Response('Upgrade failed', { status: 400 });
+      return new Response("Upgrade failed", { status: 400 });
     },
     websocket: {
       open(ws) {
         wsRuntimeState.wsClients += 1;
-        ws.send(JSON.stringify({ type: 'connected', mode: 'ws', ts: Date.now() }));
+        ws.send(
+          JSON.stringify({
+            type: "connected",
+            mode: "ws",
+            ts: Date.now(),
+            payload: {
+              uid: ws.data.user?.id ?? "",
+              devices: [],
+            },
+          }),
+        );
       },
       async message(ws, raw) {
         await handleSocketMessage({
@@ -51,10 +75,13 @@ function startWsServer(): void {
           send(payload) {
             ws.send(JSON.stringify(payload));
           },
-          setUserId(userId) {
-            ws.data.userId = userId;
+          getUser() {
+            return ws.data.user ?? null;
           },
-          ensureUserByToken: UserTokenService.ensureLastUserRedis,
+          setUser(user) {
+            ws.data.user = user;
+          },
+          ensureUserByToken: UserTokenService.ensureUserByToken,
         });
       },
       close() {
@@ -63,12 +90,14 @@ function startWsServer(): void {
     },
   });
 
-  wsRuntimeState.ws = 'up';
-  console.log(`[ws] ready at ws://${config.ws.wsHost}:${config.ws.wsPort}${config.ws.path}`);
+  wsRuntimeState.ws = "up";
+  console.log(
+    `[ws] ready at ws://${config.ws.wsHost}:${config.ws.wsPort}${config.ws.path}`,
+  );
 }
 if (import.meta.main) {
   bootstrapWebSocketServices().catch((error) => {
-    console.error('socket startup failed', error);
+    console.error("socket startup failed", error);
     process.exit(1);
   });
 }
