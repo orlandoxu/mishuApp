@@ -12,9 +12,9 @@ final class AppNavigationModel: ObservableObject {
   @Published var path: [NavigationPathItem] = []
 
   private init() {
-    // Step 1. 按迁移阶段需求，App 启动时统一直接进入主页
-    // Step 2. 保留登录页路由与页面实现，后续可随时恢复登录入口
-    root = .mainTab(.home)
+    // Step 1. 冷启动统一进入登录页
+    // Step 2. 仅在用户明确登录成功后切换到主页
+    root = .login
   }
 
   func push(_ route: NavigationRoute) {

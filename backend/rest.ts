@@ -8,7 +8,6 @@ import { RestError } from './common/error';
 import { config } from './config/config';
 import { loginMiddleware } from './middleware/loginMiddleware';
 import registerRoutes from './routes/routes';
-import { bootstrapWebSocketServices } from './socket';
 
 export async function bootstrap(): Promise<void> {
   const app = Fastify({ logger: false });
@@ -58,11 +57,6 @@ export async function bootstrap(): Promise<void> {
     port: config.app.port,
     host: config.app.host,
   });
-
-  // In PM2 split mode, websocket service runs in a dedicated process.
-  if (process.env.BOOTSTRAP_SOCKET_IN_REST !== 'false') {
-    await bootstrapWebSocketServices();
-  }
 
   console.log(`backend listening on http://${config.app.host}:${config.app.port}`);
 }

@@ -30,10 +30,6 @@ struct LoginLogoView: View {
       Text("欢迎回来")
         .font(.system(size: 30, weight: .bold))
         .foregroundColor(Color(hex: "1F2A37"))
-
-      Text("登录后即可继续使用米树助手")
-        .font(.system(size: 14, weight: .medium))
-        .foregroundColor(Color(hex: "6B7280"))
     }
     .padding(.bottom, 8)
   }

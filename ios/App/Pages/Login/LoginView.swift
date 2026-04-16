@@ -62,19 +62,7 @@ struct LoginView: View {
             onTapLogin: tapLogin
           )
         }
-        .padding(.horizontal, 18)
-        .padding(.top, 22)
-        .padding(.bottom, 18)
-        .background(
-          RoundedRectangle(cornerRadius: 26, style: .continuous)
-            .fill(.ultraThinMaterial)
-            .overlay(
-              RoundedRectangle(cornerRadius: 26, style: .continuous)
-                .stroke(Color.white.opacity(0.45), lineWidth: 1)
-            )
-            .shadow(color: Color.black.opacity(0.12), radius: 18, x: 0, y: 8)
-        )
-        .padding(.horizontal, 20)
+        .padding(.horizontal, 24)
 
         Spacer(minLength: 0)
 
