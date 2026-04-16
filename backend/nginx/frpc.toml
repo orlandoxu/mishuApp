@@ -1,0 +1,24 @@
+serverAddr = "api.landeng.fun"
+serverPort = 7000
+
+auth.method = "token"
+auth.token = "tk-bnaojsdabhioahd80"
+
+transport.tcpMux = true
+loginFailExit = true
+
+[[proxies]]
+name = "mishu-backend-local"
+type = "http"
+localIP = "127.0.0.1"
+localPort = 3000
+customDomains = ["api.landeng.fun"]
+locations = ["/local"]
+
+# 传给本地服务的 Host（可按需改成本地开发域名）
+hostHeaderRewrite = "api.landeng.fun"
+
+healthCheck.type = "tcp"
+healthCheck.intervalSeconds = 10
+healthCheck.timeoutSeconds = 3
+healthCheck.maxFailed = 3
