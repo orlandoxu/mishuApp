@@ -58,51 +58,17 @@ final class UserAPI {
       let phoneImei: String
       let mobile: String
       let code: String
-      let new_version: Bool
-      let agreement: String
     }
 
     let payload = AppVerifyCodePayload(
       phoneImei: deviceUUID(),
       mobile: mobile,
-      code: code,
-      new_version: true,
-      agreement: "allow"
+      code: code
     )
 
     guard let data: LoginData = await client.postRequest(
       "/user/appVerifyCode",
       payload,
-      false,
-      true
-    ) else {
-      return nil
-    }
-
-    return data.token.isEmpty ? nil : data
-  }
-
-  func loginByPassword(mobile: String, password: String) async -> LoginData? {
-    guard let data: LoginData = await client.postRequest(
-      "/user/loginByAcountAndPwd",
-      AnyParams(["mobile": mobile, "password": password, "phoneImei": deviceUUID()]),
-      false,
-      true
-    ) else {
-      return nil
-    }
-
-    return data.token.isEmpty ? nil : data
-  }
-
-  func registerByPassword(mobile: String, password: String) async -> LoginData? {
-    guard let data: LoginData = await client.postRequest(
-      "/user/registerByAcountAndPwd",
-      AnyParams([
-        "mobile": mobile,
-        "password": password,
-        "nickname": "用户\(mobile.suffix(4))",
-      ]),
       false,
       true
     ) else {
