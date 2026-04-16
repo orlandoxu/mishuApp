@@ -2,13 +2,10 @@ import SwiftUI
 
 struct LoginView: View {
   private enum ActiveAlert: Identifiable {
-    case agreement
     case message(String)
 
     var id: String {
       switch self {
-      case .agreement:
-        return "agreement"
       case let .message(message):
         return "message:\(message)"
       }
@@ -18,11 +15,10 @@ struct LoginView: View {
   @State private var zoneCode: String = "+86"
   @State private var phoneText: String = ""
   @State private var codeText: String = ""
-  @State private var passwordText: String = ""
-  @State private var isPasswordLogin: Bool = false
   @State private var agreed: Bool = false
   @State private var countdownSeconds: Int = 0
   @State private var isWorking: Bool = false
+  @State private var shakeAgreement: Bool = false
   @State private var countdownTask: Task<Void, Never>?
   @State private var activeAlert: ActiveAlert?
 
@@ -37,18 +33,16 @@ struct LoginView: View {
           UIApplication.shared.dismissKeyboard()
         }
 
-      VStack(spacing: 20) {
-        Spacer(minLength: 12)
+      VStack(spacing: 0) {
+        Spacer(minLength: 34)
 
         LoginLogoView()
+          .padding(.bottom, 42)
 
-        VStack(spacing: 18) {
+        VStack(spacing: 26) {
           LoginInputView(
-            zoneCode: $zoneCode,
             phoneText: $phoneText,
             codeText: $codeText,
-            passwordText: $passwordText,
-            isPasswordLogin: isPasswordLogin,
             countdownSeconds: countdownSeconds,
             canGetCode: canGetCode,
             isWorking: isWorking,
@@ -58,15 +52,15 @@ struct LoginView: View {
           LoginActionView(
             canLogin: canLogin,
             isWorking: isWorking,
-            isPasswordLogin: $isPasswordLogin,
-            onTapLogin: tapLogin
+            onTapLogin: tapLogin,
+            onTapWeChatLogin: tapWeChatLogin
           )
         }
-        .padding(.horizontal, 24)
+        .padding(.horizontal, 25)
 
-        Spacer(minLength: 0)
+        Spacer(minLength: 46)
 
-        LoginAgreementView(agreed: $agreed)
+        LoginAgreementView(agreed: $agreed, shake: shakeAgreement)
       }
       .frame(maxWidth: .infinity)
       .padding(.top, 18)
@@ -76,16 +70,6 @@ struct LoginView: View {
     .navigationBarBackButtonHidden(true)
     .alert(item: $activeAlert) { item in
       switch item {
-      case .agreement:
-        Alert(
-          title: Text("温馨提示"),
-          message: Text("请先阅读并同意下方协议"),
-          primaryButton: .default(Text("同意并登录")) {
-            agreed = true
-            performLogin()
-          },
-          secondaryButton: .cancel(Text("取消"))
-        )
       case let .message(message):
         Alert(
           title: Text("提示"),
@@ -108,7 +92,7 @@ struct LoginView: View {
   }
 
   private var authValid: Bool {
-    isPasswordLogin ? !passwordText.isEmpty : codeValue.count == 6
+    codeValue.count == 6
   }
 
   private var canLogin: Bool {
@@ -137,32 +121,40 @@ struct LoginView: View {
 
   private func tapLogin() {
     guard agreed else {
-      activeAlert = .agreement
+      triggerAgreementShake()
       return
     }
     performLogin()
+  }
+
+  private func tapWeChatLogin() {
+    guard agreed else {
+      triggerAgreementShake()
+      return
+    }
+    activeAlert = .message("微信登录开发中，请先使用手机号登录")
+  }
+
+  private func triggerAgreementShake() {
+    withAnimation(.easeInOut(duration: 0.1)) {
+      shakeAgreement = true
+    }
+    Task { @MainActor in
+      try? await Task.sleep(nanoseconds: 420_000_000)
+      shakeAgreement = false
+    }
   }
 
   private func performLogin() {
     // Step 1. 发起登录
     isWorking = true
     Task {
-      let result: Result<LoginData, LoginFlowError>
-      if isPasswordLogin {
-        result = await viewModel.requestPassLogin(
-          phoneText: phoneText,
-          passwordText: passwordText,
-          zoneCode: zoneCode,
-          agreementAccepted: agreed
-        )
-      } else {
-        result = await viewModel.requestLogin(
-          phoneText: phoneText,
-          codeText: codeText,
-          zoneCode: zoneCode,
-          agreementAccepted: agreed
-        )
-      }
+      let result = await viewModel.requestLogin(
+        phoneText: phoneText,
+        codeText: codeText,
+        zoneCode: zoneCode,
+        agreementAccepted: agreed
+      )
 
       await MainActor.run {
         isWorking = false

@@ -2,35 +2,72 @@ import SwiftUI
 
 struct LoginLogoView: View {
   var body: some View {
-    VStack(spacing: 14) {
-      if UIImage(named: "AppLogo") != nil {
-        Image("AppLogo")
-          .resizable()
-          .scaledToFit()
-          .frame(width: 92, height: 92)
-          .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-          .shadow(color: Color.black.opacity(0.12), radius: 10, x: 0, y: 5)
-      } else {
-        ZStack {
-          RoundedRectangle(cornerRadius: 20, style: .continuous)
-            .fill(
-              LinearGradient(
-                colors: [Color(hex: "06BAFF"), Color(hex: "0098D9")],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-              )
-            )
-            .frame(width: 92, height: 92)
-          Image(systemName: "cloud.fill")
-            .font(.system(size: 38))
-            .foregroundColor(.white)
-        }
-      }
-
-      Text("欢迎回来")
-        .font(.system(size: 30, weight: .bold))
-        .foregroundColor(Color(hex: "1F2A37"))
+    VStack(spacing: 22) {
+      mascot
+      Text("你好，我是 Aura")
+        .font(.system(size: 56 / 2, weight: .semibold))
+        .foregroundColor(Color(hex: "1B1F2A"))
     }
-    .padding(.bottom, 8)
+    .padding(.bottom, 6)
+  }
+
+  private var mascot: some View {
+    ZStack {
+      Ellipse()
+        .fill(Color.black.opacity(0.07))
+        .frame(width: 150 / 2, height: 24 / 2)
+        .offset(y: 190 / 2)
+
+      RoundedRectangle(cornerRadius: 70 / 2, style: .continuous)
+        .fill(Color.white)
+        .frame(width: 240 / 2, height: 190 / 2)
+        .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 8)
+        .offset(y: 35 / 2)
+
+      Path { path in
+        path.move(to: CGPoint(x: 80, y: 30))
+        path.addLine(to: CGPoint(x: 80, y: 10))
+      }
+      .stroke(Color(hex: "DFE4EA"), style: StrokeStyle(lineWidth: 4, lineCap: .round))
+
+      Circle()
+        .fill(Color(hex: "F6C726"))
+        .frame(width: 24 / 2, height: 24 / 2)
+        .offset(y: -10 / 2)
+
+      Circle()
+        .fill(Color(hex: "2F3740"))
+        .frame(width: 30 / 2, height: 30 / 2)
+        .offset(x: -38 / 2, y: 95 / 2)
+      Circle()
+        .fill(Color.white)
+        .frame(width: 10 / 2, height: 10 / 2)
+        .offset(x: -33 / 2, y: 90 / 2)
+
+      Circle()
+        .fill(Color(hex: "2F3740"))
+        .frame(width: 30 / 2, height: 30 / 2)
+        .offset(x: 38 / 2, y: 95 / 2)
+      Circle()
+        .fill(Color.white)
+        .frame(width: 10 / 2, height: 10 / 2)
+        .offset(x: 43 / 2, y: 90 / 2)
+
+      Circle()
+        .fill(Color(hex: "F4CFD6").opacity(0.45))
+        .frame(width: 32 / 2, height: 32 / 2)
+        .offset(x: -58 / 2, y: 122 / 2)
+      Circle()
+        .fill(Color(hex: "F4CFD6").opacity(0.45))
+        .frame(width: 32 / 2, height: 32 / 2)
+        .offset(x: 58 / 2, y: 122 / 2)
+
+      Path { path in
+        path.move(to: CGPoint(x: 72, y: 130))
+        path.addQuadCurve(to: CGPoint(x: 88, y: 130), control: CGPoint(x: 80, y: 140))
+      }
+      .stroke(Color(hex: "2F3740"), style: StrokeStyle(lineWidth: 2.5, lineCap: .round))
+    }
+    .frame(width: 240 / 2, height: 220 / 2)
   }
 }
