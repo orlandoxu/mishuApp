@@ -48,7 +48,7 @@ final class UserAPI {
     await client.postRequest(
       "/v4/u/user/getCode",
       AnyParams(["mobile": mobile]),
-      true,
+      false,
       true
     )
   }
@@ -73,7 +73,7 @@ final class UserAPI {
     guard let data: LoginData = await client.postRequest(
       "/v4/u/user/appVerifyCode",
       payload,
-      true,
+      false,
       true
     ) else {
       return nil
@@ -86,7 +86,7 @@ final class UserAPI {
     guard let data: LoginData = await client.postRequest(
       "/v4/u/user/loginByAcountAndPwd",
       AnyParams(["mobile": mobile, "password": password, "phoneImei": deviceUUID()]),
-      true,
+      false,
       true
     ) else {
       return nil
@@ -103,7 +103,7 @@ final class UserAPI {
         "password": password,
         "nickname": "用户\(mobile.suffix(4))",
       ]),
-      true,
+      false,
       true
     ) else {
       return nil

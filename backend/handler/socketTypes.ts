@@ -4,7 +4,6 @@ export type SocketMessage = {
   type: string;
   method?: string;
   requestId?: string;
-  token?: string;
   payload?: unknown;
   data?: unknown;
   [key: string]: unknown;
@@ -13,8 +12,6 @@ export type SocketMessage = {
 export type SocketHandlerContext = {
   message: SocketMessage;
   getUser: () => AuthUser | null;
-  setUser: (user: AuthUser) => void;
-  ensureUserByToken: (token: string) => Promise<AuthUser | null>;
 };
 
 export class SocketError {

@@ -12,37 +12,15 @@ export type AppUserProfile = {
   userId: string;
 };
 
-type RegisterArgs = {
-  mobile?: string;
-  nickname?: string;
-  userId?: string;
-};
-
-type LoginArgs = {
-  mobile?: string;
-  userId?: string;
-};
-
 function normalize(value: string | undefined): string {
   return (value ?? '').trim();
 }
 
-function resolveUserId(input: { userId?: string; mobile?: string; nickname?: string }): string {
-  const userId = normalize(input.userId);
-  if (userId) {
-    return userId;
+function resolveUserIdByMobile(mobile?: string): string {
+  const normalizedMobile = normalize(mobile).replace(/\s+/g, '');
+  if (normalizedMobile) {
+    return `u_${normalizedMobile}`;
   }
-
-  const mobile = normalize(input.mobile).replace(/\s+/g, '');
-  if (mobile) {
-    return `u_${mobile}`;
-  }
-
-  const nickname = normalize(input.nickname);
-  if (nickname) {
-    return `u_${nickname}`;
-  }
-
   return `u_${crypto.randomUUID().replaceAll('-', '')}`;
 }
 
@@ -53,18 +31,12 @@ async function buildTokenPayload(userId: string): Promise<LoginPayload> {
 }
 
 export class AppAuthService {
-  static async register(args: RegisterArgs): Promise<LoginPayload> {
-    return buildTokenPayload(resolveUserId(args));
-  }
-
-  static async login(args: LoginArgs): Promise<LoginPayload> {
-    return buildTokenPayload(resolveUserId(args));
-  }
-
-  static async verifyCodeLogin(args: { mobile?: string; code?: string; userId?: string }): Promise<LoginPayload> {
+  static async verifyCodeLogin(args: { mobile?: string; code?: string }): Promise<LoginPayload> {
+    const mobile = normalize(args.mobile);
+    ASSERT(mobile, '手机号不能为空', Ret.ERROR);
     const code = normalize(args.code);
     ASSERT(/^\d{4,8}$/.test(code), '验证码格式不正确', Ret.ERROR);
-    return buildTokenPayload(resolveUserId(args));
+    return buildTokenPayload(resolveUserIdByMobile(mobile));
   }
 
   static buildProfile(user: AuthUser): AppUserProfile {

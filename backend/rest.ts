@@ -7,7 +7,7 @@ import cors from '@fastify/cors';
 import { RestError } from './common/error';
 import { config } from './config/config';
 import { loginMiddleware } from './middleware/loginMiddleware';
-import { registerRoutes } from './routes/routes';
+import registerRoutes from './routes/routes';
 import { bootstrapWebSocketServices } from './socket';
 
 export async function bootstrap(): Promise<void> {
@@ -52,7 +52,7 @@ export async function bootstrap(): Promise<void> {
   });
 
   app.addHook('preHandler', loginMiddleware);
-  registerRoutes(app);
+  await registerRoutes(app);
 
   await app.listen({
     port: config.app.port,

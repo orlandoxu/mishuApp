@@ -1,48 +1,36 @@
+import { z } from 'zod';
 import { ASSERT, Ret } from '../common/error';
+import { BodySchema } from '../lib/fastify/bodySchema';
+import { TypedRequest } from '../lib/fastify/typeHelpers';
 import { AppAuthService } from '../service/appAuthService';
-import { UserTokenService } from '../service/userTokenService';
 
-type MockLoginPayload = Awaited<ReturnType<typeof UserTokenService.mockLogin>>;
 type MePayload = { user: NonNullable<FastifyRequest['user']> };
-type AppLoginPayload = Awaited<ReturnType<typeof AppAuthService.login>>;
+type AppLoginPayload = Awaited<ReturnType<typeof AppAuthService.verifyCodeLogin>>;
 
 export class AuthController {
-  static async register(request: FastifyRequest): Promise<ApiResponse<AppLoginPayload>> {
-    const body = (request.body ?? {}) as Record<string, unknown>;
-    const mobile = typeof body.mobile === 'string' ? body.mobile : undefined;
-    const nickname = typeof body.nickname === 'string' ? body.nickname : undefined;
-    const userId = typeof body.userId === 'string' ? body.userId : undefined;
-    const result = await AppAuthService.register({ mobile, nickname, userId });
-    return ok(result);
-  }
+  static requestCodeType = z.object({
+    mobile: z.string().trim().min(1, '手机号不能为空').describe('手机号（国际格式）'),
+  });
 
-  static async login(request: FastifyRequest): Promise<ApiResponse<AppLoginPayload>> {
-    const body = (request.body ?? {}) as Record<string, unknown>;
-    const mobile = typeof body.mobile === 'string' ? body.mobile : undefined;
-    const userId = typeof body.userId === 'string' ? body.userId : undefined;
-    const result = await AppAuthService.login({ mobile, userId });
-    return ok(result);
-  }
-
-  static async requestCode(_request: FastifyRequest): Promise<ApiResponse<Record<string, never>>> {
+  @BodySchema(AuthController.requestCodeType)
+  static async requestCode(
+    _request: TypedRequest<typeof AuthController.requestCodeType>,
+  ): Promise<ApiResponse<Record<string, never>>> {
     // 验证码通道后续可接短信服务，当前只保留成功响应以保证 App 流程连通。
     return ok({});
   }
 
-  static async loginByCode(request: FastifyRequest): Promise<ApiResponse<AppLoginPayload>> {
-    const body = (request.body ?? {}) as Record<string, unknown>;
-    const mobile = typeof body.mobile === 'string' ? body.mobile : undefined;
-    const code = typeof body.code === 'string' ? body.code : undefined;
-    const userId = typeof body.userId === 'string' ? body.userId : undefined;
-    const result = await AppAuthService.verifyCodeLogin({ mobile, code, userId });
-    return ok(result);
-  }
+  static loginByCodeType = z.object({
+    mobile: z.string().trim().min(1, '手机号不能为空').describe('手机号（国际格式）'),
+    code: z.string().trim().min(4, '验证码长度不正确').describe('验证码'),
+  });
 
-  static async mockLogin(request: FastifyRequest): Promise<ApiResponse<MockLoginPayload>> {
-    const body = (request.body ?? {}) as Record<string, unknown>;
-    const name = typeof body.name === 'string' && body.name.trim() ? body.name.trim() : 'demo';
-
-    const result = await UserTokenService.mockLogin(name);
+  @BodySchema(AuthController.loginByCodeType)
+  static async loginByCode(
+    request: TypedRequest<typeof AuthController.loginByCodeType>,
+  ): Promise<ApiResponse<AppLoginPayload>> {
+    const { mobile, code } = request.body;
+    const result = await AppAuthService.verifyCodeLogin({ mobile, code });
     return ok(result);
   }
 

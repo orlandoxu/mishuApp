@@ -78,10 +78,6 @@ function startWsServer(): void {
           getUser() {
             return ws.data.user ?? null;
           },
-          setUser(user) {
-            ws.data.user = user;
-          },
-          ensureUserByToken: UserTokenService.ensureUserByToken,
         });
       },
       close() {

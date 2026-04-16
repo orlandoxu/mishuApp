@@ -68,7 +68,8 @@ actor AgentRouteWebSocketClient {
     }
 
     let payload: [String: Any] = [
-      "type": "agent_turn",
+      "type": "rpc",
+      "method": "agent.turn",
       "requestId": request.messageId,
       "payload": try request.asDictionary(),
     ]
@@ -78,10 +79,28 @@ actor AgentRouteWebSocketClient {
     while true {
       let raw = try await receiveText(task: task, timeoutNs: timeoutNs)
       guard let data = raw.data(using: .utf8) else { continue }
-      let message = try JSONDecoder().decode(AgentTurnResultEnvelope.self, from: data)
-      guard message.type == "agent_turn_result" else { continue }
+      let message = try JSONDecoder().decode(RpcResultEnvelope<AgentTurnResponse>.self, from: data)
+      guard message.type == "rpc" else { continue }
       guard message.requestId == request.messageId else { continue }
-      return message
+      if !message.payload.isSuccess {
+        throw NSError(
+          domain: "AgentRouteWebSocketClient",
+          code: 500,
+          userInfo: [NSLocalizedDescriptionKey: message.payload.msg ?? "服务端执行失败"]
+        )
+      }
+      guard let businessData = message.payload.data else {
+        throw NSError(
+          domain: "AgentRouteWebSocketClient",
+          code: 500,
+          userInfo: [NSLocalizedDescriptionKey: "服务端返回数据为空"]
+        )
+      }
+      return AgentTurnResultEnvelope(
+        type: message.type,
+        requestId: message.requestId,
+        payload: businessData
+      )
     }
   }
 
@@ -128,6 +147,43 @@ private struct AgentTurnResultEnvelope: Decodable {
   let type: String
   let requestId: String?
   let payload: AgentTurnResponse
+}
+
+private enum RpcCode: Decodable {
+  case int(Int)
+  case string(String)
+
+  init(from decoder: Decoder) throws {
+    let container = try decoder.singleValueContainer()
+    if let value = try? container.decode(Int.self) {
+      self = .int(value)
+      return
+    }
+    self = .string((try? container.decode(String.self)) ?? "")
+  }
+
+  var isSuccess: Bool {
+    if case let .int(value) = self {
+      return value == 0
+    }
+    return false
+  }
+}
+
+private struct RpcBusinessPayload<T: Decodable>: Decodable {
+  let code: RpcCode
+  let msg: String?
+  let data: T?
+
+  var isSuccess: Bool {
+    code.isSuccess
+  }
+}
+
+private struct RpcResultEnvelope<T: Decodable>: Decodable {
+  let type: String
+  let requestId: String?
+  let payload: RpcBusinessPayload<T>
 }
 
 private extension Encodable {

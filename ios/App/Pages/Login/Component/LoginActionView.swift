@@ -7,32 +7,30 @@ struct LoginActionView: View {
   var onTapLogin: () -> Void
 
   var body: some View {
-    VStack(spacing: 16) {
+    VStack(spacing: 14) {
       Button {
         UIApplication.shared.dismissKeyboard()
         onTapLogin()
       } label: {
         ZStack {
-          RoundedRectangle(cornerRadius: 8)
-            .fill(Color.gray.opacity(0.3)) // Disabled state color mostly
-            .overlay(
-              RoundedRectangle(cornerRadius: 8)
-                .fill(
-                  Color(
-                    red: 0x06 / 255.0, green: 0xBA / 255.0,
-                    blue: 0xFF / 255.0
-                  )
-                )
-                .opacity(canLogin ? 1 : 0.3)
+          RoundedRectangle(cornerRadius: 14, style: .continuous)
+            .fill(
+              LinearGradient(
+                colors: [ThemeColor.brand600, ThemeColor.brand500],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+              )
             )
-            .frame(height: 50)
+            .opacity(canLogin ? 1 : 0.45)
+            .frame(height: 52)
+            .shadow(color: ThemeColor.brand500.opacity(canLogin ? 0.35 : 0), radius: 12, x: 0, y: 8)
 
           if isWorking {
             ProgressView()
               .tint(.white)
           } else {
             Text("登录")
-              .font(.system(size: 16, weight: .bold))
+              .font(.system(size: 17, weight: .bold))
               .foregroundColor(.white)
           }
         }
@@ -44,17 +42,24 @@ struct LoginActionView: View {
           isPasswordLogin.toggle()
         }
       } label: {
-        Text(isPasswordLogin ? "验证码登录" : "密码登录")
-          .font(.system(size: 16, weight: .medium))
-          .foregroundColor(Color(hex: "0x585858"))
-          .frame(maxWidth: .infinity)
-          .frame(height: 50)
-          .background(
-            RoundedRectangle(cornerRadius: 8)
-              .stroke(Color.gray.opacity(0.2), lineWidth: 1)
-          )
+        HStack(spacing: 6) {
+          Image(systemName: "arrow.triangle.2.circlepath")
+            .font(.system(size: 12, weight: .bold))
+          Text(isPasswordLogin ? "切换到验证码登录" : "切换到密码登录")
+            .font(.system(size: 14, weight: .semibold))
+        }
+        .foregroundColor(Color(hex: "4B5563"))
+        .frame(maxWidth: .infinity)
+        .frame(height: 44)
+        .background(
+          Capsule(style: .continuous)
+            .fill(Color.white.opacity(0.8))
+            .overlay(
+              Capsule(style: .continuous)
+                .stroke(Color(hex: "D1D5DB"), lineWidth: 1)
+            )
+        )
       }
     }
-    .padding(.horizontal, 30)
   }
 }

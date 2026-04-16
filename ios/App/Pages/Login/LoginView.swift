@@ -37,39 +37,52 @@ struct LoginView: View {
           UIApplication.shared.dismissKeyboard()
         }
 
-      VStack(spacing: 30) {
-        Spacer(minLength: 0)
+      VStack(spacing: 20) {
+        Spacer(minLength: 12)
 
         LoginLogoView()
 
-        LoginInputView(
-          zoneCode: $zoneCode,
-          phoneText: $phoneText,
-          codeText: $codeText,
-          passwordText: $passwordText,
-          isPasswordLogin: isPasswordLogin,
-          countdownSeconds: countdownSeconds,
-          canGetCode: canGetCode,
-          isWorking: isWorking,
-          onTapGetCode: tapGetCode
+        VStack(spacing: 18) {
+          LoginInputView(
+            zoneCode: $zoneCode,
+            phoneText: $phoneText,
+            codeText: $codeText,
+            passwordText: $passwordText,
+            isPasswordLogin: isPasswordLogin,
+            countdownSeconds: countdownSeconds,
+            canGetCode: canGetCode,
+            isWorking: isWorking,
+            onTapGetCode: tapGetCode
+          )
+
+          LoginActionView(
+            canLogin: canLogin,
+            isWorking: isWorking,
+            isPasswordLogin: $isPasswordLogin,
+            onTapLogin: tapLogin
+          )
+        }
+        .padding(.horizontal, 18)
+        .padding(.top, 22)
+        .padding(.bottom, 18)
+        .background(
+          RoundedRectangle(cornerRadius: 26, style: .continuous)
+            .fill(.ultraThinMaterial)
+            .overlay(
+              RoundedRectangle(cornerRadius: 26, style: .continuous)
+                .stroke(Color.white.opacity(0.45), lineWidth: 1)
+            )
+            .shadow(color: Color.black.opacity(0.12), radius: 18, x: 0, y: 8)
         )
+        .padding(.horizontal, 20)
 
-        Spacer().frame(height: 30)
-
-        LoginActionView(
-          canLogin: canLogin,
-          isWorking: isWorking,
-          isPasswordLogin: $isPasswordLogin,
-          onTapLogin: tapLogin
-        )
-
-        Spacer()
+        Spacer(minLength: 0)
 
         LoginAgreementView(agreed: $agreed)
       }
       .frame(maxWidth: .infinity)
-      .padding(.top, 20)
-      .padding(.bottom, 20)
+      .padding(.top, 18)
+      .padding(.bottom, 16)
     }
     .navigationBarHidden(true)
     .navigationBarBackButtonHidden(true)
@@ -127,8 +140,8 @@ struct LoginView: View {
         switch result {
         case .success:
           startCountdown(seconds: 60)
-        case .failure:
-          break
+        case let .failure(error):
+          activeAlert = .message(error.userMessage)
         }
       }
     }
@@ -170,8 +183,8 @@ struct LoginView: View {
           // Step 2. 同步写入登录态并跳转首页
           SelfStore.shared.applyLogin(data)
           appNavigation.root = .mainTab(.home)
-        case .failure:
-          break
+        case let .failure(error):
+          activeAlert = .message(error.userMessage)
         }
       }
     }

@@ -7,8 +7,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "noEmit": true,
-        "types": ["bun", "node"]
+    "experimentalDecorators": true,
+    "types": ["bun", "node"]
   },
   "include": ["**/*.ts", "**/*.d.ts"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "node_modules", "submodules"]
 }

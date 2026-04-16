@@ -4,3 +4,6 @@
 [submodule "SDao"]
 	path = SDao
 	url = git@github.com:orlandoxu/SDao.git
+[submodule "backend/submodules/eng-server"]
+	path = backend/submodules/eng-server
+	url = git@github.com:orlandoxu/eng-server.git

@@ -1,4 +1,3 @@
-import { UserHandler } from "../handler/userHandler";
 import { CommonHandler } from "../handler/commonHandler";
 import { AgentHandler } from "../handler/agentHandler";
 import type {
@@ -15,15 +14,12 @@ type HandleSocketMessageArgs = {
   raw: string | Buffer;
   send: (payload: unknown) => void;
   getUser: () => AuthUser | null;
-  setUser: (user: AuthUser) => void;
-  ensureUserByToken: (token: string) => Promise<AuthUser | null>;
 };
 
 const SOCKET_OK_CODE = 0;
 const RPC_TYPE = "rpc";
 
 const routes: Record<string, SocketMessageHandler> = {
-  "user.login": UserHandler.login,
   "common.ping": CommonHandler.ping,
   "common.echo": CommonHandler.echo,
   "agent.turn": AgentHandler.turn,
@@ -32,7 +28,7 @@ const routes: Record<string, SocketMessageHandler> = {
 export async function handleSocketMessage(
   args: HandleSocketMessageArgs,
 ): Promise<void> {
-  const { raw, send, getUser, setUser, ensureUserByToken } = args;
+  const { raw, send, getUser } = args;
   const text = typeof raw === "string" ? raw : raw.toString();
 
   let message: SocketMessage;
@@ -60,8 +56,6 @@ export async function handleSocketMessage(
     result = await handler({
       message,
       getUser,
-      setUser,
-      ensureUserByToken,
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);

@@ -3,9 +3,29 @@ import Foundation
 enum LoginFlowError: Error {
   case invalidPhone
   case invalidCode
+  case invalidPassword
   case agreementNotAccepted
   case serverMessage(String)
   case missingToken
+}
+
+extension LoginFlowError {
+  var userMessage: String {
+    switch self {
+    case .invalidPhone:
+      return "请输入正确的手机号"
+    case .invalidCode:
+      return "请输入6位验证码"
+    case .invalidPassword:
+      return "请输入密码"
+    case .agreementNotAccepted:
+      return "请先阅读并同意协议"
+    case let .serverMessage(message):
+      return message
+    case .missingToken:
+      return "登录失败，请稍后重试"
+    }
+  }
 }
 
 struct LoginViewModel {
@@ -74,7 +94,7 @@ struct LoginViewModel {
       return .failure(.invalidPhone)
     }
     let code = codeText.filter { $0.isNumber }
-    guard !code.isEmpty else { return .failure(.invalidCode) }
+    guard code.count == 6 else { return .failure(.invalidCode) }
 
     // Step 2. 发起登录请求
     guard let data = await UserAPI.shared.login(mobile: mobile, code: code) else {
@@ -94,7 +114,9 @@ struct LoginViewModel {
     guard let mobile = normalizedMobile(phoneText: phoneText, zoneCode: zoneCode), !mobile.isEmpty else {
       return .failure(.invalidPhone)
     }
-    guard !passwordText.isEmpty else { return .failure(.invalidCode) }
+    guard !passwordText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
+      return .failure(.invalidPassword)
+    }
 
     // Step 2. 发起登录请求
     if let loginData = await UserAPI.shared.loginByPassword(mobile: mobile, password: passwordText) {
@@ -106,6 +128,6 @@ struct LoginViewModel {
       return .success(registerData)
     }
 
-    return .failure(.missingToken)
+    return .failure(.serverMessage("账号或密码错误，请重试"))
   }
 }
