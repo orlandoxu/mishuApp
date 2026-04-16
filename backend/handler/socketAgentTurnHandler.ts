@@ -1,99 +1,38 @@
 import { AgentRoute } from "../agentRoute/AgentRoute";
+import type { ClientTurnRequest } from "../agentRoute/protocol";
 import {
   AGENT_ROUTE_PROTOCOL_VERSION,
-  type ClientTurnRequest,
 } from "../agentRoute/protocol";
-import type { SocketHandlerContext } from "./socketTypes";
+import type { SocketHandlerContext, SocketHandlerResult } from "./socketTypes";
+import { SocketError } from "./socketTypes";
 // DONE-AI: 已按当前结构迁移到 handler，目录已扁平化。
 
 const agentRouteRuntime = new AgentRoute();
 
-export async function handleAgentTurn(
-  context: SocketHandlerContext,
-): Promise<void> {
-  const user = context.getUser();
-  if (!user?.id) {
-    context.send({
-      type: "error",
-      requestId: context.message.requestId,
-      error: "unauthorized",
-    });
-    return;
-  }
+export class AgentSocketHandler {
+  static async turn(context: SocketHandlerContext): Promise<SocketHandlerResult> {
+    const user = context.getUser();
+    if (!user?.id) {
+      return new SocketError("UNAUTHORIZED", "unauthorized");
+    }
 
-  const payloadSource =
-    asRecord(context.message.payload) ?? asRecord(context.message.data);
-  if (!payloadSource) {
-    context.send({
-      type: "error",
-      requestId: context.message.requestId,
-      error: "agent_turn payload required",
-    });
-    return;
-  }
+    const payloadSource =
+      asRecord(context.message.payload) ?? asRecord(context.message.data);
+    if (!payloadSource) {
+      return new SocketError("AGENT_TURN_PAYLOAD_REQUIRED", "agent_turn payload required");
+    }
 
-  const turnRequest = normalizeClientTurnRequest(payloadSource);
-  if (!turnRequest) {
-    context.send({
-      type: "error",
-      requestId: context.message.requestId,
-      error: "invalid agent_turn payload",
-    });
-    return;
-  }
+    const turnRequest = normalizeClientTurnRequest(payloadSource);
+    if (!turnRequest) {
+      return new SocketError("AGENT_TURN_PAYLOAD_INVALID", "invalid agent_turn payload");
+    }
 
-  try {
-    const response = await agentRouteRuntime.handle(turnRequest);
-    context.send({
-      type: "agent_turn_result",
-      requestId: context.message.requestId ?? turnRequest.messageId,
-      payload: response,
-    });
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : String(error);
-    context.send({
-      type: "agent_turn_result",
-      requestId: context.message.requestId ?? turnRequest.messageId,
-      payload: {
-        sessionId: turnRequest.sessionId,
-        sessionVersion: turnRequest.clientSessionVersion ?? 0,
-        turnId: turnRequest.turnId,
-        messageId: turnRequest.messageId,
-        route: "fallback",
-        phase: "failed",
-        message: "服务端执行失败，请稍后重试。",
-        missingSlots: [],
-        filledSlots: {},
-        executable: false,
-        needsUserInput: false,
-        uiHints: {
-          display: "error",
-          allowCancel: false,
-        },
-        presentation: {
-          template: "error_banner",
-          blocks: [{ type: "status_chip", status: "error", text: detail }],
-        },
-        actions: [{ type: "none" }],
-        error: {
-          code: "AGENT_TURN_INTERNAL_ERROR",
-          message: detail,
-          retryable: true,
-        },
-        protocol: {
-          version: AGENT_ROUTE_PROTOCOL_VERSION,
-          recommendedInput: "user_text",
-          directives: [
-            {
-              type: "failed",
-              code: "AGENT_TURN_INTERNAL_ERROR",
-              message: detail,
-              retryable: true,
-            },
-          ],
-        },
-      },
-    });
+    try {
+      return await agentRouteRuntime.handle(turnRequest);
+    } catch (error) {
+      const detail = error instanceof Error ? error.message : String(error);
+      return new SocketError("AGENT_TURN_INTERNAL_ERROR", detail);
+    }
   }
 }
 

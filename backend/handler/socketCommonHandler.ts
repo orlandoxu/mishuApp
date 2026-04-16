@@ -1,22 +1,16 @@
-import type { SocketHandlerContext } from "./socketTypes";
+import type { SocketHandlerContext, SocketHandlerResult } from "./socketTypes";
 // DONE-AI: 已按当前结构迁移到 handler，目录已扁平化。
 
-export async function handleSocketPing(
-  context: SocketHandlerContext,
-): Promise<void> {
-  context.send({
-    type: "pong",
-    requestId: context.message.requestId,
-    ts: Date.now(),
-  });
-}
+export class CommonSocketHandler {
+  static async ping(_context: SocketHandlerContext): Promise<SocketHandlerResult> {
+    return {
+      ts: Date.now(),
+    };
+  }
 
-export async function handleSocketEcho(
-  context: SocketHandlerContext,
-): Promise<void> {
-  context.send({
-    type: "echoResponse",
-    requestId: context.message.requestId,
-    data: context.message.data,
-  });
+  static async echo(context: SocketHandlerContext): Promise<SocketHandlerResult> {
+    return {
+      data: context.message.data,
+    };
+  }
 }
