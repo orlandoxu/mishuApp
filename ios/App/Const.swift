@@ -36,7 +36,7 @@ enum AppConst {
   static let weChatServiceToken = "9XYGTGWtq2xveMrMZdJg4Hv7RiYC4AbwmDiQlhwGvBhWMCX4k_gt_1MsKCdTqBMM-zXaTHF178EAZpVV9-7nhseZaD0NI5-1"
 
   static var apiBaseURLProd: URL {
-    URL(string: "https://api.spreadwin.cn")!
+    URL(string: "https://api.landeng.fun")!
   }
 
   static var currentEnvironment: AppEnvironment {
@@ -64,9 +64,9 @@ enum AppConst {
   static var appWebSocketURL: URL {
     switch currentEnvironment {
     case .production:
-      return URL(string: "wss://api.spreadwin.cn/ws/v1/application")!
+      return URL(string: "wss://api.landeng.fun/house")!
     case .testing:
-      return URL(string: "wss://api.spreadwin.cn/ws/v1/application")!
+      return URL(string: "wss://api.landeng.fun/local/house")!
     }
   }
 
