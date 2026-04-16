@@ -6,7 +6,6 @@ import cors from '@fastify/cors';
 
 import { RestError } from './common/error';
 import { config } from './config/config';
-import { loginMiddleware } from './middleware/loginMiddleware';
 import registerRoutes from './routes/routes';
 
 export async function bootstrap(): Promise<void> {
@@ -50,7 +49,6 @@ export async function bootstrap(): Promise<void> {
     reply.status(500).send({ ret: 500, msg: 'internal server error' });
   });
 
-  app.addHook('preHandler', loginMiddleware);
   await registerRoutes(app);
 
   await app.listen({

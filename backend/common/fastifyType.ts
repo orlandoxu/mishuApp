@@ -5,8 +5,4 @@ declare module 'fastify' {
     user?: AuthUser;
     logStart?: bigint;
   }
-
-  interface FastifyContextConfig {
-    noAuth?: boolean;
-  }
 }

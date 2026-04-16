@@ -1,11 +1,7 @@
 import { ASSERT, Ret } from '../common/error';
 import { UserTokenService } from '../service/userTokenService';
 
-export async function loginMiddleware(request: FastifyRequest, _reply: FastifyReply): Promise<void> {
-  if (request.routeOptions.config?.noAuth) {
-    return;
-  }
-
+export async function userAuth(request: FastifyRequest, _reply: FastifyReply): Promise<void> {
   const body = (request.body ?? {}) as Record<string, unknown>;
   const query = (request.query ?? {}) as Record<string, unknown>;
   const authHeader = request.headers.authorization;
@@ -22,3 +18,6 @@ export async function loginMiddleware(request: FastifyRequest, _reply: FastifyRe
 
   request.user = user;
 }
+
+// 兼容历史命名，避免其他文件导入失败。
+export const loginMiddleware = userAuth;
