@@ -5,7 +5,7 @@ struct MascotSectionView: View {
 
   var body: some View {
     VStack(spacing: 0) {
-      MascotView(status: status)
+      AuraMascotView(status: status)
       MascotStatusTextView(status: status)
         .padding(.top, -8)
     }
@@ -39,7 +39,7 @@ private struct MascotStatusTextView: View {
   }
 }
 
-private struct MascotView: View {
+struct AuraMascotView: View {
   let status: VoicePhase
 
   @State private var floating = false

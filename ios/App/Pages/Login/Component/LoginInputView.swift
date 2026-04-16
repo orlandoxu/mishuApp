@@ -81,6 +81,7 @@ struct LoginInputView: View {
                   .fill(canSendCode ? Color(hex: "FFEDEF") : Color(hex: "ECEDF2"))
               )
           }
+          .offset(x: 4)
           .disabled(!canSendCode)
         }
       }
