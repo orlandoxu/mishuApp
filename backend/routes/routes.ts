@@ -16,8 +16,8 @@ export default async function registerRoutes(
   get("/auth/me", userAuth, AuthController.me);
 
   // 保留 iOS App 现有路径，平滑对接新的 JWT 鉴权链路。
-  post("/v4/u/user/getCode", AuthController.requestCode);
-  post("/v4/u/user/appVerifyCode", AuthController.loginByCode);
-  post("/v4/u/user/getInfo", userAuth, AuthController.appGetInfo);
-  post("/v4/u/user/logout", userAuth, AuthController.appLogout);
+  post("/user/getCode", AuthController.requestCode);
+  post("/user/appVerifyCode", AuthController.loginByCode);
+  post("/user/getInfo", userAuth, AuthController.appGetInfo);
+  post("/user/logout", userAuth, AuthController.appLogout);
 }

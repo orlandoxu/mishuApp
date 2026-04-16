@@ -1,3 +1,6 @@
 [submodule "mishuAppUI"]
 	path = mishuAppUI
 	url = git@github.com:orlandoxu/mishuAppUI.git
+[submodule "backend/submodules/eng-server"]
+	path = backend/submodules/eng-server
+	url = git@github.com:orlandoxu/eng-server.git

@@ -33,20 +33,20 @@ final class UserAPI {
   }
 
   func ping() async -> Empty? {
-    await client.getRequest("/v4/common/ping", Empty(), false, false)
+    await client.getRequest("/health", Empty(), false, false)
   }
 
   func getInfo() async -> UserModel? {
-    await client.postRequest("/v4/u/user/getInfo", Empty(), true, true)
+    await client.postRequest("/user/getInfo", Empty(), true, true)
   }
 
   func logout() async -> Empty? {
-    await client.postRequest("/v4/u/user/logout", Empty(), true, true)
+    await client.postRequest("/user/logout", Empty(), true, true)
   }
 
   func validateCode(mobile: String) async -> Empty? {
     await client.postRequest(
-      "/v4/u/user/getCode",
+      "/user/getCode",
       AnyParams(["mobile": mobile]),
       false,
       true
@@ -71,7 +71,7 @@ final class UserAPI {
     )
 
     guard let data: LoginData = await client.postRequest(
-      "/v4/u/user/appVerifyCode",
+      "/user/appVerifyCode",
       payload,
       false,
       true
@@ -84,7 +84,7 @@ final class UserAPI {
 
   func loginByPassword(mobile: String, password: String) async -> LoginData? {
     guard let data: LoginData = await client.postRequest(
-      "/v4/u/user/loginByAcountAndPwd",
+      "/user/loginByAcountAndPwd",
       AnyParams(["mobile": mobile, "password": password, "phoneImei": deviceUUID()]),
       false,
       true
@@ -97,7 +97,7 @@ final class UserAPI {
 
   func registerByPassword(mobile: String, password: String) async -> LoginData? {
     guard let data: LoginData = await client.postRequest(
-      "/v4/u/user/registerByAcountAndPwd",
+      "/user/registerByAcountAndPwd",
       AnyParams([
         "mobile": mobile,
         "password": password,

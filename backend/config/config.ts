@@ -57,6 +57,30 @@ export const config = {
     jwtSecret:
       process.env.BACKEND_JWT_SECRET ?? "mishu-dev-jwt-secret-change-me",
   },
+  sms: {
+    accessKeyId:
+      process.env.BACKEND_ALIYUN_ACCESS_KEY_ID ??
+      process.env.ALIYUN_ACCESS_KEY_ID ??
+      "DUMMY_ALIYUN_ACCESS_KEY_ID",
+    accessKeySecret:
+      process.env.BACKEND_ALIYUN_ACCESS_KEY_SECRET ??
+      process.env.ALIYUN_ACCESS_KEY_SECRET ??
+      "DUMMY_ALIYUN_ACCESS_KEY_SECRET",
+    signName:
+      process.env.BACKEND_ALIYUN_SMS_SIGN_NAME ??
+      process.env.ALIYUN_SMS_SIGN_NAME ??
+      "兰灯科技",
+    templateCode:
+      process.env.BACKEND_ALIYUN_SMS_TEMPLATE_CODE ??
+      process.env.ALIYUN_SMS_TEMPLATE_CODE ??
+      "SMS_275070278",
+    endpoint:
+      process.env.BACKEND_ALIYUN_SMS_ENDPOINT ??
+      process.env.ALIYUN_SMS_ENDPOINT ??
+      "https://dysmsapi.aliyuncs.com",
+    codeTtlSeconds: parsePort(process.env.BACKEND_SMS_CODE_TTL, 300),
+    rateLimitSeconds: parsePort(process.env.BACKEND_SMS_RATE_LIMIT, 60),
+  },
   redisKey: {
     userVersion: { key: "tkv-" },
     loginToken: { key: "", expire: 3600 * 24 * 7 },

@@ -2,6 +2,7 @@ import crypto from 'node:crypto';
 import { ASSERT, Ret } from '../common/error';
 import { issueToken } from '../lib/tokenStore';
 import type { AuthUser } from '../config/config';
+import { SmsService } from './smsService';
 
 export type LoginPayload = {
   token: string;
@@ -35,7 +36,8 @@ export class AppAuthService {
     const mobile = normalize(args.mobile);
     ASSERT(mobile, '手机号不能为空', Ret.ERROR);
     const code = normalize(args.code);
-    ASSERT(/^\d{4,8}$/.test(code), '验证码格式不正确', Ret.ERROR);
+    const verifyResult = await SmsService.verifyCode(mobile, code);
+    ASSERT(verifyResult.ok, verifyResult.message, verifyResult.code ?? Ret.ERROR);
     return buildTokenPayload(resolveUserIdByMobile(mobile));
   }
 
