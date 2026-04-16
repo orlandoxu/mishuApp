@@ -52,3 +52,4 @@ IOSDemoDoc
 ios/App/DebugScripts/socket-ping-monitor.mjs
 
 claude-code
+logs/*

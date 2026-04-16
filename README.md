@@ -37,8 +37,8 @@
 - 查找并终止同配置的旧进程
 - 使用 `nohup` 在后台启动
 - 输出日志到：
-  - `backend/nginx/frps.log`
-  - `backend/nginx/frpc.log`
+  - `logs/frps.log`
+  - `logs/frpc.log`
 
 直接运行：
 
