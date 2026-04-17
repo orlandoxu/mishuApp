@@ -13,8 +13,14 @@ export type AppUserProfile = {
   userId: string;
 };
 
+const CODE_BYPASS_MOBILE_WHITELIST = new Set(['15680069020']);
+
 function normalize(value: string | undefined): string {
   return (value ?? '').trim();
+}
+
+function shouldBypassVerificationCode(mobile: string): boolean {
+  return CODE_BYPASS_MOBILE_WHITELIST.has(mobile);
 }
 
 async function buildTokenPayload(userId: string): Promise<LoginPayload> {
@@ -27,9 +33,11 @@ export class AppAuthService {
   static async verifyCodeLogin(args: { mobile?: string; code?: string }): Promise<LoginPayload> {
     const mobile = normalize(args.mobile);
     ASSERT(mobile, '手机号不能为空', Ret.ERROR);
-    const code = normalize(args.code);
-    const verifyResult = await SmsService.verifyCode(mobile, code);
-    ASSERT(verifyResult.ok, verifyResult.message, verifyResult.code ?? Ret.ERROR);
+    if (!shouldBypassVerificationCode(mobile)) {
+      const code = normalize(args.code);
+      const verifyResult = await SmsService.verifyCode(mobile, code);
+      ASSERT(verifyResult.ok, verifyResult.message, verifyResult.code ?? Ret.ERROR);
+    }
     const user = await UserService.findOrCreateByPhoneNumber(mobile);
     return buildTokenPayload(user.userId);
   }

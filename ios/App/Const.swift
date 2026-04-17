@@ -36,7 +36,7 @@ enum AppConst {
   static let weChatServiceToken = "9XYGTGWtq2xveMrMZdJg4Hv7RiYC4AbwmDiQlhwGvBhWMCX4k_gt_1MsKCdTqBMM-zXaTHF178EAZpVV9-7nhseZaD0NI5-1"
 
   static var apiBaseURLProd: URL {
-    URL(string: "https://api.landeng.fun")!
+    URL(string: "https://api.landeng.fun/local")!
   }
 
   static var currentEnvironment: AppEnvironment {
@@ -97,8 +97,8 @@ enum AppConst {
   static let volcSpeechResourceID = "volc.seedasr.sauc.duration"
   static let volcSpeechServerURL = "wss://openspeech.bytedance.com/api/v3/sauc/bigmodel_async"
 
-  // Doubao Embedding（火山方舟）配置
-  // 支持通过 UserDefaults 动态覆盖，便于真机调试时快速切换。
+  /// Doubao Embedding（火山方舟）配置
+  /// 支持通过 UserDefaults 动态覆盖，便于真机调试时快速切换。
   static var doubaoEmbeddingApiKey: String {
     let override = UserDefaults.standard.string(forKey: "mishu_doubao_embedding_api_key") ?? ""
     if !override.isEmpty { return override }
@@ -128,7 +128,7 @@ enum AppConst {
     return infoValue ?? 2048
   }
 
-  // 业务后端落库接口（服务端负责真正写 MySQL）
+  /// 业务后端落库接口（服务端负责真正写 MySQL）
   static var memoryIngestEndpoint: String {
     let override = UserDefaults.standard.string(forKey: "mishu_memory_ingest_endpoint") ?? ""
     if !override.isEmpty { return override }
