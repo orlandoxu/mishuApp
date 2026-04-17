@@ -38,8 +38,6 @@ struct LoginInputView: View {
     return String(digits.prefix(11))
   }
 
-  /// 改变一次，验证码输入框聚焦一次
-  @State private var focusOneTime: Int = 0
   @FocusState private var focusedField: InputField?
 
   var body: some View {
@@ -76,7 +74,6 @@ struct LoginInputView: View {
             .frame(width: 22, height: 22)
 
           TextField("请输入验证码", text: $codeText)
-            .focusOneTime($focusOneTime)
             .focused($focusedField, equals: .code)
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
@@ -93,7 +90,6 @@ struct LoginInputView: View {
 
           Button {
             if countdownSeconds == 0 {
-              focusOneTime += 1
               focusedField = .code
               onTapGetCode()
             }

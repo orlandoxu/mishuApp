@@ -24,7 +24,7 @@ private struct MascotStatusTextView: View {
     case .success:
       return "处理完成啦！"
     case .idle:
-      return "Aura 有很多功能需要你探索哟"
+      return "点击头像，进入设置界面哟"
     }
   }
 
@@ -141,8 +141,8 @@ struct AuraMascotView: View {
     }
   }
 
-  // Step 1. 通过定时轮询模拟网页版眨眼节奏
-  // Step 2. 避免使用 iOS 15+ API，兼容 iOS 14
+  /// Step 1. 通过定时轮询模拟网页版眨眼节奏
+  /// Step 2. 避免使用 iOS 15+ API，兼容 iOS 14
   private func startBlinkLoop() {
     DispatchQueue.main.asyncAfter(deadline: .now() + 3.2) {
       blink = true
