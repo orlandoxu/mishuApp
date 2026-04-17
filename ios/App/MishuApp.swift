@@ -86,6 +86,11 @@ struct MishuApp: App {
       }
       .taskOnce {
         guard !isUITestingLaunch, !isRunningTests else { return }
+        guard SelfStore.shared.isLoggedIn else { return }
+        await SelfStore.shared.refresh()
+      }
+      .taskOnce {
+        guard !isUITestingLaunch, !isRunningTests else { return }
         await MainActor.run {
           AppStateStore.shared.markBootstrapFinished()
         }

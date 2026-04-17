@@ -12,9 +12,7 @@ final class AppNavigationModel: ObservableObject {
   @Published var path: [NavigationPathItem] = []
 
   private init() {
-    // Step 1. 冷启动统一进入登录页
-    // Step 2. 仅在用户明确登录成功后切换到主页
-    root = .login
+    root = SelfStore.shared.isLoggedIn ? .mainTab(.home) : .login
   }
 
   func push(_ route: NavigationRoute) {

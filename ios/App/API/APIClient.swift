@@ -244,8 +244,7 @@ final class APIClient {
     //   }
     // #endif
     if requiresAuth, let token = authToken {
-      print("token: \(token)")
-      request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+      request.setValue(token, forHTTPHeaderField: "Authorization")
     }
 
     // Step 4. 添加请求体
