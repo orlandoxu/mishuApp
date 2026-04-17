@@ -2,8 +2,8 @@ import { z } from "zod";
 import { ASSERT, Ret } from "../common/error";
 import { BodySchema } from "../lib/fastify/bodySchema";
 import { TypedRequest } from "../lib/fastify/typeHelpers";
-import { AppAuthService } from "../service/appAuthService";
-import { SmsService } from "../service/smsService";
+import { AppAuthService } from "../services/appAuthService";
+import { SmsService } from "../services/smsService";
 
 type MePayload = { user: NonNullable<FastifyRequest["user"]> };
 type AppLoginPayload = Awaited<

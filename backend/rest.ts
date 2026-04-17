@@ -7,8 +7,10 @@ import cors from '@fastify/cors';
 import { RestError } from './common/error';
 import { config } from './config/config';
 import registerRoutes from './routes/routes';
+import { connectMongoDB } from './utils/database';
 
 export async function bootstrap(): Promise<void> {
+  await connectMongoDB();
   const app = Fastify({ logger: false });
 
   await app.register(cors, {

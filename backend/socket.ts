@@ -1,5 +1,5 @@
 import { config } from "./config/config";
-import { UserTokenService } from "./service/userTokenService";
+import { UserTokenService } from "./services/userTokenService";
 import { handleSocketMessage } from "./routes/socketRoutes";
 import type { AuthUser } from "./config/config";
 

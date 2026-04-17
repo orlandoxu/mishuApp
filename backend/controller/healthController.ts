@@ -1,4 +1,4 @@
-import { InfraHealthService } from '../service/infraHealthService';
+import { InfraHealthService } from '../services/infraHealthService';
 
 // DONE-AI: 删除冗余 HealthPayload 类型，直接让 TypeScript 从 ok(...) 推导返回结构。
 export class HealthController {

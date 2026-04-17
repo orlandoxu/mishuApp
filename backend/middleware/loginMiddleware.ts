@@ -1,5 +1,5 @@
 import { ASSERT, Ret } from '../common/error';
-import { UserTokenService } from '../service/userTokenService';
+import { UserTokenService } from '../services/userTokenService';
 
 export async function userAuth(request: FastifyRequest, _reply: FastifyReply): Promise<void> {
   const body = (request.body ?? {}) as Record<string, unknown>;

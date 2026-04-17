@@ -1,8 +1,8 @@
-import crypto from 'node:crypto';
 import { ASSERT, Ret } from '../common/error';
 import { issueToken } from '../lib/tokenStore';
 import type { AuthUser } from '../config/config';
 import { SmsService } from './smsService';
+import { UserService } from './UserService';
 
 export type LoginPayload = {
   token: string;
@@ -15,14 +15,6 @@ export type AppUserProfile = {
 
 function normalize(value: string | undefined): string {
   return (value ?? '').trim();
-}
-
-function resolveUserIdByMobile(mobile?: string): string {
-  const normalizedMobile = normalize(mobile).replace(/\s+/g, '');
-  if (normalizedMobile) {
-    return `u_${normalizedMobile}`;
-  }
-  return `u_${crypto.randomUUID().replaceAll('-', '')}`;
 }
 
 async function buildTokenPayload(userId: string): Promise<LoginPayload> {
@@ -38,7 +30,8 @@ export class AppAuthService {
     const code = normalize(args.code);
     const verifyResult = await SmsService.verifyCode(mobile, code);
     ASSERT(verifyResult.ok, verifyResult.message, verifyResult.code ?? Ret.ERROR);
-    return buildTokenPayload(resolveUserIdByMobile(mobile));
+    const user = await UserService.findOrCreateByPhoneNumber(mobile);
+    return buildTokenPayload(user.userId);
   }
 
   static buildProfile(user: AuthUser): AppUserProfile {
