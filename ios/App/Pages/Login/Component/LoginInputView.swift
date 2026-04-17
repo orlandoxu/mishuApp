@@ -1,6 +1,11 @@
 import SwiftUI
 
 struct LoginInputView: View {
+  private enum InputField: Hashable {
+    case phone
+    case code
+  }
+
   @Binding var phoneText: String
   @Binding var codeText: String
   var countdownSeconds: Int
@@ -14,6 +19,12 @@ struct LoginInputView: View {
   }
 
   private let activeCoral = Color(hex: "FF6B6B")
+  private let inactiveIconColor = Color(hex: "A2A8B3")
+  private let activeIconColor = Color(hex: "F08CA0")
+  private let inactiveContainerColor = Color(hex: "EFEFF4")
+  private let activeContainerColor = Color(hex: "FFF6F8")
+  private let inactiveBorderColor = Color(hex: "ECECF1")
+  private let activeBorderColor = Color(hex: "F6B8C5")
 
   private func normalizeMainlandPhoneInput(_ value: String) -> String {
     var digits = value.filter { $0.isNumber }
@@ -29,18 +40,20 @@ struct LoginInputView: View {
 
   /// 改变一次，验证码输入框聚焦一次
   @State private var focusOneTime: Int = 0
+  @FocusState private var focusedField: InputField?
 
   var body: some View {
     VStack(spacing: 12) {
-      inputContainer {
+      inputContainer(isFocused: focusedField == .phone) {
         HStack(spacing: 12) {
           Image("icon_login_mobile")
             .renderingMode(.template)
-            .foregroundColor(Color(hex: "A2A8B3"))
+            .foregroundColor(focusedField == .phone ? activeIconColor : inactiveIconColor)
             .frame(width: 22, height: 22)
 
           TextField("请输入手机号", text: $phoneText)
             .autoFocus(false)
+            .focused($focusedField, equals: .phone)
             .keyboardType(.numberPad)
             .textContentType(.telephoneNumber)
             .font(.system(size: 16, weight: .medium))
@@ -55,15 +68,16 @@ struct LoginInputView: View {
         }
       }
 
-      inputContainer {
+      inputContainer(isFocused: focusedField == .code) {
         HStack(spacing: 12) {
           Image("icon_login_captcha")
             .renderingMode(.template)
-            .foregroundColor(Color(hex: "A2A8B3"))
+            .foregroundColor(focusedField == .code ? activeIconColor : inactiveIconColor)
             .frame(width: 22, height: 22)
 
           TextField("请输入验证码", text: $codeText)
             .focusOneTime($focusOneTime)
+            .focused($focusedField, equals: .code)
             .keyboardType(.numberPad)
             .textContentType(.oneTimeCode)
             .font(.system(size: 16, weight: .medium))
@@ -80,6 +94,7 @@ struct LoginInputView: View {
           Button {
             if countdownSeconds == 0 {
               focusOneTime += 1
+              focusedField = .code
               onTapGetCode()
             }
           } label: {
@@ -101,16 +116,19 @@ struct LoginInputView: View {
   }
 
   @ViewBuilder
-  private func inputContainer<Content: View>(@ViewBuilder content: () -> Content) -> some View {
+  private func inputContainer<Content: View>(
+    isFocused: Bool,
+    @ViewBuilder content: () -> Content
+  ) -> some View {
     content()
       .padding(.horizontal, 20)
       .frame(height: 56)
       .background(
         RoundedRectangle(cornerRadius: 20, style: .continuous)
-          .fill(Color(hex: "EFEFF4"))
+          .fill(isFocused ? activeContainerColor : inactiveContainerColor)
           .overlay(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-              .stroke(Color(hex: "ECECF1"), lineWidth: 1)
+              .stroke(isFocused ? activeBorderColor : inactiveBorderColor, lineWidth: isFocused ? 1.5 : 1)
           )
       )
   }

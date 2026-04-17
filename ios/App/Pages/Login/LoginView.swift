@@ -3,11 +3,14 @@ import SwiftUI
 struct LoginView: View {
   private enum ActiveAlert: Identifiable {
     case message(String)
+    case agreementConfirm
 
     var id: String {
       switch self {
       case let .message(message):
         return "message:\(message)"
+      case .agreementConfirm:
+        return "agreementConfirm"
       }
     }
   }
@@ -76,6 +79,16 @@ struct LoginView: View {
           message: Text(message),
           dismissButton: .default(Text("好的"))
         )
+      case .agreementConfirm:
+        Alert(
+          title: Text("温馨提示"),
+          message: Text("请先阅读并同意下方协议"),
+          primaryButton: .cancel(Text("取消")),
+          secondaryButton: .default(Text("同意并登录")) {
+            agreed = true
+            performLogin()
+          }
+        )
       }
     }
     .onDisappear {
@@ -121,7 +134,7 @@ struct LoginView: View {
 
   private func tapLogin() {
     guard agreed else {
-      triggerAgreementShake()
+      activeAlert = .agreementConfirm
       return
     }
     performLogin()
