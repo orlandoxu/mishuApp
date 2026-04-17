@@ -94,8 +94,8 @@ export async function sendVerificationCodeSms(
     `${signedHeaders}\n` +
     `${payloadHash}`;
   const stringToSign = `${SIGNATURE_ALGORITHM}\n${sha256Hex(canonicalRequest)}`;
-  const signature = hmacSha256Hex(config.sms.accessKeySecret, stringToSign);
-  const authorization = `${SIGNATURE_ALGORITHM} Credential=${config.sms.accessKeyId},SignedHeaders=${signedHeaders},Signature=${signature}`;
+  const signature = hmacSha256Hex(config.sms.aliSmsTk, stringToSign);
+  const authorization = `${SIGNATURE_ALGORITHM} Credential=${config.sms.aliSmsNameId},SignedHeaders=${signedHeaders},Signature=${signature}`;
 
   const requestURL = `${config.sms.endpoint}/?${canonicalQueryString}`;
 
