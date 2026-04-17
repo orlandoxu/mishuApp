@@ -26,44 +26,22 @@ extension LoginFlowError {
 }
 
 struct LoginViewModel {
-  private func digitsOnly(_ value: String) -> String {
-    value.filter { $0.isNumber }
-  }
+  func normalizedMobile(phoneText: String, zoneCode _: String) -> String? {
+    var digits = phoneText.filter { $0.isNumber }
 
-  private func normalizedLocalPhone(phoneText: String, zoneCode: String) -> String? {
-    // Step 1. 统一过滤掉自动填充中的空格、+、- 等非数字字符
-    var digits = digitsOnly(phoneText)
-    if digits.isEmpty { return nil }
-
-    // Step 2. 处理常见国际前缀（00）与区号前缀
-    let zoneDigits = digitsOnly(zoneCode)
-    if digits.hasPrefix("00") {
+    if digits.hasPrefix("0086"), digits.count > 11 {
+      digits = String(digits.dropFirst(4))
+    } else if digits.hasPrefix("86"), digits.count > 11 {
       digits = String(digits.dropFirst(2))
     }
-    if !zoneDigits.isEmpty, digits.hasPrefix(zoneDigits), digits.count > zoneDigits.count {
-      digits = String(digits.dropFirst(zoneDigits.count))
-    }
 
-    return digits.isEmpty ? nil : digits
-  }
-
-  func normalizedMobile(phoneText: String, zoneCode: String) -> String? {
-    // Step 1. 先规范化本地手机号（兼容 iOS 自动填充带区号场景）
-    guard let localPhone = normalizedLocalPhone(phoneText: phoneText, zoneCode: zoneCode) else { return nil }
-
-    // Step 2. 统一输出完整国际格式（例如：+8615655438839）
-    let zoneDigits = digitsOnly(zoneCode)
-    guard !zoneDigits.isEmpty else { return nil }
-    return "+\(zoneDigits)\(localPhone)"
+    guard digits.count == 11 else { return nil }
+    let pattern = #"^1[3-9]\d{9}$"#
+    return digits.range(of: pattern, options: .regularExpression) != nil ? digits : nil
   }
 
   func canRequestCode(phoneText: String, zoneCode: String) -> Bool {
-    // Step 1. 简单校验手机号是否可请求验证码（对齐 flutter：+86 严格校验，其它区号放宽）
-    guard normalizedMobile(phoneText: phoneText, zoneCode: zoneCode) != nil else { return false }
-    if zoneCode != "+86" { return true }
-    guard let localPhone = normalizedLocalPhone(phoneText: phoneText, zoneCode: zoneCode) else { return false }
-    let pattern = #"^1[3-9]\d{9}$"#
-    return localPhone.range(of: pattern, options: .regularExpression) != nil
+    normalizedMobile(phoneText: phoneText, zoneCode: zoneCode) != nil
   }
 
   func requestValidateCode(phoneText: String, zoneCode: String) async -> Result<Void, LoginFlowError> {

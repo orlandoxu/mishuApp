@@ -15,6 +15,18 @@ struct LoginInputView: View {
 
   private let activeCoral = Color(hex: "FF6B6B")
 
+  private func normalizeMainlandPhoneInput(_ value: String) -> String {
+    var digits = value.filter { $0.isNumber }
+
+    if digits.hasPrefix("0086"), digits.count > 11 {
+      digits = String(digits.dropFirst(4))
+    } else if digits.hasPrefix("86"), digits.count > 11 {
+      digits = String(digits.dropFirst(2))
+    }
+
+    return String(digits.prefix(11))
+  }
+
   /// 改变一次，验证码输入框聚焦一次
   @State private var focusOneTime: Int = 0
 
@@ -35,9 +47,9 @@ struct LoginInputView: View {
             .foregroundColor(Color(hex: "2C3440"))
             .frame(maxWidth: .infinity, alignment: .leading)
             .onChange(of: phoneText) { newValue in
-              let digitsOnly = newValue.filter { $0.isNumber }
-              if digitsOnly != newValue {
-                phoneText = digitsOnly
+              let normalized = normalizeMainlandPhoneInput(newValue)
+              if normalized != newValue {
+                phoneText = normalized
               }
             }
         }
