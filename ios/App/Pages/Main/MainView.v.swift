@@ -54,6 +54,7 @@ struct MainView: View {
   @State private var status: VoiceState = .idle
   @StateObject private var realtimeController = VoiceRealtimeCtrl()
   @State private var simulatorInput: String = ""
+  @ObservedObject private var appNavigation = AppNavigationModel.shared
 
   init(initialTab: MainTab) {
     _selectedTab = State(initialValue: initialTab)
@@ -62,28 +63,35 @@ struct MainView: View {
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .bottom) {
-        Color(hex: "#FAFAFC")
+        Color(hex: "#FDFDFD")
           .ignoresSafeArea()
 
-        VStack(spacing: 0) {
-          VStack(spacing: 0) {
+        ScrollView(showsIndicators: false) {
+          VStack(spacing: 18) {
             MascotSectionView(status: status.phase)
-          }
-          .frame(height: proxy.size.height * 0.40)
-          .frame(maxWidth: .infinity, alignment: .bottom)
-          .padding(.bottom, 18)
+              .scaleEffect(0.84)
+              .frame(height: 190)
+              .padding(.top, 18)
 
-          VStack(spacing: 0) {
             if let transcript = status.transcriptText {
               Text(transcript)
-                .font(.system(size: 26, weight: .light))
+                .font(.system(size: 22, weight: .light))
                 .foregroundColor(Color.black.opacity(0.80))
                 .multilineTextAlignment(.center)
-                .lineLimit(2)
-                .padding(.top, 24)
+                .lineLimit(3)
+                .padding(.horizontal, 32)
                 .transition(.opacity)
                 .accessibilityIdentifier("home_voice_status_text")
             }
+
+            HomeInfoCarouselView {
+              appNavigation.push(.pro)
+            }
+
+            HomeFunctionGridView { route in
+              appNavigation.push(route)
+            }
+            .padding(.top, 6)
 
             #if targetEnvironment(simulator)
               VStack(spacing: 10) {
@@ -102,19 +110,29 @@ struct MainView: View {
                 }
                 .accessibilityIdentifier("home_simulator_submit")
               }
-              .padding(.top, 16)
+              .padding(.horizontal, 28)
+              .padding(.top, 10)
             #endif
-          }
-          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-          .padding(.horizontal, 32)
 
-          VoiceActionView(
-            status: status.phase,
-            onTap: toggleInteraction
-          )
-          .frame(height: proxy.size.height * 0.22)
-          .padding(.bottom, 12)
+            Spacer(minLength: proxy.size.height * 0.20)
+          }
+          .frame(maxWidth: .infinity)
         }
+
+        LinearGradient(
+          colors: [Color.white, Color.white.opacity(0.82), Color.white.opacity(0)],
+          startPoint: .bottom,
+          endPoint: .top
+        )
+        .frame(height: 190)
+        .allowsHitTesting(false)
+
+        VoiceActionView(
+          status: status.phase,
+          onTap: toggleInteraction
+        )
+        .frame(height: proxy.size.height * 0.20)
+        .padding(.bottom, 6)
       }
       .animation(.easeInOut(duration: 0.25), value: status.phase)
       .accessibilityIdentifier("home_main_root")

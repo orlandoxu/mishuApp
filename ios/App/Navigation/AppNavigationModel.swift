@@ -52,6 +52,16 @@ enum NavigationRoot: Hashable {
 
 enum NavigationRoute: Hashable {
   case web(url: String, title: String?)
+  case settings
+  case contacts
+  case memory
+  case trueMemory
+  case partner
+  case child
+  case moneyJar
+  case treeHole
+  case pro
+  case checkout(planName: String, price: String)
 }
 
 extension NavigationRoute {
@@ -67,6 +77,26 @@ extension NavigationRoute {
     switch self {
     case let .web(url, title):
       BasicWebView(urlString: url, title: title)
+    case .settings:
+      SettingsView()
+    case .contacts:
+      ContactsView()
+    case .memory:
+      MemoryView()
+    case .trueMemory:
+      TrueMemoryView()
+    case .partner:
+      PartnerView()
+    case .child:
+      ChildView()
+    case .moneyJar:
+      MoneyJarView()
+    case .treeHole:
+      TreeHoleView()
+    case .pro:
+      ProMembershipView()
+    case let .checkout(planName, price):
+      CheckoutView(planName: planName, price: price)
     }
   }
 }
