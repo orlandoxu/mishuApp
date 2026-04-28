@@ -94,27 +94,29 @@ struct MainView: View {
             .padding(.top, 6)
 
             #if targetEnvironment(simulator)
-              VStack(spacing: 10) {
-                TextField("模拟输入文本（替代语音）", text: $simulatorInput)
-                  .textFieldStyle(.roundedBorder)
-                  .font(.system(size: 14))
-                  .accessibilityIdentifier("home_simulator_input")
-                Button(action: submitSimulatorInput) {
-                  Text("提交模拟输入")
-                    .font(.system(size: 14, weight: .medium))
-                    .foregroundColor(.white)
-                    .padding(.horizontal, 14)
-                    .padding(.vertical, 8)
-                    .background(Color.black.opacity(0.78))
-                    .cornerRadius(8)
+              if !isUITestingLaunch {
+                VStack(spacing: 10) {
+                  TextField("模拟输入文本（替代语音）", text: $simulatorInput)
+                    .textFieldStyle(.roundedBorder)
+                    .font(.system(size: 14))
+                    .accessibilityIdentifier("home_simulator_input")
+                  Button(action: submitSimulatorInput) {
+                    Text("提交模拟输入")
+                      .font(.system(size: 14, weight: .medium))
+                      .foregroundColor(.white)
+                      .padding(.horizontal, 14)
+                      .padding(.vertical, 8)
+                      .background(Color.black.opacity(0.78))
+                      .cornerRadius(8)
+                  }
+                  .accessibilityIdentifier("home_simulator_submit")
                 }
-                .accessibilityIdentifier("home_simulator_submit")
+                .padding(.horizontal, 28)
+                .padding(.top, 10)
               }
-              .padding(.horizontal, 28)
-              .padding(.top, 10)
             #endif
 
-            Spacer(minLength: proxy.size.height * 0.20)
+            Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
           }
           .frame(maxWidth: .infinity)
         }
@@ -124,17 +126,17 @@ struct MainView: View {
           startPoint: .bottom,
           endPoint: .top
         )
-        .frame(height: 190)
+        .frame(height: 150 + proxy.safeAreaInsets.bottom)
         .allowsHitTesting(false)
 
         VoiceActionView(
           status: status.phase,
           onTap: toggleInteraction
         )
-        .frame(height: proxy.size.height * 0.20)
-        .padding(.bottom, 6)
+        .padding(.bottom, max(proxy.safeAreaInsets.bottom, 18))
       }
       .animation(.easeInOut(duration: 0.25), value: status.phase)
+      .accessibilityElement(children: .contain)
       .accessibilityIdentifier("home_main_root")
     }
     .onChange(of: realtimeController.lastErrorMessage, perform: { error in
@@ -183,6 +185,10 @@ struct MainView: View {
     realtimeController.processTextInputForTesting(simulatorInput) { output in
       showResult(output, resetDelay: 2.0)
     }
+  }
+
+  private var isUITestingLaunch: Bool {
+    ProcessInfo.processInfo.arguments.contains("--ui-testing")
   }
 
   private func showListening() {

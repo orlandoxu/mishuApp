@@ -52,20 +52,16 @@ struct SettingsView: View {
 
   private var profile: some View {
     VStack(spacing: 12) {
-      ZStack {
-        RoundedRectangle(cornerRadius: 36, style: .continuous)
-          .fill(
-            LinearGradient(
-              colors: [Color(hex: "#FFE0F0"), Color(hex: "#DCEEFF")],
-              startPoint: .topLeading,
-              endPoint: .bottomTrailing
-            )
-          )
-          .frame(width: 96, height: 96)
-        Text("探")
-          .font(.system(size: 34, weight: .black))
-          .foregroundColor(Color.black.opacity(0.62))
-      }
+      Image("avatar_girl")
+        .resizable()
+        .scaledToFill()
+        .frame(width: 96, height: 96)
+        .clipShape(RoundedRectangle(cornerRadius: 36, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: 36, style: .continuous)
+            .stroke(Color.black.opacity(0.03), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.03), radius: 12, x: 0, y: 4)
 
       HStack(spacing: 8) {
         Text("探索者")

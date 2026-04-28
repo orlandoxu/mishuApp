@@ -41,10 +41,10 @@ struct CheckoutView: View {
             Text("选择支付方式")
               .font(.system(size: 12, weight: .black))
               .foregroundColor(.black.opacity(0.20))
-            PaymentMethodRow(title: "支付宝支付", subtitle: "推荐已认证用户使用", symbol: "creditcard.fill", color: Color(hex: "#108EE9"), isSelected: paymentMethod == "alipay") {
+            PaymentMethodRow(title: "支付宝支付", subtitle: "推荐已认证用户使用", symbol: "creditcard.fill", imageName: nil, color: Color(hex: "#108EE9"), isSelected: paymentMethod == "alipay") {
               paymentMethod = "alipay"
             }
-            PaymentMethodRow(title: "微信支付", subtitle: "极速安全支付体验", symbol: "message.fill", color: Color(hex: "#07C160"), isSelected: paymentMethod == "wechat") {
+            PaymentMethodRow(title: "微信支付", subtitle: "极速安全支付体验", symbol: "message.fill", imageName: "icon_logo_wechat", color: Color(hex: "#07C160"), isSelected: paymentMethod == "wechat") {
               paymentMethod = "wechat"
             }
           }

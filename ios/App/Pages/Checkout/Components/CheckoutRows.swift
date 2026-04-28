@@ -4,6 +4,7 @@ struct PaymentMethodRow: View {
   let title: String
   let subtitle: String
   let symbol: String
+  let imageName: String?
   let color: Color
   let isSelected: Bool
   let action: () -> Void
@@ -11,13 +12,22 @@ struct PaymentMethodRow: View {
   var body: some View {
     Button(action: action) {
       HStack(spacing: 14) {
-        Image(systemName: symbol)
-          .font(.system(size: 18, weight: .bold))
-          .foregroundColor(color)
-          .frame(width: 38, height: 38)
-          .background(Color.white)
-          .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
-          .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
+        ZStack {
+          RoundedRectangle(cornerRadius: 12, style: .continuous)
+            .fill(Color.white)
+            .shadow(color: .black.opacity(0.04), radius: 6, x: 0, y: 2)
+          if let imageName {
+            Image(imageName)
+              .resizable()
+              .scaledToFit()
+              .frame(width: 24, height: 24)
+          } else {
+            Image(systemName: symbol)
+              .font(.system(size: 18, weight: .bold))
+              .foregroundColor(color)
+          }
+        }
+        .frame(width: 38, height: 38)
 
         VStack(alignment: .leading, spacing: 4) {
           Text(title)

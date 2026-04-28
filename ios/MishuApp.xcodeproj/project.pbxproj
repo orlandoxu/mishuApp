@@ -76,7 +76,6 @@
 		730DD06415E53FB6ADDC4C90 /* SettingsRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A13EFD704AFD46740534D94 /* SettingsRows.swift */; };
 		78D1282A92C2BC632D6B0E62 /* VoiceActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F91B0DD5D80425A3AF4EEAA /* VoiceActionView.swift */; };
 		7D083B2645A81CB6B5AE80C4 /* DeviceResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABBC907F0FDA97D9614BCF1 /* DeviceResource.swift */; };
-		7F5A2D1AB84B7F648F68F283 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 42E5221D38FAC3B93D954F34 /* Pods_MishuApp.framework */; };
 		84C76CA8769ED1B73B7615E2 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = E014F15329552CE4F34F6001 /* SwiftMessages */; };
 		85A0FC1480666DE086279243 /* AgentRouteWebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA9039F2CD0AD08BEC0851 /* AgentRouteWebSocketClient.swift */; };
 		88799049FC2C20CDEB1EF93A /* View+fontStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA4894EBEC26F455E25E1595 /* View+fontStyle.swift */; };
@@ -213,7 +212,6 @@
 		0D5076130C1CE8117FD8EB3A /* View+shadow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+shadow.swift"; sourceTree = "<group>"; };
 		10F9DA5E6A398C3FE36C8DBA /* SQLiteVecIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteVecIntegrationTests.swift; sourceTree = "<group>"; };
 		11122EA182C955584DAC342B /* NaturalDateTimeDetectorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalDateTimeDetectorTests.swift; sourceTree = "<group>"; };
-		129B22FD5FFB0ABEB2023564 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		13BBAE42DA576F46B6B1DB5B /* VoiceRippleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRippleView.swift; sourceTree = "<group>"; };
 		15BDF40A9BDDFB19F876C29F /* NavHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavHeader.swift; sourceTree = "<group>"; };
 		17D398FA157E07E7C6ADE4E6 /* TextAssembler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextAssembler.swift; sourceTree = "<group>"; };
@@ -240,7 +238,6 @@
 		3FDA2FF5DD5ACE62862BCF03 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		4285CF11D29EBB4755B728EB /* LocationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationService.swift; sourceTree = "<group>"; };
 		42D27527AFBFFA564061EE09 /* View+KeyboardDismissModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+KeyboardDismissModifier.swift"; sourceTree = "<group>"; };
-		42E5221D38FAC3B93D954F34 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4310A01D1AC1284B8CAB25A4 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		468BD6AEF889C1748F814EBB /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		46AAC4A254FE881DF1B94951 /* Success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
@@ -289,7 +286,6 @@
 		8069A8D4EAD9F1C9284125AB /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
 		839667A37B1A11EF6861373B /* View+toPopover.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toPopover.swift"; sourceTree = "<group>"; };
 		83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceThinkView.swift; sourceTree = "<group>"; };
-		83DA9EB76D871BD7DE34E5A8 /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		84F828384D33BC9E4F62B434 /* MishuAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishuAppUITests.swift; sourceTree = "<group>"; };
 		8A3915DF2245E983E313EE8D /* UnreadBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadge.swift; sourceTree = "<group>"; };
 		8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeinitDetector.swift; sourceTree = "<group>"; };
@@ -372,7 +368,6 @@
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
 				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
-				7F5A2D1AB84B7F648F68F283 /* Pods_MishuApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,16 +381,6 @@
 				83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */,
 			);
 			path = VoiceAnimations;
-			sourceTree = "<group>";
-		};
-		0DF60C74CCF252EBD6EA64D6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				129B22FD5FFB0ABEB2023564 /* Pods-MishuApp.debug.xcconfig */,
-				83DA9EB76D871BD7DE34E5A8 /* Pods-MishuApp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
 			sourceTree = "<group>";
 		};
 		2982765E6E4F6CAA1B614313 /* Services */ = {
@@ -601,7 +586,6 @@
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
-				0DF60C74CCF252EBD6EA64D6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -645,7 +629,6 @@
 			isa = PBXGroup;
 			children = (
 				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
-				42E5221D38FAC3B93D954F34 /* Pods_MishuApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -938,6 +921,8 @@
 				A6314545CD08D46D5821D7C0 /* PBXTargetDependency */,
 			);
 			name = MishuAppUITests;
+			packageProductDependencies = (
+			);
 			productName = MishuAppUITests;
 			productReference = 802977BCD5035302C08772DA /* MishuAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -954,6 +939,8 @@
 				C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */,
 			);
 			name = MishuAppTests;
+			packageProductDependencies = (
+			);
 			productName = MishuAppTests;
 			productReference = D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -962,7 +949,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
-				AF5ED341390E16583FB6A896 /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
@@ -1026,7 +1012,6 @@
 				259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 71DEA75AA51B50493F081038 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1050,31 +1035,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		AF5ED341390E16583FB6A896 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MishuApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A5D5B52068640738302AC7E /* Sources */ = {
@@ -1280,7 +1240,6 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 83DA9EB76D871BD7DE34E5A8 /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1328,7 +1287,6 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 129B22FD5FFB0ABEB2023564 /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

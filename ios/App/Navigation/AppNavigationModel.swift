@@ -12,7 +12,11 @@ final class AppNavigationModel: ObservableObject {
   @Published var path: [NavigationPathItem] = []
 
   private init() {
-    root = SelfStore.shared.isLoggedIn ? .mainTab(.home) : .login
+    if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
+      root = .mainTab(.home)
+    } else {
+      root = SelfStore.shared.isLoggedIn ? .mainTab(.home) : .login
+    }
   }
 
   func push(_ route: NavigationRoute) {

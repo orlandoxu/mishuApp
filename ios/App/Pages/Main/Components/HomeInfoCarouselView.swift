@@ -22,11 +22,9 @@ private struct HomeProBannerView: View {
   var body: some View {
     Button(action: onOpenPro) {
       ZStack(alignment: .topLeading) {
-        LinearGradient(
-          colors: [Color(hex: "#FFE9F1"), Color(hex: "#FFF7D8"), Color(hex: "#EAF6FF")],
-          startPoint: .topLeading,
-          endPoint: .bottomTrailing
-        )
+        Image("img_main_ad_background")
+          .resizable()
+          .scaledToFill()
 
         VStack(alignment: .leading, spacing: 10) {
           HStack {

@@ -5,20 +5,38 @@ struct ChildIdentitySection: View {
     VStack(spacing: 16) {
       ZStack {
         RoundedRectangle(cornerRadius: 36, style: .continuous)
-          .fill(LinearGradient(colors: [Color(hex: "#FFE7B8"), Color(hex: "#FFB84D")], startPoint: .topLeading, endPoint: .bottomTrailing))
-          .frame(width: 104, height: 104)
-        Image(systemName: "figure.and.child.holdinghands")
-          .font(.system(size: 38, weight: .bold))
-          .foregroundColor(.white)
+          .fill(Color.white)
+          .frame(width: 84, height: 84)
+          .shadow(color: Color.black.opacity(0.08), radius: 16, x: 0, y: 4)
+        Image("img_card_child")
+          .resizable()
+          .scaledToFit()
+          .frame(width: 72, height: 72)
       }
 
-      Text("小宝贝")
-        .font(.system(size: 30, weight: .black))
-        .foregroundColor(Color.black.opacity(0.86))
-      Text("4 岁 6 个月 · 好奇心旺盛 · 最近迷上星星和火车")
-        .font(.system(size: 14, weight: .medium))
-        .foregroundColor(Color.black.opacity(0.46))
-        .multilineTextAlignment(.center)
+      VStack(spacing: 8) {
+        HStack(spacing: 6) {
+          Text("小糯米")
+            .font(.system(size: 22, weight: .black))
+            .foregroundColor(Color.black.opacity(0.90))
+          Image(systemName: "pencil")
+            .font(.system(size: 11, weight: .bold))
+            .foregroundColor(Color.black.opacity(0.40))
+            .frame(width: 24, height: 24)
+            .background(Color.black.opacity(0.04))
+            .clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+        }
+
+        HStack(spacing: 8) {
+          Circle()
+            .fill(Color.blue.opacity(0.75))
+            .frame(width: 8, height: 8)
+          Text("3岁 3个月 16天")
+            .font(.system(size: 12, weight: .bold))
+            .foregroundColor(Color.black.opacity(0.40))
+            .tracking(1.6)
+        }
+      }
     }
     .padding(24)
     .frame(maxWidth: .infinity)

@@ -51,14 +51,35 @@ struct MoneyStatCards: View {
   }
 
   private func stat(title: String, value: Int, color: Color) -> some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text(title).font(.system(size: 13, weight: .bold)).foregroundColor(.black.opacity(0.42))
-      Text("¥\(value)").font(.system(size: 24, weight: .black)).foregroundColor(color)
+    ZStack(alignment: .topLeading) {
+      Image(title == "支出" ? "img_money_income" : "img_money_pay")
+        .resizable()
+        .scaledToFill()
+
+      VStack(alignment: .leading, spacing: 10) {
+        HStack(spacing: 4) {
+          Image(systemName: title == "支出" ? "arrow.down.right" : "arrow.up.right")
+            .font(.system(size: 11, weight: .black))
+          Text(title == "支出" ? "支出总计" : "收入总计")
+            .font(.system(size: 10, weight: .black))
+            .tracking(0.8)
+        }
+        .foregroundColor(color)
+
+        Text("¥\(value)")
+          .font(.system(size: 26, weight: .black))
+          .foregroundColor(.black)
+          .tracking(-0.5)
+      }
+      .padding(18)
     }
-    .padding(18)
     .frame(maxWidth: .infinity, alignment: .leading)
-    .background(Color.white)
-    .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+    .aspectRatio(24.0 / 15.0, contentMode: .fit)
+    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+    .overlay(
+      RoundedRectangle(cornerRadius: 32, style: .continuous)
+        .stroke(Color.white.opacity(0.50), lineWidth: 1)
+    )
   }
 }
 

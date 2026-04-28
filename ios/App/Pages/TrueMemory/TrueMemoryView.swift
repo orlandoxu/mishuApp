@@ -22,12 +22,12 @@ struct TrueMemoryView: View {
 
   var body: some View {
     ZStack(alignment: .top) {
-      LinearGradient(
-        colors: [Color(hex: "#FFEAF4"), Color(hex: "#F8F9FB")],
-        startPoint: .top,
-        endPoint: .center
-      )
-      .ignoresSafeArea()
+      Color(hex: "#F8F9FB").ignoresSafeArea()
+      Image("img_bg_memory")
+        .resizable()
+        .scaledToFill()
+        .opacity(0.40)
+        .ignoresSafeArea()
 
       VStack(spacing: 0) {
         header
@@ -94,16 +94,16 @@ struct TrueMemoryView: View {
   private var categories: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 10) {
-        TrueMemoryCategoryButton(title: "全部", symbol: "square.grid.2x2.fill", isSelected: selectedCategory == nil) {
+        TrueMemoryCategoryButton(title: "全部", imageName: nil, isSelected: selectedCategory == nil) {
           selectedCategory = nil
         }
-        TrueMemoryCategoryButton(title: "个人信息", symbol: "person.fill", isSelected: selectedCategory == "个人信息") {
+        TrueMemoryCategoryButton(title: "个人信息", imageName: "img_memory_robot", isSelected: selectedCategory == "个人信息") {
           selectedCategory = "个人信息"
         }
-        TrueMemoryCategoryButton(title: "安全备忘", symbol: "lock.fill", isSelected: selectedCategory == "安全备忘") {
+        TrueMemoryCategoryButton(title: "安全备忘", imageName: "img_memory_memo", isSelected: selectedCategory == "安全备忘") {
           selectedCategory = "安全备忘"
         }
-        TrueMemoryCategoryButton(title: "旅行计划", symbol: "airplane", isSelected: selectedCategory == "旅行计划") {
+        TrueMemoryCategoryButton(title: "旅行计划", imageName: "img_memory_travel", isSelected: selectedCategory == "旅行计划") {
           selectedCategory = "旅行计划"
         }
       }

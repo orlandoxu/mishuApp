@@ -3,51 +3,60 @@ import SwiftUI
 struct PartnerIdentitySection: View {
   var body: some View {
     VStack(spacing: 16) {
-      ZStack {
-        Circle()
-          .fill(LinearGradient(colors: [Color(hex: "#FFD1DC"), Color(hex: "#FF7AA2")], startPoint: .topLeading, endPoint: .bottomTrailing))
-          .frame(width: 112, height: 112)
-        Text("TA")
-          .font(.system(size: 30, weight: .black))
-          .foregroundColor(.white)
+      HStack(spacing: -20) {
+        Image("avatar_girl")
+          .resizable()
+          .scaledToFill()
+          .frame(width: 84, height: 84)
+          .clipShape(Circle())
+          .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 2)
+
+        ZStack {
+          Circle()
+            .fill(Color.white)
+            .frame(width: 84, height: 84)
+            .shadow(color: Color.black.opacity(0.06), radius: 16, x: 0, y: 4)
+          VStack(spacing: 2) {
+            Image(systemName: "plus")
+              .font(.system(size: 22, weight: .medium))
+              .foregroundColor(Color.black.opacity(0.30))
+            Text("邀请 TA")
+              .font(.system(size: 10, weight: .bold))
+              .foregroundColor(Color.black.opacity(0.30))
+          }
+        }
       }
 
       VStack(spacing: 6) {
-        Text("亲密关系档案")
-          .font(.system(size: 28, weight: .black))
-          .foregroundColor(Color.black.opacity(0.86))
-        Text("Aura 正在把共同生活里的细节整理成可回看的故事")
-          .font(.system(size: 14, weight: .medium))
-          .foregroundColor(Color.black.opacity(0.45))
-          .multilineTextAlignment(.center)
+        HStack(spacing: 8) {
+          Circle().fill(Color(hex: "#34D399")).frame(width: 8, height: 8)
+          Text("32 Days Together")
+            .font(.system(size: 13, weight: .bold))
+            .foregroundColor(Color.black.opacity(0.40))
+            .tracking(2.0)
+        }
       }
 
-      HStack(spacing: 10) {
-        PartnerMetric(title: "纪念日", value: "3")
-        PartnerMetric(title: "偏好", value: "18")
-        PartnerMetric(title: "故事", value: "42")
+      HStack(spacing: 12) {
+        Text("TA 的档案")
+          .font(.system(size: 14, weight: .bold))
+          .foregroundColor(Color.black.opacity(0.70))
+          .padding(.horizontal, 24)
+          .frame(height: 40)
+          .background(Color.black.opacity(0.04))
+          .clipShape(Capsule())
+
+        Image(systemName: "ellipsis")
+          .font(.system(size: 18, weight: .bold))
+          .foregroundColor(Color.black.opacity(0.60))
+          .frame(width: 40, height: 40)
+          .background(Color.black.opacity(0.04))
+          .clipShape(Circle())
       }
     }
-    .padding(22)
+    .padding(.top, 22)
+    .padding(.bottom, 4)
     .frame(maxWidth: .infinity)
-    .background(Color.white)
-    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-  }
-}
-
-private struct PartnerMetric: View {
-  let title: String
-  let value: String
-
-  var body: some View {
-    VStack(spacing: 4) {
-      Text(value).font(.system(size: 20, weight: .black))
-      Text(title).font(.system(size: 12, weight: .bold)).foregroundColor(.black.opacity(0.42))
-    }
-    .frame(maxWidth: .infinity)
-    .padding(.vertical, 12)
-    .background(Color.black.opacity(0.035))
-    .clipShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
   }
 }
 
@@ -65,11 +74,13 @@ struct PartnerTimelineSection: View {
         .foregroundColor(.black.opacity(0.80))
 
       ForEach(stories, id: \.0) { story in
-        HStack(alignment: .top, spacing: 12) {
-          Circle()
-            .fill(Color(hex: "#FF7AA2"))
-            .frame(width: 10, height: 10)
-            .padding(.top, 6)
+        HStack(alignment: .top, spacing: 14) {
+          Image(story.0 == "第一次旅行" ? "avatar_boy" : "avatar_girl")
+            .resizable()
+            .scaledToFill()
+            .frame(width: 40, height: 40)
+            .clipShape(Circle())
+            .shadow(color: Color.black.opacity(0.06), radius: 8, x: 0, y: 2)
           VStack(alignment: .leading, spacing: 6) {
             Text(story.0).font(.system(size: 16, weight: .bold))
             Text(story.1).font(.system(size: 14, weight: .medium)).foregroundColor(.black.opacity(0.56)).lineSpacing(4)

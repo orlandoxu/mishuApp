@@ -16,17 +16,20 @@ struct MoodCalendarView: View {
         .font(.system(size: 18, weight: .black))
       LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 10) {
         ForEach(1...28, id: \.self) { day in
-          VStack(spacing: 2) {
-            Text("\(day)")
-              .font(.system(size: 11, weight: .bold))
-              .foregroundColor(.black.opacity(0.36))
-            Text(day == 27 ? "🤔" : day == 28 ? "😊" : "")
-              .font(.system(size: 18))
-              .frame(height: 22)
+          ZStack {
+            if day == 27 || day == 28 {
+              Text(day == 27 ? "🤔" : "😊")
+                .font(.system(size: 28))
+            } else {
+              Text("\(day)")
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(.black.opacity(0.36))
+            }
           }
           .frame(height: 44)
-          .background((day == 27 || day == 28) ? Color.white : Color.white.opacity(0.35))
-          .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+          .frame(maxWidth: .infinity)
+          .background((day == 27 || day == 28) ? Color.black.opacity(0.04) : Color.clear)
+          .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
       }
     }

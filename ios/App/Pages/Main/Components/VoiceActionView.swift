@@ -49,7 +49,7 @@ struct VoiceActionView: View {
       }
     }
     .frame(maxWidth: .infinity)
-    .frame(height: 196)
+    .frame(height: 92)
     .accessibilityIdentifier("home_voice_interaction_root")
   }
 }

@@ -4,14 +4,14 @@ struct HomeFunctionGridView: View {
   let onSelect: (NavigationRoute) -> Void
 
   private let items: [HomeFunctionItem] = [
-    HomeFunctionItem(title: "我的朋友", symbol: "person.2.fill", colors: ["#B9E7FF", "#6EA8FF"], route: .contacts),
-    HomeFunctionItem(title: "TA", symbol: "heart.fill", colors: ["#FFD1DC", "#FF7AA2"], route: .partner),
-    HomeFunctionItem(title: "独家记忆", symbol: "brain.head.profile", colors: ["#E2D7FF", "#9B7CFF"], route: .trueMemory),
-    HomeFunctionItem(title: "小宝贝", symbol: "figure.and.child.holdinghands", colors: ["#FFE7B8", "#FFB84D"], route: .child),
-    HomeFunctionItem(title: "小钱罐", symbol: "creditcard.fill", colors: ["#D7F8E8", "#44C986"], route: .moneyJar),
-    HomeFunctionItem(title: "情绪树洞", symbol: "leaf.fill", colors: ["#D6F3F0", "#48BDB3"], route: .treeHole),
-    HomeFunctionItem(title: "我的画像", symbol: "person.text.rectangle.fill", colors: ["#EAF0FF", "#7192F4"], route: .memory),
-    HomeFunctionItem(title: "我的", symbol: "gearshape.fill", colors: ["#EFEFEF", "#A8ADB7"], route: .settings)
+    HomeFunctionItem(title: "我的朋友", imageName: "img_card_friends", route: .contacts),
+    HomeFunctionItem(title: "TA", imageName: "img_card_love", route: .partner),
+    HomeFunctionItem(title: "独家记忆", imageName: "img_card_memory", route: .trueMemory),
+    HomeFunctionItem(title: "小宝贝", imageName: "img_card_child", route: .child),
+    HomeFunctionItem(title: "小钱罐", imageName: "img_card_money", route: .moneyJar),
+    HomeFunctionItem(title: "情绪树洞", imageName: "img_card_emo_girl", route: .treeHole),
+    HomeFunctionItem(title: "我的画像", imageName: "img_card_self", route: .memory),
+    HomeFunctionItem(title: "我的", imageName: "img_menu_self", route: .settings)
   ]
 
   var body: some View {
@@ -24,26 +24,14 @@ struct HomeFunctionGridView: View {
           onSelect(item.route)
         } label: {
           VStack(spacing: 9) {
-            ZStack {
-              RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(
-                  LinearGradient(
-                    colors: item.colors.map(Color.init(hex:)),
-                    startPoint: .topLeading,
-                    endPoint: .bottomTrailing
-                  )
-                )
-                .frame(width: 64, height: 64)
-                .shadow(color: item.colors.last.map(Color.init(hex:))?.opacity(0.18) ?? .clear, radius: 14, x: 0, y: 8)
-
-              Image(systemName: item.symbol)
-                .font(.system(size: 25, weight: .bold))
-                .foregroundColor(.white)
-            }
+            Image(item.imageName)
+              .resizable()
+              .scaledToFit()
+              .frame(width: 44, height: 44)
 
             Text(item.title)
-              .font(.system(size: 13, weight: .bold))
-              .foregroundColor(Color.black.opacity(0.68))
+              .font(.system(size: 13, weight: .black))
+              .foregroundColor(Color.black.opacity(0.80))
               .lineLimit(1)
               .minimumScaleFactor(0.82)
           }
@@ -59,7 +47,6 @@ struct HomeFunctionGridView: View {
 private struct HomeFunctionItem: Identifiable {
   let id = UUID()
   let title: String
-  let symbol: String
-  let colors: [String]
+  let imageName: String
   let route: NavigationRoute
 }

@@ -9,14 +9,20 @@ struct TrueMemoryItem: Identifiable {
 
 struct TrueMemoryCategoryButton: View {
   let title: String
-  let symbol: String
+  let imageName: String?
   let isSelected: Bool
   let action: () -> Void
 
   var body: some View {
     Button(action: action) {
       HStack(spacing: 6) {
-        Image(systemName: symbol)
+        if let imageName {
+          Image(imageName)
+            .resizable()
+            .scaledToFit()
+            .frame(width: 20, height: 20)
+            .opacity(isSelected ? 1 : 0.40)
+        }
         Text(title)
       }
       .font(.system(size: 14, weight: .black))
@@ -48,6 +54,12 @@ struct TrueMemoryTimelineCard: View {
 
       VStack(alignment: .leading, spacing: 12) {
         HStack {
+          if let iconName = categoryIconName {
+            Image(iconName)
+              .resizable()
+              .scaledToFit()
+              .frame(width: 30, height: 30)
+          }
           Text(item.category)
             .font(.system(size: 12, weight: .bold))
             .foregroundColor(categoryColor)
@@ -90,6 +102,19 @@ struct TrueMemoryTimelineCard: View {
       return Color(hex: "#0D9488")
     default:
       return Color(hex: "#64748B")
+    }
+  }
+
+  private var categoryIconName: String? {
+    switch item.category {
+    case "个人信息":
+      return "img_memory_robot"
+    case "安全备忘":
+      return "img_memory_memo"
+    case "旅行计划":
+      return "img_memory_travel"
+    default:
+      return nil
     }
   }
 }
