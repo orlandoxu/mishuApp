@@ -27,13 +27,15 @@ struct MemoryClusterCard: View {
           .foregroundColor(Color.black.opacity(0.85))
       }
 
-      FlowLayout(spacing: 10) {
+      LazyVGrid(columns: [GridItem(.adaptive(minimum: 132), spacing: 10, alignment: .leading)], alignment: .leading, spacing: 10) {
         ForEach(cluster.items, id: \.self) { item in
           Text(item)
             .font(.system(size: 14, weight: .bold))
             .foregroundColor(Color.black.opacity(0.70))
+            .lineLimit(2)
             .padding(.horizontal, 14)
             .padding(.vertical, 11)
+            .frame(maxWidth: .infinity, alignment: .leading)
             .background(Color.white.opacity(0.55))
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
         }
@@ -46,21 +48,6 @@ struct MemoryClusterCard: View {
       RoundedRectangle(cornerRadius: 32, style: .continuous)
         .stroke(Color.white.opacity(0.80), lineWidth: 1)
     )
-  }
-}
-
-struct FlowLayout<Content: View>: View {
-  let spacing: CGFloat
-  let content: Content
-
-  init(spacing: CGFloat, @ViewBuilder content: () -> Content) {
-    self.spacing = spacing
-    self.content = content()
-  }
-
-  var body: some View {
-    VStack(alignment: .leading, spacing: spacing) {
-      content
-    }
+    .frame(maxWidth: .infinity, alignment: .leading)
   }
 }

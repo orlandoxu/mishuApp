@@ -90,7 +90,7 @@ struct ContactsView: View {
 
   private var contactDetail: some View {
     ScrollView(showsIndicators: false) {
-      VStack(spacing: 22) {
+      VStack(spacing: 24) {
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 8) {
             ForEach(contacts) { contact in
@@ -117,6 +117,9 @@ struct ContactsView: View {
           .padding(.horizontal, 20)
           .padding(.vertical, 12)
         }
+
+        ContactProfileSummary(contact: activeContact)
+          .padding(.horizontal, 20)
 
         ContactDetailCard(contact: activeContact)
           .padding(.horizontal, 20)

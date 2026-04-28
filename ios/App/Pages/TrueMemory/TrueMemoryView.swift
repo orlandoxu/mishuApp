@@ -48,10 +48,8 @@ struct TrueMemoryView: View {
   }
 
   private var header: some View {
-    HStack(spacing: 12) {
-      if !searchExpanded {
-        NavHeader(title: "独家记忆")
-      } else {
+    HStack(spacing: 14) {
+      if searchExpanded {
         HStack(spacing: 8) {
           Image(systemName: "magnifyingglass")
             .foregroundColor(Color.black.opacity(0.40))
@@ -67,28 +65,51 @@ struct TrueMemoryView: View {
         }
         .padding(.horizontal, 16)
         .frame(height: 48)
-        .background(Color.white.opacity(0.42))
+        .background(Color.white.opacity(0.30))
         .clipShape(Capsule())
-        .padding(.top, safeAreaTop + 14)
-        .padding(.horizontal, 20)
-      }
+        .overlay(Capsule().stroke(Color.white.opacity(0.60), lineWidth: 1))
+      } else {
+        Button {
+          AppNavigationModel.shared.pop()
+        } label: {
+          Image(systemName: "arrow.left")
+            .font(.system(size: 24, weight: .semibold))
+            .foregroundColor(Color.black.opacity(0.82))
+        }
+        .frame(width: 48, height: 48)
+        .background(Color.white.opacity(0.30))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: 24, style: .continuous)
+            .stroke(Color.white.opacity(0.60), lineWidth: 1)
+        )
+        .buttonStyle(.plain)
 
-      if !searchExpanded {
+        Text("独家记忆")
+          .font(.system(size: 20, weight: .black))
+          .foregroundColor(Color.black.opacity(0.80))
+          .frame(maxWidth: .infinity)
+
         Button {
           searchExpanded = true
         } label: {
           Image(systemName: "magnifyingglass")
-            .font(.system(size: 18, weight: .bold))
+            .font(.system(size: 22, weight: .semibold))
             .foregroundColor(Color.black.opacity(0.60))
-            .frame(width: 48, height: 48)
-            .background(Color.white.opacity(0.45))
-            .clipShape(Circle())
         }
+        .frame(width: 48, height: 48)
+        .background(Color.white.opacity(0.30))
+        .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: 24, style: .continuous)
+            .stroke(Color.white.opacity(0.60), lineWidth: 1)
+        )
         .buttonStyle(.plain)
-        .padding(.top, safeAreaTop + 13)
-        .padding(.trailing, 20)
       }
     }
+    .padding(.horizontal, 24)
+    .padding(.top, safeAreaTop + 10)
+    .padding(.bottom, 14)
   }
 
   private var categories: some View {

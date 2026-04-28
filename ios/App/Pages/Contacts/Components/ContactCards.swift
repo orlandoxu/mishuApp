@@ -54,83 +54,121 @@ struct ContactDetailCard: View {
   let contact: PrototypeContact
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 22) {
-      VStack(alignment: .leading, spacing: 8) {
-        HStack(alignment: .firstTextBaseline) {
-          Text(contact.name)
-            .font(.system(size: 34, weight: .black))
-            .foregroundColor(Color.black.opacity(0.84))
-          if contact.isStarred {
-            Image(systemName: "star.fill")
-              .font(.system(size: 16, weight: .bold))
-              .foregroundColor(Color(hex: "#FBBF24"))
-          }
-        }
-        Text(contact.role)
-          .font(.system(size: 14, weight: .medium))
-          .foregroundColor(Color.black.opacity(0.42))
-      }
-
-      tagRow(contact.tags)
-
-      section(title: "偏好", items: contact.preferences, symbol: "sparkles")
-      section(title: "可连接资源", items: contact.resources, symbol: "gift.fill")
-
-      VStack(alignment: .leading, spacing: 10) {
-        Label("Aura 洞察", systemImage: "wand.and.stars")
-          .font(.system(size: 14, weight: .black))
-          .foregroundColor(Color(hex: "#8C7CF0"))
-        Text(contact.insight)
-          .font(.system(size: 15, weight: .semibold))
-          .foregroundColor(Color.black.opacity(0.68))
-          .lineSpacing(5)
-      }
-      .padding(18)
-      .background(Color(hex: "#F5F2FF"))
-      .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-
-      section(title: "关键互动", items: contact.interactions, symbol: "arrow.left.arrow.right")
+    VStack(spacing: 20) {
+      ContactGlassSection(title: "偏好指南", symbol: "gift.fill", color: Color(hex: "#F43F5E"), items: contact.preferences)
+      ContactGlassSection(title: "能量图谱", symbol: "bolt.fill", color: Color(hex: "#3B82F6"), items: contact.resources)
+      ContactInsightCard(text: contact.insight)
+      ContactGlassSection(title: "互动", symbol: "arrow.left.arrow.right", color: Color(hex: "#6366F1"), items: contact.interactions)
     }
-    .padding(22)
-    .background(Color.white.opacity(0.72))
-    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
+  }
+}
+
+struct ContactProfileSummary: View {
+  let contact: PrototypeContact
+
+  var body: some View {
+    VStack(spacing: 16) {
+      Text(contact.role)
+        .font(.system(size: 14, weight: .medium))
+        .foregroundColor(Color.black.opacity(0.40))
+        .multilineTextAlignment(.center)
+
+      HStack(spacing: 10) {
+        ForEach(contact.tags, id: \.self) { tag in
+          Text(tag)
+            .font(.system(size: 12, weight: .bold))
+            .foregroundColor(Color.black.opacity(0.40))
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(Color.white.opacity(0.60))
+            .clipShape(Capsule())
+            .overlay(Capsule().stroke(Color.black.opacity(0.03), lineWidth: 1))
+        }
+      }
+    }
+    .frame(maxWidth: .infinity)
+  }
+}
+
+private struct ContactGlassSection: View {
+  let title: String
+  let symbol: String
+  let color: Color
+  let items: [String]
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 18) {
+      HStack(spacing: 10) {
+        Image(systemName: symbol)
+          .font(.system(size: 18, weight: .bold))
+          .foregroundColor(color.opacity(0.82))
+        Text(title)
+          .font(.system(size: 17, weight: .bold))
+          .foregroundColor(Color.black.opacity(0.84))
+      }
+
+      FlowTagLayout(items: items)
+    }
+    .padding(24)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(Color.white.opacity(0.40))
+    .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
     .overlay(
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .stroke(Color.white, lineWidth: 1)
+      RoundedRectangle(cornerRadius: 28, style: .continuous)
+        .stroke(Color.white.opacity(0.60), lineWidth: 1)
     )
-    .shadow(color: Color.black.opacity(0.04), radius: 22, x: 0, y: 10)
+    .shadow(color: Color.black.opacity(0.01), radius: 20, x: 0, y: 8)
   }
+}
 
-  private func tagRow(_ tags: [String]) -> some View {
-    HStack(spacing: 8) {
-      ForEach(tags, id: \.self) { tag in
-        Text(tag)
-          .font(.system(size: 12, weight: .bold))
-          .foregroundColor(Color.black.opacity(0.52))
-          .padding(.horizontal, 12)
-          .padding(.vertical, 7)
-          .background(Color.black.opacity(0.04))
-          .clipShape(Capsule())
-      }
+private struct ContactInsightCard: View {
+  let text: String
+
+  var body: some View {
+    HStack(alignment: .top, spacing: 12) {
+      Image(systemName: "sparkles")
+        .font(.system(size: 16, weight: .bold))
+        .foregroundColor(Color(hex: "#8B5CF6").opacity(0.72))
+      Text(text)
+        .font(.system(size: 13, weight: .medium))
+        .foregroundColor(Color(hex: "#312E81").opacity(0.62))
+        .lineSpacing(4)
     }
+    .padding(18)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .background(Color(hex: "#6366F1").opacity(0.035))
+    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+    .overlay(
+      RoundedRectangle(cornerRadius: 20, style: .continuous)
+        .stroke(Color(hex: "#6366F1").opacity(0.10), lineWidth: 1)
+    )
   }
+}
 
-  private func section(title: String, items: [String], symbol: String) -> some View {
-    VStack(alignment: .leading, spacing: 10) {
-      Label(title, systemImage: symbol)
-        .font(.system(size: 14, weight: .black))
-        .foregroundColor(Color.black.opacity(0.72))
-      VStack(alignment: .leading, spacing: 8) {
-        ForEach(items, id: \.self) { item in
-          Text(item)
-            .font(.system(size: 14, weight: .semibold))
-            .foregroundColor(Color.black.opacity(0.62))
-            .padding(.horizontal, 12)
-            .padding(.vertical, 9)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(Color.black.opacity(0.035))
-            .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
-        }
+private struct FlowTagLayout: View {
+  let items: [String]
+
+  var body: some View {
+    let columns = [
+      GridItem(.adaptive(minimum: 118), spacing: 10, alignment: .leading)
+    ]
+
+    LazyVGrid(columns: columns, alignment: .leading, spacing: 10) {
+      ForEach(items, id: \.self) { item in
+        Text(item)
+          .font(.system(size: 13, weight: .medium))
+          .foregroundColor(Color.black.opacity(0.60))
+          .lineLimit(2)
+          .multilineTextAlignment(.leading)
+          .padding(.horizontal, 14)
+          .padding(.vertical, 10)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .background(Color.white.opacity(0.50))
+          .clipShape(RoundedRectangle(cornerRadius: 14, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: 14, style: .continuous)
+              .stroke(Color.black.opacity(0.02), lineWidth: 1)
+          )
       }
     }
   }

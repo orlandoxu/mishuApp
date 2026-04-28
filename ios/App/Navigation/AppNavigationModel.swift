@@ -14,6 +14,9 @@ final class AppNavigationModel: ObservableObject {
   private init() {
     if ProcessInfo.processInfo.arguments.contains("--ui-testing") {
       root = .mainTab(.home)
+      if let route = Self.uiTestingRoute() {
+        path = [NavigationPathItem(route: route)]
+      }
     } else {
       root = SelfStore.shared.isLoggedIn ? .mainTab(.home) : .login
     }
@@ -46,6 +49,32 @@ final class AppNavigationModel: ObservableObject {
 
   func handleSystemPathUpdate(_ newPath: [NavigationPathItem]) {
     path = newPath
+  }
+
+  private static func uiTestingRoute() -> NavigationRoute? {
+    let arguments = ProcessInfo.processInfo.arguments
+    guard let index = arguments.firstIndex(of: "--ui-route"),
+          arguments.indices.contains(index + 1)
+    else {
+      return nil
+    }
+
+    switch arguments[index + 1] {
+    case "contacts":
+      return .contacts
+    case "trueMemory":
+      return .trueMemory
+    case "memory":
+      return .memory
+    case "moneyJar":
+      return .moneyJar
+    case "treeHole":
+      return .treeHole
+    case "pro":
+      return .pro
+    default:
+      return nil
+    }
   }
 }
 
