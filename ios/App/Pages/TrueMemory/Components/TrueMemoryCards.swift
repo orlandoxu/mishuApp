@@ -106,7 +106,9 @@ struct TrueMemoryTimelineCard: View {
       )
       .shadow(color: Color.black.opacity(0.03), radius: 32, x: 0, y: 8)
       .padding(.leading, 32)
+      .frame(maxWidth: .infinity, alignment: .leading)
     }
+    .frame(maxWidth: .infinity, alignment: .leading)
   }
 
   private var categoryColor: Color {

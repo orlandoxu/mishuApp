@@ -23,7 +23,7 @@ struct ContactAvatarButton: View {
   var body: some View {
     Button(action: action) {
       VStack(spacing: 8) {
-        ZStack(alignment: .bottomTrailing) {
+        ZStack {
           Circle()
             .fill(LinearGradient(colors: contact.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
             .frame(width: 64, height: 64)
@@ -31,19 +31,23 @@ struct ContactAvatarButton: View {
           Text(contact.avatarText)
             .font(.system(size: isActive ? 20 : 18, weight: .medium))
             .foregroundColor(.white)
+            .frame(width: 64, height: 64, alignment: .center)
           if contact.isStarred {
             Image(systemName: "star.fill")
               .font(.system(size: 10, weight: .black))
               .foregroundColor(Color(hex: "#FBBF24"))
-              .offset(x: 2, y: 2)
+              .frame(width: 16, height: 16)
+              .offset(x: 26, y: 26)
           }
         }
+        .frame(width: 64, height: 64)
         .opacity(isActive ? 1 : 0.35)
         .scaleEffect(isActive ? 1 : 0.62)
 
         Text(contact.shortName)
           .font(.system(size: 12, weight: isActive ? .bold : .medium))
           .foregroundColor(Color.black.opacity(isActive ? 0.78 : 0.35))
+          .frame(width: 74, alignment: .center)
           .offset(y: isActive ? 2 : 0)
       }
       .frame(width: 74, height: 96)

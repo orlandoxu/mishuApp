@@ -65,9 +65,10 @@ struct NavHeader<Trailing: View>: View {
       trailingSlot
     }
     .padding(.horizontal, 24)
-    .padding(.top, safeAreaTop + 10)
-    .padding(.bottom, 14)
+    .padding(.top, 56)
+    .padding(.bottom, 16)
     .frame(maxWidth: .infinity)
+    .ignoresSafeArea(edges: .top)
   }
 
   @ViewBuilder

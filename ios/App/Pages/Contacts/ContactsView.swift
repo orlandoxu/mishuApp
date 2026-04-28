@@ -110,14 +110,20 @@ struct ContactsView: View {
       )
       .ignoresSafeArea()
 
-      if showAll {
-        allContactsList
-      } else {
-        contactDetail
-      }
+      contactDetail
 
-      NavHeader(title: showAll ? "全部联系人" : "")
+      NavHeader(title: "")
+
+      if showAll {
+        ContactsListPage(contacts: contacts, onClose: closeAllContacts, onSelect: selectContact)
+          .transition(.asymmetric(
+            insertion: .move(edge: .trailing).combined(with: .opacity),
+            removal: .move(edge: .trailing).combined(with: .opacity)
+          ))
+          .zIndex(20)
+      }
     }
+    .animation(.spring(response: 0.36, dampingFraction: 0.88), value: showAll)
   }
 
   private var contactDetail: some View {
@@ -158,7 +164,9 @@ struct ContactsView: View {
 
           VStack(spacing: 8) {
             Button {
-              showAll = true
+              withAnimation(.spring(response: 0.36, dampingFraction: 0.88)) {
+                showAll = true
+              }
             } label: {
               ZStack {
                 Circle()
@@ -170,14 +178,16 @@ struct ContactsView: View {
                   .font(.system(size: 20, weight: .medium))
                   .foregroundColor(Color.black.opacity(0.40))
               }
+              .frame(width: 64, height: 64)
               .scaleEffect(0.62)
             }
             .buttonStyle(.plain)
             Text("全部")
               .font(.system(size: 12, weight: .medium))
               .foregroundColor(Color.black.opacity(0.30))
+              .frame(width: 74, alignment: .center)
           }
-          .frame(width: 74)
+          .frame(width: 74, height: 96)
           .padding(.trailing, 12)
         }
 
@@ -190,7 +200,7 @@ struct ContactsView: View {
           .padding(.horizontal, 20)
           .padding(.top, 0)
       }
-      .padding(.top, 96)
+      .padding(.top, 72)
       .padding(.bottom, 32)
     }
   }
@@ -248,9 +258,103 @@ struct ContactsView: View {
   }
 
   private func selectContact(_ contact: PrototypeContact) {
-    activeId = contact.id
-    searchQuery = ""
-    showAll = false
+    withAnimation(.spring(response: 0.36, dampingFraction: 0.88)) {
+      activeId = contact.id
+      searchQuery = ""
+      showAll = false
+    }
+  }
+
+  private func closeAllContacts() {
+    withAnimation(.spring(response: 0.36, dampingFraction: 0.88)) {
+      searchQuery = ""
+      showAll = false
+    }
+  }
+}
+
+private struct ContactsListPage: View {
+  let contacts: [PrototypeContact]
+  let onClose: () -> Void
+  let onSelect: (PrototypeContact) -> Void
+
+  @State private var searchQuery = ""
+
+  private var filteredContacts: [PrototypeContact] {
+    let query = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !query.isEmpty else { return contacts }
+    return contacts.filter { contact in
+      contact.name.localizedCaseInsensitiveContains(query) ||
+      contact.role.localizedCaseInsensitiveContains(query) ||
+      contact.tags.contains { $0.localizedCaseInsensitiveContains(query) } ||
+      contact.resources.contains { $0.localizedCaseInsensitiveContains(query) }
+    }
+  }
+
+  private var starredContacts: [PrototypeContact] {
+    filteredContacts.filter(\.isStarred)
+  }
+
+  private var otherContacts: [PrototypeContact] {
+    filteredContacts.filter { !$0.isStarred }
+  }
+
+  var body: some View {
+    ZStack(alignment: .top) {
+      Color(hex: "#FAFAFC").ignoresSafeArea()
+
+      ScrollView(showsIndicators: false) {
+        VStack(alignment: .leading, spacing: 0) {
+          HStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+              .font(.system(size: 16, weight: .semibold))
+              .foregroundColor(Color.black.opacity(0.30))
+            TextField("搜索联系人、标签或资源...", text: $searchQuery)
+              .font(.system(size: 15, weight: .medium))
+              .foregroundColor(Color.black.opacity(0.80))
+          }
+          .frame(height: 48)
+          .padding(.horizontal, 16)
+          .background(Color.white)
+          .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+              .stroke(Color.black.opacity(0.05), lineWidth: 1)
+          )
+          .shadow(color: Color.black.opacity(0.03), radius: 8, x: 0, y: 2)
+          .padding(.horizontal, 20)
+          .padding(.top, 16)
+          .padding(.bottom, 18)
+
+          if !starredContacts.isEmpty {
+            ContactListSection(title: "星标核心 (Starred)", contacts: starredContacts, onSelect: onSelect)
+              .padding(.top, 4)
+          }
+
+          if !otherContacts.isEmpty {
+            ContactListSection(title: "所有联系人 (All)", contacts: otherContacts, onSelect: onSelect)
+              .padding(.top, 28)
+          }
+
+          if filteredContacts.isEmpty {
+            VStack(spacing: 12) {
+              Image(systemName: "magnifyingglass")
+                .font(.system(size: 42, weight: .light))
+                .foregroundColor(Color.black.opacity(0.08))
+              Text("未找到相关联系人")
+                .font(.system(size: 15, weight: .medium))
+                .foregroundColor(Color.black.opacity(0.20))
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.top, 80)
+          }
+        }
+        .padding(.top, 73)
+        .padding(.bottom, 40)
+      }
+
+      NavHeader(title: "全部联系人", onBack: onClose)
+    }
   }
 }
 
@@ -274,7 +378,7 @@ private struct ContactListSection: View {
             onSelect(contact)
           } label: {
             HStack(spacing: 16) {
-              ZStack(alignment: .bottomTrailing) {
+              ZStack {
                 Circle()
                   .fill(LinearGradient(colors: contact.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
                   .frame(width: 46, height: 46)
@@ -282,13 +386,16 @@ private struct ContactListSection: View {
                 Text(contact.avatarText)
                   .font(.system(size: 14, weight: .bold))
                   .foregroundColor(.white)
+                  .frame(width: 46, height: 46, alignment: .center)
                 if contact.isStarred {
                   Image(systemName: "star.fill")
                     .font(.system(size: 9, weight: .black))
                     .foregroundColor(Color(hex: "#FBBF24"))
-                    .offset(x: 2, y: 2)
+                    .frame(width: 14, height: 14)
+                    .offset(x: 19, y: 19)
                 }
               }
+              .frame(width: 46, height: 46)
 
               VStack(alignment: .leading, spacing: 4) {
                 HStack(spacing: 8) {

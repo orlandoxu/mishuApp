@@ -71,10 +71,13 @@ struct MoneyBudgetCard: View {
             .tracking(2.2)
             .textCase(.uppercase)
             .padding(.leading, 8)
+
           Text("¥\(limit)")
-            .font(.system(size: 42, weight: .black))
+            .font(.system(size: 36, weight: .black))
             .foregroundColor(.black)
             .tracking(-1.2)
+            .minimumScaleFactor(0.72)
+            .lineLimit(1)
         }
         .padding(.top, 62)
       }

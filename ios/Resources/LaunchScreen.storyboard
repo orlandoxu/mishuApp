@@ -13,15 +13,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_image" translatesAutoresizingMaskIntoConstraints="NO" id="launchImageView">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_startup" translatesAutoresizingMaskIntoConstraints="NO" id="launchImageView">
                                 <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" secondItem="launchImageView" secondAttribute="height" id="aspectRatio"/>
-                                </constraints>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="SA"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="launchImageView" firstAttribute="leading" secondItem="V" secondAttribute="leading" id="leading"/>
                             <constraint firstItem="launchImageView" firstAttribute="top" secondItem="V" secondAttribute="top" id="top"/>
@@ -36,6 +33,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launch_image" width="1125" height="2436"/>
+        <image name="img_startup" width="390" height="844"/>
     </resources>
 </document>

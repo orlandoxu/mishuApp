@@ -4,6 +4,7 @@ struct TrueMemoryView: View {
   @State private var selectedCategory: String? = nil
   @State private var query = ""
   @State private var searchExpanded = false
+  @FocusState private var isSearchFocused: Bool
 
   private let memories = [
     TrueMemoryItem(id: "m1", text: "我的车牌号是 粤B·12345，平时停在负二层 B2-105", time: "2026-04-15 14:30", category: "个人信息"),
@@ -22,17 +23,14 @@ struct TrueMemoryView: View {
   }
 
   var body: some View {
-    ZStack(alignment: .top) {
-      Color(hex: "#F8F9FB").ignoresSafeArea()
-      Image("img_bg_memory")
-        .resizable()
-        .scaledToFill()
-        .opacity(0.40)
-        .ignoresSafeArea()
-
-      VStack(spacing: 0) {
-        header
-        categories
+    GeometryReader { proxy in
+      ZStack(alignment: .top) {
+        Color(hex: "#F8F9FB").ignoresSafeArea()
+        Image("img_bg_memory")
+          .resizable()
+          .scaledToFill()
+          .opacity(0.40)
+          .ignoresSafeArea()
 
         ScrollView(showsIndicators: false) {
           ZStack(alignment: .topLeading) {
@@ -41,19 +39,39 @@ struct TrueMemoryView: View {
               .frame(width: 1)
               .padding(.leading, 8)
               .padding(.top, 16)
+              .padding(.bottom, 4)
 
             VStack(spacing: 32) {
-            ForEach(filteredMemories) { item in
-              TrueMemoryTimelineCard(item: item)
-            }
+              ForEach(filteredMemories) { item in
+                TrueMemoryTimelineCard(item: item)
+                  .frame(maxWidth: .infinity, alignment: .leading)
+              }
             }
           }
           .padding(.horizontal, 24)
-          .padding(.top, 24)
+          .padding(.top, 204)
           .padding(.bottom, 40)
         }
+        .frame(width: proxy.size.width, height: proxy.size.height)
+        .scrollDismissesKeyboard(.interactively)
+
+        topOverlay
+          .frame(width: proxy.size.width)
+          .zIndex(10)
       }
+      .frame(width: proxy.size.width, height: proxy.size.height, alignment: .top)
+      .clipped()
     }
+    .ignoresSafeArea(.keyboard, edges: .bottom)
+    .ignoresSafeArea(edges: .top)
+  }
+
+  private var topOverlay: some View {
+    VStack(spacing: 0) {
+      header
+      categories
+    }
+    .allowsHitTesting(true)
   }
 
   private var header: some View {
@@ -92,10 +110,12 @@ struct TrueMemoryView: View {
           TextField("搜索记忆过的事项", text: $query)
             .font(.system(size: 15, weight: .bold))
             .foregroundColor(Color.black.opacity(0.80))
+            .focused($isSearchFocused)
           Button {
             withAnimation(.spring(response: 0.32, dampingFraction: 0.86)) {
               searchExpanded = false
               query = ""
+              isSearchFocused = false
             }
           } label: {
             Image(systemName: "xmark")
@@ -109,6 +129,9 @@ struct TrueMemoryView: View {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.82)) {
               searchExpanded = true
             }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.22) {
+              isSearchFocused = true
+            }
           } label: {
             Image(systemName: "magnifyingglass")
               .font(.system(size: 22, weight: .semibold))
@@ -118,7 +141,7 @@ struct TrueMemoryView: View {
         }
       }
       .padding(.horizontal, searchExpanded ? 16 : 0)
-      .frame(maxWidth: searchExpanded ? .infinity : 48)
+      .frame(maxWidth: searchExpanded ? .infinity : 48, alignment: .center)
       .frame(height: 48)
       .background(Color.white.opacity(0.30))
       .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
@@ -133,9 +156,21 @@ struct TrueMemoryView: View {
     .padding(.bottom, 16)
     .frame(minHeight: 110)
     .animation(.spring(response: 0.35, dampingFraction: 0.84), value: searchExpanded)
+    .ignoresSafeArea(.keyboard, edges: .bottom)
   }
 
   private var categories: some View {
+    Group {
+      if #available(iOS 17.0, *) {
+        categoryScroll.scrollClipDisabled(true)
+      } else {
+        categoryScroll
+      }
+    }
+    .padding(.bottom, 2)
+  }
+
+  private var categoryScroll: some View {
     ScrollView(.horizontal, showsIndicators: false) {
       HStack(spacing: 10) {
         TrueMemoryCategoryButton(title: "全部", imageName: nil, isSelected: selectedCategory == nil) {
@@ -152,7 +187,7 @@ struct TrueMemoryView: View {
         }
       }
       .padding(.horizontal, 24)
-      .padding(.vertical, 10)
+      .padding(.vertical, 16)
     }
   }
 }

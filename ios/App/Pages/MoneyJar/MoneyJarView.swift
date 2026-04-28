@@ -53,7 +53,7 @@ struct MoneyJarView: View {
             MoneyTransactionList(transactions: transactions)
           }
           .padding(.horizontal, 24)
-          .padding(.top, 16)
+          .padding(.top, 0)
           .padding(.bottom, 80)
         }
       }
