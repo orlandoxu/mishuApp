@@ -4,38 +4,7 @@ struct MascotSectionView: View {
   let status: VoicePhase
 
   var body: some View {
-    VStack(spacing: 0) {
-      AuraMascotView(status: status)
-      MascotStatusTextView(status: status)
-        .padding(.top, -8)
-    }
-  }
-}
-
-private struct MascotStatusTextView: View {
-  let status: VoicePhase
-
-  private var text: String {
-    switch status {
-    case .listening:
-      return "Aura 正在认真听你说..."
-    case .thinking:
-      return "Aura 正在努力思考中..."
-    case .success:
-      return "处理完成啦！"
-    case .idle:
-      return "点击头像，进入设置界面哟"
-    }
-  }
-
-  var body: some View {
-    Text(text)
-      .font(.system(size: 15, weight: .medium))
-      .foregroundColor(Color.black.opacity(0.60))
-      .tracking(0.2)
-      .multilineTextAlignment(.center)
-      .padding(.horizontal, 20)
-      .accessibilityIdentifier("home_mascot_status_text")
+    AuraMascotView(status: status)
   }
 }
 

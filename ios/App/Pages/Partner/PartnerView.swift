@@ -5,18 +5,16 @@ struct PartnerView: View {
     ZStack(alignment: .top) {
       Color(hex: "#F2F2F7").ignoresSafeArea()
 
-      VStack(spacing: 0) {
-        NavHeader(title: "")
-        ScrollView(showsIndicators: false) {
-          VStack(spacing: 22) {
-            PartnerIdentitySection()
-            PartnerTimelineSection()
-          }
-          .padding(.horizontal, 20)
-          .padding(.top, 8)
-          .padding(.bottom, 38)
+      ScrollView(showsIndicators: false) {
+        VStack(spacing: 0) {
+          PartnerIdentitySection()
+          PartnerTimelineSection()
         }
+        .padding(.top, 40)
+        .padding(.bottom, 32)
       }
+
+      NavHeader(title: "")
     }
   }
 }

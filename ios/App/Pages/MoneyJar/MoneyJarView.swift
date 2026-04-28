@@ -3,6 +3,9 @@ import SwiftUI
 struct MoneyJarView: View {
   @State private var budgetMode = "expense"
   @State private var showSettings = false
+  @State private var weekOffset = 0
+  @State private var budgetLimit = 500
+  @State private var incomeGoal = 1000
 
   private let transactions = [
     MoneyTransaction(id: "1", type: "expense", amount: 35, category: "餐饮", date: "2024-04-24", note: "午餐"),
@@ -13,8 +16,11 @@ struct MoneyJarView: View {
 
   private var totalIncome: Int { transactions.filter { $0.type == "income" }.map(\.amount).reduce(0, +) }
   private var totalExpense: Int { transactions.filter { $0.type == "expense" }.map(\.amount).reduce(0, +) }
-  private var limit: Int { budgetMode == "expense" ? 500 : 1000 }
+  private var limit: Int { budgetMode == "expense" ? budgetLimit : incomeGoal }
   private var progress: Double { Double(budgetMode == "expense" ? totalExpense : totalIncome) / Double(limit) }
+  private var currentWeekTitle: String {
+    weekOffset == 0 ? "本周 (04.22 - 04.28)" : "上周 (04.15 - 04.21)"
+  }
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -32,47 +38,33 @@ struct MoneyJarView: View {
         }
 
         ScrollView(showsIndicators: false) {
-          VStack(spacing: 20) {
-            Text("本周")
-              .font(.system(size: 15, weight: .black))
-              .foregroundColor(.black.opacity(0.58))
-              .frame(maxWidth: .infinity)
-              .padding(.vertical, 12)
-              .background(Color.white)
-              .clipShape(Capsule())
-
+          VStack(spacing: 24) {
+            MoneyWeekSelector(title: currentWeekTitle, canGoNext: weekOffset < 0, onPrevious: {
+              weekOffset = -1
+            }, onNext: {
+              weekOffset = min(weekOffset + 1, 0)
+            })
             MoneyBudgetCard(mode: budgetMode, progress: progress, limit: limit) {
-              budgetMode = budgetMode == "expense" ? "income" : "expense"
+              withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
+                budgetMode = budgetMode == "expense" ? "income" : "expense"
+              }
             }
             MoneyStatCards(expense: totalExpense, income: totalIncome)
             MoneyTransactionList(transactions: transactions)
           }
-          .padding(.horizontal, 20)
+          .padding(.horizontal, 24)
           .padding(.top, 16)
-          .padding(.bottom, 38)
+          .padding(.bottom, 80)
         }
       }
 
       if showSettings {
-        VStack(spacing: 14) {
-          Capsule().fill(Color.black.opacity(0.16)).frame(width: 42, height: 5)
-          Text("预算设置").font(.system(size: 20, weight: .black))
-          Text("当前\(budgetMode == "expense" ? "支出预算" : "收入目标")：¥\(limit)")
-            .font(.system(size: 15, weight: .bold))
-            .foregroundColor(.black.opacity(0.55))
-          Button("完成") { showSettings = false }
-            .font(.system(size: 16, weight: .black))
-            .foregroundColor(.white)
-            .frame(maxWidth: .infinity)
-            .padding(.vertical, 15)
-            .background(Color.black)
-            .clipShape(Capsule())
-        }
-        .padding(22)
-        .background(Color.white)
-        .clipShape(RoundedRectangle(cornerRadius: 28, style: .continuous))
-        .padding(20)
-        .shadow(color: .black.opacity(0.15), radius: 28, x: 0, y: 12)
+        MoneySettingsSheet(
+          isOpen: $showSettings,
+          budgetMode: $budgetMode,
+          budgetLimit: $budgetLimit,
+          incomeGoal: $incomeGoal
+        )
       }
     }
   }

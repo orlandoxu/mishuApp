@@ -16,8 +16,8 @@ struct HomeFunctionGridView: View {
 
   var body: some View {
     LazyVGrid(
-      columns: Array(repeating: GridItem(.flexible(), spacing: 24), count: 3),
-      spacing: 26
+      columns: Array(repeating: GridItem(.flexible(), spacing: 56), count: 3),
+      spacing: 48
     ) {
       ForEach(items) { item in
         Button {
@@ -40,7 +40,7 @@ struct HomeFunctionGridView: View {
         .buttonStyle(.plain)
       }
     }
-    .padding(.horizontal, 28)
+    .frame(maxWidth: 360)
   }
 }
 

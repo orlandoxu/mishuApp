@@ -3,6 +3,7 @@ import SwiftUI
 struct ContactsView: View {
   @State private var activeId = "li"
   @State private var showAll = false
+  @State private var searchQuery = ""
 
   private let contacts: [PrototypeContact] = [
     PrototypeContact(
@@ -60,11 +61,44 @@ struct ContactsView: View {
       resources: ["精通微服务架构", "极强排错能力"],
       insight: "他想尝试独立开发 AI 小工具，可以探讨技术合作。",
       interactions: ["高并发数据流处理架构讨论"]
+    ),
+    PrototypeContact(
+      id: "zhang",
+      name: "张浩然",
+      shortName: "浩然",
+      role: "自由摄影师 / 策展人",
+      avatarText: "然",
+      isStarred: false,
+      colors: [Color(hex: "#A8A29E"), Color(hex: "#78716C")],
+      tags: ["艺术圈", "旅行者"],
+      preferences: ["独立电影", "胶片摄影", "不喜强社交"],
+      resources: ["国内外独立画廊人脉", "极佳的审美把控力"],
+      insight: "他最近在筹备一个关于城市废墟的影展，正好你的新品牌视觉可能需要这类先锋元素。",
+      interactions: ["去他的工作室喝下午茶，聊了聊影像语言重塑。"]
     )
   ]
 
   private var activeContact: PrototypeContact {
     contacts.first { $0.id == activeId } ?? contacts[0]
+  }
+
+  private var filteredContacts: [PrototypeContact] {
+    let query = searchQuery.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !query.isEmpty else { return contacts }
+    return contacts.filter { contact in
+      contact.name.localizedCaseInsensitiveContains(query) ||
+      contact.role.localizedCaseInsensitiveContains(query) ||
+      contact.tags.contains { $0.localizedCaseInsensitiveContains(query) } ||
+      contact.resources.contains { $0.localizedCaseInsensitiveContains(query) }
+    }
+  }
+
+  private var starredContacts: [PrototypeContact] {
+    filteredContacts.filter(\.isStarred)
+  }
+
+  private var otherContacts: [PrototypeContact] {
+    filteredContacts.filter { !$0.isStarred }
   }
 
   var body: some View {
@@ -76,82 +110,229 @@ struct ContactsView: View {
       )
       .ignoresSafeArea()
 
-      VStack(spacing: 0) {
-        NavHeader(title: showAll ? "全部联系人" : "")
-
-        if showAll {
-          allContactsList
-        } else {
-          contactDetail
-        }
+      if showAll {
+        allContactsList
+      } else {
+        contactDetail
       }
+
+      NavHeader(title: showAll ? "全部联系人" : "")
     }
   }
 
   private var contactDetail: some View {
     ScrollView(showsIndicators: false) {
-      VStack(spacing: 24) {
-        ScrollView(.horizontal, showsIndicators: false) {
-          HStack(spacing: 8) {
-            ForEach(contacts) { contact in
-              ContactAvatarButton(contact: contact, isActive: contact.id == activeId) {
-                activeId = contact.id
+      VStack(spacing: 0) {
+        ZStack(alignment: .trailing) {
+          ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+              HStack(spacing: 8) {
+                ForEach(contacts) { contact in
+                  ContactAvatarButton(contact: contact, isActive: contact.id == activeId) {
+                    withAnimation(.spring(response: 0.35, dampingFraction: 0.85)) {
+                      activeId = contact.id
+                      proxy.scrollTo(contact.id, anchor: .center)
+                    }
+                  }
+                  .id(contact.id)
+                }
+              }
+              .padding(.leading, UIScreen.main.bounds.width / 2 - 32)
+              .padding(.trailing, 120)
+              .padding(.vertical, 16)
+            }
+            .onAppear {
+              DispatchQueue.main.async {
+                proxy.scrollTo(activeId, anchor: .center)
               }
             }
+          }
+
+          LinearGradient(
+            colors: [Color(hex: "#F6F7FB").opacity(0), Color(hex: "#F6F7FB").opacity(0.70), Color(hex: "#F6F7FB")],
+            startPoint: .leading,
+            endPoint: .trailing
+          )
+          .frame(width: 124)
+          .allowsHitTesting(false)
+
+          VStack(spacing: 8) {
             Button {
               showAll = true
             } label: {
-              VStack(spacing: 8) {
+              ZStack {
                 Circle()
-                  .fill(Color.white.opacity(0.60))
-                  .frame(width: 44, height: 44)
-                  .overlay(Image(systemName: "person.3.fill").foregroundColor(Color.black.opacity(0.35)))
-                Text("全部")
-                  .font(.system(size: 12, weight: .medium))
-                  .foregroundColor(Color.black.opacity(0.35))
+                  .fill(Color.white.opacity(0.40))
+                  .frame(width: 64, height: 64)
+                  .overlay(Circle().stroke(Color.black.opacity(0.05), lineWidth: 1))
+                  .shadow(color: Color.black.opacity(0.04), radius: 8, x: 0, y: 2)
+                Image(systemName: "person.3.fill")
+                  .font(.system(size: 20, weight: .medium))
+                  .foregroundColor(Color.black.opacity(0.40))
               }
-              .frame(width: 74)
+              .scaleEffect(0.62)
             }
             .buttonStyle(.plain)
+            Text("全部")
+              .font(.system(size: 12, weight: .medium))
+              .foregroundColor(Color.black.opacity(0.30))
           }
-          .padding(.horizontal, 20)
-          .padding(.vertical, 12)
+          .frame(width: 74)
+          .padding(.trailing, 12)
         }
 
         ContactProfileSummary(contact: activeContact)
           .padding(.horizontal, 20)
+          .padding(.top, 24)
+          .padding(.bottom, 24)
 
         ContactDetailCard(contact: activeContact)
           .padding(.horizontal, 20)
+          .padding(.top, 0)
       }
+      .padding(.top, 96)
       .padding(.bottom, 32)
     }
   }
 
   private var allContactsList: some View {
-    List {
-      ForEach(contacts) { contact in
-        Button {
-          activeId = contact.id
-          showAll = false
-        } label: {
-          HStack(spacing: 14) {
-            Circle()
-              .fill(LinearGradient(colors: contact.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
-              .frame(width: 48, height: 48)
-              .overlay(Text(contact.avatarText).font(.system(size: 16, weight: .bold)).foregroundColor(.white))
-            VStack(alignment: .leading, spacing: 4) {
-              Text(contact.name).font(.system(size: 16, weight: .bold)).foregroundColor(.black.opacity(0.82))
-              Text(contact.role).font(.system(size: 12, weight: .medium)).foregroundColor(.black.opacity(0.42))
-            }
-            Spacer()
-            Image(systemName: "chevron.right").foregroundColor(.black.opacity(0.2))
+    ScrollView(showsIndicators: false) {
+      VStack(alignment: .leading, spacing: 0) {
+        HStack(spacing: 12) {
+          Image(systemName: "magnifyingglass")
+            .font(.system(size: 16, weight: .semibold))
+            .foregroundColor(Color.black.opacity(0.30))
+          TextField("搜索联系人、标签或资源...", text: $searchQuery)
+            .font(.system(size: 15, weight: .medium))
+            .foregroundColor(Color.black.opacity(0.80))
+        }
+        .frame(height: 48)
+        .padding(.horizontal, 16)
+        .background(Color.white)
+        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+        .overlay(
+          RoundedRectangle(cornerRadius: 16, style: .continuous)
+            .stroke(Color.black.opacity(0.05), lineWidth: 1)
+        )
+        .shadow(color: Color.black.opacity(0.03), radius: 8, x: 0, y: 2)
+        .padding(.horizontal, 20)
+        .padding(.top, 16)
+        .padding(.bottom, 18)
+
+        if !starredContacts.isEmpty {
+          ContactListSection(title: "星标核心 (Starred)", contacts: starredContacts, onSelect: selectContact)
+            .padding(.top, 4)
+        }
+
+        if !otherContacts.isEmpty {
+          ContactListSection(title: "所有联系人 (All)", contacts: otherContacts, onSelect: selectContact)
+            .padding(.top, 28)
+        }
+
+        if filteredContacts.isEmpty {
+          VStack(spacing: 12) {
+            Image(systemName: "magnifyingglass")
+              .font(.system(size: 42, weight: .light))
+              .foregroundColor(Color.black.opacity(0.08))
+            Text("未找到相关联系人")
+              .font(.system(size: 15, weight: .medium))
+              .foregroundColor(Color.black.opacity(0.20))
           }
-          .padding(.vertical, 6)
+          .frame(maxWidth: .infinity)
+          .padding(.top, 80)
         }
       }
+      .padding(.top, safeAreaTop + 76)
+      .padding(.bottom, 40)
     }
-    .listStyle(.plain)
-    .background(Color.clear)
+  }
+
+  private func selectContact(_ contact: PrototypeContact) {
+    activeId = contact.id
+    searchQuery = ""
+    showAll = false
+  }
+}
+
+private struct ContactListSection: View {
+  let title: String
+  let contacts: [PrototypeContact]
+  let onSelect: (PrototypeContact) -> Void
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 12) {
+      Text(title)
+        .font(.system(size: 11, weight: .bold))
+        .foregroundColor(Color.black.opacity(0.30))
+        .tracking(1.8)
+        .textCase(.uppercase)
+        .padding(.horizontal, 20)
+
+      VStack(spacing: 0) {
+        ForEach(Array(contacts.enumerated()), id: \.element.id) { index, contact in
+          Button {
+            onSelect(contact)
+          } label: {
+            HStack(spacing: 16) {
+              ZStack(alignment: .bottomTrailing) {
+                Circle()
+                  .fill(LinearGradient(colors: contact.colors, startPoint: .topLeading, endPoint: .bottomTrailing))
+                  .frame(width: 46, height: 46)
+                  .overlay(Circle().stroke(Color.white, lineWidth: 2))
+                Text(contact.avatarText)
+                  .font(.system(size: 14, weight: .bold))
+                  .foregroundColor(.white)
+                if contact.isStarred {
+                  Image(systemName: "star.fill")
+                    .font(.system(size: 9, weight: .black))
+                    .foregroundColor(Color(hex: "#FBBF24"))
+                    .offset(x: 2, y: 2)
+                }
+              }
+
+              VStack(alignment: .leading, spacing: 4) {
+                HStack(spacing: 8) {
+                  Text(contact.name)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(Color.black.opacity(0.90))
+                  if contact.isStarred {
+                    Image(systemName: "star.fill")
+                      .font(.system(size: 13, weight: .black))
+                      .foregroundColor(Color(hex: "#FBBF24"))
+                  }
+                }
+                Text(contact.role.components(separatedBy: " @").first ?? contact.role)
+                  .font(.system(size: 13, weight: .medium))
+                  .foregroundColor(Color.black.opacity(0.40))
+                  .lineLimit(1)
+              }
+
+              Spacer()
+
+              Image(systemName: "chevron.right")
+                .font(.system(size: 14, weight: .bold))
+                .foregroundColor(Color.black.opacity(0.20))
+            }
+            .padding(16)
+            .background(Color.white)
+          }
+          .buttonStyle(.plain)
+
+          if index != contacts.count - 1 {
+            Rectangle()
+              .fill(Color.black.opacity(0.03))
+              .frame(height: 1)
+              .padding(.leading, 78)
+          }
+        }
+      }
+      .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+      .overlay(
+        RoundedRectangle(cornerRadius: 24, style: .continuous)
+          .stroke(Color.black.opacity(0.03), lineWidth: 1)
+      )
+      .shadow(color: Color.black.opacity(0.02), radius: 20, x: 0, y: 4)
+      .padding(.horizontal, 20)
+    }
   }
 }

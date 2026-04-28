@@ -53,7 +53,6 @@ struct MainView: View {
   @State private var selectedTab: MainTab = .home
   @State private var status: VoiceState = .idle
   @StateObject private var realtimeController = VoiceRealtimeCtrl()
-  @State private var simulatorInput: String = ""
   @ObservedObject private var appNavigation = AppNavigationModel.shared
 
   init(initialTab: MainTab) {
@@ -71,7 +70,7 @@ struct MainView: View {
             MascotSectionView(status: status.phase)
               .scaleEffect(0.84)
               .frame(height: 190)
-              .padding(.top, 18)
+              .padding(.top, 50)
 
             if let transcript = status.transcriptText {
               Text(transcript)
@@ -93,29 +92,6 @@ struct MainView: View {
             }
             .padding(.top, 6)
 
-            #if targetEnvironment(simulator)
-              if !isUITestingLaunch {
-                VStack(spacing: 10) {
-                  TextField("模拟输入文本（替代语音）", text: $simulatorInput)
-                    .textFieldStyle(.roundedBorder)
-                    .font(.system(size: 14))
-                    .accessibilityIdentifier("home_simulator_input")
-                  Button(action: submitSimulatorInput) {
-                    Text("提交模拟输入")
-                      .font(.system(size: 14, weight: .medium))
-                      .foregroundColor(.white)
-                      .padding(.horizontal, 14)
-                      .padding(.vertical, 8)
-                      .background(Color.black.opacity(0.78))
-                      .cornerRadius(8)
-                  }
-                  .accessibilityIdentifier("home_simulator_submit")
-                }
-                .padding(.horizontal, 28)
-                .padding(.top, 10)
-              }
-            #endif
-
             Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
           }
           .frame(maxWidth: .infinity)
@@ -131,7 +107,8 @@ struct MainView: View {
 
         VoiceActionView(
           status: status.phase,
-          onTap: toggleInteraction
+          onTap: toggleInteraction,
+          onTextInput: submitTextInput
         )
         .padding(.bottom, max(proxy.safeAreaInsets.bottom, 18))
       }
@@ -180,15 +157,11 @@ struct MainView: View {
     }
   }
 
-  private func submitSimulatorInput() {
+  private func submitTextInput(_ text: String) {
     status = .thinking(.summarizing)
-    realtimeController.processTextInputForTesting(simulatorInput) { output in
+    realtimeController.processTextInputForTesting(text) { output in
       showResult(output, resetDelay: 2.0)
     }
-  }
-
-  private var isUITestingLaunch: Bool {
-    ProcessInfo.processInfo.arguments.contains("--ui-testing")
   }
 
   private func showListening() {

@@ -12,7 +12,7 @@ struct HomeInfoCarouselView: View {
         .padding(.horizontal, 30)
     }
     .tabViewStyle(.page(indexDisplayMode: .automatic))
-    .frame(height: 168)
+    .frame(height: 160)
   }
 }
 
@@ -33,40 +33,40 @@ private struct HomeProBannerView: View {
         VStack(alignment: .leading, spacing: 0) {
           HStack {
             Text("🔥 限时特惠")
-              .font(.system(size: 12, weight: .black))
+              .font(.system(size: 10, weight: .black))
               .foregroundColor(.white)
-              .padding(.horizontal, 11)
-              .padding(.vertical, 7)
-              .background(Color(hex: "#FF686D"))
+              .padding(.horizontal, 10)
+              .padding(.vertical, 4)
+              .background(Color(hex: "#FF7171"))
               .clipShape(Capsule())
-              .shadow(color: Color(hex: "#FF686D").opacity(0.28), radius: 10, x: 0, y: 5)
+              .shadow(color: Color.black.opacity(0.08), radius: 2, x: 0, y: 1)
 
             Spacer()
 
             Text("⏰ 仅剩 23:58:59")
-              .font(.system(size: 12, weight: .black, design: .monospaced))
-              .foregroundColor(Color(hex: "#FF4F58"))
-              .padding(.horizontal, 12)
-              .padding(.vertical, 7)
-              .background(Color.white.opacity(0.62))
+              .font(.system(size: 10, weight: .black, design: .monospaced))
+              .foregroundColor(Color(hex: "#FF4B4B"))
+              .padding(.horizontal, 10)
+              .padding(.vertical, 4)
+              .background(Color.white.opacity(0.40))
               .clipShape(Capsule())
           }
-          .padding(.bottom, 20)
+          .padding(.bottom, 4)
 
-          VStack(alignment: .leading, spacing: 8) {
+          VStack(alignment: .leading, spacing: 4) {
             HStack(spacing: 0) {
               Text("开通 ")
-                .foregroundColor(Color.black.opacity(0.82))
+                .foregroundColor(Color(hex: "#2D2D2D"))
               Text("Pro")
-                .foregroundColor(Color(hex: "#FF4386"))
+                .foregroundColor(Color(hex: "#FF4081"))
               Text(" 会员")
-                .foregroundColor(Color.black.opacity(0.82))
+                .foregroundColor(Color(hex: "#2D2D2D"))
             }
-            .font(.system(size: 24, weight: .black))
+            .font(.system(size: 22, weight: .black))
 
-            Text("解锁全部功能，体验更智能的 Aura")
-              .font(.system(size: 13, weight: .bold))
-              .foregroundColor(Color.black.opacity(0.48))
+            Text("解锁全部功能，体验更智能的 Aura ✨")
+              .font(.system(size: 11.5, weight: .bold))
+              .foregroundColor(Color.black.opacity(0.50))
               .lineLimit(1)
               .minimumScaleFactor(0.9)
           }
@@ -87,13 +87,14 @@ private struct HomeProBannerView: View {
               Image(systemName: "chevron.right")
                 .font(.system(size: 12, weight: .black))
             }
-            .font(.system(size: 13, weight: .black))
+            .font(.system(size: 12, weight: .black))
             .foregroundColor(.white)
             .lineLimit(1)
-            .frame(width: 108, height: 42)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 6)
             .background(
               LinearGradient(
-                colors: [Color(hex: "#FF73A1"), Color(hex: "#FF4386")],
+                colors: [Color(hex: "#FF7BA3"), Color(hex: "#FF4B8B")],
                 startPoint: .leading,
                 endPoint: .trailing
               )
@@ -101,20 +102,19 @@ private struct HomeProBannerView: View {
             .clipShape(Capsule())
           }
         }
-        .padding(.top, 26)
-        .padding(.leading, 14)
-        .padding(.trailing, 24)
-        .padding(.bottom, 18)
+        .padding(.top, 12)
+        .padding(.horizontal, 16)
+        .padding(.bottom, 8)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
       }
       .frame(maxWidth: .infinity)
-      .frame(height: 156)
-      .clipShape(RoundedRectangle(cornerRadius: 40, style: .continuous))
+      .frame(height: 160)
+      .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
       .overlay(
-        RoundedRectangle(cornerRadius: 40, style: .continuous)
+        RoundedRectangle(cornerRadius: 32, style: .continuous)
           .stroke(Color.white, lineWidth: 4)
       )
-      .shadow(color: Color.black.opacity(0.04), radius: 22, x: 0, y: 10)
+      .shadow(color: Color.black.opacity(0.04), radius: 30, x: 0, y: 8)
     }
     .buttonStyle(.plain)
   }
@@ -129,11 +129,11 @@ private struct HomeBannerFeature: View {
       Image(systemName: icon)
         .font(.system(size: 10, weight: .bold))
         .foregroundColor(Color(hex: "#FF4B8B"))
-        .frame(width: 17, height: 17)
+        .frame(width: 14, height: 14)
         .background(Color(hex: "#FFE8F1"))
         .clipShape(Circle())
       Text(text)
-        .font(.system(size: 11, weight: .black))
+        .font(.system(size: 10, weight: .black))
         .foregroundColor(Color.black.opacity(0.60))
         .lineLimit(1)
         .fixedSize(horizontal: true, vertical: false)
