@@ -3,9 +3,11 @@ import SwiftUI
 struct MoneyJarView: View {
   @State private var budgetMode = "expense"
   @State private var showSettings = false
-  @State private var weekOffset = 0
+  @State private var selectedDate = Date.mishuMoneyJarSeed
+  @State private var showWeekPicker = false
   @State private var budgetLimit = 500
   @State private var incomeGoal = 1000
+  @ObservedObject private var navigation = AppNavigationModel.shared
 
   private let transactions = [
     MoneyTransaction(id: "1", type: "expense", amount: 35, category: "餐饮", date: "2024-04-24", note: "午餐"),
@@ -19,7 +21,7 @@ struct MoneyJarView: View {
   private var limit: Int { budgetMode == "expense" ? budgetLimit : incomeGoal }
   private var progress: Double { Double(budgetMode == "expense" ? totalExpense : totalIncome) / Double(limit) }
   private var currentWeekTitle: String {
-    weekOffset == 0 ? "本周 (04.22 - 04.28)" : "上周 (04.15 - 04.21)"
+    selectedDate.moneyJarWeekTitle
   }
 
   var body: some View {
@@ -27,24 +29,16 @@ struct MoneyJarView: View {
       Color(hex: "#F8F9FB").ignoresSafeArea()
 
       VStack(spacing: 0) {
-        NavHeader(title: "小钱罐") {
-          Button {
-            withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
-              showSettings = true
-            }
-          } label: {
-            Image(systemName: "gearshape.fill")
-              .foregroundColor(.black.opacity(0.58))
-              .frame(width: 44, height: 44)
-          }
-        }
+        moneyJarHeader
 
         ScrollView(showsIndicators: false) {
           VStack(spacing: 24) {
-            MoneyWeekSelector(title: currentWeekTitle, canGoNext: weekOffset < 0, onPrevious: {
-              weekOffset = -1
+            MoneyWeekSelector(title: currentWeekTitle, onPrevious: {
+              selectedDate = selectedDate.addingMoneyJarWeeks(-1)
             }, onNext: {
-              weekOffset = min(weekOffset + 1, 0)
+              selectedDate = selectedDate.addingMoneyJarWeeks(1)
+            }, onTap: {
+              showWeekCalendar()
             })
             MoneyBudgetCard(mode: budgetMode, progress: progress, limit: limit) {
               withAnimation(.spring(response: 0.35, dampingFraction: 0.86)) {
@@ -55,21 +49,84 @@ struct MoneyJarView: View {
             MoneyTransactionList(transactions: transactions)
           }
           .padding(.horizontal, 24)
-          .padding(.top, -12)
+          .padding(.top, 0)
           .padding(.bottom, 80)
         }
       }
-
-      if showSettings {
-        MoneySettingsSheet(
-          isOpen: $showSettings,
-          budgetMode: $budgetMode,
-          budgetLimit: $budgetLimit,
-          incomeGoal: $incomeGoal
-        )
-        .transition(.move(edge: .bottom).combined(with: .opacity))
-      }
     }
-    .animation(.spring(response: 0.42, dampingFraction: 0.86), value: showSettings)
+  }
+
+  private func showMoneySettings() {
+    guard !showSettings else { return }
+    showSettings = true
+    BottomSheetCenter.shared.showCenter(onHide: {
+      showSettings = false
+    }) {
+      MoneySettingsSheet(
+        budgetMode: $budgetMode,
+        budgetLimit: $budgetLimit,
+        incomeGoal: $incomeGoal
+      )
+    }
+  }
+
+  private func showWeekCalendar() {
+    guard !showWeekPicker else { return }
+    showWeekPicker = true
+    BottomSheetCenter.shared.show(onHide: {
+      showWeekPicker = false
+    }) {
+      MoneyWeekPickerSheet(
+        selectedDate: $selectedDate,
+        budgetMode: budgetMode
+      )
+    }
+  }
+
+  private var moneyJarHeader: some View {
+    HStack(spacing: 0) {
+      Button {
+        navigation.pop()
+      } label: {
+        Image(systemName: "arrow.left")
+          .font(.system(size: 24, weight: .semibold))
+          .foregroundColor(Color.black.opacity(0.82))
+          .frame(width: 48, height: 48)
+          .background(Color.white.opacity(0.30))
+          .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+              .stroke(Color.white.opacity(0.60), lineWidth: 1)
+          )
+          .shadow(color: Color.black.opacity(0.03), radius: 16, x: 0, y: 8)
+      }
+      .buttonStyle(.plain)
+
+      Text("小钱罐")
+        .font(.system(size: 20, weight: .black))
+        .foregroundColor(Color.black.opacity(0.80))
+        .frame(maxWidth: .infinity)
+
+      Button {
+        showMoneySettings()
+      } label: {
+        Image(systemName: "gearshape.fill")
+          .font(.system(size: 24, weight: .semibold))
+          .foregroundColor(Color.black.opacity(0.58))
+          .frame(width: 48, height: 48)
+          .background(Color.white.opacity(0.30))
+          .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
+          .overlay(
+            RoundedRectangle(cornerRadius: 24, style: .continuous)
+              .stroke(Color.white.opacity(0.60), lineWidth: 1)
+          )
+          .shadow(color: Color.black.opacity(0.03), radius: 16, x: 0, y: 8)
+      }
+      .buttonStyle(.plain)
+    }
+    .padding(.horizontal, 24)
+    .padding(.top, 48)
+    .padding(.bottom, 12)
+    .ignoresSafeArea(edges: .top)
   }
 }

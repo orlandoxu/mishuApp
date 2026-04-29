@@ -38,6 +38,41 @@ final class BottomSheetCenter {
     SwiftMessages.show(config: config, view: view)
   }
 
+  func showCenter<Content: View>(
+    _ content: Content,
+    onHide: (() -> Void)? = nil
+  ) {
+    let view = SwiftMessagesHostingView(
+      rootView: CenterPopupContainer(content: content),
+      isFullScreen: false
+    )
+
+    var config = SwiftMessages.Config()
+    config.presentationStyle = .center
+    config.presentationContext = .window(windowLevel: .normal)
+    config.duration = .forever
+    config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.20), interactive: true)
+    config.interactiveHide = true
+    config.preferredStatusBarStyle = .lightContent
+    if let onHide {
+      config.eventListeners.append { event in
+        if case .didHide = event {
+          onHide()
+        }
+      }
+    }
+
+    SwiftMessages.hideAll()
+    SwiftMessages.show(config: config, view: view)
+  }
+
+  func showCenter<Content: View>(
+    onHide: (() -> Void)? = nil,
+    @ViewBuilder content: () -> Content
+  ) {
+    showCenter(content(), onHide: onHide)
+  }
+
   func show<Content: View>(
     full: Bool = false,
     onHide: (() -> Void)? = nil,
@@ -59,6 +94,15 @@ private struct BottomSheetContainer<Content: View>: View {
     content
       .padding(.horizontal, full ? 0 : 16)
       .padding(.bottom, full ? 0 : 12)
+  }
+}
+
+private struct CenterPopupContainer<Content: View>: View {
+  let content: Content
+
+  var body: some View {
+    content
+      .padding(.horizontal, 24)
   }
 }
 
