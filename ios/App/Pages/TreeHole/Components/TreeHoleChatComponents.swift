@@ -69,6 +69,7 @@ struct TreeHoleChatBubble: View {
 
 struct TreeHoleChatInputBar: View {
   @Binding var input: String
+  var isFocused: FocusState<Bool>.Binding
   let onSend: () -> Void
   let onChangeTopic: () -> Void
 
@@ -79,6 +80,7 @@ struct TreeHoleChatInputBar: View {
           .font(.system(size: 15, weight: .medium))
           .foregroundColor(Color(hex: "#5D5750"))
           .lineLimit(1...4)
+          .focused(isFocused)
           .padding(.horizontal, 16)
           .padding(.vertical, 10)
           .submitLabel(.send)

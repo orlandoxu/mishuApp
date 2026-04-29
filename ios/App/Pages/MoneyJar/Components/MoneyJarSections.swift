@@ -523,6 +523,7 @@ struct MoneyWeekPickerSheet: View {
     .padding(.horizontal, 24)
     .padding(.top, 28)
     .padding(.bottom, 42)
+    .frame(maxWidth: .infinity)
     .background(Color.white)
     .clipShape(RoundedCorner(radius: 32, corners: [.topLeft, .topRight]))
     .shadow(color: Color.black.opacity(0.18), radius: 32, x: 0, y: -8)

@@ -93,7 +93,7 @@ struct MoneyJarView: View {
   private func showWeekCalendar() {
     guard !showWeekPicker else { return }
     showWeekPicker = true
-    BottomSheetCenter.shared.show(onHide: {
+    BottomSheetCenter.shared.show(full: true, onHide: {
       showWeekPicker = false
     }) {
       MoneyWeekPickerSheet(
