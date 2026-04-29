@@ -7,7 +7,6 @@ struct MoneyJarView: View {
   @State private var showWeekPicker = false
   @State private var budgetLimit = 500
   @State private var incomeGoal = 1000
-  @ObservedObject private var navigation = AppNavigationModel.shared
 
   private let transactions = [
     MoneyTransaction(id: "1", type: "expense", amount: 35, category: "餐饮", date: "2024-04-24", note: "午餐"),
@@ -29,7 +28,16 @@ struct MoneyJarView: View {
       Color(hex: "#F8F9FB").ignoresSafeArea()
 
       VStack(spacing: 0) {
-        moneyJarHeader
+        NavHeader(title: "小钱罐", topPadding: 0, bottomPadding: 12) {
+          Button {
+            showMoneySettings()
+          } label: {
+            Image(systemName: "gearshape.fill")
+              .font(.system(size: 24, weight: .semibold))
+              .foregroundColor(Color.black.opacity(0.58))
+              .frame(width: 44, height: 44)
+          }
+        }
 
         ScrollView(showsIndicators: false) {
           VStack(spacing: 24) {
@@ -81,52 +89,5 @@ struct MoneyJarView: View {
         budgetMode: budgetMode
       )
     }
-  }
-
-  private var moneyJarHeader: some View {
-    HStack(spacing: 0) {
-      Button {
-        navigation.pop()
-      } label: {
-        Image(systemName: "arrow.left")
-          .font(.system(size: 24, weight: .semibold))
-          .foregroundColor(Color.black.opacity(0.82))
-          .frame(width: 48, height: 48)
-          .background(Color.white.opacity(0.30))
-          .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-          .overlay(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-              .stroke(Color.white.opacity(0.60), lineWidth: 1)
-          )
-          .shadow(color: Color.black.opacity(0.03), radius: 16, x: 0, y: 8)
-      }
-      .buttonStyle(.plain)
-
-      Text("小钱罐")
-        .font(.system(size: 20, weight: .black))
-        .foregroundColor(Color.black.opacity(0.80))
-        .frame(maxWidth: .infinity)
-
-      Button {
-        showMoneySettings()
-      } label: {
-        Image(systemName: "gearshape.fill")
-          .font(.system(size: 24, weight: .semibold))
-          .foregroundColor(Color.black.opacity(0.58))
-          .frame(width: 48, height: 48)
-          .background(Color.white.opacity(0.30))
-          .clipShape(RoundedRectangle(cornerRadius: 24, style: .continuous))
-          .overlay(
-            RoundedRectangle(cornerRadius: 24, style: .continuous)
-              .stroke(Color.white.opacity(0.60), lineWidth: 1)
-          )
-          .shadow(color: Color.black.opacity(0.03), radius: 16, x: 0, y: 8)
-      }
-      .buttonStyle(.plain)
-    }
-    .padding(.horizontal, 24)
-    .padding(.top, 48)
-    .padding(.bottom, 12)
-    .ignoresSafeArea(edges: .top)
   }
 }

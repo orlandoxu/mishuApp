@@ -5,20 +5,37 @@ struct NavHeader<Trailing: View>: View {
   let trailing: Trailing
   let onBack: (() -> Void)?
   let showsTrailingChrome: Bool
+  let topPadding: CGFloat
+  let bottomPadding: CGFloat
 
   @ObservedObject private var appNavigation = AppNavigationModel.shared
   @Environment(\.presentationMode) private var presentationMode
 
-  init(title: String, onBack: (() -> Void)? = nil, @ViewBuilder trailing: () -> Trailing) {
+  init(
+    title: String,
+    onBack: (() -> Void)? = nil,
+    topPadding: CGFloat = 8,
+    bottomPadding: CGFloat = 16,
+    @ViewBuilder trailing: () -> Trailing
+  ) {
     self.title = title
     self.onBack = onBack
     self.trailing = trailing()
+    self.topPadding = topPadding
+    self.bottomPadding = bottomPadding
     showsTrailingChrome = true
   }
 
-  init(title: String, onBack: (() -> Void)? = nil) where Trailing == EmptyView {
+  init(
+    title: String,
+    onBack: (() -> Void)? = nil,
+    topPadding: CGFloat = 8,
+    bottomPadding: CGFloat = 16
+  ) where Trailing == EmptyView {
     self.title = title
     self.onBack = onBack
+    self.topPadding = topPadding
+    self.bottomPadding = bottomPadding
     trailing = EmptyView()
     showsTrailingChrome = false
   }
@@ -65,10 +82,9 @@ struct NavHeader<Trailing: View>: View {
       trailingSlot
     }
     .padding(.horizontal, 24)
-    .padding(.top, 56)
-    .padding(.bottom, 16)
+    .padding(.top, safeAreaTop + topPadding)
+    .padding(.bottom, bottomPadding)
     .frame(maxWidth: .infinity)
-    .ignoresSafeArea(edges: .top)
   }
 
   @ViewBuilder
