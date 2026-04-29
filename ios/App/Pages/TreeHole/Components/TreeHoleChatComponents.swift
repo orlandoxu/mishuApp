@@ -99,13 +99,13 @@ struct TreeHoleChatInputBar: View {
         .opacity(input.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? 0.55 : 1)
       }
       .padding(8)
-      .background(Color.white.opacity(0.82))
+      .background(Color.white)
       .clipShape(Capsule())
       .overlay(
         Capsule()
-          .stroke(Color(hex: "#EADFC8"), lineWidth: 1)
+          .stroke(Color(hex: "#EADFC8"), lineWidth: 1.2)
       )
-      .shadow(color: Color.black.opacity(0.05), radius: 10, x: 0, y: 3)
+      .shadow(color: Color.black.opacity(0.08), radius: 14, x: 0, y: 4)
 
       Button(action: onChangeTopic) {
         HStack(spacing: 4) {
