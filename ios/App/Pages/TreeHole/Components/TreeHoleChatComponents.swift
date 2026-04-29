@@ -107,19 +107,18 @@ struct TreeHoleChatInputBar: View {
       )
       .shadow(color: Color.black.opacity(0.08), radius: 14, x: 0, y: 4)
 
-      if !isFocused.wrappedValue {
-        Button(action: onChangeTopic) {
-          HStack(spacing: 4) {
-            Image(systemName: "arrow.clockwise")
-              .font(.system(size: 15, weight: .bold))
-            Text("换个话题")
-              .font(.system(size: 12, weight: .medium))
-          }
-          .foregroundColor(Color(hex: "#A89886"))
+      Button(action: onChangeTopic) {
+        HStack(spacing: 4) {
+          Image(systemName: "arrow.clockwise")
+            .font(.system(size: 15, weight: .bold))
+          Text("换个话题")
+            .font(.system(size: 12, weight: .medium))
         }
-        .buttonStyle(.plain)
-        .transition(.identity)
+        .foregroundColor(Color(hex: "#A89886"))
       }
+      .buttonStyle(.plain)
+      .opacity(isFocused.wrappedValue ? 0 : 1)
+      .disabled(isFocused.wrappedValue)
     }
     .frame(maxWidth: .infinity)
     .padding(.top, 4)

@@ -166,8 +166,8 @@ struct TreeHoleChatView: View {
   }
 
   private static var keyboardTransitionPublisher: AnyPublisher<KeyboardTransition, Never> {
-    let willShow = NotificationCenter.default
-      .publisher(for: UIResponder.keyboardWillShowNotification)
+    let keyboardFrameChange = NotificationCenter.default
+      .publisher(for: UIResponder.keyboardWillChangeFrameNotification)
       .map { notification -> KeyboardTransition in
         KeyboardTransition(
           height: keyboardHeight(from: notification),
@@ -184,15 +184,24 @@ struct TreeHoleChatView: View {
         )
       }
 
-    return Publishers.Merge(willShow, willHide)
+    return Publishers.Merge(keyboardFrameChange, willHide)
       .eraseToAnyPublisher()
   }
 
   private static func keyboardHeight(from notification: Notification) -> CGFloat {
     guard
-      let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+      let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+      let window = keyWindow
     else { return 0 }
-    return max(0, UIScreen.main.bounds.maxY - frame.minY)
+    let convertedFrame = window.convert(frame, from: nil)
+    return max(0, window.bounds.maxY - convertedFrame.minY)
+  }
+
+  private static var keyWindow: UIWindow? {
+    guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene else {
+      return nil
+    }
+    return windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first
   }
 
   private static func keyboardAnimationDuration(from notification: Notification) -> Double {

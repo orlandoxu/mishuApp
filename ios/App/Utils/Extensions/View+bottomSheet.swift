@@ -1,8 +1,6 @@
 import SwiftMessages
+import SwiftUI
 import UIKit
-import class SwiftUI.UIHostingController
-import protocol SwiftUI.View
-import struct SwiftUI.ViewBuilder
 
 // DONE-AI: 底部弹层增加左右边距，避免贴边
 @MainActor
@@ -16,14 +14,13 @@ final class BottomSheetCenter {
     _ content: Content,
     onHide: (() -> Void)? = nil
   ) {
-    let animator = NaturalBottomSheetAnimator()
     let view = SwiftMessagesHostingView(
       rootView: BottomSheetContainer(content: content, full: fullScreen),
       isFullScreen: fullScreen
     )
 
     var config = SwiftMessages.Config()
-    config.presentationStyle = .custom(animator: animator)
+    config.presentationStyle = .bottom
     config.presentationContext = .window(windowLevel: .normal)
     config.duration = .forever
     config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.4), interactive: true)
@@ -45,14 +42,13 @@ final class BottomSheetCenter {
     _ content: Content,
     onHide: (() -> Void)? = nil
   ) {
-    let animator = NaturalCenterPopupAnimator()
     let view = SwiftMessagesHostingView(
       rootView: CenterPopupContainer(content: content),
       isFullScreen: false
     )
 
     var config = SwiftMessages.Config()
-    config.presentationStyle = .custom(animator: animator)
+    config.presentationStyle = .center
     config.presentationContext = .window(windowLevel: .normal)
     config.duration = .forever
     config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.20), interactive: true)
@@ -87,100 +83,6 @@ final class BottomSheetCenter {
 
   func hide() {
     SwiftMessages.hide()
-  }
-}
-
-private final class NaturalBottomSheetAnimator: Animator {
-  weak var delegate: AnimationDelegate?
-
-  let showDuration: TimeInterval = 0.26
-  let hideDuration: TimeInterval = 0.18
-
-  func show(context: AnimationContext, completion: @escaping AnimationCompletion) {
-    let view = context.messageView
-    let container = context.containerView
-
-    view.translatesAutoresizingMaskIntoConstraints = false
-    container.addSubview(view)
-    NSLayoutConstraint.activate([
-      view.leadingAnchor.constraint(equalTo: container.leadingAnchor),
-      view.trailingAnchor.constraint(equalTo: container.trailingAnchor),
-      view.bottomAnchor.constraint(equalTo: container.bottomAnchor),
-    ])
-
-    container.layoutIfNeeded()
-    view.transform = CGAffineTransform(translationX: 0, y: view.bounds.height)
-    UIView.animate(
-      withDuration: showDuration,
-      delay: 0,
-      options: [.beginFromCurrentState, .curveEaseOut, .allowUserInteraction]
-    ) {
-      view.transform = CGAffineTransform.identity
-    } completion: { completed in
-      completion(completed || UIApplication.shared.applicationState != .active)
-    }
-  }
-
-  func hide(context: AnimationContext, completion: @escaping AnimationCompletion) {
-    let view = context.messageView
-    UIView.animate(
-      withDuration: hideDuration,
-      delay: 0,
-      options: [.beginFromCurrentState, .curveEaseIn, .allowUserInteraction]
-    ) {
-      view.transform = CGAffineTransform(translationX: 0, y: view.bounds.height)
-    } completion: { completed in
-      completion(completed || UIApplication.shared.applicationState != .active)
-    }
-  }
-}
-
-private final class NaturalCenterPopupAnimator: Animator {
-  weak var delegate: AnimationDelegate?
-
-  let showDuration: TimeInterval = 0.20
-  let hideDuration: TimeInterval = 0.16
-
-  func show(context: AnimationContext, completion: @escaping AnimationCompletion) {
-    let view = context.messageView
-    let container = context.containerView
-
-    view.translatesAutoresizingMaskIntoConstraints = false
-    container.addSubview(view)
-    NSLayoutConstraint.activate([
-      view.centerXAnchor.constraint(equalTo: container.centerXAnchor),
-      view.centerYAnchor.constraint(equalTo: container.centerYAnchor),
-      view.leadingAnchor.constraint(greaterThanOrEqualTo: container.leadingAnchor),
-      view.trailingAnchor.constraint(lessThanOrEqualTo: container.trailingAnchor),
-    ])
-
-    container.layoutIfNeeded()
-    view.alpha = 0
-    view.transform = CGAffineTransform(scaleX: 0.96, y: 0.96)
-    UIView.animate(
-      withDuration: showDuration,
-      delay: 0,
-      options: [.beginFromCurrentState, .curveEaseOut, .allowUserInteraction]
-    ) {
-      view.alpha = 1
-      view.transform = CGAffineTransform.identity
-    } completion: { completed in
-      completion(completed || UIApplication.shared.applicationState != .active)
-    }
-  }
-
-  func hide(context: AnimationContext, completion: @escaping AnimationCompletion) {
-    let view = context.messageView
-    UIView.animate(
-      withDuration: hideDuration,
-      delay: 0,
-      options: [.beginFromCurrentState, .curveEaseIn, .allowUserInteraction]
-    ) {
-      view.alpha = 0
-      view.transform = CGAffineTransform(scaleX: 0.98, y: 0.98)
-    } completion: { completed in
-      completion(completed || UIApplication.shared.applicationState != .active)
-    }
   }
 }
 
