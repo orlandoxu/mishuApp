@@ -10,6 +10,7 @@ struct NavHeader<Trailing: View>: View {
 
   @ObservedObject private var appNavigation = AppNavigationModel.shared
   @Environment(\.presentationMode) private var presentationMode
+  @State private var containerSafeAreaTop: CGFloat = 0
 
   init(
     title: String,
@@ -82,9 +83,18 @@ struct NavHeader<Trailing: View>: View {
       trailingSlot
     }
     .padding(.horizontal, 24)
-    .padding(.top, safeAreaTop + topPadding)
+    .padding(.top, containerSafeAreaTop + topPadding)
     .padding(.bottom, bottomPadding)
     .frame(maxWidth: .infinity)
+    .background(
+      GeometryReader { proxy in
+        Color.clear
+          .preference(key: NavHeaderSafeAreaTopKey.self, value: proxy.safeAreaInsets.top)
+      }
+    )
+    .onPreferenceChange(NavHeaderSafeAreaTopKey.self) { value in
+      containerSafeAreaTop = value
+    }
   }
 
   @ViewBuilder
@@ -105,55 +115,10 @@ struct NavHeader<Trailing: View>: View {
   }
 }
 
-private struct LegacyNavHeader<Trailing: View>: View {
-  let title: String
-  let trailing: Trailing
-  let onBack: (() -> Void)?
+private struct NavHeaderSafeAreaTopKey: PreferenceKey {
+  static var defaultValue: CGFloat = 0
 
-  @ObservedObject private var appNavigation = AppNavigationModel.shared
-  @Environment(\.presentationMode) private var presentationMode
-
-  var body: some View {
-    VStack(spacing: 0) {
-      Spacer().frame(height: safeAreaTop + 1).background(Color.white)
-      HStack(spacing: 0) {
-        Button {
-          if let onBack {
-            onBack()
-          } else {
-            if appNavigation.path.isEmpty {
-              presentationMode.wrappedValue.dismiss()
-            } else {
-              appNavigation.pop()
-            }
-          }
-        } label: {
-          ZStack {
-            Circle()
-              .fill(Color.black.opacity(0.001))
-              .frame(width: 44, height: 44)
-            Image(systemName: "chevron.left")
-              .font(.system(size: 20, weight: .semibold))
-              .foregroundColor(Color(hex: "0x111111"))
-          }
-        }
-        .buttonStyle(.plain)
-
-        Text(title)
-          .font(.system(size: 18, weight: .bold))
-          .foregroundColor(Color(hex: "0x111111"))
-
-        Spacer()
-
-        trailing
-      }
-      .padding(.horizontal, 16)
-      .padding(.top, 12)
-      .frame(maxWidth: .infinity, alignment: .leading)
-      .background(Color.white)
-    }
-    .frame(maxWidth: .infinity, alignment: .topLeading)
-    .background(Color.white)
-    .ignoresSafeArea(edges: .top)
+  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    value = nextValue()
   }
 }

@@ -74,7 +74,6 @@ struct MoneyJarView: View {
         }
       }
     }
-    .ignoresSafeArea()
   }
 
   private func showMoneySettings() {
