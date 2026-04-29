@@ -286,11 +286,28 @@ struct MoneySettingsSheet: View {
     budgetMode == "expense" ? budgetLimit : incomeGoal
   }
 
+  private var limitStep: Int {
+    switch currentLimit {
+    case ...100:
+      return 10
+    case ...1_000:
+      return 50
+    default:
+      var upperBound = 10_000
+      var step = 500
+      while currentLimit > upperBound {
+        upperBound *= 10
+        step *= 10
+      }
+      return step
+    }
+  }
+
   var body: some View {
     ZStack(alignment: .bottom) {
       Color.black.opacity(0.20)
         .ignoresSafeArea()
-        .onTapGesture { isOpen = false }
+        .onTapGesture { closeSheet() }
 
       VStack(spacing: 0) {
         Capsule()
@@ -322,7 +339,7 @@ struct MoneySettingsSheet: View {
 
             HStack {
               stepButton(symbol: "minus") {
-                updateLimit(max(0, currentLimit - 50))
+                updateLimit(max(0, currentLimit - limitStep))
               }
 
               Spacer()
@@ -331,23 +348,32 @@ struct MoneySettingsSheet: View {
                 Text(budgetMode == "expense" ? "建议 ¥500" : "建议 ¥1000")
                   .font(.system(size: 13, weight: .bold))
                   .foregroundColor(Color.black.opacity(0.30))
-                Text("¥ \(currentLimit)")
-                  .font(.system(size: 40, weight: .black))
-                  .foregroundColor(Color.black.opacity(0.90))
-                  .tracking(-1.2)
+                HStack(alignment: .firstTextBaseline, spacing: 4) {
+                  Text("¥")
+                    .font(.system(size: 40, weight: .black))
+                    .foregroundColor(Color.black.opacity(0.90))
+                  TextField("", text: limitText)
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.center)
+                    .font(.system(size: 40, weight: .black))
+                    .foregroundColor(Color.black.opacity(0.90))
+                    .tracking(-1.2)
+                    .frame(minWidth: 92, maxWidth: 176)
+                    .fixedSize(horizontal: true, vertical: false)
+                }
               }
 
               Spacer()
 
               stepButton(symbol: "plus") {
-                updateLimit(currentLimit + 50)
+                updateLimit(currentLimit + limitStep)
               }
             }
           }
         }
 
         Button {
-          isOpen = false
+          closeSheet()
         } label: {
           Text("保存并返回")
             .font(.system(size: 17, weight: .bold))
@@ -367,6 +393,17 @@ struct MoneySettingsSheet: View {
       .clipShape(RoundedCorner(radius: 40, corners: [.topLeft, .topRight]))
       .shadow(color: Color.black.opacity(0.18), radius: 36, x: 0, y: -8)
     }
+    .ignoresSafeArea(edges: .bottom)
+  }
+
+  private var limitText: Binding<String> {
+    Binding(
+      get: { "\(currentLimit)" },
+      set: { newValue in
+        let digits = newValue.filter(\.isNumber)
+        updateLimit(Int(digits) ?? 0)
+      }
+    )
   }
 
   private func modeButton(title: String, mode: String) -> some View {
@@ -406,6 +443,12 @@ struct MoneySettingsSheet: View {
       budgetLimit = value
     } else {
       incomeGoal = value
+    }
+  }
+
+  private func closeSheet() {
+    withAnimation(.spring(response: 0.36, dampingFraction: 0.90)) {
+      isOpen = false
     }
   }
 }

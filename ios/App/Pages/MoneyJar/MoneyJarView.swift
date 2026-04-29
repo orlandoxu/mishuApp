@@ -29,7 +29,9 @@ struct MoneyJarView: View {
       VStack(spacing: 0) {
         NavHeader(title: "小钱罐") {
           Button {
-            showSettings = true
+            withAnimation(.spring(response: 0.42, dampingFraction: 0.86)) {
+              showSettings = true
+            }
           } label: {
             Image(systemName: "gearshape.fill")
               .foregroundColor(.black.opacity(0.58))
@@ -53,7 +55,7 @@ struct MoneyJarView: View {
             MoneyTransactionList(transactions: transactions)
           }
           .padding(.horizontal, 24)
-          .padding(.top, 0)
+          .padding(.top, -12)
           .padding(.bottom, 80)
         }
       }
@@ -65,7 +67,9 @@ struct MoneyJarView: View {
           budgetLimit: $budgetLimit,
           incomeGoal: $incomeGoal
         )
+        .transition(.move(edge: .bottom).combined(with: .opacity))
       }
     }
+    .animation(.spring(response: 0.42, dampingFraction: 0.86), value: showSettings)
   }
 }
