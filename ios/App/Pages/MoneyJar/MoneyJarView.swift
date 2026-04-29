@@ -12,13 +12,25 @@ struct MoneyJarView: View {
     MoneyTransaction(id: "1", type: "expense", amount: 35, category: "餐饮", date: "2024-04-24", note: "午餐"),
     MoneyTransaction(id: "2", type: "expense", amount: 15, category: "交通", date: "2024-04-24", note: "公交"),
     MoneyTransaction(id: "3", type: "expense", amount: 88, category: "其他", date: "2024-04-23", note: "超市购物"),
-    MoneyTransaction(id: "4", type: "income", amount: 300, category: "兼职", date: "2024-04-23", note: "设计稿酬")
+    MoneyTransaction(id: "4", type: "income", amount: 300, category: "兼职", date: "2024-04-23", note: "设计稿酬"),
   ]
 
-  private var totalIncome: Int { transactions.filter { $0.type == "income" }.map(\.amount).reduce(0, +) }
-  private var totalExpense: Int { transactions.filter { $0.type == "expense" }.map(\.amount).reduce(0, +) }
-  private var limit: Int { budgetMode == "expense" ? budgetLimit : incomeGoal }
-  private var progress: Double { Double(budgetMode == "expense" ? totalExpense : totalIncome) / Double(limit) }
+  private var totalIncome: Int {
+    transactions.filter { $0.type == "income" }.map(\.amount).reduce(0, +)
+  }
+
+  private var totalExpense: Int {
+    transactions.filter { $0.type == "expense" }.map(\.amount).reduce(0, +)
+  }
+
+  private var limit: Int {
+    budgetMode == "expense" ? budgetLimit : incomeGoal
+  }
+
+  private var progress: Double {
+    Double(budgetMode == "expense" ? totalExpense : totalIncome) / Double(limit)
+  }
+
   private var currentWeekTitle: String {
     selectedDate.moneyJarWeekTitle
   }
@@ -62,6 +74,7 @@ struct MoneyJarView: View {
         }
       }
     }
+    .ignoresSafeArea()
   }
 
   private func showMoneySettings() {
