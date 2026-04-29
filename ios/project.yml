@@ -6,10 +6,10 @@ options:
 packages:
   SwiftMessages:
     url: https://github.com/SwiftKickMobile/SwiftMessages.git
-    from: 9.0.6
+    from: 10.0.2
   Kingfisher:
     url: https://github.com/onevcat/Kingfisher.git
-    from: 8.0.0
+    from: 8.8.1
   ImageViewer:
     url: https://github.com/Krisiacik/ImageViewer
     from: 7.0.0
@@ -18,7 +18,7 @@ packages:
     from: 4.5.2
   SQLite:
     url: https://github.com/stephencelis/SQLite.swift.git
-    from: 0.15.5
+    from: 0.16.0
 settings:
   base:
     SWIFT_VERSION: "5.9"
