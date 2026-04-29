@@ -70,6 +70,8 @@ final class AppNavigationModel: ObservableObject {
       return .moneyJar
     case "treeHole":
       return .treeHole
+    case "treeHoleChat":
+      return .treeHoleChat(initialMoodContent: nil)
     case "pro":
       return .pro
     default:
@@ -93,6 +95,7 @@ enum NavigationRoute: Hashable {
   case child
   case moneyJar
   case treeHole
+  case treeHoleChat(initialMoodContent: String?)
   case pro
   case checkout(planName: String, price: String)
 }
@@ -126,6 +129,8 @@ extension NavigationRoute {
       MoneyJarView()
     case .treeHole:
       TreeHoleView()
+    case let .treeHoleChat(initialMoodContent):
+      TreeHoleChatView(initialMoodContent: initialMoodContent)
     case .pro:
       ProMembershipView()
     case let .checkout(planName, price):
