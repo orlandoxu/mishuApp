@@ -5,6 +5,9 @@ struct TreeHoleChatView: View {
   let initialMoodContent: String?
 
   private let horizontalPadding: CGFloat = 24
+  private let inputChromeHeight: CGFloat = 112
+  private let restingInputBottomPadding: CGFloat = 18
+  private let focusedInputBottomPadding: CGFloat = 8
 
   @State private var messages: [TreeHoleChatMessage] = [
     TreeHoleChatMessage(
@@ -46,7 +49,7 @@ struct TreeHoleChatView: View {
               }
               .padding(.horizontal, horizontalPadding)
               .padding(.top, 26)
-              .padding(.bottom, 18)
+              .padding(.bottom, messagesBottomPadding(safeAreaBottom: geometry.safeAreaInsets.bottom))
             }
             .contentShape(Rectangle())
             .simultaneousGesture(TapGesture().onEnded(dismissInput))
@@ -58,18 +61,21 @@ struct TreeHoleChatView: View {
               scrollToBottom(proxy)
             }
           }
-
-          TreeHoleChatInputBar(
-            input: $input,
-            isFocused: $isInputFocused
-          ) {
-            send()
-          } onChangeTopic: {
-            changeTopic()
-          }
-          .padding(.horizontal, horizontalPadding)
-          .padding(.bottom, keyboardLift(safeAreaBottom: geometry.safeAreaInsets.bottom))
         }
+        .animation(.easeOut(duration: 0.22), value: keyboardHeight)
+
+        TreeHoleChatInputBar(
+          input: $input,
+          isFocused: $isInputFocused
+        ) {
+          send()
+        } onChangeTopic: {
+          changeTopic()
+        }
+        .padding(.horizontal, horizontalPadding)
+        .padding(.bottom, inputBottomPadding(safeAreaBottom: geometry.safeAreaInsets.bottom))
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+        .zIndex(2)
         .animation(.easeOut(duration: 0.22), value: keyboardHeight)
       }
     }
@@ -137,9 +143,23 @@ struct TreeHoleChatView: View {
     UIApplication.shared.dismissKeyboard()
   }
 
-  private func keyboardLift(safeAreaBottom: CGFloat) -> CGFloat {
-    guard keyboardHeight > 0 else { return 0 }
-    return max(0, keyboardHeight - safeAreaBottom)
+  private func inputBottomPadding(safeAreaBottom: CGFloat) -> CGFloat {
+    if keyboardHeight > 0 {
+      return keyboardHeight + focusedInputBottomPadding
+    }
+    return max(safeAreaBottom, Self.windowSafeAreaBottom) + restingInputBottomPadding
+  }
+
+  private func messagesBottomPadding(safeAreaBottom: CGFloat) -> CGFloat {
+    inputChromeHeight + inputBottomPadding(safeAreaBottom: safeAreaBottom)
+  }
+
+  private static var windowSafeAreaBottom: CGFloat {
+    guard
+      let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+      let window = windowScene.windows.first(where: { $0.isKeyWindow }) ?? windowScene.windows.first
+    else { return 0 }
+    return window.safeAreaInsets.bottom
   }
 
   private static var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {

@@ -39,6 +39,8 @@ struct TrueMemoryCategoryButton: View {
 }
 
 struct TrueMemoryTimelineCard: View {
+  static let topIconOverhang: CGFloat = 24
+
   let item: TrueMemoryItem
 
   var body: some View {
@@ -55,7 +57,7 @@ struct TrueMemoryTimelineCard: View {
           .resizable()
           .scaledToFit()
           .frame(width: 48, height: 48)
-          .offset(x: 56, y: -24)
+          .offset(x: 56, y: -Self.topIconOverhang)
           .shadow(color: Color.black.opacity(0.06), radius: 4, x: 0, y: 2)
           .zIndex(3)
       }

@@ -7,6 +7,9 @@ struct TrueMemoryView: View {
   @FocusState private var isSearchFocused: Bool
 
   private let topOverlayHeight: CGFloat = 204
+  private var timelineTopPadding: CGFloat {
+    topOverlayHeight + TrueMemoryTimelineCard.topIconOverhang
+  }
 
   private let memories = [
     TrueMemoryItem(id: "m1", text: "我的车牌号是 粤B·12345，平时停在负二层 B2-105", time: "2026-04-15 14:30", category: "个人信息"),
@@ -47,7 +50,7 @@ struct TrueMemoryView: View {
             }
           }
           .padding(.horizontal, 24)
-          .padding(.top, topOverlayHeight)
+          .padding(.top, timelineTopPadding)
           .padding(.bottom, 40)
         }
         .frame(width: proxy.size.width, height: proxy.size.height)
