@@ -77,6 +77,7 @@ struct TreeHoleChatView: View {
         .zIndex(2)
       }
     }
+    .ignoresSafeArea(.keyboard, edges: .bottom)
     .navigationBarHidden(true)
     .onReceive(Self.keyboardTransitionPublisher) { transition in
       withAnimation(.easeOut(duration: transition.duration)) {
