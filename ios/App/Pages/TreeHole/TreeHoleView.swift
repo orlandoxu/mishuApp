@@ -37,10 +37,8 @@ struct TreeHoleView: View {
               year: selectedYear,
               month: selectedMonth
             ) { year, month in
-              withAnimation(.easeOut(duration: 0.24)) {
-                selectedYear = year
-                selectedMonth = month
-              }
+              selectedYear = year
+              selectedMonth = month
             }
             .padding(.top, 3)
 

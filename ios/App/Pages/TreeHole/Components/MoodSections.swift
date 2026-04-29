@@ -57,7 +57,7 @@ struct MoodCalendarView: View {
 
   @State private var pageIndex: Int
 
-  private let monthRange = -120...120
+  private let monthPages = Array((1900 * 12)..<(2101 * 12))
   private let calendar = Calendar.current
 
   init(moodMap: [String: String], year: Int, month: Int, onMonthChange: @escaping (Int, Int) -> Void) {
@@ -74,8 +74,7 @@ struct MoodCalendarView: View {
 
   var body: some View {
     TabView(selection: $pageIndex) {
-      ForEach(Array(monthRange), id: \.self) { offset in
-        let index = currentPageIndex + offset
+      ForEach(monthPages, id: \.self) { index in
         calendarPage(for: index)
           .tag(index)
           .padding(.horizontal, 1)
