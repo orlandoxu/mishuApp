@@ -14,47 +14,41 @@ struct TreeHoleChatView: View {
   @State private var didAppendInitialMood = false
 
   var body: some View {
-    GeometryReader { geometry in
-      let contentWidth = min(max(geometry.size.width - 48, 0), 430)
+    ZStack {
+      Image("img_emo_chat_bg")
+        .resizable()
+        .scaledToFill()
+        .ignoresSafeArea()
 
-      ZStack {
-        Image("img_emo_chat_bg")
-          .resizable()
-          .scaledToFill()
-          .ignoresSafeArea()
+      VStack(spacing: 0) {
+        NavHeader(title: "", topPadding: 8, bottomPadding: 0)
 
-        VStack(spacing: 0) {
-          NavHeader(title: "", topPadding: 8, bottomPadding: 0)
-
-          ScrollViewReader { proxy in
-            ScrollView(showsIndicators: false) {
-              VStack(spacing: 24) {
-                ForEach(messages) { message in
-                  TreeHoleChatBubble(message: message, maxBubbleWidth: contentWidth * 0.75)
-                    .id(message.id)
-                }
+        ScrollViewReader { proxy in
+          ScrollView(showsIndicators: false) {
+            VStack(spacing: 24) {
+              ForEach(messages) { message in
+                TreeHoleChatBubble(message: message, maxBubbleWidth: UIScreen.main.bounds.width * 0.75)
+                  .id(message.id)
               }
-              .frame(width: contentWidth)
-              .frame(maxWidth: .infinity)
-              .padding(.top, 26)
-              .padding(.bottom, 18)
             }
-            .onChange(of: messages) { _ in
-              scrollToBottom(proxy)
-            }
-            .onAppear {
-              scrollToBottom(proxy)
-            }
+            .padding(.horizontal, 24)
+            .padding(.top, 26)
+            .padding(.bottom, 18)
           }
-
-          TreeHoleChatInputBar(input: $input) {
-            send()
-          } onChangeTopic: {
-            changeTopic()
+          .onChange(of: messages) { _ in
+            scrollToBottom(proxy)
           }
-          .frame(width: contentWidth)
-          .frame(maxWidth: .infinity)
+          .onAppear {
+            scrollToBottom(proxy)
+          }
         }
+
+        TreeHoleChatInputBar(input: $input) {
+          send()
+        } onChangeTopic: {
+          changeTopic()
+        }
+        .padding(.horizontal, 24)
       }
     }
     .navigationBarHidden(true)

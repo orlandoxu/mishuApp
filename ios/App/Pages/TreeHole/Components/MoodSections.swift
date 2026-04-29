@@ -108,6 +108,10 @@ struct MoodCalendarView: View {
       Text("\(day)")
         .font(.system(size: 16, weight: .bold))
         .foregroundColor(Color.black.opacity(0.30))
+        .lineLimit(1)
+        .minimumScaleFactor(0.50)
+        .allowsTightening(true)
+        .frame(minWidth: 32, minHeight: 32)
         .frame(maxWidth: .infinity)
         .aspectRatio(1, contentMode: .fit)
     }
