@@ -1,11 +1,10 @@
+import Combine
 import SwiftUI
 
 struct TreeHoleChatView: View {
   let initialMoodContent: String?
 
   private let horizontalPadding: CGFloat = 24
-  private let headerContentHeight: CGFloat = 56
-  private let headerBottomPadding: CGFloat = 10
 
   @State private var messages: [TreeHoleChatMessage] = [
     TreeHoleChatMessage(
@@ -16,6 +15,7 @@ struct TreeHoleChatView: View {
   ]
   @State private var input = ""
   @State private var didAppendInitialMood = false
+  @State private var keyboardHeight: CGFloat = 0
   @FocusState private var isInputFocused: Bool
 
   var body: some View {
@@ -24,54 +24,57 @@ struct TreeHoleChatView: View {
         Image("img_emo_chat_bg")
           .resizable()
           .scaledToFill()
-          .frame(width: geometry.size.width, height: geometry.size.height)
+          .frame(
+            width: geometry.size.width + geometry.safeAreaInsets.leading + geometry.safeAreaInsets.trailing,
+            height: geometry.size.height + geometry.safeAreaInsets.top + geometry.safeAreaInsets.bottom
+          )
           .ignoresSafeArea()
 
-        ScrollViewReader { proxy in
-          ScrollView(showsIndicators: false) {
-            VStack(spacing: 24) {
-              ForEach(messages) { message in
-                TreeHoleChatBubble(
-                  message: message,
-                  maxBubbleWidth: geometry.size.width * 0.75
-                )
-                .id(message.id)
-              }
-            }
-            .padding(.horizontal, horizontalPadding)
-            .padding(.top, messagesTopPadding(safeAreaTop: geometry.safeAreaInsets.top))
-            .padding(.bottom, 18)
-          }
-          .contentShape(Rectangle())
-          .simultaneousGesture(TapGesture().onEnded(dismissInput))
-          .onChange(of: messages) { _ in
-            scrollToBottom(proxy)
-          }
-          .onChange(of: isInputFocused) { focused in
-            guard focused else { return }
-            scrollToBottom(proxy)
-          }
-          .onAppear {
-            scrollToBottom(proxy)
-          }
-        }
+        VStack(spacing: 0) {
+          NavHeader(title: "", topPadding: 8, bottomPadding: 0)
 
-        NavHeader(title: "", topPadding: 8, bottomPadding: headerBottomPadding)
-      }
-      .safeAreaInset(edge: .bottom, spacing: 0) {
-        TreeHoleChatInputBar(
-          input: $input,
-          isFocused: $isInputFocused
-        ) {
-          send()
-        } onChangeTopic: {
-          changeTopic()
+          ScrollViewReader { proxy in
+            ScrollView(showsIndicators: false) {
+              VStack(spacing: 24) {
+                ForEach(messages) { message in
+                  TreeHoleChatBubble(
+                    message: message,
+                    maxBubbleWidth: geometry.size.width * 0.75
+                  )
+                  .id(message.id)
+                }
+              }
+              .padding(.horizontal, horizontalPadding)
+              .padding(.top, 26)
+              .padding(.bottom, 18)
+            }
+            .contentShape(Rectangle())
+            .simultaneousGesture(TapGesture().onEnded(dismissInput))
+            .onChange(of: messages) { _ in
+              scrollToBottom(proxy)
+            }
+            .onChange(of: isInputFocused) { focused in
+              guard focused else { return }
+              scrollToBottom(proxy)
+            }
+          }
+
+          TreeHoleChatInputBar(
+            input: $input,
+            isFocused: $isInputFocused
+          ) {
+            send()
+          } onChangeTopic: {
+            changeTopic()
+          }
+          .padding(.horizontal, horizontalPadding)
+          .padding(.bottom, keyboardLift(safeAreaBottom: geometry.safeAreaInsets.bottom))
         }
-        .padding(.horizontal, horizontalPadding)
-        .padding(.bottom, max(8, geometry.safeAreaInsets.bottom == 0 ? 12 : 0))
+        .animation(.easeOut(duration: 0.22), value: keyboardHeight)
       }
     }
     .navigationBarHidden(true)
+    .onReceive(Self.keyboardHeightPublisher) { keyboardHeight = $0 }
     .task {
       appendInitialMoodIfNeeded()
     }
@@ -134,7 +137,26 @@ struct TreeHoleChatView: View {
     UIApplication.shared.dismissKeyboard()
   }
 
-  private func messagesTopPadding(safeAreaTop: CGFloat) -> CGFloat {
-    safeAreaTop + headerContentHeight + headerBottomPadding + 18
+  private func keyboardLift(safeAreaBottom: CGFloat) -> CGFloat {
+    guard keyboardHeight > 0 else { return 0 }
+    return max(0, keyboardHeight - safeAreaBottom)
+  }
+
+  private static var keyboardHeightPublisher: AnyPublisher<CGFloat, Never> {
+    let willChange = NotificationCenter.default
+      .publisher(for: UIResponder.keyboardWillChangeFrameNotification)
+      .map { notification -> CGFloat in
+        guard
+          let frame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
+        else { return 0 }
+        return max(0, UIScreen.main.bounds.maxY - frame.minY)
+      }
+
+    let willHide = NotificationCenter.default
+      .publisher(for: UIResponder.keyboardWillHideNotification)
+      .map { _ in CGFloat(0) }
+
+    return Publishers.Merge(willChange, willHide)
+      .eraseToAnyPublisher()
   }
 }

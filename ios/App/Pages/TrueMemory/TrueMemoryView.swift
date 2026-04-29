@@ -6,6 +6,8 @@ struct TrueMemoryView: View {
   @State private var searchExpanded = false
   @FocusState private var isSearchFocused: Bool
 
+  private let topOverlayHeight: CGFloat = 204
+
   private let memories = [
     TrueMemoryItem(id: "m1", text: "我的车牌号是 粤B·12345，平时停在负二层 B2-105", time: "2026-04-15 14:30", category: "个人信息"),
     TrueMemoryItem(id: "m2", text: "帮我记住，家里大门的智能锁密码换成 886622 了，千万别忘", time: "2026-04-10 09:15", category: "安全备忘"),
@@ -25,11 +27,7 @@ struct TrueMemoryView: View {
   var body: some View {
     GeometryReader { proxy in
       ZStack(alignment: .top) {
-        Color(hex: "#F8F9FB").ignoresSafeArea()
-        Image("img_bg_memory")
-          .resizable()
-          .scaledToFill()
-          .opacity(0.40)
+        pageBackground(size: proxy.size)
           .ignoresSafeArea()
 
         ScrollView(showsIndicators: false) {
@@ -49,21 +47,38 @@ struct TrueMemoryView: View {
             }
           }
           .padding(.horizontal, 24)
-          .padding(.top, 204)
+          .padding(.top, topOverlayHeight)
           .padding(.bottom, 40)
         }
         .frame(width: proxy.size.width, height: proxy.size.height)
         .scrollDismissesKeyboard(.interactively)
+
+        pageBackground(size: proxy.size)
+          .frame(width: proxy.size.width, height: topOverlayHeight, alignment: .top)
+          .clipped()
+          .allowsHitTesting(false)
+          .zIndex(9)
 
         topOverlay
           .frame(width: proxy.size.width)
           .zIndex(10)
       }
       .frame(width: proxy.size.width, height: proxy.size.height, alignment: .top)
-      .clipped()
     }
     .ignoresSafeArea(.keyboard, edges: .bottom)
-    .ignoresSafeArea(edges: .top)
+    .ignoresSafeArea()
+  }
+
+  private func pageBackground(size: CGSize) -> some View {
+    ZStack {
+      Color(hex: "#F8F9FB")
+      Image("img_bg_memory")
+        .resizable()
+        .scaledToFill()
+        .frame(width: size.width, height: size.height, alignment: .top)
+        .opacity(0.40)
+        .clipped()
+    }
   }
 
   private var topOverlay: some View {

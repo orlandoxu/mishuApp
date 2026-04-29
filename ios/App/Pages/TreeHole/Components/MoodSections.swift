@@ -55,47 +55,71 @@ struct MoodCalendarView: View {
   let month: Int
   let onMonthChange: (Int, Int) -> Void
 
-  @State private var dragOffset: CGFloat = 0
+  @State private var pageIndex: Int
 
-  private var daysInMonth: Int {
+  private let monthRange = -120...120
+  private let calendar = Calendar.current
+
+  init(moodMap: [String: String], year: Int, month: Int, onMonthChange: @escaping (Int, Int) -> Void) {
+    self.moodMap = moodMap
+    self.year = year
+    self.month = month
+    self.onMonthChange = onMonthChange
+    _pageIndex = State(initialValue: Self.monthIndex(year: year, month: month))
+  }
+
+  private var currentPageIndex: Int {
+    Self.monthIndex(year: year, month: month)
+  }
+
+  var body: some View {
+    TabView(selection: $pageIndex) {
+      ForEach(Array(monthRange), id: \.self) { offset in
+        let index = currentPageIndex + offset
+        calendarPage(for: index)
+          .tag(index)
+          .padding(.horizontal, 1)
+      }
+    }
+    .tabViewStyle(.page(indexDisplayMode: .never))
+    .frame(height: 260)
+    .onChange(of: pageIndex) { newValue in
+      let components = Self.monthComponents(from: newValue)
+      guard components.year != year || components.month != month else { return }
+      onMonthChange(components.year, components.month)
+    }
+    .onChange(of: currentPageIndex) { newValue in
+      guard pageIndex != newValue else { return }
+      pageIndex = newValue
+    }
+  }
+
+  private func calendarPage(for index: Int) -> some View {
+    let components = Self.monthComponents(from: index)
+    let days = daysInMonth(year: components.year, month: components.month)
+
+    return LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 7), spacing: 12) {
+      ForEach(1...days, id: \.self) { day in
+        calendarDay(day, year: components.year, month: components.month)
+      }
+    }
+    .frame(maxHeight: .infinity, alignment: .top)
+  }
+
+  private func daysInMonth(year: Int, month: Int) -> Int {
     var components = DateComponents()
     components.year = year
     components.month = month + 1
-    guard let date = Calendar.current.date(from: components),
-          let range = Calendar.current.range(of: .day, in: .month, for: date)
+    guard let date = calendar.date(from: components),
+          let range = calendar.range(of: .day, in: .month, for: date)
     else {
       return 30
     }
     return range.count
   }
 
-  var body: some View {
-    LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 12), count: 7), spacing: 12) {
-      ForEach(1...daysInMonth, id: \.self) { day in
-        calendarDay(day)
-      }
-    }
-    .offset(x: dragOffset)
-    .animation(.easeOut(duration: 0.24), value: dragOffset)
-    .gesture(
-      DragGesture(minimumDistance: 20)
-        .onChanged { value in
-          dragOffset = max(-36, min(36, value.translation.width * 0.25))
-        }
-        .onEnded { value in
-          let projected = value.predictedEndTranslation.width
-          if value.translation.width < -50 || projected < -120 {
-            changeMonth(by: 1)
-          } else if value.translation.width > 50 || projected > 120 {
-            changeMonth(by: -1)
-          }
-          dragOffset = 0
-        }
-    )
-  }
-
   @ViewBuilder
-  private func calendarDay(_ day: Int) -> some View {
+  private func calendarDay(_ day: Int, year: Int, month: Int) -> some View {
     let dateKey = String(format: "%04d-%02d-%02d", year, month + 1, day)
     if let emoji = moodMap[dateKey] {
       Image(MoodIcon.name(for: emoji))
@@ -117,15 +141,14 @@ struct MoodCalendarView: View {
     }
   }
 
-  private func changeMonth(by delta: Int) {
-    var components = DateComponents()
-    components.year = year
-    components.month = month + 1 + delta
-    components.day = 1
-    guard let date = Calendar.current.date(from: components) else { return }
-    let next = Calendar.current.dateComponents([.year, .month], from: date)
-    guard let nextYear = next.year, let nextMonth = next.month else { return }
-    onMonthChange(nextYear, nextMonth - 1)
+  private static func monthIndex(year: Int, month: Int) -> Int {
+    year * 12 + month
+  }
+
+  private static func monthComponents(from index: Int) -> (year: Int, month: Int) {
+    let year = Int(floor(Double(index) / 12.0))
+    let month = index - year * 12
+    return (year, month)
   }
 }
 
