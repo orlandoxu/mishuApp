@@ -19,8 +19,14 @@ final class BottomSheetCenter {
       isFullScreen: fullScreen
     )
 
+    // Step 1. 创建无弹跳的底部滑入动画器
+    let animator = TopBottomAnimation(style: .bottom)
+    animator.springDamping = 1.0
+    animator.showDuration = 0.35
+    animator.hideDuration = 0.25
+
     var config = SwiftMessages.Config()
-    config.presentationStyle = .bottom
+    config.presentationStyle = .custom(animator: animator)
     config.presentationContext = .window(windowLevel: .normal)
     config.duration = .forever
     config.dimMode = .color(color: UIColor.black.withAlphaComponent(0.4), interactive: true)
