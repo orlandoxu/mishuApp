@@ -6,6 +6,10 @@ enum RouteParser {
     guard scheme == "https" || scheme == "http" else { return nil }
 
     let path = url.path
+    if path.hasPrefix("/app/invite/") {
+      return .page(path: "/partner", params: [], presentation: .push)
+    }
+
     guard path == "/webview" else { return nil }
 
     guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false) else { return nil }

@@ -1,6 +1,9 @@
 import SwiftUI
 
 struct PartnerIdentitySection: View {
+  @ObservedObject private var selfStore = SelfStore.shared
+  @State private var isCreatingInvitation = false
+
   var body: some View {
     VStack(spacing: 0) {
       HStack(spacing: -20) {
@@ -16,22 +19,34 @@ struct PartnerIdentitySection: View {
         }
         .shadow(color: Color.black.opacity(0.06), radius: 12, x: 0, y: 2)
 
-        ZStack {
+        Button {
+          createAndShareInvitation()
+        } label: {
           Circle()
             .fill(Color.white)
             .frame(width: 84, height: 84)
             .shadow(color: Color.black.opacity(0.06), radius: 16, x: 0, y: 4)
-          VStack(spacing: 2) {
-            Image(systemName: "plus")
-              .font(.system(size: 22, weight: .medium))
-              .foregroundColor(Color.black.opacity(0.30))
-              .padding(.bottom, 2)
-            Text("邀请 TA")
-              .font(.system(size: 10, weight: .bold))
-              .foregroundColor(Color.black.opacity(0.30))
-              .tracking(1.2)
-          }
+            .overlay {
+              VStack(spacing: 2) {
+                if isCreatingInvitation {
+                  ProgressView()
+                    .tint(Color.black.opacity(0.30))
+                    .padding(.bottom, 2)
+                } else {
+                  Image(systemName: "plus")
+                    .font(.system(size: 22, weight: .medium))
+                    .foregroundColor(Color.black.opacity(0.30))
+                    .padding(.bottom, 2)
+                }
+                Text("邀请 TA")
+                  .font(.system(size: 10, weight: .bold))
+                  .foregroundColor(Color.black.opacity(0.30))
+                  .tracking(1.2)
+              }
+            }
         }
+        .buttonStyle(.plain)
+        .disabled(isCreatingInvitation)
       }
       .padding(.bottom, 20)
 
@@ -65,6 +80,58 @@ struct PartnerIdentitySection: View {
     .padding(.top, 24)
     .padding(.bottom, 56)
     .frame(maxWidth: .infinity)
+  }
+
+  private var inviterName: String {
+    let nickname = selfStore.selfUser?.nickname.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    if !nickname.isEmpty { return nickname }
+    let mobile = selfStore.selfUser?.mobile.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    if mobile.count >= 7 {
+      let prefix = mobile.prefix(3)
+      let suffix = mobile.suffix(4)
+      return "\(prefix)****\(suffix)"
+    }
+    return "Mishu 用户"
+  }
+
+  private var inviterAvatarUrl: String {
+    selfStore.selfUser?.headImg.trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+  }
+
+  private func createAndShareInvitation() {
+    guard !isCreatingInvitation else { return }
+    isCreatingInvitation = true
+
+    Task {
+      defer {
+        Task { @MainActor in
+          isCreatingInvitation = false
+        }
+      }
+
+      guard let invitation = await PartnerAPI.shared.createInvitation(
+        inviterName: inviterName,
+        inviterAvatarUrl: inviterAvatarUrl
+      ) else {
+        return
+      }
+
+      let thumbImage = await WeChatShareService.thumbImage(from: invitation.inviterAvatarUrl)
+      let card = WeChatShareCard(
+        title: invitation.shareTitle,
+        description: invitation.shareDescription,
+        webpageUrl: invitation.shareUrl,
+        thumbImage: thumbImage
+      )
+
+      let result = await WeChatShareService.shared.share(card: card)
+      await MainActor.run {
+        if result != .sent {
+          let text = "\(invitation.shareTitle)\n\(invitation.shareDescription)"
+          WeChatShareService.shared.shareWithSystemSheet(text: text, urlString: invitation.shareUrl)
+        }
+      }
+    }
   }
 }
 

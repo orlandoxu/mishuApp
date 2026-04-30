@@ -1,4 +1,5 @@
 packages:
   - ios
   - backend
+  - h5
   - mishuAppUI

@@ -1,0 +1,29 @@
+{
+  "name": "@mishu/h5",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host=0.0.0.0 --port=8200",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host=0.0.0.0 --port=8200",
+    "typecheck": "tsc -b --pretty false"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "4.2.4",
+    "@vitejs/plugin-react": "6.0.1",
+    "lucide-react": "1.14.0",
+    "react": "19.2.5",
+    "react-dom": "19.2.5",
+    "react-router-dom": "7.14.2",
+    "tailwindcss": "4.2.4",
+    "zustand": "5.0.12"
+  },
+  "devDependencies": {
+    "@types/node": "24.10.2",
+    "@types/react": "19.2.7",
+    "@types/react-dom": "19.2.3",
+    "typescript": "5.9.3",
+    "vite": "8.0.10"
+  }
+}

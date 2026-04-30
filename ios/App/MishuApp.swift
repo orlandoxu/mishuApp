@@ -73,10 +73,14 @@ struct MishuApp: App {
         }
       }
       .onOpenURL { url in
+        if WeChatShareService.shared.handleIncomingURL(url) { return }
         WeChatPayCallbackHandler.handleIncomingURL(url, source: "SwiftUI.onOpenURL")
       }
       .onContinueUserActivity(NSUserActivityTypeBrowsingWeb) { userActivity in
         WeChatPayCallbackHandler.handleUserActivity(userActivity, source: "SwiftUI.onContinueUserActivity")
+        if let url = userActivity.webpageURL {
+          AppStateStore.shared.cachePendingLink(urlString: url.absoluteString)
+        }
       }
       // 触发用户授权网络
       .taskOnce {

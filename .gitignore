@@ -5,6 +5,8 @@ todo.swift
 .vscode
 .trae
 
+node_modules/
+
 DerivedData
 build
 *.xcuserstate
@@ -53,3 +55,10 @@ ios/App/DebugScripts/socket-ping-monitor.mjs
 
 claude-code
 logs/*
+
+# h5 本地依赖与构建产物
+h5/node_modules/
+h5/dist/
+h5/.env
+h5/.env.*
+!h5/.env.example

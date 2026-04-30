@@ -17,6 +17,7 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
       channel: AppConst.umengChannel,
       logEnabled: AppConst.umengLogEnabled
     )
+    _ = WeChatShareService.shared.register()
 
     UNUserNotificationCenter.current().delegate = self
     return true
@@ -34,6 +35,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     open url: URL,
     options _: [UIApplication.OpenURLOptionsKey: Any] = [:]
   ) -> Bool {
+    if WeChatShareService.shared.handleIncomingURL(url) {
+      return true
+    }
     WeChatPayCallbackHandler.handleIncomingURL(url, source: "AppDelegate.openURL")
     return false
   }
@@ -44,6 +48,9 @@ final class AppDelegate: NSObject, UIApplicationDelegate {
     restorationHandler _: @escaping ([UIUserActivityRestoring]?) -> Void
   ) -> Bool {
     if let url = userActivity.webpageURL {
+      Task { @MainActor in
+        AppStateStore.shared.cachePendingLink(urlString: url.absoluteString)
+      }
       WeChatPayCallbackHandler.handleIncomingURL(url, source: "AppDelegate.continue")
     }
     return false

@@ -38,4 +38,10 @@ export class UserService {
       phoneNumber: user.phoneNumber,
     };
   }
+
+  static normalizeMainlandMobile(rawMobile: string): string {
+    const phoneNumber = normalizeMainlandMobile(rawMobile);
+    ASSERT(phoneNumber, '仅支持中国大陆手机号', Ret.ERROR);
+    return phoneNumber;
+  }
 }

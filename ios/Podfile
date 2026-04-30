@@ -9,6 +9,7 @@ target 'MishuApp' do
   pod 'UMCommon'
   pod 'UMDevice'
   pod 'UMAPM'
+  pod 'WechatOpenSDK-XCFramework'
 end
 
 post_install do |installer|

@@ -57,6 +57,13 @@ export const config = {
     jwtSecret:
       process.env.BACKEND_JWT_SECRET ?? "mishu-dev-jwt-secret-change-me",
   },
+  partnerInvitation: {
+    expireSeconds: parsePort(process.env.BACKEND_PARTNER_INVITATION_EXPIRE_SECONDS, 3600 * 24 * 7),
+    defaultInviterName: process.env.BACKEND_PARTNER_DEFAULT_INVITER_NAME ?? "Mishu 用户",
+    shareDescription:
+      process.env.BACKEND_PARTNER_SHARE_DESCRIPTION ??
+      "我们一起走过的日夜，想和你放在同一个地方。",
+  },
   sms: {
     aliSmsNameId: "LTAI5t7VL" + "ArD4n3NYqLEAghq",
     aliSmsTk: "kmbGSU7P6mHgD5" + "oNOvPOoUSmxvHLYB",

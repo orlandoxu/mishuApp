@@ -1,6 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { HealthController } from "../controller/healthController";
 import { AuthController } from "../controller/authController";
+import { PartnerInvitationController } from "../controller/partnerInvitationController";
 import { createRouter } from "../lib/fastify/routeHelper";
 import { userAuth } from "../middleware/loginMiddleware";
 
@@ -20,4 +21,11 @@ export default async function registerRoutes(
   post("/user/appVerifyCode", AuthController.loginByCode);
   post("/user/getInfo", userAuth, AuthController.appGetInfo);
   post("/user/logout", userAuth, AuthController.appLogout);
+
+  // ==================== TA 邀请绑定 ====================
+  post("/partner/invitations", userAuth, PartnerInvitationController.create);
+  get("/partner/invitations/:token", PartnerInvitationController.detail);
+  post("/partner/invitations/:token/code", PartnerInvitationController.code);
+  post("/partner/invitations/:token/accept", PartnerInvitationController.accept);
+  get("/partner/relationship", userAuth, PartnerInvitationController.relationship);
 }

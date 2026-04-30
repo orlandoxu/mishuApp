@@ -1,5 +1,20 @@
 import Foundation
 
+#if canImport(WechatOpenSDK)
+  import WechatOpenSDK
+#endif
+
+extension WeChatShareService {
+  func handleIncomingURL(_ url: URL) -> Bool {
+    #if canImport(WechatOpenSDK)
+      return WXApi.handleOpen(url, delegate: self)
+    #else
+      _ = url
+      return false
+    #endif
+  }
+}
+
 enum WeChatPayCallbackHandler {
   static func handleIncomingURL(_ url: URL, source: String) {
     let path = url.path

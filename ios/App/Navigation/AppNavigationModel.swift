@@ -102,6 +102,11 @@ enum NavigationRoute: Hashable {
 
 extension NavigationRoute {
   init?(path: String, params: [RouteParam]) {
+    if path == "/partner" {
+      self = .partner
+      return
+    }
+
     guard path == "/webview" else { return nil }
     let paramsDict = Dictionary(uniqueKeysWithValues: params.map { ($0.key, $0.value) })
     guard let url = paramsDict["url"], !url.isEmpty else { return nil }

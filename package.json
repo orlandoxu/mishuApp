@@ -8,6 +8,7 @@
     "build": "pnpm -r build",
     "typecheck": "pnpm -r --if-present typecheck",
     "backend:dev": "pnpm --filter @mishu/backend dev",
+    "h5:dev": "pnpm --filter @mishu/h5 dev",
     "ui:dev": "pnpm --filter react-example dev"
   }
 }
