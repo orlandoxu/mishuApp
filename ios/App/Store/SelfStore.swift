@@ -38,6 +38,9 @@ final class SelfStore: ObservableObject {
 
     Task {
       await refresh()
+      await MainActor.run {
+        AppStateStore.shared.handlePendingLinkIfPossible()
+      }
     }
   }
 
