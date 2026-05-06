@@ -59,8 +59,6 @@ const defaultSummary: AdminOrdersSummary = {
 export function OrdersPage() {
   const token = useAdminStore((s) => s.token)
   const logout = useAdminStore((s) => s.logout)
-  const orderUserIdFilter = useAdminStore((s) => s.orderUserIdFilter)
-  const clearOrderUserFilter = useAdminStore((s) => s.clearOrderUserFilter)
 
   const [records, setRecords] = useState<AdminOrderRecord[]>([])
   const [summary, setSummary] = useState<AdminOrdersSummary>(defaultSummary)
@@ -69,9 +67,8 @@ export function OrdersPage() {
   const [error, setError] = useState('')
   const [page, setPage] = useState(1)
   const [pageSize, setPageSize] = useState(10)
-  const [query, setQuery] = useState<AdminOrdersQuery>({ userId: orderUserIdFilter || undefined })
+  const [query, setQuery] = useState<AdminOrdersQuery>({})
   const [draft, setDraft] = useState({
-    userId: orderUserIdFilter,
     phoneNumber: '',
     orderId: '',
     payMethod: '',
@@ -80,12 +77,6 @@ export function OrdersPage() {
     startAt: '',
     endAt: '',
   })
-
-  useEffect(() => {
-    setDraft((prev) => ({ ...prev, userId: orderUserIdFilter }))
-    setQuery((prev) => ({ ...prev, userId: orderUserIdFilter || undefined }))
-    setPage(1)
-  }, [orderUserIdFilter])
 
   useEffect(() => {
     let mounted = true
@@ -118,7 +109,6 @@ export function OrdersPage() {
     e.preventDefault()
     setPage(1)
     setQuery({
-      userId: draft.userId.trim() || undefined,
       phoneNumber: draft.phoneNumber.trim() || undefined,
       orderId: draft.orderId.trim() || undefined,
       payMethod: (draft.payMethod || undefined) as AdminOrdersQuery['payMethod'],
@@ -154,7 +144,7 @@ export function OrdersPage() {
         </div>
       </div>
 
-      <form onSubmit={onSearch} className="mb-3 grid shrink-0 grid-cols-1 gap-2 rounded-2xl border border-[#dbe4f2] bg-white p-3 shadow-[0_10px_28px_-22px_rgba(31,54,91,0.35)] md:grid-cols-2 xl:grid-cols-4">
+      <form onSubmit={onSearch} className="mb-3 grid shrink-0 grid-cols-1 gap-2 rounded-2xl border border-[#dbe4f2] bg-white p-3 shadow-[0_10px_28px_-22px_rgba(31,54,91,0.35)] md:grid-cols-2 xl:grid-cols-6">
         <div className="relative">
           <Search size={16} className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8aa0c2]" />
           <Input value={draft.phoneNumber} onChange={(e) => setDraft((prev) => ({ ...prev, phoneNumber: e.target.value }))} placeholder="手机号" className="pl-9" />
@@ -177,15 +167,12 @@ export function OrdersPage() {
           <option value="pending">待支付</option>
           <option value="refunded">已退款</option>
         </select>
-        <Input value={draft.userId} onChange={(e) => setDraft((prev) => ({ ...prev, userId: e.target.value }))} placeholder="用户ID（可选）" />
         <Input type="datetime-local" value={draft.startAt} onChange={(e) => setDraft((prev) => ({ ...prev, startAt: e.target.value }))} />
         <Input type="datetime-local" value={draft.endAt} onChange={(e) => setDraft((prev) => ({ ...prev, endAt: e.target.value }))} />
         <div className="flex items-center gap-2">
           <Button type="submit" size="sm">搜索</Button>
           <Button type="button" size="sm" variant="outline" onClick={() => {
-            clearOrderUserFilter()
             setDraft({
-              userId: '',
               phoneNumber: '',
               orderId: '',
               payMethod: '',
@@ -207,7 +194,7 @@ export function OrdersPage() {
         {error ? <div className="p-4 text-sm text-[#cf2f52]">{error}</div> : null}
         {!loading && !error ? (
           <Table>
-            <THead className="sticky top-0 bg-[#f5f9ff]">
+            <THead className="sticky top-0 z-10 bg-[#f5f9ff]">
               <tr>
                 <TH>订单号</TH>
                 <TH>用户信息</TH>

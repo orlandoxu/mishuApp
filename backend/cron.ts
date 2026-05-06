@@ -21,12 +21,22 @@ async function runTodaySnapshotJob(): Promise<void> {
   }
 }
 
+async function runRecentBackfillJob(days: number): Promise<void> {
+  try {
+    const count = await DashboardDailyStatService.generateRecentSnapshots(days);
+    console.log(`[cron] dashboard snapshot backfilled for recent ${count} days`);
+  } catch (error) {
+    console.error('[cron] dashboard snapshot backfill failed', error);
+  }
+}
+
 async function bootstrapCron(): Promise<void> {
   await connectMongoDB();
 
   // 启动时先补偿一次，避免服务重启错过定时窗口。
   await runYesterdaySnapshotJob();
   await runTodaySnapshotJob();
+  void runRecentBackfillJob(60);
 
   cron.schedule('5 0 * * *', () => {
     void runYesterdaySnapshotJob();

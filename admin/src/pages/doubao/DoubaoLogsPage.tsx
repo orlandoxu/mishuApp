@@ -65,7 +65,7 @@ export function DoubaoLogsPage() {
   const [apiTypeQuery, setApiTypeQuery] = useState('')
   const [userDraft, setUserDraft] = useState('')
   const [userQuery, setUserQuery] = useState('')
-  const [expandedId, setExpandedId] = useState('')
+  const [detailItem, setDetailItem] = useState<DoubaoLogRecord | null>(null)
   useEffect(() => {
     let mounted = true
     const load = async () => {
@@ -110,6 +110,15 @@ export function DoubaoLogsPage() {
       toast.error('复制失败')
     }
   }
+
+  useEffect(() => {
+    if (!detailItem) return
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setDetailItem(null)
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [detailItem])
 
   const stats = useMemo(() => {
     const currentTotal = records.length
@@ -169,7 +178,7 @@ export function DoubaoLogsPage() {
           </div>
         ) : (
           <Table>
-            <THead className="sticky top-0 bg-[#f7faff]">
+            <THead className="sticky top-0 z-10 bg-[#f7faff]">
               <tr>
                 <TH>时间</TH>
                 <TH>用户</TH>
@@ -182,8 +191,7 @@ export function DoubaoLogsPage() {
               </tr>
             </THead>
             <TBody>
-              {records.flatMap((item) => {
-                const rows = [
+              {records.map((item) => (
                   <tr key={item.id} className="border-b border-[#eef3fb] align-top hover:bg-[#f9fbff]">
                     <TD className="whitespace-nowrap text-sm text-[#1f3558]">{formatTime(item.createdAt)}</TD>
                     <TD>
@@ -206,39 +214,16 @@ export function DoubaoLogsPage() {
                     <TD className="whitespace-nowrap text-sm font-medium text-[#1f3558]">{item.durationMs}ms</TD>
                     <TD>
                       <button
-                        onClick={() => setExpandedId(expandedId === item.id ? '' : item.id)}
+                        onClick={() => setDetailItem(item)}
                         className="rounded-lg border border-[#d8e0ee] px-2.5 py-1 text-xs text-[#3a5175] hover:bg-[#f4f8ff]"
                       >
-                        {expandedId === item.id ? '收起详情' : '查看详情'}
+                        查看详情
                       </button>
                     </TD>
                     <TD><StatusPill success={item.success} /></TD>
                     <TD className="max-w-[220px] truncate text-sm text-[#324b70]">{item.errorMessage || '-'}</TD>
-                  </tr>,
-                ]
-
-                if (expandedId !== item.id) return rows
-
-                rows.push(
-                  <tr key={`${item.id}-detail`} className="border-b border-[#eef3fb] bg-[#f8fbff]">
-                    <td colSpan={8} className="px-4 py-3">
-                      <div className="rounded-xl border border-[#d7e2f3] bg-white p-3">
-                        <div className="mb-2 flex items-center justify-between">
-                          <p className="text-sm font-semibold text-[#19345e]">请求与返回详情</p>
-                          <button
-                            onClick={() => copyDetail(item)}
-                            className="rounded-lg border border-[#d8e0ee] px-2.5 py-1 text-xs text-[#3a5175] hover:bg-[#f4f8ff]"
-                          >
-                            复制内容
-                          </button>
-                        </div>
-                        <pre className="max-h-72 overflow-auto whitespace-pre-wrap break-all rounded-lg bg-[#f5f8ff] p-2 text-xs text-[#2d4266]">{buildDetailContent(item)}</pre>
-                      </div>
-                    </td>
-                  </tr>,
-                )
-                return rows
-              })}
+                  </tr>
+              ))}
             </TBody>
           </Table>
         )}
@@ -254,6 +239,42 @@ export function DoubaoLogsPage() {
           setPageSize(next)
         }}
       />
+
+      {detailItem ? (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#12233f]/35 p-4"
+          onClick={() => setDetailItem(null)}
+        >
+          <div
+            className="flex max-h-[80vh] w-full max-w-5xl flex-col rounded-2xl border border-[#d7e2f3] bg-white p-4 shadow-[0_24px_80px_-36px_rgba(20,40,80,0.65)]"
+            role="dialog"
+            aria-modal="true"
+            aria-label="请求与返回详情"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="mb-3 flex items-center justify-between gap-3">
+              <p className="text-base font-semibold text-[#19345e]">请求与返回详情</p>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => copyDetail(detailItem)}
+                  className="rounded-lg border border-[#d8e0ee] px-2.5 py-1 text-xs text-[#3a5175] hover:bg-[#f4f8ff]"
+                >
+                  复制内容
+                </button>
+                <button
+                  onClick={() => setDetailItem(null)}
+                  className="rounded-lg border border-[#d8e0ee] px-2.5 py-1 text-xs text-[#3a5175] hover:bg-[#f4f8ff]"
+                >
+                  关闭
+                </button>
+              </div>
+            </div>
+            <pre className="min-h-0 flex-1 overflow-auto whitespace-pre-wrap break-all rounded-lg bg-[#f5f8ff] p-3 text-xs text-[#2d4266]">
+              {buildDetailContent(detailItem)}
+            </pre>
+          </div>
+        </div>
+      ) : null}
     </div>
   )
 }

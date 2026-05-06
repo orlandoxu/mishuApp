@@ -7,7 +7,7 @@ import { Table, TBody, TD, TH, THead } from '@/components/ui/table'
 import { UserIdentityCell } from '@/components/user-identity'
 import { adminApi, type AdminUserRecord, type AdminUsersSummary } from '@/lib/api'
 import { useAdminStore } from '@/store/admin-store'
-import { Search, RotateCcw, Users2, Tag } from 'lucide-react'
+import { Search, RotateCcw, Users2, Tag, Ban } from 'lucide-react'
 import { toast } from '@/components/ui/toast'
 
 function formatTime(raw: string | null): string {
@@ -166,7 +166,7 @@ export function UsersPage() {
           </div>
         ) : (
           <Table>
-            <THead className="sticky top-0 bg-[#f5f9ff]">
+            <THead className="sticky top-0 z-10 bg-[#f5f9ff]">
               <tr>
                 <TH className="w-[64px]">ID</TH>
                 <TH>用户</TH>
@@ -201,12 +201,23 @@ export function UsersPage() {
                   </TD>
                   <TD>{formatTime(user.lastLoginAt)}</TD>
                   <TD>
-                    <button
-                      onClick={() => toggleStatus(user.id)}
-                      className="rounded-lg border border-[#d8e0ee] px-2.5 py-1 text-xs text-[#3a5175] hover:bg-[#f4f8ff]"
-                    >
-                      {user.status === '正常' ? '禁用' : '解封'}
-                    </button>
+                    {user.status === '正常' ? (
+                      <button
+                        onClick={() => toggleStatus(user.id)}
+                        className="rounded-lg border border-[#d8e0ee] px-2.5 py-1 text-xs text-[#3a5175] hover:bg-[#f4f8ff]"
+                      >
+                        禁用
+                      </button>
+                    ) : (
+                      <button
+                        onClick={() => toggleStatus(user.id)}
+                        className="inline-flex items-center gap-1 rounded-lg border border-[#e6c7c7] bg-[#fff8f8] px-2.5 py-1 text-xs text-[#8b4955] hover:bg-[#fff1f1]"
+                        title="该用户当前处于禁用状态，点击解封"
+                      >
+                        <Ban size={12} />
+                        解封
+                      </button>
+                    )}
                   </TD>
                 </tr>
               ))}

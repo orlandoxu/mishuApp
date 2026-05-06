@@ -1,4 +1,5 @@
 import { DashboardDailyStat } from '../models/DashboardDailyStat';
+import { DashboardDailyApiStat } from '../models/DashboardDailyApiStat';
 import { DoubaoCallLog } from '../models/DoubaoCallLog';
 import { User } from '../models/User';
 import { UserDailyActivity } from '../models/UserDailyActivity';
@@ -38,6 +39,35 @@ function isValidDateKey(dateKey: string): boolean {
 }
 
 export class DashboardDailyStatService {
+  private static async calculateDoubaoDailySummary(
+    start: Date,
+    end: Date,
+  ): Promise<{ calls: number; successCalls: number; durationTotalMs: number; p95LatencyMs: number }> {
+    const [rows, durations] = await Promise.all([
+      DoubaoCallLog.aggregate<{ calls: number; successCalls: number; durationTotalMs: number }>([
+        { $match: { createdAt: { $gte: start, $lt: end } } },
+        {
+          $group: {
+            _id: null,
+            calls: { $sum: 1 },
+            successCalls: { $sum: { $cond: ['$success', 1, 0] } },
+            durationTotalMs: { $sum: '$durationMs' },
+          },
+        },
+      ]),
+      DoubaoCallLog.find({ createdAt: { $gte: start, $lt: end } }).select({ durationMs: 1, _id: 0 }).lean(),
+    ]);
+
+    const sorted = durations.map((item) => Number(item.durationMs) || 0).sort((a, b) => a - b);
+    const p95Index = Math.max(0, Math.ceil(sorted.length * 0.95) - 1);
+    return {
+      calls: rows[0]?.calls ?? 0,
+      successCalls: rows[0]?.successCalls ?? 0,
+      durationTotalMs: Math.round(Number(rows[0]?.durationTotalMs ?? 0)),
+      p95LatencyMs: Math.round(Number(sorted[p95Index] ?? 0)),
+    };
+  }
+
   static currentDateKey(): string {
     return todayDateKey();
   }
@@ -49,24 +79,61 @@ export class DashboardDailyStatService {
   static async generateSnapshot(dateKey: string): Promise<void> {
     const { start, end } = dateKeyToRange(dateKey);
 
-    const [activeUsers, newUsers, doubaoCalls] = await Promise.all([
+    const active7dStartKey = shiftDateKey(dateKey, -6);
+    const active30dStartKey = shiftDateKey(dateKey, -29);
+
+    const [activeUsers, newUsers, doubaoDaily, doubaoApiRows, activeUsers7dRolling, activeUsers30dRolling] = await Promise.all([
       UserDailyActivity.countDocuments({ dateKey }),
       User.countDocuments({ role: 'user', createdAt: { $gte: start, $lt: end } }),
-      DoubaoCallLog.countDocuments({ createdAt: { $gte: start, $lt: end } }),
+      this.calculateDoubaoDailySummary(start, end),
+      DoubaoCallLog.aggregate<{ _id: string; calls: number; successCalls: number }>([
+        { $match: { createdAt: { $gte: start, $lt: end } } },
+        {
+          $group: {
+            _id: '$apiType',
+            calls: { $sum: 1 },
+            successCalls: { $sum: { $cond: ['$success', 1, 0] } },
+          },
+        },
+      ]),
+      UserDailyActivity.distinct('userId', { dateKey: { $gte: active7dStartKey, $lte: dateKey } }).then((rows) => rows.length),
+      UserDailyActivity.distinct('userId', { dateKey: { $gte: active30dStartKey, $lte: dateKey } }).then((rows) => rows.length),
     ]);
+
+    const doubaoCalls = doubaoDaily.calls;
+    const doubaoSuccessCalls = doubaoDaily.successCalls;
+    const doubaoDurationTotalMs = doubaoDaily.durationTotalMs;
+    const doubaoP95LatencyMs = doubaoDaily.p95LatencyMs;
 
     await DashboardDailyStat.updateOne(
       { dateKey },
       {
         $set: {
           activeUsers,
+          activeUsers7dRolling,
+          activeUsers30dRolling,
           newUsers,
           doubaoCalls,
+          doubaoSuccessCalls,
+          doubaoDurationTotalMs,
+          doubaoP95LatencyMs,
           generatedAt: new Date(),
         },
       },
       { upsert: true },
     );
+
+    await DashboardDailyApiStat.deleteMany({ dateKey });
+    if (doubaoApiRows.length > 0) {
+      await DashboardDailyApiStat.insertMany(
+        doubaoApiRows.map((row) => ({
+          dateKey,
+          apiType: row._id,
+          calls: row.calls,
+          successCalls: row.successCalls,
+        })),
+      );
+    }
   }
 
   static async generateYesterdaySnapshot(): Promise<void> {
@@ -96,6 +163,13 @@ export class DashboardDailyStatService {
     return count;
   }
 
+  static async generateRecentSnapshots(days: number): Promise<number> {
+    const totalDays = Math.max(1, Math.floor(days));
+    const endKey = todayDateKey();
+    const startKey = shiftDateKey(endKey, -(totalDays - 1));
+    return this.generateSnapshotsInRange(startKey, endKey);
+  }
+
   static recentDateKeys(days: number): string[] {
     const endKey = todayDateKey();
     const startKey = shiftDateKey(endKey, -(days - 1));
@@ -116,7 +190,17 @@ export class DashboardDailyStatService {
     return users.length;
   }
 
-  static async getDailyStats(days: number): Promise<Array<{ dateKey: string; activeUsers: number; newUsers: number; doubaoCalls: number }>> {
+  static async getDailyStats(days: number): Promise<Array<{
+    dateKey: string;
+    activeUsers: number;
+    activeUsers7dRolling: number;
+    activeUsers30dRolling: number;
+    newUsers: number;
+    doubaoCalls: number;
+    doubaoSuccessCalls: number;
+    doubaoDurationTotalMs: number;
+    doubaoP95LatencyMs: number;
+  }>> {
     const endKey = todayDateKey();
     const startKey = shiftDateKey(endKey, -(days - 1));
 
@@ -127,7 +211,17 @@ export class DashboardDailyStatService {
       .lean();
 
     const map = new Map(docs.map((d) => [d.dateKey, d]));
-    const list: Array<{ dateKey: string; activeUsers: number; newUsers: number; doubaoCalls: number }> = [];
+    const list: Array<{
+      dateKey: string;
+      activeUsers: number;
+      activeUsers7dRolling: number;
+      activeUsers30dRolling: number;
+      newUsers: number;
+      doubaoCalls: number;
+      doubaoSuccessCalls: number;
+      doubaoDurationTotalMs: number;
+      doubaoP95LatencyMs: number;
+    }> = [];
 
     for (let i = 0; i < days; i += 1) {
       const key = shiftDateKey(startKey, i);
@@ -135,11 +229,26 @@ export class DashboardDailyStatService {
       list.push({
         dateKey: key,
         activeUsers: item?.activeUsers ?? 0,
+        activeUsers7dRolling: item?.activeUsers7dRolling ?? 0,
+        activeUsers30dRolling: item?.activeUsers30dRolling ?? 0,
         newUsers: item?.newUsers ?? 0,
         doubaoCalls: item?.doubaoCalls ?? 0,
+        doubaoSuccessCalls: item?.doubaoSuccessCalls ?? 0,
+        doubaoDurationTotalMs: item?.doubaoDurationTotalMs ?? 0,
+        doubaoP95LatencyMs: item?.doubaoP95LatencyMs ?? 0,
       });
     }
 
     return list;
+  }
+
+  static async getApiMixInDays(days: number): Promise<Array<{ apiType: string; calls: number }>> {
+    const keys = this.recentDateKeys(days);
+    const rows = await DashboardDailyApiStat.aggregate<{ _id: string; calls: number }>([
+      { $match: { dateKey: { $in: keys } } },
+      { $group: { _id: '$apiType', calls: { $sum: '$calls' } } },
+      { $sort: { calls: -1 } },
+    ]);
+    return rows.map((row) => ({ apiType: row._id, calls: row.calls }));
   }
 }

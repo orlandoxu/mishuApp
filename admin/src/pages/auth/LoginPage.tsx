@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react'
-import { ShieldCheck, Sparkles } from 'lucide-react'
+import { Sparkles } from 'lucide-react'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
@@ -33,7 +33,7 @@ export function LoginPage() {
     <div className="flex min-h-screen items-center justify-center px-4 py-10">
       <Card className="w-full max-w-md p-7">
         <div className="mb-6 flex items-center gap-3">
-          <div className="rounded-xl bg-[#dffaf3] p-2 text-[#0d9488]"><ShieldCheck size={22} /></div>
+          <img src="/app-logo-60.png" alt="Mishu Logo" className="h-12 w-12 rounded-2xl object-contain" />
           <div>
             <p className="text-lg font-bold text-[#172b4d]">Mishu Admin</p>
             <p className="text-sm text-[#9eb2d4]">智能后台管理系统</p>

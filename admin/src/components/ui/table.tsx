@@ -18,5 +18,5 @@ export function TH({ className, ...props }: HTMLAttributes<HTMLTableCellElement>
 }
 
 export function TD({ className, ...props }: HTMLAttributes<HTMLTableCellElement>) {
-  return <td className={cn('px-4 py-3 text-[#243550]', className)} {...props} />
+  return <td className={cn('align-middle px-4 py-3 text-[#243550]', className)} {...props} />
 }

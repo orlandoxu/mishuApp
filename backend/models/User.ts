@@ -71,5 +71,6 @@ userSchema.index({ phoneNumber: 1 }, { unique: true });
 userSchema.index({ role: 1, isActive: 1 });
 userSchema.index({ lastLoginAt: -1 });
 userSchema.index({ createdAt: -1 });
+userSchema.index({ role: 1, createdAt: -1 });
 
 export const User = mongoose.model<IUser, IUserModel>("User", userSchema);
