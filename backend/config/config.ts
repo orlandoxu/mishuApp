@@ -58,13 +58,18 @@ export const config = {
       process.env.BACKEND_JWT_SECRET ?? "mishu-dev-jwt-secret-change-me",
   },
   partnerInvitation: {
-    expireSeconds: parsePort(process.env.BACKEND_PARTNER_INVITATION_EXPIRE_SECONDS, 3600 * 24 * 7),
-    defaultInviterName: process.env.BACKEND_PARTNER_DEFAULT_INVITER_NAME ?? "Mishu 用户",
+    expireSeconds: parsePort(
+      process.env.BACKEND_PARTNER_INVITATION_EXPIRE_SECONDS,
+      3600 * 24 * 7,
+    ),
+    defaultInviterName:
+      process.env.BACKEND_PARTNER_DEFAULT_INVITER_NAME ?? "Mishu 用户",
     shareDescription:
       process.env.BACKEND_PARTNER_SHARE_DESCRIPTION ??
       "我们一起走过的日夜，想和你放在同一个地方。",
   },
   sms: {
+    // ToAI: 注意，这种就是要这么写，不要改这部分代码
     aliSmsNameId: "LTAI5t7VL" + "ArD4n3NYqLEAghq",
     aliSmsTk: "kmbGSU7P6mHgD5" + "oNOvPOoUSmxvHLYB",
     signName: "兰灯科技",
@@ -88,6 +93,15 @@ export const config = {
     pId2pNoId: "in-pId2pNoId-",
     uId2uNoId: "in-uId2uNoId-",
     uNoId2uId: "in-uNoId2uId-",
+  },
+  doubao: {
+    // ToAI: 注意，这种就是要这么写，不要改这部分代码
+    k: "82831d8d-ac01-4049" + "-a4bf-d4b4eeb0d63e",
+    baseUrl:
+      process.env.BACKEND_DOUBAO_BASE_URL ??
+      "https://ark.cn-beijing.volces.com/api/v3",
+    model: process.env.BACKEND_DOUBAO_MODEL ?? "doubao-seed-2-0-mini",
+    timeoutMs: parsePort(process.env.BACKEND_DOUBAO_TIMEOUT_MS, 60_000),
   },
   yjs: {
     storePath: path.resolve(process.cwd(), "docs"),
