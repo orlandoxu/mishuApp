@@ -16,12 +16,71 @@ export type AdminUserRecord = {
   lastLoginAt: string | null
 }
 
+export type AdminUsersSummary = {
+  totalUsers: number
+  totalLtvCny: number
+  paidUsers: number
+  vipUsers: number
+  svipUsers: number
+  disabledUsers: number
+}
+
+export type AdminOrderRecord = {
+  orderId: string
+  thirdPartyOrderId: string
+  mongoOrderId: string
+  userId: string
+  userName: string
+  phoneNumber: string
+  vipStatus: '普通' | 'VIP' | 'SVIP'
+  planId: 'monthly' | 'yearly'
+  planName: string
+  amountCny: number
+  payMethod: 'alipay' | 'wechat' | 'apple'
+  orderStatus: 'paid' | 'refunded' | 'pending'
+  paidAt: string
+  expireAt: string
+}
+
+export type AdminOrdersQuery = {
+  page?: number
+  pageSize?: number
+  userId?: string
+  phoneNumber?: string
+  orderId?: string
+  payMethod?: 'alipay' | 'wechat' | 'apple'
+  planId?: 'monthly' | 'yearly'
+  orderStatus?: 'paid' | 'refunded' | 'pending'
+  startAt?: string
+  endAt?: string
+}
+
+export type AdminOrdersSummary = {
+  totalAmountCny: number
+  paidCount: number
+  pendingCount: number
+  yearlyCount: number
+}
+
 export type DoubaoLogRecord = {
   id: string
   apiType: string
   modelId: string
+  userId: string
+  userPhone: string
+  userDisplayName: string
+  vipStatus: '普通' | 'VIP' | 'SVIP'
   durationMs: number
+  inputTokens: number
+  outputTokens: number
+  totalTokens: number
+  tokenSource: 'provider' | 'estimated'
   success: boolean
+  requestPreview: string
+  responsePreview: string
+  requestPayload: Record<string, unknown>
+  responsePayload: Record<string, unknown>
+  responseText: string
   errorMessage: string
   createdAt: string
 }
@@ -98,7 +157,28 @@ export const adminApi = {
       body: JSON.stringify(payload),
     })
   },
-  getDoubaoLogs(payload: { page?: number; pageSize?: number; apiType?: string }, token: string) {
+  getUsersSummary(payload: { keyword?: string }, token: string) {
+    return request<AdminUsersSummary>('/api/admin/users/summary', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  },
+  toggleUserStatus(payload: { userId: string }, token: string) {
+    return request<{ userId: string; isActive: boolean }>('/api/admin/users/status', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  },
+  getOrders(payload: AdminOrdersQuery, token: string) {
+    return request<{ page: number; pageSize: number; total: number; summary: AdminOrdersSummary; records: AdminOrderRecord[] }>('/api/admin/orders', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: JSON.stringify(payload),
+    })
+  },
+  getDoubaoLogs(payload: { page?: number; pageSize?: number; apiType?: string; userKeyword?: string }, token: string) {
     return request<{ page: number; pageSize: number; total: number; records: DoubaoLogRecord[] }>('/api/admin/doubao/logs', {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },

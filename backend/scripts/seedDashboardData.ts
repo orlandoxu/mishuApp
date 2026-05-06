@@ -108,6 +108,8 @@ async function seedUsers(targetCount: number): Promise<void> {
 async function seedDoubaoLogs(targetCount: number): Promise<void> {
   const apiTypes: DoubaoApiType[] = ['chat_completion', 'chat_completion_stream', 'chat_completion_json', 'embedding'];
   const models = ['doubao-seed-2-0-mini-260215', 'doubao-pro-32k', 'doubao-lite-4k', 'doubao-embedding'];
+  const users = await User.find({ role: 'user' }).select({ _id: 1 }).lean();
+  const userIds = users.map((item) => item._id.toString());
 
   const docs = Array.from({ length: targetCount }).map(() => {
     const baseDate = randomDateInLastDays(60);
@@ -117,15 +119,23 @@ async function seedDoubaoLogs(targetCount: number): Promise<void> {
     const durationBase = apiType === 'embedding' ? randInt(40, 260) : randInt(180, 1800);
     const durationMs = Math.max(20, Math.round(durationBase * (0.8 + Math.random() * 0.7)));
 
+    const useSystemCaller = userIds.length === 0 || Math.random() < 0.12;
     return {
       apiType,
       modelId: pick(models),
+      userId: useSystemCaller ? 'system' : pick(userIds),
       requestPayload: {
         traceId: `trace_${Math.random().toString(36).slice(2, 10)}`,
         tokens: randInt(40, 2200),
       },
       responsePayload: success ? { finishReason: 'stop', score: Math.random() } : undefined,
       responseText: success ? 'ok' : undefined,
+      requestPreview: 'mock request',
+      responsePreview: success ? 'ok' : '',
+      inputTokens: randInt(20, 1800),
+      outputTokens: success ? randInt(10, 600) : 0,
+      totalTokens: 0,
+      tokenSource: Math.random() > 0.4 ? 'provider' : 'estimated',
       errorMessage: success ? undefined : pick(['timeout', 'rate_limited', 'upstream_500']),
       durationMs,
       success,
@@ -133,6 +143,10 @@ async function seedDoubaoLogs(targetCount: number): Promise<void> {
       updatedAt: createdAt,
     };
   });
+
+  for (const doc of docs) {
+    doc.totalTokens = doc.inputTokens + doc.outputTokens;
+  }
 
   if (docs.length > 0) {
     await DoubaoCallLog.insertMany(docs, { ordered: false });

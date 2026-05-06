@@ -58,6 +58,44 @@ function calcPercentChange(current: number, previous: number): number | null {
   return Number((((current - previous) / previous) * 100).toFixed(1));
 }
 
+function isMongoObjectIdLike(value: string): boolean {
+  return /^[a-fA-F0-9]{24}$/.test(value);
+}
+
+function extractLogUserId(item: {
+  userId?: string;
+  requestPayload?: Record<string, unknown>;
+}): string {
+  const direct = typeof item.userId === 'string' ? item.userId.trim() : '';
+  if (direct) return direct;
+
+  const payload = item.requestPayload ?? {};
+  const candidates = [payload.userId, payload.user];
+  for (const candidate of candidates) {
+    if (typeof candidate === 'string' && candidate.trim()) {
+      return candidate.trim();
+    }
+  }
+  return '';
+}
+
+function resolveLogUserDisplayName(userId: string, userPhone: string): string {
+  if (userPhone) {
+    return `用户${userPhone.slice(-4)}`;
+  }
+  if (userId) {
+    return userId === 'system' ? '系统' : userId;
+  }
+  return '系统';
+}
+
+function resolveVipStatusById(id: string): '普通' | 'VIP' | 'SVIP' {
+  const lastNum = Number.parseInt(id.slice(-1), 16);
+  if (lastNum % 4 === 0) return 'SVIP';
+  if (lastNum % 3 === 0) return 'VIP';
+  return '普通';
+}
+
 export class AdminService {
   static async ensureBootstrapAdmin(): Promise<void> {
     const username = normalizeUsername(config.admin.bootstrapUsername);
@@ -113,12 +151,7 @@ export class AdminService {
         displayName: `用户${item.phoneNumber.slice(-4)}`,
         role: item.role,
         status: item.isActive ? '正常' : '禁用',
-        vipStatus:
-          Number.parseInt(item._id.toString().slice(-1), 16) % 4 === 0
-            ? 'SVIP'
-            : Number.parseInt(item._id.toString().slice(-1), 16) % 3 === 0
-              ? 'VIP'
-              : '普通',
+        vipStatus: resolveVipStatusById(item._id.toString()),
         ltvCny:
           Number.parseInt(item._id.toString().slice(-4), 16) % 2 === 0
             ? Number(
@@ -134,10 +167,177 @@ export class AdminService {
     };
   }
 
-  static async getDoubaoLogs(args: { page?: number; pageSize?: number; apiType?: string }) {
+  static async getUsersSummary(args: { keyword?: string }) {
+    const keyword = (args.keyword ?? '').trim();
+    const filter = keyword ? { phoneNumber: { $regex: keyword, $options: 'i' } } : {};
+    const summaryRows = await User.find(filter).select({ _id: 1, isActive: 1 }).lean();
+
+    const summary = summaryRows.reduce(
+      (acc, item) => {
+        const id = item._id.toString();
+        const tailNum = Number.parseInt(id.slice(-4), 16);
+        const lastNum = Number.parseInt(id.slice(-1), 16);
+        const ltv = tailNum % 2 === 0 ? Number((tailNum % 2000 + 68).toFixed(2)) : 0;
+        if (ltv > 0) {
+          acc.paidUsers += 1;
+          acc.totalLtvCny += ltv;
+        }
+        if (lastNum % 4 === 0) acc.svipUsers += 1;
+        else if (lastNum % 3 === 0) acc.vipUsers += 1;
+        if (!item.isActive) acc.disabledUsers += 1;
+        return acc;
+      },
+      { totalLtvCny: 0, paidUsers: 0, vipUsers: 0, svipUsers: 0, disabledUsers: 0 },
+    );
+
+    return {
+      totalUsers: summaryRows.length,
+      totalLtvCny: Number(summary.totalLtvCny.toFixed(2)),
+      paidUsers: summary.paidUsers,
+      vipUsers: summary.vipUsers,
+      svipUsers: summary.svipUsers,
+      disabledUsers: summary.disabledUsers,
+    };
+  }
+
+  static async toggleUserStatus(userId: string) {
+    const user = await User.findById(userId);
+    ASSERT(user, '用户不存在', Ret.ERROR);
+    user.isActive = !user.isActive;
+    await user.save();
+    return { userId: user._id.toString(), isActive: user.isActive };
+  }
+
+  static async getOrders(args: {
+    page?: number;
+    pageSize?: number;
+    userId?: string;
+    phoneNumber?: string;
+    orderId?: string;
+    payMethod?: 'alipay' | 'wechat' | 'apple';
+    planId?: 'monthly' | 'yearly';
+    orderStatus?: 'paid' | 'refunded' | 'pending';
+    startAt?: string;
+    endAt?: string;
+  }) {
+    const { page, pageSize } = normalizePage(args.page, args.pageSize);
+    const userId = (args.userId ?? '').trim();
+    const phoneNumber = (args.phoneNumber ?? '').trim();
+    const orderIdKeyword = (args.orderId ?? '').trim().toUpperCase();
+    const startAt = args.startAt ? new Date(args.startAt) : null;
+    const endAt = args.endAt ? new Date(args.endAt) : null;
+    const hasValidStartAt = !!startAt && Number.isFinite(startAt.getTime());
+    const hasValidEndAt = !!endAt && Number.isFinite(endAt.getTime());
+    const timeStart = hasValidStartAt ? startAt!.getTime() : null;
+    const timeEnd = hasValidEndAt ? endAt!.getTime() : null;
+
+    const userFilter: Record<string, unknown> = { role: 'user' };
+    if (userId) {
+      userFilter._id = userId;
+    }
+    if (phoneNumber) {
+      userFilter.phoneNumber = { $regex: phoneNumber, $options: 'i' };
+    }
+
+    const users = await User.find(userFilter).sort({ createdAt: -1 }).lean();
+    const allRecords = users.map((item) => {
+      const id = item._id.toString();
+      const tailNum = Number.parseInt(id.slice(-4), 16);
+      const amount = tailNum % 2 === 0 ? Number((tailNum % 2000 + 68).toFixed(2)) : 0;
+      const planId = amount >= 168 ? 'yearly' : 'monthly';
+      const planName = planId === 'yearly' ? '年度会员' : '月度会员';
+      const payMethod = tailNum % 5 === 0 ? 'apple' : tailNum % 3 === 0 ? 'alipay' : 'wechat';
+      const orderStatus = amount > 0 ? 'paid' : 'pending';
+      const paidAt = item.lastLoginAt ?? item.createdAt;
+      const expireAt = new Date(new Date(paidAt).getTime() + (planId === 'yearly' ? 365 : 30) * 24 * 60 * 60 * 1000);
+
+      return {
+        orderId: `ODR-${id.slice(-10).toUpperCase()}`,
+        thirdPartyOrderId: `TP-${id.slice(-12).toUpperCase()}`,
+        mongoOrderId: id,
+        userId: id,
+        userName: `用户${item.phoneNumber.slice(-4)}`,
+        phoneNumber: item.phoneNumber,
+        vipStatus: resolveVipStatusById(id),
+        planId,
+        planName,
+        amountCny: amount,
+        payMethod,
+        orderStatus,
+        paidAt,
+        expireAt,
+      };
+    });
+
+    const filteredRecords = allRecords.filter((item) => {
+      if (orderIdKeyword) {
+        const matchedOrderId = item.orderId.toUpperCase().includes(orderIdKeyword);
+        const matchedThirdPartyOrderId = item.thirdPartyOrderId.toUpperCase().includes(orderIdKeyword);
+        const matchedMongoOrderId = item.mongoOrderId.toUpperCase().includes(orderIdKeyword);
+        if (!matchedOrderId && !matchedThirdPartyOrderId && !matchedMongoOrderId) {
+          return false;
+        }
+      }
+      if (args.payMethod && item.payMethod !== args.payMethod) return false;
+      if (args.planId && item.planId !== args.planId) return false;
+      if (args.orderStatus && item.orderStatus !== args.orderStatus) return false;
+      if (timeStart !== null || timeEnd !== null) {
+        const paidAtMs = new Date(item.paidAt).getTime();
+        if (timeStart !== null && paidAtMs < timeStart) return false;
+        if (timeEnd !== null && paidAtMs > timeEnd) return false;
+      }
+      return true;
+    });
+
+    const total = filteredRecords.length;
+    const records = filteredRecords.slice((page - 1) * pageSize, page * pageSize);
+
+    const summary = filteredRecords.reduce(
+      (acc, item) => {
+        acc.totalAmount += item.amountCny;
+        if (item.orderStatus === 'paid') acc.paidCount += 1;
+        if (item.orderStatus === 'pending') acc.pendingCount += 1;
+        if (item.planId === 'yearly') acc.yearlyCount += 1;
+        return acc;
+      },
+      { totalAmount: 0, paidCount: 0, pendingCount: 0, yearlyCount: 0 },
+    );
+
+    return {
+      page,
+      pageSize,
+      total,
+      summary: {
+        totalAmountCny: Number(summary.totalAmount.toFixed(2)),
+        paidCount: summary.paidCount,
+        pendingCount: summary.pendingCount,
+        yearlyCount: summary.yearlyCount,
+      },
+      records,
+    };
+  }
+
+  static async getDoubaoLogs(args: { page?: number; pageSize?: number; apiType?: string; userKeyword?: string }) {
     const { page, pageSize } = normalizePage(args.page, args.pageSize);
     const apiType = (args.apiType ?? '').trim();
-    const filter = apiType ? { apiType } : {};
+    const userKeyword = (args.userKeyword ?? '').trim();
+    const filter: Record<string, unknown> = {};
+    if (apiType) {
+      filter.apiType = apiType;
+    }
+    if (userKeyword) {
+      const phoneMatchedUsers = await User.find({
+        phoneNumber: { $regex: userKeyword, $options: 'i' },
+      })
+        .select({ _id: 1 })
+        .limit(500)
+        .lean();
+      const ids = phoneMatchedUsers.map((item) => item._id.toString());
+      filter.$or = [
+        { userId: { $regex: userKeyword, $options: 'i' } },
+        ...(ids.length > 0 ? [{ userId: { $in: ids } }] : []),
+      ];
+    }
 
     const [total, records] = await Promise.all([
       DoubaoCallLog.countDocuments(filter),
@@ -148,19 +348,52 @@ export class AdminService {
         .lean(),
     ]);
 
+    const normalizedUserIds = records.map((item) => extractLogUserId({
+      userId: item.userId,
+      requestPayload: item.requestPayload as Record<string, unknown> | undefined,
+    }));
+    const userIds = Array.from(new Set(normalizedUserIds.filter((id) => id && isMongoObjectIdLike(id))));
+    const users = userIds.length > 0
+      ? await User.find({ _id: { $in: userIds } }).select({ _id: 1, phoneNumber: 1 }).lean()
+      : [];
+    const userMap = new Map(users.map((item) => [item._id.toString(), item]));
+
     return {
       page,
       pageSize,
       total,
-      records: records.map((item) => ({
+      records: records.map((item, index) => {
+        const normalizedUserId = normalizedUserIds[index] ?? '';
+        const matchedUser = normalizedUserId && isMongoObjectIdLike(normalizedUserId)
+          ? userMap.get(normalizedUserId)
+          : undefined;
+        const userPhone = matchedUser?.phoneNumber ?? '';
+        const vipStatus = normalizedUserId && isMongoObjectIdLike(normalizedUserId)
+          ? resolveVipStatusById(normalizedUserId)
+          : '普通';
+        return ({
         id: item._id.toString(),
         apiType: item.apiType,
         modelId: item.modelId,
+        userId: normalizedUserId,
+        userPhone,
+        userDisplayName: resolveLogUserDisplayName(normalizedUserId, userPhone),
+        vipStatus,
         durationMs: item.durationMs,
+        inputTokens: item.inputTokens ?? 0,
+        outputTokens: item.outputTokens ?? 0,
+        totalTokens: item.totalTokens ?? 0,
+        tokenSource: item.tokenSource ?? 'estimated',
         success: item.success,
+        requestPreview: item.requestPreview ?? '',
+        responsePreview: item.responsePreview ?? '',
+        requestPayload: item.requestPayload ?? {},
+        responsePayload: item.responsePayload ?? {},
+        responseText: item.responseText ?? '',
         errorMessage: item.errorMessage ?? '',
         createdAt: item.createdAt,
-      })),
+      });
+      }),
     };
   }
 

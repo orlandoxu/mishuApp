@@ -13,6 +13,7 @@ export type DoubaoChatRequest = {
   temperature?: number;
   maxTokens?: number;
   responseFormat?: "text" | "json_object";
+  userId?: string;
 };
 
 export type DoubaoChatResult = {
@@ -55,6 +56,13 @@ type ArkChatResponse = {
     completion_tokens: number;
     total_tokens: number;
   };
+};
+
+type TokenStats = {
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  tokenSource: "provider" | "estimated";
 };
 
 function getApiUrl(): string {
@@ -132,6 +140,57 @@ function parseJsonOrThrow<T>(raw: string): T {
   }
 }
 
+function estimateTextTokens(text: string): number {
+  const normalized = text.trim();
+  if (!normalized) return 0;
+  const cjkChars = (normalized.match(/[\u3400-\u9FFF]/g) ?? []).length;
+  const otherChars = normalized.length - cjkChars;
+  return Math.max(1, Math.ceil(cjkChars * 1.1 + otherChars / 4));
+}
+
+function estimateMessageTokens(messages: DoubaoMessage[]): number {
+  return messages.reduce((acc, message) => acc + estimateTextTokens(message.content), 0);
+}
+
+function buildTokenStats(args: {
+  usage?: ArkChatResponse["usage"] | DoubaoChatResult["usage"];
+  requestMessages: DoubaoMessage[];
+  responseText: string;
+}): TokenStats {
+  const usage = args.usage;
+  if (usage && "prompt_tokens" in usage) {
+    return {
+      inputTokens: usage.prompt_tokens ?? 0,
+      outputTokens: usage.completion_tokens ?? 0,
+      totalTokens: usage.total_tokens ?? (usage.prompt_tokens ?? 0) + (usage.completion_tokens ?? 0),
+      tokenSource: "provider",
+    };
+  }
+  if (usage && "promptTokens" in usage) {
+    return {
+      inputTokens: usage.promptTokens ?? 0,
+      outputTokens: usage.completionTokens ?? 0,
+      totalTokens: usage.totalTokens ?? (usage.promptTokens ?? 0) + (usage.completionTokens ?? 0),
+      tokenSource: "provider",
+    };
+  }
+
+  const inputTokens = estimateMessageTokens(args.requestMessages);
+  const outputTokens = estimateTextTokens(args.responseText);
+  return {
+    inputTokens,
+    outputTokens,
+    totalTokens: inputTokens + outputTokens,
+    tokenSource: "estimated",
+  };
+}
+
+function buildPreview(value: unknown, maxLen = 600): string {
+  const raw = typeof value === "string" ? value : JSON.stringify(value);
+  if (!raw) return "";
+  return raw.length > maxLen ? `${raw.slice(0, maxLen)}...` : raw;
+}
+
 async function* parseArkSseStream(
   body: ReadableStream<Uint8Array>,
 ): AsyncGenerator<ArkChatResponse> {
@@ -176,6 +235,7 @@ export class DoubaoService {
     const requestPayload: Record<string, unknown> = {
       model: modelName,
       messages,
+      user: request.userId,
       stream: false,
       temperature: request.temperature,
       max_tokens: request.maxTokens,
@@ -213,12 +273,24 @@ export class DoubaoService {
         finishReason: first?.finish_reason ?? null,
         usage: toUsage(data.usage),
       };
+      const tokens = buildTokenStats({
+        usage: data.usage,
+        requestMessages: messages,
+        responseText: result.content,
+      });
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion",
         modelId: result.model,
+        userId: request.userId,
         requestPayload,
         responsePayload: data as unknown as Record<string, unknown>,
         responseText: result.content,
+        requestPreview: buildPreview(requestPayload),
+        responsePreview: buildPreview(result.content),
+        inputTokens: tokens.inputTokens,
+        outputTokens: tokens.outputTokens,
+        totalTokens: tokens.totalTokens,
+        tokenSource: tokens.tokenSource,
         durationMs: Date.now() - startTime,
         success: true,
       });
@@ -227,7 +299,14 @@ export class DoubaoService {
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion",
         modelId: modelName,
+        userId: request.userId,
         requestPayload,
+        requestPreview: buildPreview(requestPayload),
+        responsePreview: "",
+        inputTokens: estimateMessageTokens(messages),
+        outputTokens: 0,
+        totalTokens: estimateMessageTokens(messages),
+        tokenSource: "estimated",
         errorMessage: (error as Error).message,
         durationMs: Date.now() - startTime,
         success: false,
@@ -248,6 +327,7 @@ export class DoubaoService {
     const requestPayload: Record<string, unknown> = {
       model: modelName,
       messages,
+      user: request.userId,
       stream: true,
       temperature: request.temperature,
       max_tokens: request.maxTokens,
@@ -313,15 +393,27 @@ export class DoubaoService {
         finishReason,
         usage,
       };
+      const tokens = buildTokenStats({
+        usage,
+        requestMessages: messages,
+        responseText: fullText,
+      });
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion_stream",
         modelId: result.model,
+        userId: request.userId,
         requestPayload,
         responsePayload: {
           finishReason: result.finishReason,
           usage: result.usage,
         },
         responseText: result.content,
+        requestPreview: buildPreview(requestPayload),
+        responsePreview: buildPreview(result.content),
+        inputTokens: tokens.inputTokens,
+        outputTokens: tokens.outputTokens,
+        totalTokens: tokens.totalTokens,
+        tokenSource: tokens.tokenSource,
         durationMs: Date.now() - startTime,
         success: true,
       });
@@ -330,8 +422,15 @@ export class DoubaoService {
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion_stream",
         modelId: model,
+        userId: request.userId,
         requestPayload,
         responseText: fullText,
+        requestPreview: buildPreview(requestPayload),
+        responsePreview: buildPreview(fullText),
+        inputTokens: estimateMessageTokens(messages),
+        outputTokens: estimateTextTokens(fullText),
+        totalTokens: estimateMessageTokens(messages) + estimateTextTokens(fullText),
+        tokenSource: "estimated",
         errorMessage: (error as Error).message,
         durationMs: Date.now() - startTime,
         success: false,
@@ -363,15 +462,27 @@ export class DoubaoService {
       });
 
       const data = parseJsonOrThrow<T>(result.content);
+      const tokens = buildTokenStats({
+        usage: result.usage,
+        requestMessages: request.messages,
+        responseText: result.content,
+      });
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion_json",
         modelId: result.model,
+        userId: request.userId,
         requestPayload: {
           ...request,
           jsonSchemaHint: request.jsonSchemaHint,
         } as unknown as Record<string, unknown>,
         responsePayload: data as unknown as Record<string, unknown>,
         responseText: result.content,
+        requestPreview: buildPreview(request),
+        responsePreview: buildPreview(result.content),
+        inputTokens: tokens.inputTokens,
+        outputTokens: tokens.outputTokens,
+        totalTokens: tokens.totalTokens,
+        tokenSource: tokens.tokenSource,
         durationMs: Date.now() - startTime,
         success: true,
       });
@@ -386,7 +497,14 @@ export class DoubaoService {
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion_json",
         modelId: config.doubao.model,
+        userId: request.userId,
         requestPayload: request as unknown as Record<string, unknown>,
+        requestPreview: buildPreview(request),
+        responsePreview: "",
+        inputTokens: estimateMessageTokens(request.messages),
+        outputTokens: 0,
+        totalTokens: estimateMessageTokens(request.messages),
+        tokenSource: "estimated",
         errorMessage: (error as Error).message,
         durationMs: Date.now() - startTime,
         success: false,

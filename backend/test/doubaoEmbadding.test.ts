@@ -45,7 +45,7 @@ describe("DoubaoEmbaddingService", () => {
 
     const result = await DoubaoEmbaddingService.createEmbedding({
       input: ["你好", "世界"],
-      user: "kb-user",
+      userId: "kb-user",
     });
 
     expect(capturedUrl.endsWith("/embeddings")).toBe(true);

@@ -1,4 +1,4 @@
-import { DatabaseZap, LayoutDashboard, LogOut, Sparkles, Users } from 'lucide-react'
+import { DatabaseZap, LayoutDashboard, LogOut, Sparkles, Users, ReceiptText } from 'lucide-react'
 import { UserCircle2, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
@@ -6,6 +6,7 @@ import { useAdminStore } from '@/store/admin-store'
 import { UsersPage } from '@/pages/users/UsersPage'
 import { DoubaoLogsPage } from '@/pages/doubao/DoubaoLogsPage'
 import { DashboardHome } from '@/pages/layout/DashboardHome'
+import { OrdersPage } from '@/pages/orders/OrdersPage'
 
 export function AdminLayout() {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
@@ -18,8 +19,8 @@ export function AdminLayout() {
   const logout = useAdminStore((s) => s.logout)
 
   return (
-    <div className="min-h-screen">
-      <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#dbe5f3] bg-white px-5">
+    <div className="min-h-screen bg-[#f4f8ff]">
+      <header className="sticky top-0 z-20 flex h-16 items-center justify-between border-b border-[#dbe5f3] bg-white/95 px-5 backdrop-blur">
         <div className="flex items-center gap-3">
           <div className="rounded-xl bg-[#dffaf3] p-2 text-[#0d9488]"><Sparkles size={18} /></div>
           <div>
@@ -68,10 +69,11 @@ export function AdminLayout() {
           {sidebarCollapsed ? <ChevronRight size={16} /> : <ChevronLeft size={16} />}
         </button>
 
-        <aside className="sticky top-16 h-[calc(100vh-4rem)] border-r border-[#dbe5f3] bg-[#f8fbff] p-4">
+        <aside className="sticky top-16 h-[calc(100vh-4rem)] border-r border-[#dbe5f3] bg-gradient-to-b from-[#f8fbff] to-[#f3f7ff] p-4">
         <nav className="space-y-1">
           <button onClick={() => setActiveMenu('dashboard')} className={cn('flex w-full items-center rounded-xl px-3 py-2 text-sm text-[#4e5f7d] hover:bg-[#edf3ff]', sidebarCollapsed ? 'justify-center' : 'gap-2', activeMenu === 'dashboard' && 'bg-[#e6eefc] text-[#14213d]')}><LayoutDashboard size={16} />{!sidebarCollapsed ? ' 仪表盘' : null}</button>
           <button onClick={() => setActiveMenu('users')} className={cn('flex w-full items-center rounded-xl px-3 py-2 text-sm text-[#4e5f7d] hover:bg-[#edf3ff]', sidebarCollapsed ? 'justify-center' : 'gap-2', activeMenu === 'users' && 'bg-[#e6eefc] text-[#14213d]')}><Users size={16} />{!sidebarCollapsed ? ' 用户管理' : null}</button>
+          <button onClick={() => setActiveMenu('orders')} className={cn('flex w-full items-center rounded-xl px-3 py-2 text-sm text-[#4e5f7d] hover:bg-[#edf3ff]', sidebarCollapsed ? 'justify-center' : 'gap-2', activeMenu === 'orders' && 'bg-[#e6eefc] text-[#14213d]')}><ReceiptText size={16} />{!sidebarCollapsed ? ' 订单管理' : null}</button>
           <div>
             <button onClick={() => setActiveMenu('doubao')} className={cn('flex w-full items-center rounded-xl px-3 py-2 text-sm text-[#4e5f7d] hover:bg-[#edf3ff]', sidebarCollapsed ? 'justify-center' : 'gap-2', activeMenu === 'doubao' && 'bg-[#e6eefc] text-[#14213d]')}><DatabaseZap size={16} />{!sidebarCollapsed ? ' 豆包' : null}</button>
             {activeMenu === 'doubao' && !sidebarCollapsed ? <div className="mt-1 pl-8"><button onClick={() => setDoubaoSubMenu('logs')} className={cn('w-full rounded-lg px-2 py-1.5 text-left text-xs text-[#5e7397] hover:bg-[#edf3ff]', doubaoSubMenu === 'logs' && 'bg-[#e6eefc] text-[#14213d]')}>调用日志</button></div> : null}
@@ -83,6 +85,7 @@ export function AdminLayout() {
         <main className="min-w-0 overflow-y-auto p-5 lg:p-7">
           {activeMenu === 'dashboard' ? <DashboardHome /> : null}
           {activeMenu === 'users' ? <UsersPage /> : null}
+          {activeMenu === 'orders' ? <OrdersPage /> : null}
           {activeMenu === 'doubao' && doubaoSubMenu === 'logs' ? <DoubaoLogsPage /> : null}
         </main>
       </div>

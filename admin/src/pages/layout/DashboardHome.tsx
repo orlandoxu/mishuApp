@@ -104,7 +104,6 @@ export function DashboardHome() {
 
       <Card className="p-5">
         <h2 className="text-lg font-semibold text-[#162846]">用户每日新增（近 60 天）</h2>
-        <p className="mt-1 text-sm text-[#6f7f99]">按日看绝对值，便于前期量级判断，不会被“只有趋势线”误导。</p>
         <div className="mt-4">
           <DailyBarChart title="每日新增用户数" color="#1f6feb" data={userNewSeries} />
         </div>
@@ -112,7 +111,6 @@ export function DashboardHome() {
 
       <Card className="p-5">
         <h2 className="text-lg font-semibold text-[#162846]">活跃用户每日数量（近 60 天）</h2>
-        <p className="mt-1 text-sm text-[#6f7f99]">看每天活跃绝对值，直接判断留存质量和回流变化。</p>
         <div className="mt-4">
           <DailyBarChart title="每日活跃用户数" color="#0d9488" data={activeSeries} />
         </div>

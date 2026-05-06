@@ -33,6 +33,10 @@ function todayDateKey(): string {
   return toDateKey(new Date());
 }
 
+function isValidDateKey(dateKey: string): boolean {
+  return /^\d{4}-\d{2}-\d{2}$/.test(dateKey);
+}
+
 export class DashboardDailyStatService {
   static currentDateKey(): string {
     return todayDateKey();
@@ -68,6 +72,28 @@ export class DashboardDailyStatService {
   static async generateYesterdaySnapshot(): Promise<void> {
     const yesterdayKey = shiftDateKey(todayDateKey(), -1);
     await this.generateSnapshot(yesterdayKey);
+  }
+
+  static async generateTodaySnapshot(): Promise<void> {
+    await this.generateSnapshot(todayDateKey());
+  }
+
+  static async generateSnapshotsInRange(startDateKey: string, endDateKey: string): Promise<number> {
+    if (!isValidDateKey(startDateKey) || !isValidDateKey(endDateKey)) {
+      throw new Error('dateKey 必须是 YYYY-MM-DD 格式');
+    }
+    if (startDateKey > endDateKey) {
+      return 0;
+    }
+
+    let count = 0;
+    let current = startDateKey;
+    while (current <= endDateKey) {
+      await this.generateSnapshot(current);
+      count += 1;
+      current = shiftDateKey(current, 1);
+    }
+    return count;
   }
 
   static recentDateKeys(days: number): string[] {

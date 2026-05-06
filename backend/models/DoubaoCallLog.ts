@@ -9,9 +9,16 @@ export type DoubaoApiType =
 export interface IDoubaoCallLog extends Document {
   apiType: DoubaoApiType;
   modelId: string;
+  userId?: string;
   requestPayload: Record<string, unknown>;
   responsePayload?: Record<string, unknown>;
   responseText?: string;
+  requestPreview?: string;
+  responsePreview?: string;
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  tokenSource: "provider" | "estimated";
   errorMessage?: string;
   durationMs: number;
   success: boolean;
@@ -22,9 +29,16 @@ export interface IDoubaoCallLog extends Document {
 export type DoubaoCallLogEntry = {
   apiType: DoubaoApiType;
   modelId: string;
+  userId?: string;
   requestPayload: Record<string, unknown>;
   responsePayload?: Record<string, unknown>;
   responseText?: string;
+  requestPreview?: string;
+  responsePreview?: string;
+  inputTokens: number;
+  outputTokens: number;
+  totalTokens: number;
+  tokenSource: "provider" | "estimated";
   errorMessage?: string;
   durationMs: number;
   success: boolean;
@@ -53,6 +67,11 @@ const doubaoCallLogSchema = new Schema<IDoubaoCallLog, IDoubaoCallLogModel>(
       index: true,
       trim: true,
     },
+    userId: {
+      type: String,
+      index: true,
+      trim: true,
+    },
     requestPayload: {
       type: Schema.Types.Mixed,
       required: true,
@@ -63,6 +82,38 @@ const doubaoCallLogSchema = new Schema<IDoubaoCallLog, IDoubaoCallLogModel>(
     responseText: {
       type: String,
       trim: true,
+    },
+    requestPreview: {
+      type: String,
+      trim: true,
+    },
+    responsePreview: {
+      type: String,
+      trim: true,
+    },
+    inputTokens: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0,
+    },
+    outputTokens: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0,
+    },
+    totalTokens: {
+      type: Number,
+      required: true,
+      min: 0,
+      default: 0,
+    },
+    tokenSource: {
+      type: String,
+      required: true,
+      enum: ["provider", "estimated"],
+      default: "estimated",
     },
     errorMessage: {
       type: String,
@@ -96,6 +147,7 @@ const doubaoCallLogSchema = new Schema<IDoubaoCallLog, IDoubaoCallLogModel>(
 doubaoCallLogSchema.index({ createdAt: -1 });
 doubaoCallLogSchema.index({ apiType: 1, createdAt: -1 });
 doubaoCallLogSchema.index({ modelId: 1, createdAt: -1 });
+doubaoCallLogSchema.index({ userId: 1, createdAt: -1 });
 
 export const DoubaoCallLog = mongoose.model<
   IDoubaoCallLog,

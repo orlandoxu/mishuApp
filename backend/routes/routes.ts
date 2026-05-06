@@ -27,6 +27,9 @@ export default async function registerRoutes(
   // ==================== Admin 后台接口 ====================
   post("/admin/login", AdminController.login);
   post("/admin/users", adminAuth, AdminController.users);
+  post("/admin/users/summary", adminAuth, AdminController.usersSummary);
+  post("/admin/users/status", adminAuth, AdminController.userStatus);
+  post("/admin/orders", adminAuth, AdminController.orders);
   post("/admin/doubao/logs", adminAuth, AdminController.doubaoLogs);
   get("/admin/dashboard", adminAuth, AdminController.dashboard);
 

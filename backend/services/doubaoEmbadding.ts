@@ -1,9 +1,10 @@
 import { config } from "../config/config";
 import { DoubaoCallLog } from "../models/DoubaoCallLog";
 
+// DONE-AI: 统一只使用 userId 字段，避免 user/userId 双字段并存导致调用与日志口径不一致。
 export type DoubaoEmbeddingRequest = {
   input: string | string[];
-  user?: string;
+  userId?: string;
 };
 
 export type DoubaoEmbeddingVector = {
@@ -56,6 +57,27 @@ function normalizeInput(input: string | string[]): string | string[] {
   return text;
 }
 
+function estimateTextTokens(text: string): number {
+  const normalized = text.trim();
+  if (!normalized) return 0;
+  const cjkChars = (normalized.match(/[\u3400-\u9FFF]/g) ?? []).length;
+  const otherChars = normalized.length - cjkChars;
+  return Math.max(1, Math.ceil(cjkChars * 1.1 + otherChars / 4));
+}
+
+function estimateEmbeddingInputTokens(input: string | string[]): number {
+  if (Array.isArray(input)) {
+    return input.reduce((acc, item) => acc + estimateTextTokens(item), 0);
+  }
+  return estimateTextTokens(input);
+}
+
+function buildPreview(value: unknown, maxLen = 600): string {
+  const raw = typeof value === "string" ? value : JSON.stringify(value);
+  if (!raw) return "";
+  return raw.length > maxLen ? `${raw.slice(0, maxLen)}...` : raw;
+}
+
 export class DoubaoEmbaddingService {
   static async createEmbedding(
     request: DoubaoEmbeddingRequest,
@@ -65,7 +87,7 @@ export class DoubaoEmbaddingService {
     const requestPayload: Record<string, unknown> = {
       model: modelName,
       input: normalizeInput(request.input),
-      user: request.user,
+      user: request.userId,
     };
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -83,7 +105,9 @@ export class DoubaoEmbaddingService {
 
       if (!response.ok) {
         const raw = await response.text();
-        throw new Error(`doubao embedding 请求失败(${response.status}): ${raw}`);
+        throw new Error(
+          `doubao embedding 请求失败(${response.status}): ${raw}`,
+        );
       }
 
       const data = (await response.json()) as ArkEmbeddingResponse;
@@ -100,8 +124,23 @@ export class DoubaoEmbaddingService {
       await DoubaoCallLog.writeLog({
         apiType: "embedding",
         modelId: result.model,
+        userId: request.userId,
         requestPayload,
         responsePayload: data as unknown as Record<string, unknown>,
+        requestPreview: buildPreview(requestPayload),
+        responsePreview: buildPreview({ vectors: result.vectors.length }),
+        inputTokens:
+          result.usage?.promptTokens ??
+          estimateEmbeddingInputTokens(
+            requestPayload.input as string | string[],
+          ),
+        outputTokens: 0,
+        totalTokens:
+          result.usage?.totalTokens ??
+          estimateEmbeddingInputTokens(
+            requestPayload.input as string | string[],
+          ),
+        tokenSource: result.usage ? "provider" : "estimated",
         durationMs: Date.now() - startTime,
         success: true,
       });
@@ -110,7 +149,18 @@ export class DoubaoEmbaddingService {
       await DoubaoCallLog.writeLog({
         apiType: "embedding",
         modelId: modelName,
+        userId: request.userId,
         requestPayload,
+        requestPreview: buildPreview(requestPayload),
+        responsePreview: "",
+        inputTokens: estimateEmbeddingInputTokens(
+          requestPayload.input as string | string[],
+        ),
+        outputTokens: 0,
+        totalTokens: estimateEmbeddingInputTokens(
+          requestPayload.input as string | string[],
+        ),
+        tokenSource: "estimated",
         errorMessage: (error as Error).message,
         durationMs: Date.now() - startTime,
         success: false,

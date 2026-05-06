@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 
-type MainMenu = 'dashboard' | 'users' | 'doubao'
+type MainMenu = 'dashboard' | 'users' | 'orders' | 'doubao'
 type DoubaoSubMenu = 'logs'
 
 type AdminState = {
@@ -10,10 +10,13 @@ type AdminState = {
   token: string
   activeMenu: MainMenu
   doubaoSubMenu: DoubaoSubMenu
+  orderUserIdFilter: string
   setAuth: (args: { username: string; token: string }) => void
   logout: () => void
   setActiveMenu: (menu: MainMenu) => void
   setDoubaoSubMenu: (menu: DoubaoSubMenu) => void
+  openOrdersByUser: (userId: string) => void
+  clearOrderUserFilter: () => void
 }
 
 const DEFAULT_MENU: MainMenu = 'dashboard'
@@ -26,10 +29,13 @@ export const useAdminStore = create<AdminState>()(
       token: '',
       activeMenu: DEFAULT_MENU,
       doubaoSubMenu: 'logs',
+      orderUserIdFilter: '',
       setAuth: ({ username, token }) => set({ isAuthed: true, username, token }),
-      logout: () => set({ isAuthed: false, username: '', token: '', activeMenu: DEFAULT_MENU }),
+      logout: () => set({ isAuthed: false, username: '', token: '', activeMenu: DEFAULT_MENU, orderUserIdFilter: '' }),
       setActiveMenu: (menu) => set({ activeMenu: menu }),
       setDoubaoSubMenu: (menu) => set({ doubaoSubMenu: menu }),
+      openOrdersByUser: (userId) => set({ activeMenu: 'orders', orderUserIdFilter: userId }),
+      clearOrderUserFilter: () => set({ orderUserIdFilter: '' }),
     }),
     {
       name: 'mishu-admin-store',
@@ -39,6 +45,7 @@ export const useAdminStore = create<AdminState>()(
         token: state.token,
         activeMenu: state.activeMenu,
         doubaoSubMenu: state.doubaoSubMenu,
+        orderUserIdFilter: state.orderUserIdFilter,
       }),
     },
   ),
