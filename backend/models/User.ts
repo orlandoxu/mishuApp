@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema, Types } from 'mongoose';
+import mongoose, { Document, Model, Schema, Types } from "mongoose";
 
 export interface IUser extends Document {
   _id: Types.ObjectId;
@@ -10,7 +10,18 @@ export interface IUser extends Document {
   updatedAt: Date;
 }
 
-const userSchema = new Schema<IUser>(
+type CreateUserInput = {
+  phoneNumber: string;
+  role?: "admin" | "user";
+};
+
+export interface IUserModel extends Model<IUser> {
+  findByPhoneNumber(phoneNumber: string): Promise<IUser | null>;
+  createUser(userData: CreateUserInput): Promise<IUser>;
+  updateLastLogin(userId: Types.ObjectId): Promise<IUser | null>;
+}
+
+const userSchema = new Schema<IUser, IUserModel>(
   {
     phoneNumber: {
       type: String,
@@ -33,6 +44,26 @@ const userSchema = new Schema<IUser>(
   },
   {
     timestamps: true,
+    statics: {
+      findByPhoneNumber(phoneNumber: string) {
+        return this.findOne({ phoneNumber });
+      },
+      createUser(userData: CreateUserInput) {
+        return this.create({
+          phoneNumber: userData.phoneNumber,
+          role: userData.role || "user",
+          isActive: true,
+          lastLoginAt: new Date(),
+        });
+      },
+      updateLastLogin(userId: Types.ObjectId) {
+        return this.findByIdAndUpdate(
+          userId,
+          { lastLoginAt: new Date() },
+          { new: true },
+        );
+      },
+    },
   },
 );
 
@@ -41,32 +72,4 @@ userSchema.index({ role: 1, isActive: 1 });
 userSchema.index({ lastLoginAt: -1 });
 userSchema.index({ createdAt: -1 });
 
-export class User {
-  static async findByPhoneNumber(phoneNumber: string): Promise<IUser | null> {
-    return UserModel.findOne({ phoneNumber });
-  }
-
-  static async createUser(userData: {
-    phoneNumber: string;
-    role?: 'admin' | 'user';
-  }): Promise<IUser> {
-    const user = new UserModel({
-      phoneNumber: userData.phoneNumber,
-      role: userData.role || 'user',
-      isActive: true,
-      lastLoginAt: new Date(),
-    });
-    return user.save();
-  }
-
-  static async updateLastLogin(userId: Types.ObjectId): Promise<IUser | null> {
-    return UserModel.findByIdAndUpdate(
-      userId,
-      { lastLoginAt: new Date() },
-      { new: true },
-    );
-  }
-}
-
-const UserModel = mongoose.model<IUser>('User', userSchema);
-export default UserModel;
+export const User = mongoose.model<IUser, IUserModel>("User", userSchema);

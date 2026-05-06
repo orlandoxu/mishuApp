@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Model, Schema } from "mongoose";
 
-export type PartnerRelationshipStatus = 'active' | 'archived';
+export type PartnerRelationshipStatus = "active" | "archived";
 
 export interface IPartnerRelationship extends Document {
   inviterUserId: string;
@@ -14,10 +14,25 @@ export interface IPartnerRelationship extends Document {
 }
 
 function buildPairKey(userA: string, userB: string): string {
-  return [userA, userB].sort().join(':');
+  return [userA, userB].sort().join(":");
 }
 
-const partnerRelationshipSchema = new Schema<IPartnerRelationship>(
+type CreateActiveInput = {
+  inviterUserId: string;
+  partnerUserId: string;
+  invitationToken: string;
+};
+
+export interface IPartnerRelationshipModel extends Model<IPartnerRelationship> {
+  buildPairKey(userA: string, userB: string): string;
+  findActiveByUserId(userId: string): Promise<IPartnerRelationship | null>;
+  createActive(args: CreateActiveInput): Promise<IPartnerRelationship>;
+}
+
+const partnerRelationshipSchema = new Schema<
+  IPartnerRelationship,
+  IPartnerRelationshipModel
+>(
   {
     inviterUserId: {
       type: String,
@@ -45,55 +60,49 @@ const partnerRelationshipSchema = new Schema<IPartnerRelationship>(
     },
     status: {
       type: String,
-      enum: ['active', 'archived'],
-      default: 'active',
+      enum: ["active", "archived"],
+      default: "active",
       index: true,
     },
   },
   {
     timestamps: true,
+    statics: {
+      buildPairKey,
+      findActiveByUserId(userId: string) {
+        return this.findOne({
+          participantIds: userId,
+          status: "active",
+        });
+      },
+      createActive(args: CreateActiveInput) {
+        const participantIds = [args.inviterUserId, args.partnerUserId].sort();
+        return this.create({
+          inviterUserId: args.inviterUserId,
+          partnerUserId: args.partnerUserId,
+          participantIds,
+          pairKey: buildPairKey(args.inviterUserId, args.partnerUserId),
+          invitationToken: args.invitationToken,
+          status: "active",
+        });
+      },
+    },
   },
 );
 
 partnerRelationshipSchema.index(
   { participantIds: 1 },
-  { unique: true, partialFilterExpression: { status: 'active' } },
+  { unique: true, partialFilterExpression: { status: "active" } },
 );
 partnerRelationshipSchema.index(
   { pairKey: 1 },
-  { unique: true, partialFilterExpression: { status: 'active' } },
+  { unique: true, partialFilterExpression: { status: "active" } },
 );
 
-export class PartnerRelationship {
-  static buildPairKey = buildPairKey;
-
-  static findActiveByUserId(userId: string): Promise<IPartnerRelationship | null> {
-    return PartnerRelationshipModel.findOne({
-      participantIds: userId,
-      status: 'active',
-    });
-  }
-
-  static async createActive(args: {
-    inviterUserId: string;
-    partnerUserId: string;
-    invitationToken: string;
-  }): Promise<IPartnerRelationship> {
-    const participantIds = [args.inviterUserId, args.partnerUserId].sort();
-    return PartnerRelationshipModel.create({
-      inviterUserId: args.inviterUserId,
-      partnerUserId: args.partnerUserId,
-      participantIds,
-      pairKey: buildPairKey(args.inviterUserId, args.partnerUserId),
-      invitationToken: args.invitationToken,
-      status: 'active',
-    });
-  }
-}
-
-const PartnerRelationshipModel = mongoose.model<IPartnerRelationship>(
-  'PartnerRelationship',
+export const PartnerRelationship = mongoose.model<
+  IPartnerRelationship,
+  IPartnerRelationshipModel
+>(
+  "PartnerRelationship",
   partnerRelationshipSchema,
 );
-
-export default PartnerRelationshipModel;

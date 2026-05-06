@@ -62,3 +62,7 @@ h5/dist/
 h5/.env
 h5/.env.*
 !h5/.env.example
+
+# admin模块
+admin/node_modules/
+admin/dist/

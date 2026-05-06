@@ -9,6 +9,8 @@
     "typecheck": "pnpm -r --if-present typecheck",
     "backend:dev": "pnpm --filter @mishu/backend dev",
     "h5:dev": "pnpm --filter @mishu/h5 dev",
-    "ui:dev": "pnpm --filter react-example dev"
+    "ui:dev": "pnpm --filter react-example dev",
+    "admin:dev": "pnpm --filter @mishu/admin dev",
+    "admin:build": "pnpm --filter @mishu/admin build"
   }
 }

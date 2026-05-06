@@ -100,7 +100,10 @@ export const config = {
     baseUrl:
       process.env.BACKEND_DOUBAO_BASE_URL ??
       "https://ark.cn-beijing.volces.com/api/v3",
-    model: process.env.BACKEND_DOUBAO_MODEL ?? "doubao-seed-2-0-mini",
+    model:
+      process.env.BACKEND_DOUBAO_MODEL ?? "doubao-seed-2-0-mini-260215",
+    embeddingModel:
+      process.env.BACKEND_DOUBAO_EMBEDDING_MODEL ?? "doubao-embedding",
     timeoutMs: parsePort(process.env.BACKEND_DOUBAO_TIMEOUT_MS, 60_000),
   },
   yjs: {

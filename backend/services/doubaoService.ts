@@ -1,4 +1,5 @@
 import { config } from "../config/config";
+import { DoubaoCallLog } from "../models/DoubaoCallLog";
 
 export type DoubaoMessageRole = "system" | "user" | "assistant";
 
@@ -11,6 +12,7 @@ export type DoubaoChatRequest = {
   messages: DoubaoMessage[];
   temperature?: number;
   maxTokens?: number;
+  responseFormat?: "text" | "json_object";
 };
 
 export type DoubaoChatResult = {
@@ -22,6 +24,19 @@ export type DoubaoChatResult = {
     completionTokens: number;
     totalTokens: number;
   };
+};
+
+export type DoubaoJsonRequest = DoubaoChatRequest & {
+  // 给模型的 JSON 结构约束说明（自然语言或字段约定）
+  jsonSchemaHint?: string;
+};
+
+export type DoubaoJsonResult<T> = {
+  data: T;
+  raw: string;
+  model: string;
+  finishReason: string | null;
+  usage?: DoubaoChatResult["usage"];
 };
 
 type ArkChatChoice = {
@@ -86,6 +101,37 @@ function parseSseDataLine(line: string): string | null {
   return line.slice(5).trim();
 }
 
+function extractJsonText(raw: string): string {
+  const text = raw.trim();
+  if (!text) {
+    throw new Error("doubao JSON 输出为空");
+  }
+
+  const fenced = text.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
+  if (fenced?.[1]) {
+    return fenced[1].trim();
+  }
+
+  const firstBrace = text.indexOf("{");
+  const lastBrace = text.lastIndexOf("}");
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    return text.slice(firstBrace, lastBrace + 1).trim();
+  }
+
+  return text;
+}
+
+function parseJsonOrThrow<T>(raw: string): T {
+  const normalized = extractJsonText(raw);
+  try {
+    return JSON.parse(normalized) as T;
+  } catch (error) {
+    throw new Error(
+      `doubao JSON 解析失败: ${(error as Error).message}; raw=${raw.slice(0, 500)}`,
+    );
+  }
+}
+
 async function* parseArkSseStream(
   body: ReadableStream<Uint8Array>,
 ): AsyncGenerator<ArkChatResponse> {
@@ -123,8 +169,21 @@ export class DoubaoService {
   static async chatCompletion(
     request: DoubaoChatRequest,
   ): Promise<DoubaoChatResult> {
+    const startTime = Date.now();
     const messages = normalizeMessages(request.messages);
     assertMessages(messages);
+    const modelName = config.doubao.model;
+    const requestPayload: Record<string, unknown> = {
+      model: modelName,
+      messages,
+      stream: false,
+      temperature: request.temperature,
+      max_tokens: request.maxTokens,
+      response_format:
+        request.responseFormat === "json_object"
+          ? { type: "json_object" }
+          : undefined,
+    };
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -136,13 +195,7 @@ export class DoubaoService {
       const response = await fetch(getApiUrl(), {
         method: "POST",
         headers: getHeaders(),
-        body: JSON.stringify({
-          model: config.doubao.model,
-          messages,
-          stream: false,
-          temperature: request.temperature,
-          max_tokens: request.maxTokens,
-        }),
+        body: JSON.stringify(requestPayload),
         signal: controller.signal,
       });
 
@@ -154,12 +207,32 @@ export class DoubaoService {
       const data = (await response.json()) as ArkChatResponse;
       const first = data.choices?.[0];
       const content = first?.message?.content?.trim() ?? "";
-      return {
+      const result = {
         content,
-        model: data.model ?? config.doubao.model,
+        model: data.model ?? modelName,
         finishReason: first?.finish_reason ?? null,
         usage: toUsage(data.usage),
       };
+      await DoubaoCallLog.writeLog({
+        apiType: "chat_completion",
+        modelId: result.model,
+        requestPayload,
+        responsePayload: data as unknown as Record<string, unknown>,
+        responseText: result.content,
+        durationMs: Date.now() - startTime,
+        success: true,
+      });
+      return result;
+    } catch (error) {
+      await DoubaoCallLog.writeLog({
+        apiType: "chat_completion",
+        modelId: modelName,
+        requestPayload,
+        errorMessage: (error as Error).message,
+        durationMs: Date.now() - startTime,
+        success: false,
+      });
+      throw error;
     } finally {
       clearTimeout(timeoutId);
     }
@@ -168,8 +241,21 @@ export class DoubaoService {
   static async *chatCompletionStream(
     request: DoubaoChatRequest,
   ): AsyncGenerator<string, DoubaoChatResult> {
+    const startTime = Date.now();
     const messages = normalizeMessages(request.messages);
     assertMessages(messages);
+    const modelName = config.doubao.model;
+    const requestPayload: Record<string, unknown> = {
+      model: modelName,
+      messages,
+      stream: true,
+      temperature: request.temperature,
+      max_tokens: request.maxTokens,
+      response_format:
+        request.responseFormat === "json_object"
+          ? { type: "json_object" }
+          : undefined,
+    };
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -177,7 +263,7 @@ export class DoubaoService {
       config.doubao.timeoutMs,
     );
 
-    let model = config.doubao.model;
+    let model = modelName;
     let finishReason: string | null = null;
     let usage: DoubaoChatResult["usage"];
     let fullText = "";
@@ -186,13 +272,7 @@ export class DoubaoService {
       const response = await fetch(getApiUrl(), {
         method: "POST",
         headers: getHeaders(),
-        body: JSON.stringify({
-          model: config.doubao.model,
-          messages,
-          stream: true,
-          temperature: request.temperature,
-          max_tokens: request.maxTokens,
-        }),
+        body: JSON.stringify(requestPayload),
         signal: controller.signal,
       });
 
@@ -227,14 +307,91 @@ export class DoubaoService {
         yield delta;
       }
 
-      return {
+      const result = {
         content: fullText,
         model,
         finishReason,
         usage,
       };
+      await DoubaoCallLog.writeLog({
+        apiType: "chat_completion_stream",
+        modelId: result.model,
+        requestPayload,
+        responsePayload: {
+          finishReason: result.finishReason,
+          usage: result.usage,
+        },
+        responseText: result.content,
+        durationMs: Date.now() - startTime,
+        success: true,
+      });
+      return result;
+    } catch (error) {
+      await DoubaoCallLog.writeLog({
+        apiType: "chat_completion_stream",
+        modelId: model,
+        requestPayload,
+        responseText: fullText,
+        errorMessage: (error as Error).message,
+        durationMs: Date.now() - startTime,
+        success: false,
+      });
+      throw error;
     } finally {
       clearTimeout(timeoutId);
+    }
+  }
+
+  static async jsonCompletion<T = Record<string, unknown>>(
+    request: DoubaoJsonRequest,
+  ): Promise<DoubaoJsonResult<T>> {
+    const startTime = Date.now();
+    const schemaHint = request.jsonSchemaHint?.trim();
+    const systemRule = [
+      "你必须仅返回一个合法 JSON 对象。",
+      "不要输出任何额外说明、Markdown、代码块标记。",
+      schemaHint ? `JSON 结构要求: ${schemaHint}` : "",
+    ]
+      .filter(Boolean)
+      .join("\n");
+
+    try {
+      const result = await this.chatCompletion({
+        ...request,
+        responseFormat: "json_object",
+        messages: [{ role: "system", content: systemRule }, ...request.messages],
+      });
+
+      const data = parseJsonOrThrow<T>(result.content);
+      await DoubaoCallLog.writeLog({
+        apiType: "chat_completion_json",
+        modelId: result.model,
+        requestPayload: {
+          ...request,
+          jsonSchemaHint: request.jsonSchemaHint,
+        } as unknown as Record<string, unknown>,
+        responsePayload: data as unknown as Record<string, unknown>,
+        responseText: result.content,
+        durationMs: Date.now() - startTime,
+        success: true,
+      });
+      return {
+        data,
+        raw: result.content,
+        model: result.model,
+        finishReason: result.finishReason,
+        usage: result.usage,
+      };
+    } catch (error) {
+      await DoubaoCallLog.writeLog({
+        apiType: "chat_completion_json",
+        modelId: config.doubao.model,
+        requestPayload: request as unknown as Record<string, unknown>,
+        errorMessage: (error as Error).message,
+        durationMs: Date.now() - startTime,
+        success: false,
+      });
+      throw error;
     }
   }
 }
