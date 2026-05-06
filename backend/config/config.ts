@@ -57,6 +57,10 @@ export const config = {
     jwtSecret:
       process.env.BACKEND_JWT_SECRET ?? "mishu-dev-jwt-secret-change-me",
   },
+  admin: {
+    bootstrapUsername: process.env.BACKEND_ADMIN_BOOTSTRAP_USERNAME ?? "admin",
+    bootstrapPassword: process.env.BACKEND_ADMIN_BOOTSTRAP_PASSWORD ?? "admin123!",
+  },
   partnerInvitation: {
     expireSeconds: parsePort(
       process.env.BACKEND_PARTNER_INVITATION_EXPIRE_SECONDS,

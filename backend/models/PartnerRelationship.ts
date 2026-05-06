@@ -47,7 +47,6 @@ const partnerRelationshipSchema = new Schema<
     participantIds: {
       type: [String],
       required: true,
-      index: true,
     },
     pairKey: {
       type: String,

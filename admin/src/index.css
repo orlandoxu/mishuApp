@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #070f1f;
-  --foreground: #e6edf7;
-  --card: rgba(15, 25, 45, 0.76);
-  --card-foreground: #f4f7ff;
-  --muted: #9aaccc;
-  --primary: #43d9ad;
-  --primary-foreground: #031610;
-  --border: rgba(173, 198, 232, 0.22);
-  --danger: #ff637f;
+  --background: #f4f7fb;
+  --foreground: #14213d;
+  --card: #ffffff;
+  --card-foreground: #14213d;
+  --muted: #6f7f99;
+  --primary: #0ea5a3;
+  --primary-foreground: #ffffff;
+  --border: #d8e0ee;
+  --danger: #d63a58;
 }
 
 * {
@@ -22,9 +22,9 @@ body {
   color: var(--foreground);
   min-height: 100vh;
   background:
-    radial-gradient(1000px 400px at 0% -10%, rgba(67, 217, 173, 0.16), transparent 60%),
-    radial-gradient(800px 420px at 100% -10%, rgba(96, 165, 250, 0.18), transparent 60%),
-    linear-gradient(135deg, #040916 0%, #09152b 45%, #0f1e3b 100%);
+    radial-gradient(800px 380px at 0% -10%, rgba(14, 165, 163, 0.16), transparent 60%),
+    radial-gradient(760px 420px at 100% -10%, rgba(59, 130, 246, 0.14), transparent 60%),
+    linear-gradient(140deg, #f6f9ff 0%, #f4f7fb 45%, #eef4ff 100%);
 }
 
 #root {

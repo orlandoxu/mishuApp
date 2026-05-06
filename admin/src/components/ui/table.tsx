@@ -6,11 +6,11 @@ export function Table({ className, ...props }: TableHTMLAttributes<HTMLTableElem
 }
 
 export function THead({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) {
-  return <thead className={cn('text-left text-xs uppercase tracking-wide text-[#8fa5c7]', className)} {...props} />
+  return <thead className={cn('text-left text-xs uppercase tracking-wide text-[#7083a3]', className)} {...props} />
 }
 
 export function TBody({ className, ...props }: HTMLAttributes<HTMLTableSectionElement>) {
-  return <tbody className={cn('divide-y divide-white/8', className)} {...props} />
+  return <tbody className={cn('divide-y divide-[#e8eef9]', className)} {...props} />
 }
 
 export function TH({ className, ...props }: HTMLAttributes<HTMLTableCellElement>) {
@@ -18,5 +18,5 @@ export function TH({ className, ...props }: HTMLAttributes<HTMLTableCellElement>
 }
 
 export function TD({ className, ...props }: HTMLAttributes<HTMLTableCellElement>) {
-  return <td className={cn('px-4 py-3 text-[#dce8fb]', className)} {...props} />
+  return <td className={cn('px-4 py-3 text-[#243550]', className)} {...props} />
 }
