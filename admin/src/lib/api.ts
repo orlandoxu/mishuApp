@@ -7,8 +7,11 @@ export type ApiResponse<T> = {
 export type AdminUserRecord = {
   id: string
   phoneNumber: string
+  displayName: string
   role: 'admin' | 'user'
   status: '正常' | '禁用'
+  vipStatus: '普通' | 'VIP' | 'SVIP'
+  ltvCny: number
   createdAt: string
   lastLoginAt: string | null
 }
@@ -21,6 +24,41 @@ export type DoubaoLogRecord = {
   success: boolean
   errorMessage: string
   createdAt: string
+}
+
+export type DashboardPayload = {
+  snapshotAt: string
+  metrics: {
+    totalUsers: number
+    newUsersToday: number
+    newUsers7d: number
+    activeUsersToday: number
+    activeUsers7d: number
+    activeUsers30d: number
+    doubaoCallsToday: number
+    doubaoCalls30d: number
+    doubaoSuccessRate30d: number
+    doubaoAvgLatencyMs30d: number
+    doubaoP95LatencyMs30d: number
+  }
+  trends: {
+    newUsersTodayVsYesterdayPct: number | null
+    newUsers7dVsPrev7dPct: number | null
+    doubaoTodayVsYesterdayPct: number | null
+  }
+  charts: {
+    growth60d: Array<{
+      date: string
+      newUsers: number
+      loginUsers: number
+      doubaoCalls: number
+      doubaoSuccessRate: number
+    }>
+    doubaoApiMix30d: Array<{
+      apiType: string
+      count: number
+    }>
+  }
 }
 
 async function request<T>(url: string, options: RequestInit): Promise<T> {
@@ -65,6 +103,12 @@ export const adminApi = {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
+    })
+  },
+  getDashboard(token: string) {
+    return request<DashboardPayload>('/api/admin/dashboard', {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
     })
   },
 }

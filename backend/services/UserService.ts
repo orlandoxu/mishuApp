@@ -1,5 +1,6 @@
 import { User } from '../models/User';
 import { ASSERT, Ret } from '../common/error';
+import { DashboardDailyStatService } from './dashboardDailyStatService';
 
 export interface AppLoginUser {
   userId: string;
@@ -32,6 +33,9 @@ export class UserService {
     }
 
     ASSERT(user, '用户创建失败', Ret.ERROR);
+
+    // 登录成功后写入“用户-日期”活跃静态明细，供夜间 cron 聚合。
+    await DashboardDailyStatService.markUserActive(user._id.toString());
 
     return {
       userId: user._id.toString(),

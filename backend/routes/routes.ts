@@ -28,6 +28,7 @@ export default async function registerRoutes(
   post("/admin/login", AdminController.login);
   post("/admin/users", adminAuth, AdminController.users);
   post("/admin/doubao/logs", adminAuth, AdminController.doubaoLogs);
+  get("/admin/dashboard", adminAuth, AdminController.dashboard);
 
   // ==================== TA 邀请绑定 ====================
   post("/partner/invitations", userAuth, PartnerInvitationController.create);

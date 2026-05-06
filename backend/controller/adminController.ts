@@ -42,4 +42,8 @@ export class AdminController {
   ): Promise<ApiResponse<Awaited<ReturnType<typeof AdminService.getDoubaoLogs>>>> {
     return ok(await AdminService.getDoubaoLogs(request.body));
   }
+
+  static async dashboard(): Promise<ApiResponse<Awaited<ReturnType<typeof AdminService.getDashboard>>>> {
+    return ok(await AdminService.getDashboard());
+  }
 }
