@@ -12,9 +12,7 @@ actor AgentRouteWebSocketClient {
     guard !trimmed.isEmpty else { return "我没有听清楚，请再说一次。" }
 
     let request = await makeTurnRequest(text: trimmed)
-    let envelope = try await sendTurnRequest(request)
-    sessionVersion = envelope.payload.sessionVersion
-    return envelope.payload.replyText
+    return try await sendTurnRequest(request)
   }
 
   private func makeTurnRequest(text: String) async -> AgentTurnRequest {
@@ -29,7 +27,7 @@ actor AgentRouteWebSocketClient {
     }
 
     return AgentTurnRequest(
-      protocolVersion: "2026-04-14.v2",
+      protocolVersion: "2026-05-08.v3",
       sessionId: sessionId,
       turnId: UUID().uuidString,
       messageId: UUID().uuidString,
@@ -46,15 +44,9 @@ actor AgentRouteWebSocketClient {
     )
   }
 
-  private func sendTurnRequest(_ request: AgentTurnRequest) async throws -> AgentTurnResultEnvelope {
-    guard let token = await MainActor.run(body: { SelfStore.shared.token }),
-          !token.isEmpty
-    else {
-      throw NSError(
-        domain: "AgentRouteWebSocketClient",
-        code: 401,
-        userInfo: [NSLocalizedDescriptionKey: "缺少登录 token，无法发起 agent 路由请求"]
-      )
+  private func sendTurnRequest(_ request: AgentTurnRequest) async throws -> String {
+    guard let token = await MainActor.run(body: { SelfStore.shared.token }), !token.isEmpty else {
+      throw NSError(domain: "AgentRouteWebSocketClient", code: 401, userInfo: [NSLocalizedDescriptionKey: "缺少登录 token，无法发起 agent 路由请求"])
     }
 
     var urlRequest = URLRequest(url: AppConst.appWebSocketURL)
@@ -67,41 +59,144 @@ actor AgentRouteWebSocketClient {
       task.cancel(with: .normalClosure, reason: nil)
     }
 
-    let payload: [String: Any] = [
-      "type": "rpc",
-      "method": "agent.turn",
-      "requestId": request.messageId,
-      "payload": try request.asDictionary(),
-    ]
-    try await task.send(.string(try payload.asJSONString()))
+    try await sendRpc(task: task, payload: try request.asDictionary(), requestId: request.messageId)
 
     let timeoutNs: UInt64 = 12_000_000_000
+    var lastVisibleMessage = ""
+
     while true {
       let raw = try await receiveText(task: task, timeoutNs: timeoutNs)
       guard let data = raw.data(using: .utf8) else { continue }
       let message = try JSONDecoder().decode(RpcResultEnvelope<AgentTurnResponse>.self, from: data)
       guard message.type == "rpc" else { continue }
-      guard message.requestId == request.messageId else { continue }
+
       if !message.payload.isSuccess {
-        throw NSError(
-          domain: "AgentRouteWebSocketClient",
-          code: 500,
-          userInfo: [NSLocalizedDescriptionKey: message.payload.msg ?? "服务端执行失败"]
-        )
+        throw NSError(domain: "AgentRouteWebSocketClient", code: 500, userInfo: [NSLocalizedDescriptionKey: message.payload.msg ?? "服务端执行失败"])
       }
+
       guard let businessData = message.payload.data else {
-        throw NSError(
-          domain: "AgentRouteWebSocketClient",
-          code: 500,
-          userInfo: [NSLocalizedDescriptionKey: "服务端返回数据为空"]
-        )
+        throw NSError(domain: "AgentRouteWebSocketClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "服务端返回数据为空"])
       }
-      return AgentTurnResultEnvelope(
-        type: message.type,
-        requestId: message.requestId,
-        payload: businessData
-      )
+
+      sessionVersion = businessData.sessionVersion
+      lastVisibleMessage = businessData.replyText
+
+      if let actionDirective = businessData.protocolEnvelope?.directives.first(where: { $0.type == "request_client_action" }) {
+        let actionRequestId = actionDirective.requestId ?? ""
+        let action = actionDirective.action ?? ""
+        let payload = actionDirective.payload?.mapValues { $0.rawObject } ?? [:]
+        let actionResult = await executeClientAction(action: action, payload: payload)
+
+        let interaction: [String: Any] = [
+          "kind": "client_action_response",
+          "payload": [
+            "requestId": actionRequestId,
+            "action": action,
+            "success": actionResult.success,
+            "result": actionResult.result,
+            "error": actionResult.error ?? NSNull(),
+          ],
+        ]
+
+        let followPayload: [String: Any] = [
+          "protocolVersion": request.protocolVersion,
+          "sessionId": businessData.sessionId,
+          "turnId": UUID().uuidString,
+          "messageId": UUID().uuidString,
+          "text": "client_action_response",
+          "timestamp": Int64(Date().timeIntervalSince1970 * 1000),
+          "clientSessionVersion": businessData.sessionVersion,
+          "clientContext": try request.clientContext.asDictionary(),
+          "interaction": interaction,
+        ]
+
+        try await sendRpc(task: task, payload: followPayload, requestId: UUID().uuidString)
+        continue
+      }
+
+      if businessData.isTerminal {
+        return lastVisibleMessage
+      }
     }
+  }
+
+  private func executeClientAction(action: String, payload: [String: Any]) async -> (success: Bool, result: [String: Any], error: String?) {
+    switch action {
+    case "money.record":
+      do {
+        let direction = (payload["direction"] as? String) == "income" ? LedgerDirection.income : LedgerDirection.expense
+        let amount = (payload["amount"] as? NSNumber)?.doubleValue ?? Double((payload["amount"] as? String) ?? "0") ?? 0
+        let category = (payload["category"] as? String) ?? "其他"
+        let note = payload["note"] as? String
+        let occurredAt = (payload["occurredAt"] as? NSNumber)?.int64Value ?? Int64(Date().timeIntervalSince1970 * 1000)
+
+        let record = try await LedgerLocalService.shared.createTransaction(
+          input: LedgerCreateInput(direction: direction, amount: amount, category: category, occurredAt: occurredAt, note: note)
+        )
+        let label = direction == .income ? "收入" : "支出"
+        return (true, ["summary": "已记账：\(label) \(Int(record.amount.rounded())) 元（\(record.category)）"], nil)
+      } catch {
+        return (false, [:], error.localizedDescription)
+      }
+
+    case "money.query":
+      do {
+        let period = (payload["period"] as? String) ?? "day"
+        let range = makeRange(period: period)
+        let summary = try await LedgerLocalService.shared.querySummary(periodStartMs: range.startMs, periodEndMs: range.endMs, groupByCategory: true)
+        let topCategories = summary.byCategory
+          .sorted { $0.value > $1.value }
+          .prefix(3)
+          .map { "\($0.key)\(Int($0.value.rounded()))" }
+          .joined(separator: "、")
+        let text = "查询完成：支出\(Int(summary.expenseTotal.rounded())) 元，收入\(Int(summary.incomeTotal.rounded())) 元" + (topCategories.isEmpty ? "" : "；主要支出：\(topCategories)")
+        return (true, ["summary": text], nil)
+      } catch {
+        return (false, [:], error.localizedDescription)
+      }
+
+    default:
+      return (false, [:], "不支持的本地动作: \(action)")
+    }
+  }
+
+  private func makeRange(period: String) -> (startMs: Int64, endMs: Int64) {
+    let calendar = Calendar.moneyJar
+    let now = Date()
+    let start: Date
+    switch period {
+    case "month":
+      start = now.moneyJarMonthStart
+    case "week":
+      start = now.moneyJarWeekStart
+    default:
+      start = calendar.startOfDay(for: now)
+    }
+
+    let end: Date
+    switch period {
+    case "month":
+      end = calendar.date(byAdding: .month, value: 1, to: start) ?? now
+    case "week":
+      end = calendar.date(byAdding: .day, value: 7, to: start) ?? now
+    default:
+      end = calendar.date(byAdding: .day, value: 1, to: start) ?? now
+    }
+
+    return (
+      Int64(start.timeIntervalSince1970 * 1000),
+      Int64(end.timeIntervalSince1970 * 1000) - 1
+    )
+  }
+
+  private func sendRpc(task: URLSessionWebSocketTask, payload: [String: Any], requestId: String) async throws {
+    let rpcEnvelope: [String: Any] = [
+      "type": "rpc",
+      "method": "agent.turn",
+      "requestId": requestId,
+      "payload": payload,
+    ]
+    try await task.send(.string(try rpcEnvelope.asJSONString()))
   }
 
   private func receiveText(task: URLSessionWebSocketTask, timeoutNs: UInt64) async throws -> String {
@@ -120,11 +215,7 @@ actor AgentRouteWebSocketClient {
 
       group.addTask {
         try await Task.sleep(nanoseconds: timeoutNs)
-        throw NSError(
-          domain: "AgentRouteWebSocketClient",
-          code: 408,
-          userInfo: [NSLocalizedDescriptionKey: "等待服务端响应超时"]
-        )
+        throw NSError(domain: "AgentRouteWebSocketClient", code: 408, userInfo: [NSLocalizedDescriptionKey: "等待服务端响应超时"])
       }
 
       let value = try await group.next() ?? ""
@@ -141,12 +232,6 @@ actor AgentRouteWebSocketClient {
     UserDefaults.standard.set(newId, forKey: sessionIdKey)
     return newId
   }
-}
-
-private struct AgentTurnResultEnvelope: Decodable {
-  let type: String
-  let requestId: String?
-  let payload: AgentTurnResponse
 }
 
 private enum RpcCode: Decodable {

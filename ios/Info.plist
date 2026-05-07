@@ -33,6 +33,18 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>DoubaoChatBaseURL</key>
+	<string>https://ark.cn-beijing.volces.com/api/v3</string>
+	<key>DoubaoChatModel</key>
+	<string>doubao-seed-2-0-lite</string>
+	<key>DoubaoEmbeddingAPIKey</key>
+	<string></string>
+	<key>DoubaoEmbeddingBaseURL</key>
+	<string>https://ark.cn-beijing.volces.com/api/v3</string>
+	<key>DoubaoEmbeddingDimension</key>
+	<integer>2048</integer>
+	<key>DoubaoEmbeddingModel</key>
+	<string>text-240715</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>weixin</string>
@@ -43,6 +55,8 @@
 		<string>baidumap</string>
 		<string>qqmap</string>
 	</array>
+	<key>MemoryIngestEndpoint</key>
+	<string>/v1/ai/memory/ingest</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsLocalNetworking</key>
@@ -99,12 +113,12 @@
 	<string>用于获取定位城市和地图显示</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>用于直播对讲功能（向设备发送语音）</string>
-	<key>NSSpeechRecognitionUsageDescription</key>
-	<string>用于将语音内容转写为文字</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>用于保存图片和视频到系统相册</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>用于从相册选择二维码图片进行识别</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>用于将语音内容转写为文字</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIUserInterfaceStyle</key>
@@ -115,23 +129,9 @@
 	<string>App Store</string>
 	<key>UMengLogEnabled</key>
 	<false/>
-	<key>DoubaoEmbeddingAPIKey</key>
-	<string></string>
-	<key>DoubaoEmbeddingBaseURL</key>
-	<string>https://ark.cn-beijing.volces.com/api/v3</string>
-	<key>DoubaoEmbeddingModel</key>
-	<string>text-240715</string>
-	<key>DoubaoEmbeddingDimension</key>
-	<integer>2048</integer>
-	<key>DoubaoChatBaseURL</key>
-	<string>https://ark.cn-beijing.volces.com/api/v3</string>
-	<key>DoubaoChatModel</key>
-	<string>doubao-seed-2-0-lite</string>
-	<key>MemoryIngestEndpoint</key>
-	<string>/v1/ai/memory/ingest</string>
 	<key>WeChatAppID</key>
 	<string>wx8069f4359e40557e</string>
 	<key>WeChatUniversalLink</key>
-	<string>https://wx-server.spreadwin.com/app/</string>
+	<string>https://landeng.fun/app/</string>
 </dict>
 </plist>

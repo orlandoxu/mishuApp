@@ -7,28 +7,15 @@ struct MoneyJarView: View {
   @State private var showWeekPicker = false
   @State private var budgetLimit = 500
   @State private var incomeGoal = 1000
-
-  private let transactions = [
-    MoneyTransaction(id: "1", type: "expense", amount: 35, category: "餐饮", date: "2024-04-24", note: "午餐"),
-    MoneyTransaction(id: "2", type: "expense", amount: 15, category: "交通", date: "2024-04-24", note: "公交"),
-    MoneyTransaction(id: "3", type: "expense", amount: 88, category: "其他", date: "2024-04-23", note: "超市购物"),
-    MoneyTransaction(id: "4", type: "income", amount: 300, category: "兼职", date: "2024-04-23", note: "设计稿酬"),
-  ]
-
-  private var totalIncome: Int {
-    transactions.filter { $0.type == "income" }.map(\.amount).reduce(0, +)
-  }
-
-  private var totalExpense: Int {
-    transactions.filter { $0.type == "expense" }.map(\.amount).reduce(0, +)
-  }
+  @StateObject private var viewModel = MoneyJarViewModel()
 
   private var limit: Int {
     budgetMode == "expense" ? budgetLimit : incomeGoal
   }
 
   private var progress: Double {
-    Double(budgetMode == "expense" ? totalExpense : totalIncome) / Double(limit)
+    guard limit > 0 else { return 0 }
+    return Double(budgetMode == "expense" ? viewModel.totalExpense : viewModel.totalIncome) / Double(limit)
   }
 
   private var currentWeekTitle: String {
@@ -65,14 +52,20 @@ struct MoneyJarView: View {
                 budgetMode = budgetMode == "expense" ? "income" : "expense"
               }
             }
-            MoneyStatCards(expense: totalExpense, income: totalIncome)
-            MoneyTransactionList(transactions: transactions)
+            MoneyStatCards(expense: viewModel.totalExpense, income: viewModel.totalIncome)
+            MoneyTransactionList(transactions: viewModel.transactions)
           }
           .padding(.horizontal, 24)
           .padding(.top, 0)
           .padding(.bottom, 80)
         }
       }
+    }
+    .onAppear {
+      viewModel.reload(for: selectedDate)
+    }
+    .onChange(of: selectedDate) { next in
+      viewModel.reload(for: next)
     }
   }
 

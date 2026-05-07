@@ -63,6 +63,7 @@
 		5D54BBCECF1EF7768B5137CE /* ImageViewerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */; };
 		5E83B02A6E9895B164DF5D5F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFB50AAAB01D705EBADE2 /* BlurView.swift */; };
 		5FE4B2A869C1DC5B5D71AD68 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 46AAC4A254FE881DF1B94951 /* Success.json */; };
+		6309FA561259DB0E532899AB /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 661DF6DAF7A444206BBE0F65 /* Pods_MishuApp.framework */; };
 		64A6033A34656A9A55AC92AC /* Date+tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD55579B782394CFD188DD91 /* Date+tools.swift */; };
 		6518178CDD475509A1668A3B /* LocationPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06448451E7BE9F569323114A /* LocationPermissionStore.swift */; };
 		65EFCEBAE53B57FF49C40C06 /* MemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6336D07A75DF4C35F89260DB /* MemoryView.swift */; };
@@ -144,7 +145,6 @@
 		DCC7CBC611A08ABDC5F4FF9A /* HomeFunctionGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DBDE0C809B95D9AE52290B /* HomeFunctionGridView.swift */; };
 		DEE199E40D5D563F74985977 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E0C4EE32A274A10980DE78 /* SpeechService.swift */; };
 		E02F2BBC71DB77744BF615E6 /* View+popupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3B1C097E7802ED289EB430 /* View+popupTest.swift */; };
-		E37ACAEF484AEC5BBE086562 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F73378C3D6828E2C7C208B8 /* Pods_MishuApp.framework */; };
 		E3C68668EC837E35E42901EF /* TreeHoleChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D0B7E85F0F3F8D26BFB5A2 /* TreeHoleChatView.swift */; };
 		E4BB6D06DB4453A498EC06AA /* CancellableBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8B165A6B9CB30D2E4477C /* CancellableBag.swift */; };
 		E4E382213E23C404F8BE9386 /* MascotSectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB129E3E75440C24B3C00C78 /* MascotSectionView.swift */; };
@@ -223,13 +223,13 @@
 		18E0C4EE32A274A10980DE78 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
 		19E17912EC837BD3EDC7D955 /* ChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildView.swift; sourceTree = "<group>"; };
 		1E085146C880C5608E81A63B /* View+SafeArea.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+SafeArea.swift"; sourceTree = "<group>"; };
-		1F73378C3D6828E2C7C208B8 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F91B0DD5D80425A3AF4EEAA /* VoiceActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceActionView.swift; sourceTree = "<group>"; };
 		20956A76CE24F5787E637E64 /* PartnerSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSections.swift; sourceTree = "<group>"; };
 		22B26709292DCA925FA1378C /* MemoryVectorStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVectorStore.swift; sourceTree = "<group>"; };
 		245FCAC6B89AE566E9958B44 /* MainView.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.v.swift; sourceTree = "<group>"; };
 		26F9D6D44A1B34E30E66AD75 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		2727B8247822618DBCA2365A /* Copyable+copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Copyable+copy.swift"; sourceTree = "<group>"; };
+		292C31C0E29E05C0223F802D /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		2C0CCD83925B81940196051A /* View+rotationIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+rotationIcon.swift"; sourceTree = "<group>"; };
 		3052BD2C0FA99D0FF399429D /* KeyedDecodingContainer+safeDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+safeDecode.swift"; sourceTree = "<group>"; };
 		3104D7A052AB317BC94B97E4 /* delegateWechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateWechat.swift; sourceTree = "<group>"; };
@@ -238,7 +238,6 @@
 		35825C51C062F3E9EC5A7C77 /* ChildSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSections.swift; sourceTree = "<group>"; };
 		372706400EEFA2363F61251A /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		37C364910BF75CF4B4B88D02 /* LoginBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBackgroundView.swift; sourceTree = "<group>"; };
-		3A40AFC6C6D7EC771FB002CC /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		3B72822ECCFE58E04CEA7DFD /* RouteParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteParser.swift; sourceTree = "<group>"; };
 		3D384E04F16020D2CF326318 /* UINavigationController+gestureRecognizerShouldBegin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+gestureRecognizerShouldBegin.swift"; sourceTree = "<group>"; };
 		3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerManager.swift; sourceTree = "<group>"; };
@@ -271,6 +270,7 @@
 		631D21E7BC858AE3E33DD0B3 /* EnvironmentValues+Namespace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EnvironmentValues+Namespace.swift"; sourceTree = "<group>"; };
 		6336D07A75DF4C35F89260DB /* MemoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryView.swift; sourceTree = "<group>"; };
 		64EE75721E2076D68F2A8697 /* MainView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.vm.swift; sourceTree = "<group>"; };
+		661DF6DAF7A444206BBE0F65 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		676A60C0CE7D74E04B1DDDE0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		69275A0F852F236D052AA8D2 /* MessageTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTable.swift; sourceTree = "<group>"; };
 		69F7E18F0DFDE73F69962A4F /* View+popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popup.swift"; sourceTree = "<group>"; };
@@ -303,7 +303,6 @@
 		914ACDCA368BCDB58800C96B /* DoubaoEmbeddingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubaoEmbeddingAPI.swift; sourceTree = "<group>"; };
 		93AA9039F2CD0AD08BEC0851 /* AgentRouteWebSocketClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentRouteWebSocketClient.swift; sourceTree = "<group>"; };
 		96874EF13A3E8DA20AE13481 /* ProSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProSections.swift; sourceTree = "<group>"; };
-		96A7445452F1A95310897E6D /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		9771E32B41D8845FA85247E9 /* DoubaoChatAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubaoChatAPI.swift; sourceTree = "<group>"; };
 		97E8B165A6B9CB30D2E4477C /* CancellableBag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CancellableBag.swift; sourceTree = "<group>"; };
 		98FAEB7CBFB73B23DCA8F802 /* LocalAlbumStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalAlbumStore.swift; sourceTree = "<group>"; };
@@ -323,6 +322,7 @@
 		B4507BCBDA26EDEA329A131B /* PersonNameDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonNameDetector.swift; sourceTree = "<group>"; };
 		B6DA7A6A9F00548F6FB2D3FC /* MemoryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryAPI.swift; sourceTree = "<group>"; };
 		B9FB86CA466D924F04CED1F6 /* AsrModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsrModel.swift; sourceTree = "<group>"; };
+		BA588AD3F0161F58CDBB16C4 /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		BA741D1A9E848B4DAB1773A3 /* AgentRouteProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentRouteProtocol.swift; sourceTree = "<group>"; };
 		BAFDFB2DD56BFDBAD1213FD1 /* Success.lottie */ = {isa = PBXFileReference; path = Success.lottie; sourceTree = "<group>"; };
 		BEFF3611510DE9148A0D6438 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
@@ -380,23 +380,13 @@
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
 				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
-				E37ACAEF484AEC5BBE086562 /* Pods_MishuApp.framework in Frameworks */,
+				6309FA561259DB0E532899AB /* Pods_MishuApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		033A0C3D31AE5D60A1A0CAC5 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				3A40AFC6C6D7EC771FB002CC /* Pods-MishuApp.debug.xcconfig */,
-				96A7445452F1A95310897E6D /* Pods-MishuApp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		0D9E7C090745599F708FFEF2 /* VoiceAnimations */ = {
 			isa = PBXGroup;
 			children = (
@@ -594,6 +584,16 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
+		783C5CBB1CFF6FB0B8AB66A4 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				292C31C0E29E05C0223F802D /* Pods-MishuApp.debug.xcconfig */,
+				BA588AD3F0161F58CDBB16C4 /* Pods-MishuApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		7A626EE2AB303278AEB7671D /* Web */ = {
 			isa = PBXGroup;
 			children = (
@@ -611,7 +611,7 @@
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
-				033A0C3D31AE5D60A1A0CAC5 /* Pods */,
+				783C5CBB1CFF6FB0B8AB66A4 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -655,7 +655,7 @@
 			isa = PBXGroup;
 			children = (
 				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
-				1F73378C3D6828E2C7C208B8 /* Pods_MishuApp.framework */,
+				661DF6DAF7A444206BBE0F65 /* Pods_MishuApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -974,7 +974,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
-				542A91D56A42EB44D69B0936 /* [CP] Check Pods Manifest.lock */,
+				A0ADD48252858CA4CC2C1B6B /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
@@ -1006,16 +1006,16 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					B926751AC9C2DF24264D496E = {
-						DevelopmentTeam = 5GFMWSR59V;
+						DevelopmentTeam = A2B57CKJJ2;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EC21A6BCB2C7EF1100958F1B;
 					};
 					BE46818425FC5C9A1392BF7B = {
-						DevelopmentTeam = 5GFMWSR59V;
+						DevelopmentTeam = A2B57CKJJ2;
 						ProvisioningStyle = Automatic;
 					};
 					EC21A6BCB2C7EF1100958F1B = {
-						DevelopmentTeam = 5GFMWSR59V;
+						DevelopmentTeam = A2B57CKJJ2;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1064,7 +1064,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		542A91D56A42EB44D69B0936 /* [CP] Check Pods Manifest.lock */ = {
+		A0ADD48252858CA4CC2C1B6B /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1281,13 +1281,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = fun.landeng.mishuapp.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = MishuApp;
@@ -1296,7 +1297,7 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 96A7445452F1A95310897E6D /* Pods-MishuApp.release.xcconfig */;
+			baseConfigurationReference = BA588AD3F0161F58CDBB16C4 /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1305,7 +1306,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1319,7 +1320,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp;
+				PRODUCT_BUNDLE_IDENTIFIER = fun.landeng.mishuapp;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1329,13 +1330,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.uitests;
+				PRODUCT_BUNDLE_IDENTIFIER = fun.landeng.mishuapp.uitests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_TARGET_NAME = MishuApp;
@@ -1344,7 +1346,7 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3A40AFC6C6D7EC771FB002CC /* Pods-MishuApp.debug.xcconfig */;
+			baseConfigurationReference = 292C31C0E29E05C0223F802D /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1353,7 +1355,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1367,7 +1369,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp;
+				PRODUCT_BUNDLE_IDENTIFIER = fun.landeng.mishuapp;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1377,13 +1379,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = fun.landeng.mishuapp.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MishuApp.app/MishuApp";
@@ -1428,7 +1431,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
-				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1461,13 +1464,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.spreadwin.mishuapp.tests;
+				PRODUCT_BUNDLE_IDENTIFIER = fun.landeng.mishuapp.tests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/MishuApp.app/MishuApp";
@@ -1512,7 +1516,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
-				DEVELOPMENT_TEAM = 5GFMWSR59V;
+				DEVELOPMENT_TEAM = A2B57CKJJ2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
