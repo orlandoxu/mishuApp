@@ -7,7 +7,7 @@ import type {
   SessionState,
   SlotExtraction,
 } from '../types';
-import type { ClientDataResponsePayload } from '../protocol';
+import type { ClientCapabilityResponsePayload } from '../protocol';
 import { compactText, extractAfter, hasAnyKeyword, simpleNameGuess } from './common';
 
 const KEYWORDS = ['联系', '打电话', '电话给', '发消息', '通知'];
@@ -110,7 +110,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
 /**
  * 在联系人缺失且用户表达“那个/上次/他/她”等指代时，请求客户端进行向量检索。
  */
-function buildClientDataRequest(input: AgentRouteInput, state: SessionState) {
+function buildClientCapabilityRequest(input: AgentRouteInput, state: SessionState) {
   const lacksContactName = !state.slots.contactName?.value;
   if (!lacksContactName) {
     return null;
@@ -135,7 +135,7 @@ function buildClientDataRequest(input: AgentRouteInput, state: SessionState) {
 /**
  * 应用客户端返回的候选数据，优先使用最高分项补全 contactName。
  */
-function applyClientDataResponse(state: SessionState, payload: ClientDataResponsePayload): void {
+function applyClientCapabilityResponse(state: SessionState, payload: ClientCapabilityResponsePayload): void {
   if (payload.items.length === 0) {
     return;
   }
@@ -182,8 +182,8 @@ export const contactRoute: RoutePlugin = {
     return true;
   },
   buildConfirmation,
-  buildClientDataRequest,
-  applyClientDataResponse,
+  buildClientCapabilityRequest,
+  applyClientCapabilityResponse,
   buildExecutionRequest,
   // 生成联系人动作完成态文案。
   buildCompletedMessage(state: SessionState): string {

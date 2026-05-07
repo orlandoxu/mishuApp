@@ -1,10 +1,7 @@
-import type { ClientDataRequest } from './client';
+import type { ClientCapabilityRequest } from './client';
 import type { InteractionDirective, PresentationPayload, RecommendedClientInput } from './server';
 import type { AgentRouteOutput, AgentPhase } from '../types';
 
-/**
- * 组装协议 directives。
- */
 export function buildProtocolDirectives(params: {
   message: string;
   askUser?: AgentRouteOutput['askUser'];
@@ -12,14 +9,34 @@ export function buildProtocolDirectives(params: {
   phase: AgentPhase;
   actions: AgentRouteOutput['actions'];
   error?: AgentRouteOutput['error'];
-  clientDataRequest?: ClientDataRequest;
+  clientCapabilityRequest?: ClientCapabilityRequest;
+  clientActionRequest?: {
+    requestId: string;
+    action: string;
+    payload: Record<string, unknown>;
+    reason?: string;
+  };
 }): InteractionDirective[] {
   const directives: InteractionDirective[] = [{ type: 'assistant_message', text: params.message }];
 
-  if (params.clientDataRequest) {
+  if (params.clientCapabilityRequest) {
+    directives.push({
+      type: 'request_client_capability',
+      request: params.clientCapabilityRequest,
+    });
     directives.push({
       type: 'request_client_data',
-      request: params.clientDataRequest,
+      request: params.clientCapabilityRequest,
+    });
+  }
+
+  if (params.clientActionRequest) {
+    directives.push({
+      type: 'request_client_action',
+      requestId: params.clientActionRequest.requestId,
+      action: params.clientActionRequest.action,
+      payload: params.clientActionRequest.payload,
+      reason: params.clientActionRequest.reason,
     });
   }
 
@@ -75,28 +92,19 @@ export function buildProtocolDirectives(params: {
   return directives;
 }
 
-/**
- * 推断客户端下一步建议输入类型。
- */
-export function inferRecommendedInput(phase: AgentPhase, hasClientDataRequest: boolean): RecommendedClientInput {
-  if (hasClientDataRequest) {
-    return 'client_data_response';
-  }
-  if (phase === 'collecting_slots') {
-    return 'slot_update';
-  }
-  if (phase === 'awaiting_confirmation') {
-    return 'confirm_or_deny';
-  }
-  if (phase === 'executing') {
-    return 'none';
-  }
+export function inferRecommendedInput(
+  phase: AgentPhase,
+  hasClientCapabilityRequest: boolean,
+  hasClientActionRequest: boolean,
+): RecommendedClientInput {
+  if (hasClientActionRequest) return 'client_action_response';
+  if (hasClientCapabilityRequest) return 'client_capability_response';
+  if (phase === 'collecting_slots') return 'slot_update';
+  if (phase === 'awaiting_confirmation') return 'confirm_or_deny';
+  if (phase === 'executing') return 'none';
   return 'user_text';
 }
 
-/**
- * 构建客户端呈现建议。
- */
 export function buildPresentation(params: {
   phase: AgentPhase;
   message: string;
@@ -120,11 +128,7 @@ export function buildPresentation(params: {
       template: 'loading_card',
       components: [
         { componentType: 'status_badge', id: 'loading-status', status: 'running', text: '执行中，请稍候' },
-        {
-          componentType: 'timeline',
-          id: 'loading-timeline',
-          events: [{ title: '请求已受理' }, { title: '执行中' }],
-        },
+        { componentType: 'timeline', id: 'loading-timeline', events: [{ title: '请求已受理' }, { title: '执行中' }] },
       ],
     };
   }
@@ -144,11 +148,7 @@ export function buildPresentation(params: {
       template: 'error_banner',
       components: [
         { componentType: 'status_badge', id: 'error-status', status: 'error', text: params.error.message },
-        {
-          componentType: 'button_group',
-          id: 'error-actions',
-          buttons: params.error.retryable ? [{ id: 'retry', label: '重试', action: 'retry' }] : [],
-        },
+        { componentType: 'button_group', id: 'error-actions', buttons: params.error.retryable ? [{ id: 'retry', label: '重试', action: 'retry' }] : [] },
       ],
     };
   }

@@ -1,11 +1,12 @@
 import type {
-  ClientDataRequest,
-  ClientDataResponsePayload,
+  ClientActionResponsePayload,
+  ClientCapabilityRequest,
+  ClientCapabilityResponsePayload,
   ClientTurnRequest,
   ServerTurnResponse,
 } from './protocol';
 
-export type RouteId = 'chat' | 'reminder' | 'contact' | 'task' | 'fallback';
+export type RouteId = 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'fallback';
 
 export type AgentPhase =
   | 'intent_detected'
@@ -72,6 +73,12 @@ export type ExecutionResult = {
   data?: Record<string, unknown>;
   retryable?: boolean;
   errorCode?: string;
+  requestClientAction?: {
+    requestId: string;
+    action: string;
+    payload: Record<string, unknown>;
+    reason?: string;
+  };
 };
 
 export type ConfirmationState = {
@@ -86,6 +93,13 @@ export type SessionExecutionState = {
   result?: ExecutionResult;
   retries: number;
   lastErrorAt?: number;
+  pendingClientAction?: {
+    requestId: string;
+    action: string;
+    payload: Record<string, unknown>;
+    reason?: string;
+    askedAt: number;
+  };
 };
 
 export type ProcessedTurnSnapshot = {
@@ -107,8 +121,8 @@ export type SessionState = {
   execution: SessionExecutionState;
   history: MessageRecord[];
   processedTurns: Record<string, ProcessedTurnSnapshot>;
-  pendingClientDataRequest?: ClientDataRequest;
-  clientDataHistory: ClientDataResponsePayload[];
+  pendingClientCapabilityRequest?: ClientCapabilityRequest;
+  clientCapabilityHistory: ClientCapabilityResponsePayload[];
   currentTurnId?: string;
   updatedAt: number;
 };
@@ -164,10 +178,12 @@ export type RoutePlugin = {
   detectIntent(input: AgentRouteInput, state: SessionState): RouteIntentResult;
   extractSlots(input: AgentRouteInput, state: SessionState): SlotExtraction;
   buildSlotPrompt(missingSlots: string[], state: SessionState): string;
+  resolveMissingSlots?(state: SessionState): string[];
   needsConfirmation(state: SessionState): boolean;
   buildConfirmation(state: SessionState): ConfirmationPayload;
-  buildClientDataRequest?(input: AgentRouteInput, state: SessionState): ClientDataRequest | null;
-  applyClientDataResponse?(state: SessionState, payload: ClientDataResponsePayload): void;
+  buildClientCapabilityRequest?(input: AgentRouteInput, state: SessionState): ClientCapabilityRequest | null;
+  applyClientCapabilityResponse?(state: SessionState, payload: ClientCapabilityResponsePayload): void;
+  applyClientActionResponse?(state: SessionState, payload: ClientActionResponsePayload): void;
   buildExecutionRequest(state: SessionState, input: AgentRouteInput): ExecutionRequest | null;
   buildCompletedMessage(state: SessionState): string;
 };

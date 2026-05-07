@@ -7,15 +7,12 @@ const LOCKED_PHASES: ReadonlySet<SessionState['phase']> = new Set([
   'executing',
 ]);
 
-/**
- * 计算本轮应进入的路由。
- * 作用：在中间态优先“锁定当前 route”，其余情况按意图置信度选择最佳 route。
- */
 export function decideRoute(
   routes: RoutePlugin[],
   fallbackRoute: RoutePlugin,
   input: AgentRouteInput,
   state: SessionState,
+  llmHint?: { route: SessionState['activeRoute']; confidence: number; reason: string },
 ): RouteDecision {
   const currentRoute = routes.find((route) => route.id === state.activeRoute) ?? fallbackRoute;
 
@@ -25,6 +22,15 @@ export function decideRoute(
       confidence: 1,
       reason: `keep current route while in phase ${state.phase}`,
       keepCurrentRoute: true,
+    };
+  }
+
+  if (llmHint && llmHint.confidence >= 0.6) {
+    return {
+      route: llmHint.route,
+      confidence: llmHint.confidence,
+      reason: llmHint.reason,
+      keepCurrentRoute: llmHint.route === state.activeRoute,
     };
   }
 

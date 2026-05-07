@@ -1,43 +1,49 @@
-/**
- * 服务端向客户端请求的数据类型。
- */
-export type ClientDataRequestKind = 'vector_memory_search' | 'contact_candidates' | 'device_snapshot';
+export type ClientCapabilityRequestKind =
+  | 'vector_memory_search'
+  | 'contact_candidates'
+  | 'device_snapshot'
+  | 'ledger_local_action';
 
-/**
- * 服务端请求客户端补充数据（例如端侧向量检索）时的协议结构。
- */
-export type ClientDataRequest = {
+export type ClientCapabilityRequest = {
   requestId: string;
-  kind: ClientDataRequestKind;
+  kind: ClientCapabilityRequestKind;
   query: string;
   topK?: number;
   namespace?: string;
   reason?: string;
+  action?: string;
+  payload?: Record<string, unknown>;
 };
 
-/**
- * 客户端回传数据项。
- */
-export type ClientDataItem = {
+export type ClientCapabilityItem = {
   id?: string;
   text: string;
   score?: number;
   metadata?: Record<string, unknown>;
 };
 
-/**
- * 客户端对数据请求的响应。
- */
-export type ClientDataResponsePayload = {
+export type ClientCapabilityResponsePayload = {
   requestId: string;
-  kind: ClientDataRequestKind;
-  items: ClientDataItem[];
+  kind: ClientCapabilityRequestKind;
+  items: ClientCapabilityItem[];
+  result?: Record<string, unknown>;
   error?: string;
 };
 
-/**
- * 客户端发起 turn 请求时可携带的交互动作。
- */
+export type ClientActionResponsePayload = {
+  requestId: string;
+  action: string;
+  success: boolean;
+  result?: Record<string, unknown>;
+  error?: string;
+};
+
+// compatibility aliases
+export type ClientDataRequestKind = ClientCapabilityRequestKind;
+export type ClientDataRequest = ClientCapabilityRequest;
+export type ClientDataItem = ClientCapabilityItem;
+export type ClientDataResponsePayload = ClientCapabilityResponsePayload;
+
 export type ClientInteraction =
   | {
       kind: 'user_text';
@@ -59,8 +65,16 @@ export type ClientInteraction =
       value: string;
     }
   | {
+      kind: 'client_capability_response';
+      payload: ClientCapabilityResponsePayload;
+    }
+  | {
       kind: 'client_data_response';
       payload: ClientDataResponsePayload;
+    }
+  | {
+      kind: 'client_action_response';
+      payload: ClientActionResponsePayload;
     }
   | {
       kind: 'cancel';
@@ -71,9 +85,6 @@ export type ClientInteraction =
       actionId?: string;
     };
 
-/**
- * 客户端 -> 服务端：单轮请求协议。
- */
 export type ClientTurnRequest = {
   protocolVersion?: string;
   sessionId: string;

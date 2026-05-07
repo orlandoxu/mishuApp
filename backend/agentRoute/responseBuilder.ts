@@ -45,11 +45,18 @@ export function buildResponse(params: BuildResponseParams): AgentRouteOutput {
     phase: params.state.phase,
     actions: params.actions ?? [],
     error: params.error,
-    clientDataRequest: params.state.pendingClientDataRequest,
+    clientCapabilityRequest: params.state.pendingClientCapabilityRequest,
+    clientActionRequest: params.state.execution.pendingClientAction ? {
+      requestId: params.state.execution.pendingClientAction.requestId,
+      action: params.state.execution.pendingClientAction.action,
+      payload: params.state.execution.pendingClientAction.payload,
+      reason: params.state.execution.pendingClientAction.reason,
+    } : undefined,
   });
   const recommendedInput = inferRecommendedInput(
     params.state.phase,
-    Boolean(params.state.pendingClientDataRequest),
+    Boolean(params.state.pendingClientCapabilityRequest),
+    Boolean(params.state.execution.pendingClientAction),
   );
   const presentation = buildPresentation({
     phase: params.state.phase,
@@ -72,7 +79,7 @@ export function buildResponse(params: BuildResponseParams): AgentRouteOutput {
     confirmation: params.confirmation,
     executable: params.executable ?? false,
     needsUserInput:
-      !params.state.pendingClientDataRequest &&
+      !params.state.pendingClientCapabilityRequest && !params.state.execution.pendingClientAction &&
       (params.state.phase === 'collecting_slots' || params.state.phase === 'awaiting_confirmation'),
     uiHints: {
       display,
