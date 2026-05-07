@@ -2,7 +2,7 @@ serverAddr = "api.landeng.fun"
 serverPort = 7000
 
 auth.method = "token"
-auth.token = "tk-bnaojsdabhioahd80"
+auth.token = "tk-bnaojsdabhioahd81"
 
 transport.tcpMux = true
 loginFailExit = true
