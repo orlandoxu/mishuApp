@@ -7,6 +7,11 @@ auth.token = "tk-bnaojsdabhioahd80"
 transport.tcpMux = true
 loginFailExit = true
 
+webServer.addr = "0.0.0.0"
+webServer.port = 7500
+webServer.user = "admin"
+webServer.password = "gg2228GGF"
+
 [[proxies]]
 name = "mishu-backend-local"
 type = "http"
