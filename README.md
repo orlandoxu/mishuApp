@@ -1,92 +1,62 @@
 # mishuApp Monorepo
 
 ## 目录
-
 - `ios`：iOS 工程
-- `backend`：Node/Bun 后端服务
-- `mishuAppUI`：前端子项目
-- `SDao`：协作/服务模块
+- `backend`：Bun 后端服务
+- `admin`：管理后台（Vite）
+- `h5`：H5 邀请页（Vite）
+- `mishuAppUI`：Web 原型（UI 基准）
 
-## backend 使用 FRP 暴露本地服务到 `api.landeng.fun/local`
+## 服务管理约定（必须）
+- 本项目所有长期服务统一用 PM2 管理，不使用 `bun run dev` / `vite` / `startFrpc.sh` 前台常驻方式。
+- 启动全部服务：`pnpm pm2:start`
+- 重启全部服务：`pnpm pm2:restart`
+- 停止全部服务：`pnpm pm2:stop`
+- 查看状态：`pm2 list`
+- 查看日志：`pm2 logs <name>`
+- 修改 `ecosystem.config.cjs` 后，必须执行：`pm2 save`
 
-目标：把你本地跑在 `127.0.0.1:3000` 的 backend，通过 FRP 映射到线上域名路径 `https://api.landeng.fun/local`。
+## PM2 进程说明与访问方式
+当前 `pm2 list` 中应包含以下 6 个进程：
 
-### 1. 运维目录结构（全部在根目录 `ops/`）
+1. `rest`
+- 作用：主后端 HTTP API 服务（Bun/Fastify）。
+- 本机访问：`http://127.0.0.1:3000`
+- 健康检查：`http://127.0.0.1:3000/health`
 
-- 服务端配置：`ops/frp/conf/frps.toml`
-- 客户端配置：`ops/frp/conf/frpc.toml`
-- 内置二进制：
-  - `ops/frp/bin/linux_amd64/frps`、`ops/frp/bin/linux_amd64/frpc`
-  - `ops/frp/bin/linux_arm64/frps`、`ops/frp/bin/linux_arm64/frpc`
-  - `ops/frp/bin/darwin_arm64/frps`、`ops/frp/bin/darwin_arm64/frpc`
-- 日志目录：`ops/frp/logs`
-- 启动脚本：`ops/frp/startFrps.sh`、`ops/frp/startFrpc.sh`
-- Nginx 转发配置：`ops/nginx/nginx.conf`
+2. `cron`
+- 作用：后端定时任务进程（跑计划任务，不提供 HTTP 页面）。
+- 访问方式：无独立 URL，通过 `pm2 logs cron` 观察执行日志。
 
-### 2. 先改密钥
+3. `socket`
+- 作用：后端 WebSocket 服务进程。
+- 访问方式：按业务端口连接（以代码配置为准），通过 `pm2 logs socket` 观察连接与消息日志。
 
-把 `ops/frp/conf/frps.toml` 和 `ops/frp/conf/frpc.toml` 里的：
+4. `admin`
+- 作用：管理后台前端开发服务。
+- 本机访问：`http://127.0.0.1:8300`
+- 局域网访问：`http://<你的局域网IP>:8300`
+- API 基址：默认 `https://api.landeng.fun/local`（与 iOS 统一）；可用 `VITE_API_BASE_URL` 覆盖。
 
-- `auth.token = "replace-with-strong-token"`
+5. `h5`
+- 作用：H5 邀请页前端开发服务。
+- 本机访问：`http://127.0.0.1:8200`
+- 局域网访问：`http://<你的局域网IP>:8200`
 
-改成同一个强密码。
+6. `frpc`
+- 作用：FRP 客户端隧道，把本地服务暴露到外网网关。
+- 外网示例：`https://api.landeng.fun/local/health`（映射到本地 `rest` 的 `/health`）。
 
-### 3. 一键后台启动脚本（会先终止上一个进程）
+## FRP 与网关（`/local`）说明
+目标：把本地 `rest`（`127.0.0.1:3000`）通过 FRP 映射到 `https://api.landeng.fun/local`。
 
-仓库根目录提供了：
+- FRP 配置：`ops/frp/conf/frps.toml`、`ops/frp/conf/frpc.toml`
+- FRP 二进制：`ops/frp/bin/*`
+- FRP 日志：`ops/frp/logs/*`
+- Nginx 配置：`ops/nginx/nginx.conf`
 
-- `./startFrps.sh`：启动 frps（实际执行 `ops/frp/startFrps.sh`）
-- `./startFrpc.sh`：启动 frpc（实际执行 `ops/frp/startFrpc.sh`）
+`nginx` 通过 `/local` 前缀转发到 FRP 入口，再回源本地 `rest` 服务。
 
-它们会自动：
-
-- 查找并终止同配置的旧进程
-- 使用 `nohup` 在后台启动
-- 输出日志到：
-  - `ops/frp/logs/frps.log`
-  - `ops/frp/logs/frpc.log`
-
-直接运行：
-
-```bash
-./startFrps.sh
-./startFrpc.sh
-```
-
-默认会自动选用 `ops/frp/bin` 下的二进制。  
-如果需要手动指定，可临时设置：
-
-```bash
-FRPS_BIN=/path/to/frps ./startFrps.sh
-FRPC_BIN=/path/to/frpc ./startFrpc.sh
-```
-
-### 4. nginx 转发说明
-
-`ops/nginx/nginx.conf` 已增加：
-
-- `location = /local`
-- `location ^~ /local/`
-
-这两个路由会转发到 `127.0.0.1:18080`（frps），并去掉 `/local` 前缀后再发给本地 backend。
-
-例如：
-
-- `https://api.landeng.fun/local/health` -> 本地 backend 的 `/health`
-
-### 5. 重载 nginx
-
-在公网服务器执行：
-
-```bash
-nginx -t
-nginx -s reload
-```
-
-### 6. 快速验证
-
-```bash
-curl -i https://api.landeng.fun/local/health
-```
-
-返回本地 backend 的健康检查结果即说明链路可用。
+## Admin API 基址覆盖（可选）
+- 默认不需要配置：`admin` 会请求 `https://api.landeng.fun/local/admin/*`。
+- 如需临时切本地后端，可在 `admin/.env.local` 增加：`VITE_API_BASE_URL=http://127.0.0.1:3000`

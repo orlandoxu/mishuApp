@@ -4,6 +4,14 @@ export type ApiResponse<T> = {
   data: T
 }
 
+const DEFAULT_API_BASE_URL = 'https://api.landeng.fun/local'
+const RAW_API_BASE_URL = (import.meta.env.VITE_API_BASE_URL as string | undefined)?.trim()
+const API_BASE_URL = (RAW_API_BASE_URL && RAW_API_BASE_URL.length > 0 ? RAW_API_BASE_URL : DEFAULT_API_BASE_URL).replace(/\/+$/, '')
+
+function buildApiUrl(path: string): string {
+  return `${API_BASE_URL}${path}`
+}
+
 export type AdminUserRecord = {
   id: string
   phoneNumber: string
@@ -145,48 +153,48 @@ async function request<T>(url: string, options: RequestInit): Promise<T> {
 
 export const adminApi = {
   login(payload: { username: string; password: string }) {
-    return request<{ token: string; username: string }>('/api/admin/login', {
+    return request<{ token: string; username: string }>(buildApiUrl('/admin/login'), {
       method: 'POST',
       body: JSON.stringify(payload),
     })
   },
   getUsers(payload: { page?: number; pageSize?: number; keyword?: string }, token: string) {
-    return request<{ page: number; pageSize: number; total: number; records: AdminUserRecord[] }>('/api/admin/users', {
+    return request<{ page: number; pageSize: number; total: number; records: AdminUserRecord[] }>(buildApiUrl('/admin/users'), {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     })
   },
   getUsersSummary(payload: { keyword?: string }, token: string) {
-    return request<AdminUsersSummary>('/api/admin/users/summary', {
+    return request<AdminUsersSummary>(buildApiUrl('/admin/users/summary'), {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     })
   },
   toggleUserStatus(payload: { userId: string }, token: string) {
-    return request<{ userId: string; isActive: boolean }>('/api/admin/users/status', {
+    return request<{ userId: string; isActive: boolean }>(buildApiUrl('/admin/users/status'), {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     })
   },
   getOrders(payload: AdminOrdersQuery, token: string) {
-    return request<{ page: number; pageSize: number; total: number; summary: AdminOrdersSummary; records: AdminOrderRecord[] }>('/api/admin/orders', {
+    return request<{ page: number; pageSize: number; total: number; summary: AdminOrdersSummary; records: AdminOrderRecord[] }>(buildApiUrl('/admin/orders'), {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     })
   },
   getDoubaoLogs(payload: { page?: number; pageSize?: number; apiType?: string; userKeyword?: string }, token: string) {
-    return request<{ page: number; pageSize: number; total: number; records: DoubaoLogRecord[] }>('/api/admin/doubao/logs', {
+    return request<{ page: number; pageSize: number; total: number; records: DoubaoLogRecord[] }>(buildApiUrl('/admin/doubao/logs'), {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       body: JSON.stringify(payload),
     })
   },
   getDashboard(token: string) {
-    return request<DashboardPayload>('/api/admin/dashboard', {
+    return request<DashboardPayload>(buildApiUrl('/admin/dashboard'), {
       method: 'GET',
       headers: { Authorization: `Bearer ${token}` },
     })

@@ -38,10 +38,12 @@
 6. 做 Web 原型手机截图时，必须使用真正的移动端视口/MCP/浏览器设备模拟；不要把普通 headless `--window-size` 截图当成手机渲染结论。
 
 ## E. 本地运行与调试常识
-1. 后台/隧道通常由用户先启动：在仓库根目录运行 `./startFrpc.sh`，并在 `backend` 目录运行 `bun run dev`。
-2. 如需自行启动后端，应使用 monorepo 路径：`cd backend && bun run dev`。
-3. 模拟器可用于普通登录流程验证，测试账号为 `15680069020`，密码为 `111111`。
-4. 涉及物联网设备能力或用户明确要求 MCP 真机测试时，仍必须用真机设备验证，不能用模拟器替代最终验收。
+1. 所有长期服务进程统一使用 PM2 管理，禁止使用 `bun run dev`、`vite`、`./startFrpc.sh` 这类前台常驻命令直接起服务（临时排障除外，结束后必须回归 PM2）。
+2. 本项目标准启动方式：在仓库根目录使用 `pm2 start ecosystem.config.cjs --update-env`（或 `pnpm pm2:start`）。
+3. 需要重启服务时，使用 `pm2 restart <name>` 或 `pm2 restart ecosystem.config.cjs --update-env`，不要改回 shell 常驻启动。
+4. 当前约定的 PM2 服务名为：`rest`、`cron`、`socket`、`admin`、`h5`、`frpc`。
+5. 变更 PM2 配置后必须执行 `pm2 save`，确保重启机器后仍按最新配置恢复。
+6. 模拟器可用于普通登录流程验证，测试账号为 `15680069020`，密码为 `111111`。
 
 ## F. 执行口径
 - 不以“功能可跑”作为完成标准，必须同时满足：

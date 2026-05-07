@@ -11,6 +11,11 @@
     "h5:dev": "pnpm --filter @mishu/h5 dev",
     "ui:dev": "pnpm --filter react-example dev",
     "admin:dev": "pnpm --filter @mishu/admin dev",
-    "admin:build": "pnpm --filter @mishu/admin build"
+    "admin:build": "pnpm --filter @mishu/admin build",
+    "pm2:start": "pm2 start ecosystem.config.cjs --update-env",
+    "pm2:restart": "pm2 restart ecosystem.config.cjs --update-env",
+    "pm2:stop": "pm2 stop ecosystem.config.cjs",
+    "pm2:delete": "pm2 delete ecosystem.config.cjs",
+    "pm2:save": "pm2 save"
   }
 }
