@@ -64,7 +64,7 @@ struct AgentDirective: Decodable {
   let request: AgentCapabilityRequest?
   let requestId: String?
   let action: String?
-  let payload: [String: JSONValue]?
+  let payload: [String: AgentJSONValue]?
 }
 
 struct AgentCapabilityRequest: Decodable {
@@ -75,15 +75,15 @@ struct AgentCapabilityRequest: Decodable {
   let namespace: String?
   let reason: String?
   let action: String?
-  let payload: [String: JSONValue]?
+  let payload: [String: AgentJSONValue]?
 }
 
-enum JSONValue: Decodable {
+enum AgentJSONValue: Decodable {
   case string(String)
   case number(Double)
   case bool(Bool)
-  case object([String: JSONValue])
-  case array([JSONValue])
+  case object([String: AgentJSONValue])
+  case array([AgentJSONValue])
   case null
 
   init(from decoder: Decoder) throws {
@@ -96,12 +96,12 @@ enum JSONValue: Decodable {
       self = .number(value)
     } else if let value = try? container.decode(Bool.self) {
       self = .bool(value)
-    } else if let value = try? container.decode([String: JSONValue].self) {
+    } else if let value = try? container.decode([String: AgentJSONValue].self) {
       self = .object(value)
-    } else if let value = try? container.decode([JSONValue].self) {
+    } else if let value = try? container.decode([AgentJSONValue].self) {
       self = .array(value)
     } else {
-      throw DecodingError.typeMismatch(JSONValue.self, .init(codingPath: decoder.codingPath, debugDescription: "unsupported json value"))
+      throw DecodingError.typeMismatch(AgentJSONValue.self, .init(codingPath: decoder.codingPath, debugDescription: "unsupported json value"))
     }
   }
 

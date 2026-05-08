@@ -26,8 +26,8 @@ actor LedgerLocalService {
 
   private init() {}
 
-  func createTransaction(input: LedgerCreateInput) throws -> LedgerTransactionRecord {
-    let userId = try ensureDatabaseReady()
+  func createTransaction(input: LedgerCreateInput) async throws -> LedgerTransactionRecord {
+    let userId = try await ensureDatabaseReady()
     let now = Int64(Date().timeIntervalSince1970 * 1000)
     let txId = UUID().uuidString.lowercased()
 
@@ -62,12 +62,12 @@ actor LedgerLocalService {
     )
   }
 
-  func queryTransactions(filter: LedgerQueryFilter) throws -> [LedgerTransactionRecord] {
-    _ = try ensureDatabaseReady()
+  func queryTransactions(filter: LedgerQueryFilter) async throws -> [LedgerTransactionRecord] {
+    let userId = try await ensureDatabaseReady()
     guard let db = AppDatabase.shared.db else { return [] }
 
     let query = LedgerTable.table
-      .filter(LedgerTable.userId == currentUserId())
+      .filter(LedgerTable.userId == userId)
       .filter(LedgerTable.occurredAt >= filter.startAtMs && LedgerTable.occurredAt <= filter.endAtMs)
       .order(LedgerTable.occurredAt.desc)
       .limit(max(1, filter.limit))
@@ -76,8 +76,10 @@ actor LedgerLocalService {
     return rows.compactMap(parseRow)
   }
 
-  func querySummary(periodStartMs: Int64, periodEndMs: Int64, groupByCategory: Bool) throws -> LedgerSummary {
-    let items = try queryTransactions(filter: LedgerQueryFilter(startAtMs: periodStartMs, endAtMs: periodEndMs, limit: 5_000))
+  func querySummary(periodStartMs: Int64, periodEndMs: Int64, groupByCategory: Bool) async throws -> LedgerSummary {
+    let items = try await queryTransactions(
+      filter: LedgerQueryFilter(startAtMs: periodStartMs, endAtMs: periodEndMs, limit: 5_000)
+    )
 
     let incomeTotal = items
       .filter { $0.direction == .income }
@@ -115,13 +117,11 @@ actor LedgerLocalService {
     )
   }
 
-  private func ensureDatabaseReady() throws -> String {
-    let userId = currentUserId()
+  private func ensureDatabaseReady() async throws -> String {
+    let userId = await MainActor.run {
+      SelfStore.shared.selfUser?.userId ?? "guest"
+    }
     try AppDatabase.shared.setupIfNeeded(userId: userId)
     return userId
-  }
-
-  private func currentUserId() -> String {
-    SelfStore.shared.selfUser?.userId ?? "guest"
   }
 }

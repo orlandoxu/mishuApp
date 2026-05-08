@@ -27,9 +27,9 @@ function extractSlots(input: AgentRouteInput): SlotExtraction {
       ? 'expense'
       : null;
 
-  const moneyOperation = hasAnyKeyword(text, ['本周', '本月', '今天', '查询', '查', '多少'])
-    ? 'ledger_query'
-    : 'ledger_record';
+  const hasAmount = Boolean(amountMatch);
+  const hasQueryHint = hasAnyKeyword(text, ['本周', '本月', '查询', '查账', '多少']);
+  const moneyOperation = !hasAmount && hasQueryHint ? 'ledger_query' : 'ledger_record';
 
   const period = hasAnyKeyword(text, ['本周'])
     ? 'week'
