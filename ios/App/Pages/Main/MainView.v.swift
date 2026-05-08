@@ -107,6 +107,14 @@ struct MainView: View {
             .allowsHitTesting(false)
         }
 
+        // 底部不允许穿透点击
+        Color.clear
+          .frame(height: 20 + max(proxy.safeAreaInsets.bottom, 18))
+          .frame(maxWidth: .infinity)
+          .contentShape(Rectangle())
+          .onTapGesture {}
+          .ignoresSafeArea(edges: .bottom)
+
         VoiceActionView(
           status: status.phase,
           transcriptText: transcriptForInputOverlay,
@@ -116,7 +124,8 @@ struct MainView: View {
           onCancelRecording: cancelRecordedInput,
           onTextInput: submitTextInput
         )
-        .padding(.bottom, max(proxy.safeAreaInsets.bottom, 18))
+        .padding(.bottom, 0)
+        .ignoresSafeArea(edges: .bottom)
       }
       .accessibilityElement(children: .contain)
       .accessibilityIdentifier("home_main_root")
@@ -149,8 +158,8 @@ struct MainView: View {
     }
   }
 
-  // Step 1. 空闲态长按开始请求麦克风并进入录音
-  // Step 2. 连接成功后持续展示实时识别文案
+  /// Step 1. 空闲态长按开始请求麦克风并进入录音
+  /// Step 2. 连接成功后持续展示实时识别文案
   private func startVoiceRecording() {
     guard case .idle = status else { return }
     status = .recording(transcript: "正在倾听...")
@@ -161,8 +170,8 @@ struct MainView: View {
     }
   }
 
-  // Step 1. 松手后停止录音
-  // Step 2. 进入复核态，不在此处请求后端
+  /// Step 1. 松手后停止录音
+  /// Step 2. 进入复核态，不在此处请求后端
   private func stopVoiceRecordingAndReview() {
     guard case .recording = status else { return }
     realtimeController.stopListening { finalText in
@@ -204,8 +213,8 @@ struct MainView: View {
     text.isEmpty ? "正在实时识别..." : text
   }
 
-  // Step 1. 延迟回到空闲态
-  // Step 2. 清空提示文案，为下一次录音准备
+  /// Step 1. 延迟回到空闲态
+  /// Step 2. 清空提示文案，为下一次录音准备
   private func resetToIdleAfterDelay(_ delay: TimeInterval) {
     DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
       status = .idle

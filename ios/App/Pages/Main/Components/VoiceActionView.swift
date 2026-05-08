@@ -35,7 +35,7 @@ struct VoiceActionView: View {
 
         if isReviewing {
           reviewActions
-            .frame(minHeight: 80)
+            .frame(minHeight: 72)
             .transition(.opacity.combined(with: .scale(scale: 0.90)))
         } else {
           morphInputContainer
@@ -45,12 +45,12 @@ struct VoiceActionView: View {
         }
 
         inputModeToggleButton
-          .frame(height: 40)
-          .padding(.top, 14)
+          .frame(height: 32)
+          .padding(.top, 8)
       }
       .frame(maxWidth: .infinity)
       .padding(.horizontal, 16)
-      .padding(.bottom, 8)
+      .padding(.bottom, 4)
     }
     .frame(maxWidth: .infinity)
     .animation(.spring(response: 0.60, dampingFraction: 0.82), value: isTextInput)
@@ -90,18 +90,26 @@ struct VoiceActionView: View {
   private var morphInputContainer: some View {
     GeometryReader { geo in
       let expandedWidth = max(geo.size.width - 32, 260)
-      let collapsedWidth: CGFloat = 66
-      let width = isTextInput ? expandedWidth : collapsedWidth
-      let corner = isTextInput ? CGFloat(32) : CGFloat(33)
+      let collapsedDiameter: CGFloat = 66
+      let width = isTextInput ? expandedWidth : collapsedDiameter
 
       ZStack {
-        RoundedRectangle(cornerRadius: corner, style: .continuous)
-          .fill(Color.white)
-          .overlay(
-            RoundedRectangle(cornerRadius: corner, style: .continuous)
-              .stroke(Color.black.opacity(0.05), lineWidth: 1)
-          )
-          .shadow(color: Color.black.opacity(0.12), radius: 22, x: 0, y: 8)
+        if isTextInput {
+          RoundedRectangle(cornerRadius: 32, style: .continuous)
+            .fill(Color.white)
+            .overlay(
+              RoundedRectangle(cornerRadius: 32, style: .continuous)
+                .stroke(Color.black.opacity(0.05), lineWidth: 1)
+            )
+            .shadow(color: Color.black.opacity(0.12), radius: 22, x: 0, y: 8)
+        } else {
+          Circle()
+            .fill(Color.white)
+            .overlay(
+              Circle().stroke(Color.black.opacity(0.05), lineWidth: 1)
+            )
+            .shadow(color: Color.black.opacity(0.12), radius: 22, x: 0, y: 8)
+        }
 
         HStack(spacing: 8) {
           TextField("在此输入文字...", text: $inputValue)
@@ -130,7 +138,7 @@ struct VoiceActionView: View {
           .opacity(isTextInput ? 0 : 1)
           .allowsHitTesting(!isTextInput)
       }
-      .frame(width: width, height: 66)
+      .frame(width: width, height: collapsedDiameter)
       .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
       .gesture(recordGesture)
       .allowsHitTesting(isTextInput ? isIdle : (status == .idle || isRecording))
