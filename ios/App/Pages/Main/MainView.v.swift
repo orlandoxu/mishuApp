@@ -176,7 +176,11 @@ struct MainView: View {
   private func stopVoiceRecordingAndReview() {
     guard case .recording = status else { return }
     realtimeController.stopListening { finalText in
-      let reviewed = finalText.isEmpty ? "未识别到清晰语音" : finalText
+      let reviewed = finalText.trimmingCharacters(in: .whitespacesAndNewlines)
+      guard !reviewed.isEmpty else {
+        status = .idle
+        return
+      }
       status = .reviewing(transcript: reviewed)
     }
   }
