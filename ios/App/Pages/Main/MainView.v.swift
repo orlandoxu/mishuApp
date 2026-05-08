@@ -6,28 +6,27 @@ enum MainTab: Hashable {
 
 enum VoicePhase {
   case idle
-  case listening
+  case recording
+  case reviewing
   case thinking
   case success
 }
 
-enum VoiceThinkingReason {
-  case connecting
-  case summarizing
-}
-
 enum VoiceState {
   case idle
-  case listening(transcript: String)
-  case thinking(VoiceThinkingReason)
+  case recording(transcript: String)
+  case reviewing(transcript: String)
+  case thinking
   case success(message: String)
 
   var phase: VoicePhase {
     switch self {
     case .idle:
       return .idle
-    case .listening:
-      return .listening
+    case .recording:
+      return .recording
+    case .reviewing:
+      return .reviewing
     case .thinking:
       return .thinking
     case .success:
@@ -37,12 +36,8 @@ enum VoiceState {
 
   var transcriptText: String? {
     switch self {
-    case .idle:
+    case .idle, .recording, .reviewing, .thinking:
       return nil
-    case let .listening(transcript):
-      return transcript
-    case let .thinking(reason):
-      return reason == .connecting ? "正在连接语音服务..." : "已停止录音，正在汇总识别结果..."
     case let .success(message):
       return message
     }
@@ -105,14 +100,24 @@ struct MainView: View {
         .frame(height: 150 + proxy.safeAreaInsets.bottom)
         .allowsHitTesting(false)
 
+        if isInputOverlayActive {
+          Color.black.opacity(0.40)
+            .ignoresSafeArea()
+            .transition(.opacity)
+            .allowsHitTesting(false)
+        }
+
         VoiceActionView(
           status: status.phase,
-          onTap: toggleInteraction,
+          transcriptText: transcriptForInputOverlay,
+          onStartRecording: startVoiceRecording,
+          onStopRecording: stopVoiceRecordingAndReview,
+          onConfirmRecording: confirmRecordedInput,
+          onCancelRecording: cancelRecordedInput,
           onTextInput: submitTextInput
         )
         .padding(.bottom, max(proxy.safeAreaInsets.bottom, 18))
       }
-      .animation(.easeInOut(duration: 0.25), value: status.phase)
       .accessibilityElement(children: .contain)
       .accessibilityIdentifier("home_main_root")
     }
@@ -121,51 +126,69 @@ struct MainView: View {
       showResult(error, resetDelay: 1.6)
     })
     .onChange(of: realtimeController.recognizedText, perform: { text in
-      guard case .listening = status else { return }
-      status = .listening(transcript: liveTranscript(from: text))
+      guard case .recording = status else { return }
+      status = .recording(transcript: liveTranscript(from: text))
     })
   }
 
-  // Step 1. 空闲态点击后请求麦克风并真实开始录音
-  // Step 2. 录音中再次点击则停止录音并进入过渡状态
-  private func toggleInteraction() {
+  private var transcriptForInputOverlay: String {
     switch status {
-    case .idle:
-      startVoiceFlow()
-    case .listening:
-      stopVoiceFlow()
+    case let .recording(transcript), let .reviewing(transcript):
+      return transcript
     default:
-      break
+      return realtimeController.recognizedText
     }
   }
 
-  // Step 1. 进入连接阶段并发起实时识别
-  // Step 2. 根据结果切换到监听态或失败态
-  private func startVoiceFlow() {
-    status = .thinking(.connecting)
+  var isInputOverlayActive: Bool {
+    switch status {
+    case .recording, .reviewing:
+      return true
+    default:
+      return false
+    }
+  }
+
+  // Step 1. 空闲态长按开始请求麦克风并进入录音
+  // Step 2. 连接成功后持续展示实时识别文案
+  private func startVoiceRecording() {
+    guard case .idle = status else { return }
+    status = .recording(transcript: "正在倾听...")
     realtimeController.startListening { success in
-      success ? showListening() : showStartError()
+      if !success {
+        showStartError()
+      }
     }
   }
 
-  // Step 1. 从监听态进入汇总阶段
-  // Step 2. 展示最终识别结果并回到空闲态
-  private func stopVoiceFlow() {
-    status = .thinking(.summarizing)
+  // Step 1. 松手后停止录音
+  // Step 2. 进入复核态，不在此处请求后端
+  private func stopVoiceRecordingAndReview() {
+    guard case .recording = status else { return }
     realtimeController.stopListening { finalText in
-      showResult(finalText.isEmpty ? "未识别到清晰语音" : finalText, resetDelay: 1.8)
+      let reviewed = finalText.isEmpty ? "未识别到清晰语音" : finalText
+      status = .reviewing(transcript: reviewed)
     }
+  }
+
+  private func cancelRecordedInput() {
+    guard case .reviewing = status else { return }
+    status = .idle
+  }
+
+  private func confirmRecordedInput(_ text: String) {
+    submitFinalInput(text)
   }
 
   private func submitTextInput(_ text: String) {
-    status = .thinking(.summarizing)
-    realtimeController.processTextInputForTesting(text) { output in
-      showResult(output, resetDelay: 2.0)
-    }
+    submitFinalInput(text)
   }
 
-  private func showListening() {
-    status = .listening(transcript: "正在实时识别...")
+  private func submitFinalInput(_ text: String) {
+    status = .thinking
+    realtimeController.submitConfirmedInput(text) { output in
+      showResult(output, resetDelay: 2.0)
+    }
   }
 
   private func showStartError() {

@@ -17,10 +17,10 @@ struct AuraMascotView: View {
   var body: some View {
     ZStack {
       Ellipse()
-        .fill(Color.black.opacity(status == .listening ? 0.13 : 0.10))
+        .fill(Color.black.opacity(status == .recording ? 0.13 : 0.10))
         .frame(width: 70, height: 12)
         .offset(y: 74)
-        .scaleEffect(status == .listening ? 1.10 : 1.0)
+        .scaleEffect(status == .recording ? 1.10 : 1.0)
 
       ZStack {
         RoundedRectangle(cornerRadius: 35, style: .continuous)
@@ -88,8 +88,10 @@ struct AuraMascotView: View {
 
   private var antennaColor: Color {
     switch status {
-    case .listening:
+    case .recording:
       return Color(hex: "#FF6B6B")
+    case .reviewing:
+      return Color(hex: "#F59E0B")
     case .thinking:
       return Color(hex: "#4ECDC4")
     case .success:
@@ -101,7 +103,7 @@ struct AuraMascotView: View {
 
   private var blushOpacity: Double {
     switch status {
-    case .listening:
+    case .recording:
       return 0.70
     case .success:
       return 0.90
@@ -158,7 +160,7 @@ private struct MouthView: View {
   var body: some View {
     Path { path in
       switch status {
-      case .listening:
+      case .recording:
         path.move(to: CGPoint(x: 72, y: 82))
         path.addQuadCurve(to: CGPoint(x: 88, y: 82), control: CGPoint(x: 80, y: 92))
       case .success:

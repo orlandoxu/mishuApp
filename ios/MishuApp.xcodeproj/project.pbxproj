@@ -12,6 +12,7 @@
 		0627CA3FEC8724D54879FC6A /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E17912EC837BD3EDC7D955 /* ChildView.swift */; };
 		062E576B777E233E079F6449 /* View+pickerAddBgColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CF66FCCFB47272D4E2284 /* View+pickerAddBgColor.swift */; };
 		076E3C9114F0454A00BBB708 /* DeinitDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */; };
+		083A85EED51CBE02C3D9DAB7 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32E2F2DCCEAA29CD1C344338 /* Pods_MishuApp.framework */; };
 		0BC12988DF435DE1904976AA /* BusinessError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0671FC51D99DBDC970F529 /* BusinessError.swift */; };
 		0BF1FE118DD83E5918F0DAE5 /* VoiceRippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BBAE42DA576F46B6B1DB5B /* VoiceRippleView.swift */; };
 		0C7E5E33944E11E55F8CEFD4 /* CheckoutRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6924C438D33CDEBE3B05244 /* CheckoutRows.swift */; };
@@ -234,6 +235,7 @@
 		3052BD2C0FA99D0FF399429D /* KeyedDecodingContainer+safeDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+safeDecode.swift"; sourceTree = "<group>"; };
 		3104D7A052AB317BC94B97E4 /* delegateWechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateWechat.swift; sourceTree = "<group>"; };
 		31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionStore.swift; sourceTree = "<group>"; };
+		32E2F2DCCEAA29CD1C344338 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		353A6412F1515CD25FDE1112 /* delegateApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateApplication.swift; sourceTree = "<group>"; };
 		35825C51C062F3E9EC5A7C77 /* ChildSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSections.swift; sourceTree = "<group>"; };
 		372706400EEFA2363F61251A /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 		4310A01D1AC1284B8CAB25A4 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		468BD6AEF889C1748F814EBB /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		46AAC4A254FE881DF1B94951 /* Success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
+		489D18C860B9E8F916056FC5 /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideScrollIndicators.swift"; sourceTree = "<group>"; };
 		48C3866EF23B98D47D0C7CC5 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
@@ -310,6 +313,7 @@
 		9C0B2C3E3CB4867E6439540C /* Color+brightness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+brightness.swift"; sourceTree = "<group>"; };
 		9DD075FE3F361A05588716C0 /* UmengService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmengService.swift; sourceTree = "<group>"; };
 		9FC04AA8EF783B903DC6FDB4 /* NoticePermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePermissionStore.swift; sourceTree = "<group>"; };
+		A0B4C64CC4CFB0A884206A54 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A0E782321DD214193F551CEE /* View+bottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+bottomSheet.swift"; sourceTree = "<group>"; };
 		A1ADDE5755349782085454BF /* WeChatShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeChatShareService.swift; sourceTree = "<group>"; };
 		A2DBDE0C809B95D9AE52290B /* HomeFunctionGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFunctionGridView.swift; sourceTree = "<group>"; };
@@ -380,6 +384,7 @@
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
 				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
+				083A85EED51CBE02C3D9DAB7 /* Pods_MishuApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -514,6 +519,16 @@
 			path = TreeHole;
 			sourceTree = "<group>";
 		};
+		5B1CE760A11C55894676478C /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				A0B4C64CC4CFB0A884206A54 /* Pods-MishuApp.debug.xcconfig */,
+				489D18C860B9E8F916056FC5 /* Pods-MishuApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		5C2A6D1E697BB20BB3AAA161 /* TrueMemory */ = {
 			isa = PBXGroup;
 			children = (
@@ -601,6 +616,7 @@
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
+				5B1CE760A11C55894676478C /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -645,6 +661,7 @@
 			isa = PBXGroup;
 			children = (
 				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
+				32E2F2DCCEAA29CD1C344338 /* Pods_MishuApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -939,8 +956,6 @@
 				A6314545CD08D46D5821D7C0 /* PBXTargetDependency */,
 			);
 			name = MishuAppUITests;
-			packageProductDependencies = (
-			);
 			productName = MishuAppUITests;
 			productReference = 802977BCD5035302C08772DA /* MishuAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -957,8 +972,6 @@
 				C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */,
 			);
 			name = MishuAppTests;
-			packageProductDependencies = (
-			);
 			productName = MishuAppTests;
 			productReference = D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -967,6 +980,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
+				9C290EDC955E5B83D0DF98B5 /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
@@ -998,16 +1012,16 @@
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
 					B926751AC9C2DF24264D496E = {
-						DevelopmentTeam = A2B57CKJJ2;
+						DevelopmentTeam = Y2547TDD5F;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EC21A6BCB2C7EF1100958F1B;
 					};
 					BE46818425FC5C9A1392BF7B = {
-						DevelopmentTeam = A2B57CKJJ2;
+						DevelopmentTeam = Y2547TDD5F;
 						ProvisioningStyle = Automatic;
 					};
 					EC21A6BCB2C7EF1100958F1B = {
-						DevelopmentTeam = A2B57CKJJ2;
+						DevelopmentTeam = Y2547TDD5F;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1030,6 +1044,7 @@
 				259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			preferredProjectObjectVersion = 77;
+			productRefGroup = 71DEA75AA51B50493F081038 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1053,6 +1068,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		9C290EDC955E5B83D0DF98B5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MishuApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A5D5B52068640738302AC7E /* Sources */ = {
@@ -1249,7 +1289,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1265,15 +1305,15 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 489D18C860B9E8F916056FC5 /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CFBundleDevelopmentRegion = "zh-Hans";
-				CODE_SIGN_ENTITLEMENTS = MishuApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1297,7 +1337,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1313,15 +1353,15 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A0B4C64CC4CFB0A884206A54 /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CFBundleDevelopmentRegion = "zh-Hans";
-				CODE_SIGN_ENTITLEMENTS = MishuApp.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 15;
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				ENABLE_APPINTENTS_METADATA_PROCESSING = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1345,7 +1385,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1397,7 +1437,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -1430,7 +1470,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				GENERATE_INFOPLIST_FILE = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1482,7 +1522,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_LANGUAGE = "zh-Hans";
-				DEVELOPMENT_TEAM = A2B57CKJJ2;
+				DEVELOPMENT_TEAM = Y2547TDD5F;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;

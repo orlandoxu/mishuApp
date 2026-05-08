@@ -65,31 +65,17 @@ final class VoiceRealtimeCtrl: ObservableObject {
   }
 
   // Step 1. 停止本地采集并通知服务端结束
-  // Step 2. 返回最终识别文本给页面渲染
+  // Step 2. 返回本次识别文本供复核，不在这里请求后端
   func stopListening(completion: @escaping (String) -> Void) {
     captureService.stopRecording()
     speechService.stopRecording()
 
     isListening = false
     let finalText = recognizedText.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !finalText.isEmpty else {
-      completion(recognizedText)
-      return
-    }
-    Task {
-      let reply: String
-      do {
-        reply = try await agentRouteClient.requestReply(text: finalText)
-      } catch {
-        reply = "指令下发失败：\(error.localizedDescription)"
-      }
-      await MainActor.run {
-        completion(reply)
-      }
-    }
+    completion(finalText)
   }
 
-  func processTextInputForTesting(_ text: String, completion: @escaping (String) -> Void) {
+  func submitConfirmedInput(_ text: String, completion: @escaping (String) -> Void) {
     let finalText = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !finalText.isEmpty else {
       completion("请输入测试文本")

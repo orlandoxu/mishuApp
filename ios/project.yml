@@ -24,21 +24,15 @@ settings:
     SWIFT_VERSION: "5.9"
     ASSETCATALOG_COMPILER_APPICON_NAME: "AppIcon"
     CODE_SIGN_STYLE: Automatic
-    DEVELOPMENT_TEAM: A2B57CKJJ2
+    DEVELOPMENT_TEAM: Y2547TDD5F
     DEVELOPMENT_LANGUAGE: zh-Hans
 targets:
   MishuApp:
     type: application
     platform: iOS
-    entitlements:
-      path: MishuApp.entitlements
-      properties:
-        com.apple.developer.networking.HotspotConfiguration: true
-        com.apple.developer.networking.wifi-info: true
-        # 免费个人开发者账号下，Push Notifications/Associated Domains 通常无法签名通过，先禁用
-        # aps-environment: development
-        # com.apple.developer.associated-domains:
-        #   - applinks:landeng.fun
+    # 免费个人开发者账号不支持 Hotspot Configuration / Access Wi-Fi Information，
+    # 因此这里不声明 MishuApp.entitlements，避免 build.sh 重新生成工程后自动签名失败。
+    # 如果以后切到付费 Apple Developer Team，再按需恢复对应 entitlement。
     sources:
       # DONE-AI: sources 改为目录自动收录，不再手动逐文件维护
       - path: App
@@ -71,7 +65,7 @@ targets:
         GENERATE_INFOPLIST_FILE: "NO"
         ENABLE_APPINTENTS_METADATA_PROCESSING: "NO"
         CODE_SIGN_STYLE: Automatic
-        DEVELOPMENT_TEAM: A2B57CKJJ2
+        DEVELOPMENT_TEAM: Y2547TDD5F
         ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         ALWAYS_SEARCH_USER_PATHS: YES
         CFBundleDevelopmentRegion: zh-Hans
@@ -153,7 +147,7 @@ targets:
       base:
         GENERATE_INFOPLIST_FILE: "YES"
         PRODUCT_BUNDLE_IDENTIFIER: fun.landeng.mishuapp.tests
-        DEVELOPMENT_TEAM: A2B57CKJJ2
+        DEVELOPMENT_TEAM: Y2547TDD5F
   MishuAppUITests:
     type: bundle.ui-testing
     platform: iOS
@@ -166,4 +160,4 @@ targets:
         TEST_TARGET_NAME: MishuApp
         GENERATE_INFOPLIST_FILE: "YES"
         PRODUCT_BUNDLE_IDENTIFIER: fun.landeng.mishuapp.uitests
-        DEVELOPMENT_TEAM: A2B57CKJJ2
+        DEVELOPMENT_TEAM: Y2547TDD5F
