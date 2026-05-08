@@ -98,6 +98,7 @@ struct MainView: View {
           endPoint: .top
         )
         .frame(height: 150 + proxy.safeAreaInsets.bottom)
+        .ignoresSafeArea(edges: .bottom)
         .allowsHitTesting(false)
 
         if isInputOverlayActive {
