@@ -16,7 +16,8 @@ struct VoiceActionView: View {
   private var isRecording: Bool { status == .recording }
   private var isReviewing: Bool { status == .reviewing }
   private var isThinking: Bool { status == .thinking }
-  private var canSwitchInputMode: Bool { status == .idle && !isRecording && !isReviewing }
+  private var isIdle: Bool { status == .idle }
+  private var canSwitchInputMode: Bool { isIdle && !isRecording && !isReviewing }
 
   var body: some View {
     ZStack(alignment: .bottom) {
@@ -32,10 +33,18 @@ struct VoiceActionView: View {
             )
         }
 
-        inputArea
-          .frame(minHeight: 80)
+        if isReviewing {
+          reviewActions
+            .frame(minHeight: 80)
+            .transition(.opacity.combined(with: .scale(scale: 0.90)))
+        } else {
+          morphInputContainer
+            .frame(height: 66)
+            .frame(maxWidth: .infinity)
+            .transition(.opacity.combined(with: .scale(scale: 0.96)))
+        }
 
-        inputModeToggle
+        inputModeToggleButton
           .frame(height: 40)
           .padding(.top, 14)
       }
@@ -78,49 +87,64 @@ struct VoiceActionView: View {
     }
   }
 
-  @ViewBuilder
-  private var inputArea: some View {
-    if isTextInput {
-      textInputContainer
-        .transition(.opacity.combined(with: .scale(scale: 0.98)))
-    } else if isReviewing {
-      reviewActions
-        .transition(.opacity.combined(with: .scale(scale: 0.90)))
-    } else {
-      recordButton
-        .transition(.opacity.combined(with: .scale(scale: 0.96)))
-    }
-  }
+  private var morphInputContainer: some View {
+    GeometryReader { geo in
+      let expandedWidth = max(geo.size.width - 32, 260)
+      let collapsedWidth: CGFloat = 66
+      let width = isTextInput ? expandedWidth : collapsedWidth
+      let corner = isTextInput ? CGFloat(32) : CGFloat(33)
 
-  private var textInputContainer: some View {
-    HStack(spacing: 8) {
-      TextField("在此输入文字...", text: $inputValue)
-        .font(.system(size: 15, weight: .regular))
-        .foregroundColor(Color.black.opacity(0.82))
-        .submitLabel(.send)
-        .onSubmit(sendText)
+      ZStack {
+        RoundedRectangle(cornerRadius: corner, style: .continuous)
+          .fill(Color.white)
+          .overlay(
+            RoundedRectangle(cornerRadius: corner, style: .continuous)
+              .stroke(Color.black.opacity(0.05), lineWidth: 1)
+          )
+          .shadow(color: Color.black.opacity(0.12), radius: 22, x: 0, y: 8)
 
-      Button(action: sendText) {
-        Text("发送")
-          .font(.system(size: 13, weight: .bold))
-          .foregroundColor(.white)
-          .padding(.horizontal, 20)
-          .padding(.vertical, 8)
-          .background(Color.black.opacity(canSendText ? 1 : 0.30))
-          .clipShape(Capsule(style: .continuous))
+        HStack(spacing: 8) {
+          TextField("在此输入文字...", text: $inputValue)
+            .font(.system(size: 15, weight: .regular))
+            .foregroundColor(Color.black.opacity(0.82))
+            .submitLabel(.send)
+            .onSubmit(sendText)
+            .opacity(isTextInput ? 1 : 0)
+
+          Button(action: sendText) {
+            Text("发送")
+              .font(.system(size: 13, weight: .bold))
+              .foregroundColor(.white)
+              .padding(.horizontal, 20)
+              .padding(.vertical, 8)
+              .background(Color.black.opacity(canSendText ? 1 : 0.30))
+              .clipShape(Capsule(style: .continuous))
+          }
+          .disabled(!canSendText || !isTextInput)
+          .opacity(isTextInput ? 1 : 0)
+        }
+        .padding(.horizontal, 16)
+        .allowsHitTesting(isTextInput)
+
+        collapsedMicLayer
+          .opacity(isTextInput ? 0 : 1)
+          .allowsHitTesting(!isTextInput)
       }
-      .disabled(!canSendText)
+      .frame(width: width, height: 66)
+      .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
+      .gesture(recordGesture)
+      .allowsHitTesting(isTextInput ? isIdle : (status == .idle || isRecording))
+      .accessibilityIdentifier("home_voice_mic_button")
+      .animation(.spring(response: 0.45, dampingFraction: 0.84), value: width)
+      .overlay(
+        Group {
+          if isRecording {
+            CountdownRingView(trigger: countdownTrigger)
+              .frame(width: 66, height: 66)
+          }
+        }
+      )
     }
-    .padding(.horizontal, 16)
-    .padding(.vertical, 10)
-    .frame(height: 60)
-    .background(Color.white)
-    .clipShape(RoundedRectangle(cornerRadius: 32, style: .continuous))
-    .overlay(
-      RoundedRectangle(cornerRadius: 32, style: .continuous)
-        .stroke(Color.black.opacity(0.05), lineWidth: 1)
-    )
-    .shadow(color: Color.black.opacity(0.12), radius: 22, x: 0, y: 8)
   }
 
   private var reviewActions: some View {
@@ -156,51 +180,42 @@ struct VoiceActionView: View {
     }
   }
 
-  private var recordButton: some View {
-    ZStack {
-      ZStack {
-        Circle()
-          .fill(Color.white)
-          .frame(width: 66, height: 66)
-          .overlay(
-            Circle().stroke(Color.black.opacity(0.05), lineWidth: 1)
-          )
-          .shadow(color: Color.black.opacity(isThinking ? 0 : 0.16), radius: 20, x: 0, y: 8)
-
-        if isRecording {
-          CountdownRingView(trigger: countdownTrigger)
-            .frame(width: 66, height: 66)
-
-          Text("15")
-            .font(.system(size: 17, weight: .bold))
-            .foregroundColor(Color.black.opacity(0.82))
-        } else {
-          Image(systemName: "mic.fill")
-            .font(.system(size: 22, weight: .semibold))
-            .foregroundStyle(Color.black.opacity(0.70))
-            .symbolRenderingMode(.hierarchical)
-        }
-      }
-    }
-    .scaleEffect(1)
-    .gesture(recordGesture)
-    .allowsHitTesting(status == .idle || isRecording)
-    .accessibilityIdentifier("home_voice_mic_button")
+  private var micSymbolName: String {
+    isThinking ? "hourglass" : "mic.fill"
   }
 
-  private var inputModeToggle: some View {
-    Group {
-      if canSwitchInputMode {
-        Button {
-          isTextInput.toggle()
-        } label: {
-          Text(isTextInput ? "返回语音输入" : "文字输入")
-            .font(.system(size: 13, weight: .black))
-            .foregroundColor(Color.black.opacity(0.45))
-            .tracking(1.4)
-        }
-        .buttonStyle(.plain)
-        .transition(.opacity)
+  private var inputModeToggleButton: some View {
+    Button {
+      guard canSwitchInputMode else { return }
+      isTextInput.toggle()
+    } label: {
+      Text(isTextInput ? "返回语音输入" : "文字输入")
+        .font(.system(size: 13, weight: .black))
+        .foregroundColor(Color.black.opacity(canSwitchInputMode ? 0.45 : 0.22))
+        .tracking(1.4)
+        .opacity(canSwitchInputMode ? 1 : 0)
+    }
+    .buttonStyle(.plain)
+    .disabled(!canSwitchInputMode)
+    .allowsHitTesting(canSwitchInputMode)
+    .animation(.easeInOut(duration: 0.18), value: isTextInput)
+  }
+
+  private var recordingCountdownLabel: some View {
+    Text("15")
+      .font(.system(size: 17, weight: .bold))
+      .foregroundColor(Color.black.opacity(0.82))
+  }
+
+  private var collapsedMicLayer: some View {
+    ZStack {
+      if isRecording {
+        recordingCountdownLabel
+      } else {
+        Image(systemName: micSymbolName)
+          .font(.system(size: 22, weight: .semibold))
+          .foregroundStyle(Color.black.opacity(0.70))
+          .symbolRenderingMode(.hierarchical)
       }
     }
   }
