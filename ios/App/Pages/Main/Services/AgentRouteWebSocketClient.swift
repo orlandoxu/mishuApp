@@ -3,6 +3,7 @@ import UIKit
 
 actor AgentRouteWebSocketClient {
   static let shared = AgentRouteWebSocketClient()
+  private let responseTimeoutNs: UInt64 = 120_000_000_000
 
   private let sessionIdKey = "mishu_agent_route_session_id"
   private var sessionVersion: Int?
@@ -45,12 +46,22 @@ actor AgentRouteWebSocketClient {
   }
 
   private func sendTurnRequest(_ request: AgentTurnRequest) async throws -> String {
+    do {
+      return try await sendTurnRequestOnce(request)
+    } catch {
+      let nsError = error as NSError
+      guard nsError.code == 408 else { throw error }
+      return try await sendTurnRequestOnce(request)
+    }
+  }
+
+  private func sendTurnRequestOnce(_ request: AgentTurnRequest) async throws -> String {
     guard let token = await MainActor.run(body: { SelfStore.shared.token }), !token.isEmpty else {
       throw NSError(domain: "AgentRouteWebSocketClient", code: 401, userInfo: [NSLocalizedDescriptionKey: "缺少登录 token，无法发起 agent 路由请求"])
     }
 
     var urlRequest = URLRequest(url: AppConst.appWebSocketURL)
-    urlRequest.timeoutInterval = 15
+    urlRequest.timeoutInterval = 60
     urlRequest.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
 
     let task = URLSession.shared.webSocketTask(with: urlRequest)
@@ -61,12 +72,12 @@ actor AgentRouteWebSocketClient {
 
     try await sendRpc(task: task, payload: try request.asDictionary(), requestId: request.messageId)
 
-    let timeoutNs: UInt64 = 12_000_000_000
     var lastVisibleMessage = ""
 
     while true {
-      let raw = try await receiveText(task: task, timeoutNs: timeoutNs)
+      let raw = try await receiveText(task: task, timeoutNs: responseTimeoutNs)
       guard let data = raw.data(using: .utf8) else { continue }
+      guard shouldProcessAsRpc(data: data) else { continue }
       let message = try JSONDecoder().decode(RpcResultEnvelope<AgentTurnResponse>.self, from: data)
       guard message.type == "rpc" else { continue }
 
@@ -118,6 +129,16 @@ actor AgentRouteWebSocketClient {
         return lastVisibleMessage
       }
     }
+  }
+
+  private func shouldProcessAsRpc(data: Data) -> Bool {
+    guard
+      let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+      let type = object["type"] as? String
+    else {
+      return false
+    }
+    return type == "rpc"
   }
 
   private func executeClientAction(action: String, payload: [String: Any]) async -> (success: Bool, result: [String: Any], error: String?) {

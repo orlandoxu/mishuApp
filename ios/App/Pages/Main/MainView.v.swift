@@ -54,18 +54,33 @@ struct MainView: View {
         Color(hex: "#FDFDFD")
           .ignoresSafeArea()
 
-        ScrollView(showsIndicators: false) {
-          VStack(spacing: 18) {
+        if hasActiveConversation {
+          VStack(spacing: 0) {
             HomeTopSectionView(
               status: status.phase,
-              hasActiveConversation: hasActiveConversation,
+              hasActiveConversation: true,
               mascotHeroNamespace: mascotHeroNamespace,
               onNewTask: resetConversation
             )
 
-            if hasActiveConversation {
-              HomeConversationListView(messages: messages)
-            } else {
+            ScrollView(showsIndicators: false) {
+              VStack(spacing: 18) {
+                HomeConversationListView(messages: messages)
+                Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
+              }
+              .frame(maxWidth: .infinity)
+            }
+          }
+        } else {
+          ScrollView(showsIndicators: false) {
+            VStack(spacing: 18) {
+              HomeTopSectionView(
+                status: status.phase,
+                hasActiveConversation: false,
+                mascotHeroNamespace: mascotHeroNamespace,
+                onNewTask: resetConversation
+              )
+
               HomeInfoCarouselView {
                 appNavigation.push(.pro)
               }
@@ -74,11 +89,10 @@ struct MainView: View {
                 appNavigation.push(route)
               }
               .padding(.top, 6)
+              Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
             }
-
-            Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
+            .frame(maxWidth: .infinity)
           }
-          .frame(maxWidth: .infinity)
         }
 
         LinearGradient(
