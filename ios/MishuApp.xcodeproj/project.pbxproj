@@ -12,7 +12,6 @@
 		0627CA3FEC8724D54879FC6A /* ChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19E17912EC837BD3EDC7D955 /* ChildView.swift */; };
 		062E576B777E233E079F6449 /* View+pickerAddBgColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 074CF66FCCFB47272D4E2284 /* View+pickerAddBgColor.swift */; };
 		076E3C9114F0454A00BBB708 /* DeinitDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */; };
-		083A85EED51CBE02C3D9DAB7 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 32E2F2DCCEAA29CD1C344338 /* Pods_MishuApp.framework */; };
 		0BC12988DF435DE1904976AA /* BusinessError.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE0671FC51D99DBDC970F529 /* BusinessError.swift */; };
 		0BF1FE118DD83E5918F0DAE5 /* VoiceRippleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 13BBAE42DA576F46B6B1DB5B /* VoiceRippleView.swift */; };
 		0C7E5E33944E11E55F8CEFD4 /* CheckoutRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6924C438D33CDEBE3B05244 /* CheckoutRows.swift */; };
@@ -94,6 +93,7 @@
 		97EF0445542F57037E175664 /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 468BD6AEF889C1748F814EBB /* UserAPI.swift */; };
 		9ABB1919037F06EA71BAD8D2 /* LazyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DF062E43463F9E3A368E0B6 /* LazyView.swift */; };
 		9AD452FB9FD22A0CF45056EF /* ChildSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825C51C062F3E9EC5A7C77 /* ChildSections.swift */; };
+		9B1AC649F67B4A0D9579E002 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D6B657A7D522064D20B704C5 /* Pods_MishuApp.framework */; };
 		9E4141E04F27F5AF8E3DE6E0 /* View+toPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839667A37B1A11EF6861373B /* View+toPopover.swift */; };
 		A031D2687E6BE3E38AE1DABD /* View+hideScrollIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */; };
 		A0D28AD184E847E4AA97E302 /* View+rotationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CCD83925B81940196051A /* View+rotationIcon.swift */; };
@@ -213,6 +213,7 @@
 		068AB5D0C96A5C640ECE8FFA /* LoginView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.vm.swift; sourceTree = "<group>"; };
 		073138F10B1B32E2033B98EE /* View+glassEffectBelow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+glassEffectBelow.swift"; sourceTree = "<group>"; };
 		074CF66FCCFB47272D4E2284 /* View+pickerAddBgColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+pickerAddBgColor.swift"; sourceTree = "<group>"; };
+		081B3E50A03DDE0CB5590F59 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		08DAD98DA94619B8EBE43A77 /* Double+exten.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Double+exten.swift"; sourceTree = "<group>"; };
 		08F43B763B5336BF52C97F0E /* MishuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishuApp.swift; sourceTree = "<group>"; };
 		0AD601AB03EA9A447882A4EC /* ContactsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsView.swift; sourceTree = "<group>"; };
@@ -235,7 +236,6 @@
 		3052BD2C0FA99D0FF399429D /* KeyedDecodingContainer+safeDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyedDecodingContainer+safeDecode.swift"; sourceTree = "<group>"; };
 		3104D7A052AB317BC94B97E4 /* delegateWechat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateWechat.swift; sourceTree = "<group>"; };
 		31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionStore.swift; sourceTree = "<group>"; };
-		32E2F2DCCEAA29CD1C344338 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		353A6412F1515CD25FDE1112 /* delegateApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateApplication.swift; sourceTree = "<group>"; };
 		35825C51C062F3E9EC5A7C77 /* ChildSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSections.swift; sourceTree = "<group>"; };
 		372706400EEFA2363F61251A /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
@@ -249,7 +249,6 @@
 		4310A01D1AC1284B8CAB25A4 /* Const.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Const.swift; sourceTree = "<group>"; };
 		468BD6AEF889C1748F814EBB /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		46AAC4A254FE881DF1B94951 /* Success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Success.json; sourceTree = "<group>"; };
-		489D18C860B9E8F916056FC5 /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+hideScrollIndicators.swift"; sourceTree = "<group>"; };
 		48C3866EF23B98D47D0C7CC5 /* String+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+extension.swift"; sourceTree = "<group>"; };
 		48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
@@ -313,7 +312,6 @@
 		9C0B2C3E3CB4867E6439540C /* Color+brightness.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+brightness.swift"; sourceTree = "<group>"; };
 		9DD075FE3F361A05588716C0 /* UmengService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmengService.swift; sourceTree = "<group>"; };
 		9FC04AA8EF783B903DC6FDB4 /* NoticePermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticePermissionStore.swift; sourceTree = "<group>"; };
-		A0B4C64CC4CFB0A884206A54 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		A0E782321DD214193F551CEE /* View+bottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+bottomSheet.swift"; sourceTree = "<group>"; };
 		A1ADDE5755349782085454BF /* WeChatShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeChatShareService.swift; sourceTree = "<group>"; };
 		A2DBDE0C809B95D9AE52290B /* HomeFunctionGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFunctionGridView.swift; sourceTree = "<group>"; };
@@ -325,6 +323,7 @@
 		ABE846109D38237FC8E25DE9 /* String+timeValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+timeValid.swift"; sourceTree = "<group>"; };
 		AC36F2232D98F6E1A1DC6EFE /* TextField+autoFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+autoFocus.swift"; sourceTree = "<group>"; };
 		B4507BCBDA26EDEA329A131B /* PersonNameDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonNameDetector.swift; sourceTree = "<group>"; };
+		B4A98E18C05BF4EFEB12B466 /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
 		B6DA7A6A9F00548F6FB2D3FC /* MemoryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryAPI.swift; sourceTree = "<group>"; };
 		B9FB86CA466D924F04CED1F6 /* AsrModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsrModel.swift; sourceTree = "<group>"; };
 		BA741D1A9E848B4DAB1773A3 /* AgentRouteProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentRouteProtocol.swift; sourceTree = "<group>"; };
@@ -341,6 +340,7 @@
 		D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MishuAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5E1AFF57BDCD6DF4BE51425 /* MoodSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoodSections.swift; sourceTree = "<group>"; };
 		D5ECD9AC956B416209CCF53C /* WheelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WheelPicker.swift; sourceTree = "<group>"; };
+		D6B657A7D522064D20B704C5 /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D8A9BDAA88C9FDE70073985F /* VoiceRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRecorder.swift; sourceTree = "<group>"; };
 		D8E86FD8E46E26113B058991 /* View+toAnyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+toAnyView.swift"; sourceTree = "<group>"; };
 		DB39B71FE653C829C1D7B731 /* MessageAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageAPI.swift; sourceTree = "<group>"; };
@@ -384,7 +384,7 @@
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
 				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
-				083A85EED51CBE02C3D9DAB7 /* Pods_MishuApp.framework in Frameworks */,
+				9B1AC649F67B4A0D9579E002 /* Pods_MishuApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,6 +398,16 @@
 				83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */,
 			);
 			path = VoiceAnimations;
+			sourceTree = "<group>";
+		};
+		1831651441241D1FAA5873FB /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				081B3E50A03DDE0CB5590F59 /* Pods-MishuApp.debug.xcconfig */,
+				B4A98E18C05BF4EFEB12B466 /* Pods-MishuApp.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
 			sourceTree = "<group>";
 		};
 		2982765E6E4F6CAA1B614313 /* Services */ = {
@@ -519,16 +529,6 @@
 			path = TreeHole;
 			sourceTree = "<group>";
 		};
-		5B1CE760A11C55894676478C /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				A0B4C64CC4CFB0A884206A54 /* Pods-MishuApp.debug.xcconfig */,
-				489D18C860B9E8F916056FC5 /* Pods-MishuApp.release.xcconfig */,
-			);
-			name = Pods;
-			path = Pods;
-			sourceTree = "<group>";
-		};
 		5C2A6D1E697BB20BB3AAA161 /* TrueMemory */ = {
 			isa = PBXGroup;
 			children = (
@@ -616,7 +616,7 @@
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
-				5B1CE760A11C55894676478C /* Pods */,
+				1831651441241D1FAA5873FB /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -661,7 +661,7 @@
 			isa = PBXGroup;
 			children = (
 				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
-				32E2F2DCCEAA29CD1C344338 /* Pods_MishuApp.framework */,
+				D6B657A7D522064D20B704C5 /* Pods_MishuApp.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -980,7 +980,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
-				9C290EDC955E5B83D0DF98B5 /* [CP] Check Pods Manifest.lock */,
+				68276DEF0061954645CE55D5 /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
@@ -1070,7 +1070,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		9C290EDC955E5B83D0DF98B5 /* [CP] Check Pods Manifest.lock */ = {
+		68276DEF0061954645CE55D5 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1305,7 +1305,7 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 489D18C860B9E8F916056FC5 /* Pods-MishuApp.release.xcconfig */;
+			baseConfigurationReference = B4A98E18C05BF4EFEB12B466 /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1353,7 +1353,7 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A0B4C64CC4CFB0A884206A54 /* Pods-MishuApp.debug.xcconfig */;
+			baseConfigurationReference = 081B3E50A03DDE0CB5590F59 /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;

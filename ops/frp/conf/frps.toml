@@ -2,7 +2,7 @@ bindAddr = "0.0.0.0"
 bindPort = 7000
 
 auth.method = "token"
-auth.token = "tk-bnaojsdabhioahd81"
+auth.token = "tk-bnaojsdabhioahd82"
 
 # 供 nginx 转发 /local 使用
 vhostHTTPPort = 18080
