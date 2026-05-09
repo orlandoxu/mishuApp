@@ -17,7 +17,6 @@ enum VoiceState {
   case recording(transcript: String)
   case reviewing(transcript: String)
   case thinking
-  case success(message: String)
 
   var phase: VoicePhase {
     switch self {
@@ -29,17 +28,6 @@ enum VoiceState {
       return .reviewing
     case .thinking:
       return .thinking
-    case .success:
-      return .success
-    }
-  }
-
-  var transcriptText: String? {
-    switch self {
-    case .idle, .recording, .reviewing, .thinking:
-      return nil
-    case let .success(message):
-      return message
     }
   }
 }
@@ -47,11 +35,16 @@ enum VoiceState {
 struct MainView: View {
   @State private var selectedTab: MainTab = .home
   @State private var status: VoiceState = .idle
+  @State private var messages: [TreeHoleChatMessage] = []
   @StateObject private var realtimeController = VoiceRealtimeCtrl()
   @ObservedObject private var appNavigation = AppNavigationModel.shared
 
   init(initialTab: MainTab) {
     _selectedTab = State(initialValue: initialTab)
+  }
+
+  private var hasActiveConversation: Bool {
+    !messages.isEmpty
   }
 
   var body: some View {
@@ -62,30 +55,31 @@ struct MainView: View {
 
         ScrollView(showsIndicators: false) {
           VStack(spacing: 18) {
-            MascotSectionView(status: status.phase)
-              .scaleEffect(0.84)
-              .frame(height: 190)
-              .padding(.top, 50)
-
-            if let transcript = status.transcriptText {
-              Text(transcript)
-                .font(.system(size: 22, weight: .light))
-                .foregroundColor(Color.black.opacity(0.80))
-                .multilineTextAlignment(.center)
-                .lineLimit(3)
-                .padding(.horizontal, 32)
-                .transition(.opacity)
-                .accessibilityIdentifier("home_voice_status_text")
+            if hasActiveConversation {
+              HomeConversationHeaderView(
+                status: status.phase,
+                onNewTask: resetConversation
+              )
+              .padding(.top, 12)
+            } else {
+              MascotSectionView(status: status.phase)
+                .scaleEffect(0.84)
+                .frame(height: 190)
+                .padding(.top, 50)
             }
 
-            HomeInfoCarouselView {
-              appNavigation.push(.pro)
-            }
+            if hasActiveConversation {
+              HomeConversationListView(messages: messages)
+            } else {
+              HomeInfoCarouselView {
+                appNavigation.push(.pro)
+              }
 
-            HomeFunctionGridView { route in
-              appNavigation.push(route)
+              HomeFunctionGridView { route in
+                appNavigation.push(route)
+              }
+              .padding(.top, 6)
             }
-            .padding(.top, 6)
 
             Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
           }
@@ -131,10 +125,6 @@ struct MainView: View {
       .accessibilityElement(children: .contain)
       .accessibilityIdentifier("home_main_root")
     }
-    .onChange(of: realtimeController.lastErrorMessage, perform: { error in
-      guard let error, !error.isEmpty else { return }
-      showResult(error, resetDelay: 1.6)
-    })
     .onChange(of: realtimeController.recognizedText, perform: { text in
       guard case .recording = status else { return }
       status = .recording(transcript: liveTranscript(from: text))
@@ -199,30 +189,104 @@ struct MainView: View {
   }
 
   private func submitFinalInput(_ text: String) {
+    let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
+    guard !trimmed.isEmpty else { return }
     status = .thinking
-    realtimeController.submitConfirmedInput(text) { output in
-      showResult(output, resetDelay: 2.0)
+    messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-user", role: .user, text: trimmed))
+    Task {
+      let reply: String
+      do {
+        reply = try await realtimeController.requestReply(for: trimmed)
+      } catch {
+        reply = "指令下发失败：\(error.localizedDescription)"
+      }
+      await MainActor.run {
+        messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: reply))
+        status = .idle
+      }
     }
   }
 
   private func showStartError() {
-    showResult(realtimeController.lastErrorMessage ?? "语音识别启动失败", resetDelay: 2.0)
+    let errorText = realtimeController.lastErrorMessage ?? "语音识别启动失败"
+    messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: errorText))
+    status = .idle
   }
 
-  private func showResult(_ text: String, resetDelay: TimeInterval) {
-    status = .success(message: text)
-    resetToIdleAfterDelay(resetDelay)
+  private func resetConversation() {
+    messages.removeAll()
+    status = .idle
   }
 
   private func liveTranscript(from text: String) -> String {
     text.isEmpty ? "正在实时识别..." : text
   }
 
-  /// Step 1. 延迟回到空闲态
-  /// Step 2. 清空提示文案，为下一次录音准备
-  private func resetToIdleAfterDelay(_ delay: TimeInterval) {
-    DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
-      status = .idle
+}
+
+private struct HomeConversationListView: View {
+  let messages: [TreeHoleChatMessage]
+
+  var body: some View {
+    VStack(spacing: 18) {
+      ForEach(messages) { message in
+        TreeHoleChatBubble(message: message, maxBubbleWidth: 268)
+      }
     }
+    .padding(.horizontal, 20)
+    .padding(.top, 8)
+  }
+}
+
+private struct HomeConversationHeaderView: View {
+  let status: VoicePhase
+  let onNewTask: () -> Void
+
+  private var statusText: String {
+    switch status {
+    case .recording:
+      return "正在聆听..."
+    case .thinking:
+      return "思考中..."
+    default:
+      return "在线"
+    }
+  }
+
+  var body: some View {
+    HStack(alignment: .center, spacing: 0) {
+      HStack(spacing: 8) {
+        MascotSectionView(status: status)
+          .scaleEffect(0.28)
+          .frame(width: 54, height: 54)
+        VStack(alignment: .leading, spacing: 2) {
+          Text("Aura")
+            .font(.system(size: 17, weight: .bold))
+            .foregroundColor(Color.black.opacity(0.80))
+          Text(statusText)
+            .font(.system(size: 13, weight: .medium))
+            .foregroundColor(Color.black.opacity(0.30))
+        }
+      }
+
+      Spacer(minLength: 12)
+
+      Button(action: onNewTask) {
+        Text("新任务")
+          .font(.system(size: 14, weight: .bold))
+          .foregroundColor(Color.black.opacity(0.78))
+          .padding(.horizontal, 14)
+          .padding(.vertical, 9)
+          .background(Color.white.opacity(0.95))
+          .clipShape(Capsule())
+          .overlay(
+            Capsule()
+              .stroke(Color.black.opacity(0.08), lineWidth: 1)
+          )
+      }
+      .buttonStyle(.plain)
+    }
+    .padding(.horizontal, 24)
+    .frame(maxWidth: .infinity)
   }
 }

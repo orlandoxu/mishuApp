@@ -9,7 +9,6 @@ final class VoiceRealtimeCtrl: ObservableObject {
 
   private let captureService = AudioStreamCapture()
   private let speechService: SpeechRecognitionService
-  private let agentRouteClient = AgentRouteWebSocketClient.shared
 
   private var transcriptAssembler = VoiceTextAssembler()
 
@@ -75,23 +74,12 @@ final class VoiceRealtimeCtrl: ObservableObject {
     completion(finalText)
   }
 
-  func submitConfirmedInput(_ text: String, completion: @escaping (String) -> Void) {
+  func requestReply(for text: String) async throws -> String {
     let finalText = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !finalText.isEmpty else {
-      completion("请输入测试文本")
-      return
+      throw NSError(domain: "VoiceRealtimeCtrl", code: 400, userInfo: [NSLocalizedDescriptionKey: "请输入测试文本"])
     }
-    Task {
-      let reply: String
-      do {
-        reply = try await agentRouteClient.requestReply(text: finalText)
-      } catch {
-        reply = "指令下发失败：\(error.localizedDescription)"
-      }
-      await MainActor.run {
-        completion(reply)
-      }
-    }
+    return try await AgentRouteWebSocketClient.shared.requestReply(text: finalText)
   }
 
   private func bindServices() {
