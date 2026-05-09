@@ -33,6 +33,7 @@ enum VoiceState {
 }
 
 struct MainView: View {
+  @Namespace private var mascotHeroNamespace
   @State private var selectedTab: MainTab = .home
   @State private var status: VoiceState = .idle
   @State private var messages: [TreeHoleChatMessage] = []
@@ -55,18 +56,12 @@ struct MainView: View {
 
         ScrollView(showsIndicators: false) {
           VStack(spacing: 18) {
-            if hasActiveConversation {
-              HomeConversationHeaderView(
-                status: status.phase,
-                onNewTask: resetConversation
-              )
-              .padding(.top, 12)
-            } else {
-              MascotSectionView(status: status.phase)
-                .scaleEffect(0.84)
-                .frame(height: 190)
-                .padding(.top, 50)
-            }
+            HomeTopSectionView(
+              status: status.phase,
+              hasActiveConversation: hasActiveConversation,
+              mascotHeroNamespace: mascotHeroNamespace,
+              onNewTask: resetConversation
+            )
 
             if hasActiveConversation {
               HomeConversationListView(messages: messages)
@@ -102,7 +97,6 @@ struct MainView: View {
             .allowsHitTesting(false)
         }
 
-        // 底部不允许穿透点击
         Color.clear
           .frame(height: 20 + max(proxy.safeAreaInsets.bottom, 18))
           .frame(maxWidth: .infinity)
@@ -149,8 +143,6 @@ struct MainView: View {
     }
   }
 
-  /// Step 1. 空闲态长按开始请求麦克风并进入录音
-  /// Step 2. 连接成功后持续展示实时识别文案
   private func startVoiceRecording() {
     guard case .idle = status else { return }
     status = .recording(transcript: "正在倾听...")
@@ -161,8 +153,6 @@ struct MainView: View {
     }
   }
 
-  /// Step 1. 松手后停止录音
-  /// Step 2. 进入复核态，不在此处请求后端
   private func stopVoiceRecordingAndReview() {
     guard case .recording = status else { return }
     realtimeController.stopListening { finalText in
@@ -192,7 +182,10 @@ struct MainView: View {
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else { return }
     status = .thinking
-    messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-user", role: .user, text: trimmed))
+    withAnimation(.spring(response: 0.48, dampingFraction: 0.86)) {
+      messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-user", role: .user, text: trimmed))
+    }
+
     Task {
       let reply: String
       do {
@@ -201,7 +194,9 @@ struct MainView: View {
         reply = "指令下发失败：\(error.localizedDescription)"
       }
       await MainActor.run {
-        messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: reply))
+        withAnimation(.spring(response: 0.42, dampingFraction: 0.84)) {
+          messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: reply))
+        }
         status = .idle
       }
     }
@@ -209,38 +204,87 @@ struct MainView: View {
 
   private func showStartError() {
     let errorText = realtimeController.lastErrorMessage ?? "语音识别启动失败"
-    messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: errorText))
+    withAnimation(.spring(response: 0.42, dampingFraction: 0.84)) {
+      messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: errorText))
+    }
     status = .idle
   }
 
   private func resetConversation() {
-    messages.removeAll()
+    withAnimation(.spring(response: 0.44, dampingFraction: 0.86)) {
+      messages.removeAll()
+    }
     status = .idle
   }
 
   private func liveTranscript(from text: String) -> String {
     text.isEmpty ? "正在实时识别..." : text
   }
-
 }
 
-private struct HomeConversationListView: View {
-  let messages: [TreeHoleChatMessage]
+private struct HomeTopSectionView: View {
+  let status: VoicePhase
+  let hasActiveConversation: Bool
+  let mascotHeroNamespace: Namespace.ID
+  let onNewTask: () -> Void
 
   var body: some View {
-    VStack(spacing: 18) {
-      ForEach(messages) { message in
-        TreeHoleChatBubble(message: message, maxBubbleWidth: 268)
+    ZStack(alignment: .topLeading) {
+      if !hasActiveConversation {
+        VStack(spacing: 0) {
+          MascotSectionView(status: status)
+            .matchedGeometryEffect(id: "home_mascot_hero", in: mascotHeroNamespace)
+            .scaleEffect(0.84)
+            .frame(height: 190)
+        }
+        .frame(maxWidth: .infinity)
+        .padding(.top, 50)
+      } else {
+        HStack(alignment: .center, spacing: 0) {
+          HStack(spacing: 8) {
+            MascotSectionView(status: status)
+              .matchedGeometryEffect(id: "home_mascot_hero", in: mascotHeroNamespace)
+              .scaleEffect(0.31)
+              .frame(width: 60, height: 60)
+
+            VStack(alignment: .leading, spacing: 2) {
+              Text("Aura")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundColor(Color.black.opacity(0.80))
+              Text(statusText)
+                .font(.system(size: 14, weight: .medium))
+                .foregroundColor(Color.black.opacity(0.30))
+            }
+          }
+
+          Spacer(minLength: 12)
+
+          Button(action: onNewTask) {
+            HStack(spacing: 4) {
+              Image(systemName: "plus")
+                .font(.system(size: 11, weight: .bold))
+              Text("新任务")
+                .font(.system(size: 14, weight: .bold))
+            }
+            .foregroundColor(Color.black.opacity(0.78))
+            .padding(.horizontal, 14)
+            .padding(.vertical, 9)
+            .background(Color.white.opacity(0.95))
+            .clipShape(Capsule())
+            .overlay(
+              Capsule()
+                .stroke(Color.black.opacity(0.08), lineWidth: 1)
+            )
+          }
+          .buttonStyle(.plain)
+        }
+        .padding(.horizontal, 24)
+        .padding(.top, 18)
+        .frame(maxWidth: .infinity)
       }
     }
-    .padding(.horizontal, 20)
-    .padding(.top, 8)
+    .animation(.spring(response: 0.50, dampingFraction: 0.86), value: hasActiveConversation)
   }
-}
-
-private struct HomeConversationHeaderView: View {
-  let status: VoicePhase
-  let onNewTask: () -> Void
 
   private var statusText: String {
     switch status {
@@ -252,41 +296,71 @@ private struct HomeConversationHeaderView: View {
       return "在线"
     }
   }
+}
+
+private struct HomeConversationListView: View {
+  let messages: [TreeHoleChatMessage]
 
   var body: some View {
-    HStack(alignment: .center, spacing: 0) {
-      HStack(spacing: 8) {
-        MascotSectionView(status: status)
-          .scaleEffect(0.28)
-          .frame(width: 54, height: 54)
-        VStack(alignment: .leading, spacing: 2) {
-          Text("Aura")
-            .font(.system(size: 17, weight: .bold))
-            .foregroundColor(Color.black.opacity(0.80))
-          Text(statusText)
-            .font(.system(size: 13, weight: .medium))
-            .foregroundColor(Color.black.opacity(0.30))
-        }
+    VStack(spacing: 20) {
+      ForEach(messages) { message in
+        HomeConversationBubbleRow(message: message)
       }
-
-      Spacer(minLength: 12)
-
-      Button(action: onNewTask) {
-        Text("新任务")
-          .font(.system(size: 14, weight: .bold))
-          .foregroundColor(Color.black.opacity(0.78))
-          .padding(.horizontal, 14)
-          .padding(.vertical, 9)
-          .background(Color.white.opacity(0.95))
-          .clipShape(Capsule())
-          .overlay(
-            Capsule()
-              .stroke(Color.black.opacity(0.08), lineWidth: 1)
-          )
-      }
-      .buttonStyle(.plain)
     }
-    .padding(.horizontal, 24)
-    .frame(maxWidth: .infinity)
+    .padding(.horizontal, 16)
+    .padding(.top, 8)
+  }
+}
+
+private struct HomeConversationBubbleRow: View {
+  let message: TreeHoleChatMessage
+
+  var body: some View {
+    HStack {
+      if message.role == .user { Spacer(minLength: 34) }
+
+      Text(message.text)
+        .font(.system(size: 16, weight: .regular))
+        .foregroundColor(message.role == .user ? Color(hex: "#082F49") : Color.black.opacity(0.80))
+        .lineSpacing(4.5)
+        .fixedSize(horizontal: false, vertical: true)
+        .padding(.horizontal, 22)
+        .padding(.vertical, 13)
+        .background(bubbleBackground)
+        .clipShape(HomeChatBubbleShape(role: message.role, radius: 24))
+        .overlay(
+          HomeChatBubbleShape(role: message.role, radius: 24)
+            .stroke(bubbleBorder, lineWidth: 1)
+        )
+        .frame(maxWidth: 306, alignment: message.role == .user ? .trailing : .leading)
+
+      if message.role == .ai { Spacer(minLength: 34) }
+    }
+    .frame(maxWidth: .infinity, alignment: message.role == .user ? .trailing : .leading)
+  }
+
+  private var bubbleBackground: Color {
+    message.role == .user ? Color(hex: "#F0F9FF") : .white
+  }
+
+  private var bubbleBorder: Color {
+    message.role == .user ? Color(hex: "#E0F2FE") : Color.black.opacity(0.05)
+  }
+}
+
+private struct HomeChatBubbleShape: Shape {
+  let role: TreeHoleChatMessage.Role
+  let radius: CGFloat
+
+  func path(in rect: CGRect) -> Path {
+    let corners: UIRectCorner = role == .user
+      ? [.topLeft, .bottomLeft, .bottomRight]
+      : [.topRight, .bottomLeft, .bottomRight]
+    let path = UIBezierPath(
+      roundedRect: rect,
+      byRoundingCorners: corners,
+      cornerRadii: CGSize(width: radius, height: radius)
+    )
+    return Path(path.cgPath)
   }
 }
