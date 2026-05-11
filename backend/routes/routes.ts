@@ -3,6 +3,7 @@ import { HealthController } from "../controller/healthController";
 import { AuthController } from "../controller/authController";
 import { PartnerInvitationController } from "../controller/partnerInvitationController";
 import { AdminController } from "../controller/adminController";
+import { LedgerController } from "../controller/ledgerController";
 import { createRouter } from "../lib/fastify/routeHelper";
 import { userAuth } from "../middleware/loginMiddleware";
 import { adminAuth } from "../middleware/adminMiddleware";
@@ -23,6 +24,9 @@ export default async function registerRoutes(
   post("/user/appVerifyCode", AuthController.loginByCode);
   post("/user/getInfo", userAuth, AuthController.appGetInfo);
   post("/user/logout", userAuth, AuthController.appLogout);
+  post("/ledger/record", userAuth, LedgerController.record);
+  post("/ledger/query", userAuth, LedgerController.query);
+  get("/ledger/summary", userAuth, LedgerController.summary);
 
   // ==================== Admin 后台接口 ====================
   post("/admin/login", AdminController.login);

@@ -65,6 +65,8 @@ type TokenStats = {
   tokenSource: "provider" | "estimated";
 };
 
+const THINKING_OFF = { type: "disabled" } as const;
+
 function getApiUrl(): string {
   return `${config.doubao.baseUrl.replace(/\/$/, "")}/chat/completions`;
 }
@@ -245,6 +247,7 @@ export class DoubaoService {
       messages,
       user: request.userId,
       stream: false,
+      thinking: THINKING_OFF,
       temperature: request.temperature,
       max_tokens: request.maxTokens,
       response_format:
@@ -252,7 +255,7 @@ export class DoubaoService {
           ? { type: "json_object" }
           : undefined,
     };
-    console.log(`[doubao][chatCompletion][request] ${stringifyForLog(requestPayload)}`);
+    console.log(`[doubao][chatCompletion][request] thinking=off ${stringifyForLog(requestPayload)}`);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -341,6 +344,7 @@ export class DoubaoService {
       messages,
       user: request.userId,
       stream: true,
+      thinking: THINKING_OFF,
       temperature: request.temperature,
       max_tokens: request.maxTokens,
       response_format:
@@ -348,7 +352,7 @@ export class DoubaoService {
           ? { type: "json_object" }
           : undefined,
     };
-    console.log(`[doubao][chatCompletionStream][request] ${stringifyForLog(requestPayload)}`);
+    console.log(`[doubao][chatCompletionStream][request] thinking=off ${stringifyForLog(requestPayload)}`);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -473,7 +477,7 @@ export class DoubaoService {
 
     try {
       console.log(
-        `[doubao][jsonCompletion][request] ${stringifyForLog({
+        `[doubao][jsonCompletion][request] thinking=off ${stringifyForLog({
           ...request,
           systemRule,
           responseFormat: "json_object",

@@ -26,6 +26,10 @@ export class AgentHandler {
     if (!turnRequest) {
       return new SocketError("AGENT_TURN_PAYLOAD_INVALID", "invalid agent_turn payload");
     }
+    turnRequest.clientContext = {
+      ...(turnRequest.clientContext ?? {}),
+      userId: user.id,
+    };
 
     try {
       return await agentRouteRuntime.handle(turnRequest);

@@ -21,8 +21,10 @@ function detectIntent(input: AgentRouteInput): RouteIntentResult {
   return { confidence: 0.05, reason: 'not money intent' };
 }
 
-function extractSlots(input: AgentRouteInput): SlotExtraction {
+function extractSlots(input: AgentRouteInput, state: SessionState): SlotExtraction {
   const text = compactText(input.text);
+  const intentText = state.slots.intent?.value;
+  const llmIntent = typeof intentText === 'string' && intentText.trim() ? intentText.trim().toLowerCase() : '';
   const amountMatch = text.match(/(\d+(?:\.\d{1,2})?)/);
   const direction = hasAnyKeyword(text, ['收入', '进账', '赚', 'income', 'earn'])
     ? 'income'
@@ -32,7 +34,13 @@ function extractSlots(input: AgentRouteInput): SlotExtraction {
 
   const hasAmount = Boolean(amountMatch);
   const hasQueryHint = hasAnyKeyword(text, ['本周', '本月', '查询', '查账', '多少', 'query', 'how much', 'summary']);
-  const moneyOperation = !hasAmount && hasQueryHint ? 'ledger_query' : 'ledger_record';
+  const moneyOperation = llmIntent === 'money.query'
+    ? 'ledger_query'
+    : llmIntent === 'money.record'
+      ? 'ledger_record'
+      : !hasAmount && hasQueryHint
+        ? 'ledger_query'
+        : 'ledger_record';
 
   const period = hasAnyKeyword(text, ['本周', 'week', 'weekly'])
     ? 'week'
@@ -50,6 +58,7 @@ function extractSlots(input: AgentRouteInput): SlotExtraction {
   return {
     filled: {
       moneyOperation: { value: moneyOperation, confidence: 0.9 },
+      ...(llmIntent ? { intent: { value: llmIntent, confidence: 0.9 } } : {}),
       ...(amountMatch ? { amount: { value: amountMatch[1], confidence: 0.86 } } : {}),
       ...(direction ? { direction: { value: direction, confidence: 0.84 } } : {}),
       ...(moneyOperation === 'ledger_query' ? { period: { value: period, confidence: 0.9 } } : {}),
@@ -100,7 +109,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
 
   if (operation === 'ledger_query') {
     return {
-      idempotencyKey: `${state.sessionId}:${input.messageId}:money_query`,
+      requestKey: `${state.sessionId}:${input.messageId}:money_query`,
       route: 'money',
       action: 'money.query',
       payload: {
@@ -116,7 +125,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
   if (!amount || !direction) return null;
 
   return {
-    idempotencyKey: `${state.sessionId}:${input.messageId}:money_record`,
+    requestKey: `${state.sessionId}:${input.messageId}:money_record`,
     route: 'money',
     action: 'money.record',
     payload: {
@@ -126,6 +135,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
       category: state.slots.category?.value ?? '其他',
       note: state.slots.originalText?.value,
       occurredAt: Date.now(),
+      userId: input.clientContext?.userId,
       timezone: input.clientContext?.timezone ?? 'Asia/Shanghai',
     },
   };

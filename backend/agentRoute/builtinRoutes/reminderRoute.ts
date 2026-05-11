@@ -63,7 +63,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
   }
 
   return {
-    idempotencyKey: `${state.sessionId}:${input.messageId}:reminder`,
+    requestKey: `${state.sessionId}:${input.messageId}:reminder`,
     route: 'reminder',
     action: 'create_reminder',
     payload: {

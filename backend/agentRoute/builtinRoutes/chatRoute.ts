@@ -34,7 +34,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
     .join('\n');
 
   return {
-    idempotencyKey: `${state.sessionId}:${input.messageId}:chat`,
+    requestKey: `${state.sessionId}:${input.messageId}:chat`,
     route: 'chat',
     action: 'chat.reply',
     payload: {

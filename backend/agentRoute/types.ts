@@ -61,7 +61,7 @@ export type RouteIntentResult = {
 };
 
 export type ExecutionRequest = {
-  idempotencyKey: string;
+  requestKey: string;
   route: RouteId;
   action: string;
   payload: Record<string, unknown>;

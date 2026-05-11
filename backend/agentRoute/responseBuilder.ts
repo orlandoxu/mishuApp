@@ -71,6 +71,7 @@ export function buildResponse(params: BuildResponseParams): AgentRouteOutput {
     turnId: params.input.turnId,
     messageId: params.input.messageId,
     route: params.route.id,
+    intent: params.state.slots.intent?.value,
     phase: params.state.phase,
     message: params.message,
     missingSlots: params.state.missingSlots,

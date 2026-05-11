@@ -168,7 +168,11 @@ export class AgentRoute {
       });
     }
 
-    const llmIntent = await this.intentRouter.detect(input, state);
+    const shouldRunLlmIntent =
+      state.phase !== 'awaiting_confirmation' &&
+      state.phase !== 'executing' &&
+      state.phase !== 'ready_to_execute';
+    const llmIntent = shouldRunLlmIntent ? await this.intentRouter.detect(input, state) : null;
     if (llmIntent?.confidence && llmIntent.confidence >= 0.6) {
       for (const [slotKey, slotValue] of Object.entries(llmIntent.slots)) {
         state.slots[slotKey] = {
@@ -179,10 +183,19 @@ export class AgentRoute {
           updatedAt: now,
         };
       }
+      if (llmIntent.domain === 'money' && llmIntent.intent) {
+        state.slots.intent = {
+          key: 'intent',
+          value: llmIntent.intent,
+          confidence: llmIntent.confidence,
+          sourceMessageId: input.messageId,
+          updatedAt: now,
+        };
+      }
     }
 
     const decision = decideRoute(this.routes, this.fallback, input, state, llmIntent ? {
-      route: llmIntent.route,
+      route: llmIntent.domain,
       confidence: llmIntent.confidence,
       reason: llmIntent.reason,
     } : undefined);

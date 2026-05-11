@@ -1,5 +1,51 @@
 import SwiftUI
 
+private struct LedgerQueryItemDTO: Codable {
+  let id: String
+  let direction: String
+  let amount: Double
+  let category: String
+  let note: String?
+  let occurredAt: Int64
+}
+
+private struct LedgerQueryDTO: Codable {
+  let items: [LedgerQueryItemDTO]
+}
+
+private struct LedgerSummaryDTO: Codable {
+  let period: String
+  let startAtMs: Int64
+  let endAtMs: Int64
+  let incomeTotal: Double
+  let expenseTotal: Double
+  let byCategory: [String: Double]
+}
+
+private enum MoneyJarRemoteAPI {
+  static func query(startAtMs: Int64, endAtMs: Int64, limit: Int = 200) async -> LedgerQueryDTO? {
+    await APIClient().postRequest(
+      "/ledger/query",
+      AnyParams([
+        "startAtMs": startAtMs,
+        "endAtMs": endAtMs,
+        "limit": Int64(max(1, min(500, limit))),
+      ]),
+      true,
+      false
+    )
+  }
+
+  static func summary(period: String, timezone: String) async -> LedgerSummaryDTO? {
+    await APIClient().getRequest(
+      "/ledger/summary?period=\(period)&timezone=\(timezone.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? timezone)",
+      Empty(),
+      true,
+      false
+    )
+  }
+}
+
 struct MoneyJarView: View {
   @State private var budgetMode = "expense"
   @State private var showSettings = false
@@ -115,6 +161,28 @@ final class MoneyJarViewModel: ObservableObject {
     let startMs = Int64(weekStart.timeIntervalSince1970 * 1000)
     let endMs = Int64(weekEnd.timeIntervalSince1970 * 1000) - 1
 
+    if let remoteQuery = await MoneyJarRemoteAPI.query(startAtMs: startMs, endAtMs: endMs, limit: 200) {
+      transactions = remoteQuery.items.map { item in
+        MoneyTransaction(
+          id: item.id,
+          type: item.direction,
+          amount: Int(item.amount.rounded()),
+          category: item.category,
+          date: formatDate(item.occurredAt),
+          note: item.note?.isEmpty == false ? item.note! : "服务端记账"
+        )
+      }
+      if let remoteSummary = await MoneyJarRemoteAPI.summary(period: "week", timezone: TimeZone.current.identifier) {
+        totalIncome = Int(remoteSummary.incomeTotal.rounded())
+        totalExpense = Int(remoteSummary.expenseTotal.rounded())
+      } else {
+        totalIncome = 0
+        totalExpense = 0
+      }
+      return
+    }
+
+    // 兜底：接口异常时回退本地数据，避免空白页面
     do {
       let localItems = try await LedgerLocalService.shared.queryTransactions(
         filter: LedgerQueryFilter(startAtMs: startMs, endAtMs: endMs, limit: 200)
@@ -124,7 +192,6 @@ final class MoneyJarViewModel: ObservableObject {
         periodEndMs: endMs,
         groupByCategory: true
       )
-
       transactions = localItems.map { item in
         MoneyTransaction(
           id: item.id,

@@ -107,5 +107,6 @@ export type ClientTurnRequest = {
     platform?: 'ios' | 'android' | 'web';
     appVersion?: string;
     deviceId?: string;
+    userId?: string;
   };
 };

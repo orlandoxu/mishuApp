@@ -98,7 +98,7 @@ export function inferRecommendedInput(
   hasClientActionRequest: boolean,
 ): RecommendedClientInput {
   if (hasClientActionRequest) return 'client_action_response';
-  if (hasClientCapabilityRequest) return 'client_capability_response';
+  if (hasClientCapabilityRequest) return 'client_data_response';
   if (phase === 'collecting_slots') return 'slot_update';
   if (phase === 'awaiting_confirmation') return 'confirm_or_deny';
   if (phase === 'executing') return 'none';

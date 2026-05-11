@@ -6,6 +6,7 @@ export type RecommendedClientInput =
   | 'slot_update'
   | 'candidate_select'
   | 'client_capability_response'
+  | 'client_data_response'
   | 'client_action_response'
   | 'none';
 
@@ -57,6 +58,7 @@ export type ServerTurnResponse = {
   turnId: string;
   messageId: string;
   route: 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'fallback';
+  intent?: string;
   phase:
     | 'intent_detected'
     | 'collecting_slots'

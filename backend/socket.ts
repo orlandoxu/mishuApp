@@ -2,6 +2,7 @@ import { config } from "./config/config";
 import { UserTokenService } from "./services/userTokenService";
 import { handleSocketMessage } from "./routes/socketRoutes";
 import type { AuthUser } from "./config/config";
+import { connectMongoDB } from "./utils/database";
 
 export type WsStatus = "up" | "down" | "disabled";
 
@@ -18,6 +19,7 @@ type SocketData = {
 };
 
 export async function bootstrapWebSocketServices(): Promise<void> {
+  await connectMongoDB();
   startWsServer();
 }
 

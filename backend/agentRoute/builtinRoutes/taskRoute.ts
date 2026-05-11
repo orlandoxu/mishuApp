@@ -70,7 +70,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
   }
 
   return {
-    idempotencyKey: `${state.sessionId}:${input.messageId}:task`,
+    requestKey: `${state.sessionId}:${input.messageId}:task`,
     route: 'task',
     action: 'task_create',
     payload: {

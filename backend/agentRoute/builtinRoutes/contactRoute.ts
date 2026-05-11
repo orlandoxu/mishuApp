@@ -96,7 +96,7 @@ function buildExecutionRequest(state: SessionState, input: AgentRouteInput): Exe
   }
 
   return {
-    idempotencyKey: `${state.sessionId}:${input.messageId}:contact`,
+    requestKey: `${state.sessionId}:${input.messageId}:contact`,
     route: 'contact',
     action: 'contact_execute',
     payload: {
