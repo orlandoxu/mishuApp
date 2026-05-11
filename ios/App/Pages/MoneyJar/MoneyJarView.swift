@@ -13,6 +13,29 @@ private struct LedgerQueryDTO: Codable {
   let items: [LedgerQueryItemDTO]
 }
 
+private struct MoneyCategoryDTO: Codable, Identifiable {
+  let id: String
+  let direction: String
+  let name: String
+  let canEdit: Bool
+  let deleted: Bool
+  let sort: Int
+}
+
+private struct MoneyCategoryListDTO: Codable {
+  let expense: [MoneyCategoryDTO]
+  let income: [MoneyCategoryDTO]
+}
+
+private struct MoneyCategorySaveDTO: Codable {
+  let items: [MoneyCategoryDTO]
+}
+
+private struct MoneyCategorySaveBody: Codable {
+  let direction: String
+  let names: [String]
+}
+
 private enum MoneyJarRemoteAPI {
   static func query(startAtMs: Int64, endAtMs: Int64, limit: Int = 200) async -> LedgerQueryDTO? {
     await APIClient().postRequest(
@@ -26,15 +49,37 @@ private enum MoneyJarRemoteAPI {
       false
     )
   }
+
+  static func categories() async -> MoneyCategoryListDTO? {
+    await APIClient().getRequest("/ledger/categories", Empty(), true, false)
+  }
+
+  static func saveCategories(direction: String, names: [String]) async -> MoneyCategorySaveDTO? {
+    await APIClient().postRequest(
+      "/ledger/categories/save",
+      MoneyCategorySaveBody(direction: direction, names: names),
+      true,
+      false
+    )
+  }
 }
 
 struct MoneyJarView: View {
+  private static let defaultExpenseCategories = ["餐饮", "交通", "购物", "娱乐", "居住", "教育", "医疗", "其他"]
+  private static let defaultIncomeCategories = ["工资", "兼职", "理财", "红包", "其他"]
   @State private var budgetMode = "expense"
   @State private var showSettings = false
   @State private var selectedDate = Date()
   @State private var showWeekPicker = false
   @State private var budgetLimit = 500
   @State private var incomeGoal = 1000
+  @State private var expenseCategories: [EditableMoneyCategory] = MoneyJarView.defaultExpenseCategories.enumerated().map {
+    EditableMoneyCategory(id: "expense-\($0.offset)", name: $0.element, canEdit: $0.element != "其他")
+  }
+  @State private var incomeCategories: [EditableMoneyCategory] = MoneyJarView.defaultIncomeCategories.enumerated().map {
+    EditableMoneyCategory(id: "income-\($0.offset)", name: $0.element, canEdit: $0.element != "其他")
+  }
+  @State private var showCategorySettings = false
   @StateObject private var viewModel = MoneyJarViewModel()
 
   private var limit: Int {
@@ -56,8 +101,18 @@ struct MoneyJarView: View {
 
       VStack(spacing: 0) {
         NavHeader(title: "小钱罐", topPadding: 0, bottomPadding: 12) {
-          Button {
-            showMoneySettings()
+          Menu {
+            Button {
+              showMoneySettings()
+            } label: {
+              Label("收支设置", systemImage: "slider.horizontal.3")
+            }
+
+            Button {
+              showCategorySettingsSheet()
+            } label: {
+              Label("分类设置", systemImage: "tag")
+            }
           } label: {
             Image(systemName: "gearshape.fill")
               .font(.system(size: 24, weight: .semibold))
@@ -91,6 +146,7 @@ struct MoneyJarView: View {
     }
     .onAppear {
       viewModel.reload(for: selectedDate)
+      Task { await loadCategories() }
     }
     .onChange(of: selectedDate) { next in
       viewModel.reload(for: next)
@@ -120,6 +176,48 @@ struct MoneyJarView: View {
       MoneyWeekPickerSheet(
         selectedDate: $selectedDate,
         budgetMode: budgetMode
+      )
+    }
+  }
+
+  private func loadCategories() async {
+    guard let data = await MoneyJarRemoteAPI.categories() else { return }
+    let expense = data.expense.filter { !$0.deleted }.map {
+      EditableMoneyCategory(id: $0.id, name: $0.name, canEdit: $0.canEdit)
+    }
+    let income = data.income.filter { !$0.deleted }.map {
+      EditableMoneyCategory(id: $0.id, name: $0.name, canEdit: $0.canEdit)
+    }
+    if !expense.isEmpty {
+      expenseCategories = expense
+    }
+    if !income.isEmpty {
+      incomeCategories = income
+    }
+  }
+
+  private func showCategorySettingsSheet() {
+    guard !showCategorySettings else { return }
+    showCategorySettings = true
+    BottomSheetCenter.shared.showCenter(onHide: {
+      showCategorySettings = false
+    }) {
+      MoneyCategorySettingsSheet(
+        expenseCategories: $expenseCategories,
+        incomeCategories: $incomeCategories,
+        onSave: { nextExpense, nextIncome in
+          Task {
+            _ = await MoneyJarRemoteAPI.saveCategories(
+              direction: "expense",
+              names: nextExpense.map(\.name)
+            )
+            _ = await MoneyJarRemoteAPI.saveCategories(
+              direction: "income",
+              names: nextIncome.map(\.name)
+            )
+            await loadCategories()
+          }
+        }
       )
     }
   }

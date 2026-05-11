@@ -27,6 +27,8 @@ export default async function registerRoutes(
   post("/ledger/record", userAuth, LedgerController.record);
   post("/ledger/query", userAuth, LedgerController.query);
   get("/ledger/summary", userAuth, LedgerController.summary);
+  get("/ledger/categories", userAuth, LedgerController.categories);
+  post("/ledger/categories/save", userAuth, LedgerController.saveCategories);
 
   // ==================== Admin 后台接口 ====================
   post("/admin/login", AdminController.login);

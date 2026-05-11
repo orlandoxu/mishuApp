@@ -20,6 +20,7 @@ import { moneyRoute } from './builtinRoutes/moneyRoute';
 import { reminderRoute } from './builtinRoutes/reminderRoute';
 import { taskRoute } from './builtinRoutes/taskRoute';
 import { IntentRouterService } from './intentRouterService';
+import { MoneyCategoryService } from '../services/moneyCategoryService';
 import type {
   ClientActionResponsePayload,
   ClientCapabilityResponsePayload,
@@ -213,6 +214,25 @@ export class AgentRoute {
       state.pendingClientCapabilityRequest = undefined;
       state.execution.pendingClientAction = undefined;
       resetConfirmation(state);
+    }
+
+    const routeUserId = input.clientContext?.userId;
+    if (route.id === 'money' && routeUserId) {
+      const categories = await MoneyCategoryService.listActive(routeUserId);
+      state.slots.expenseCategories = {
+        key: 'expenseCategories',
+        value: categories.expense.map((x) => x.name).join('|'),
+        confidence: 1,
+        sourceMessageId: input.messageId,
+        updatedAt: now,
+      };
+      state.slots.incomeCategories = {
+        key: 'incomeCategories',
+        value: categories.income.map((x) => x.name).join('|'),
+        confidence: 1,
+        sourceMessageId: input.messageId,
+        updatedAt: now,
+      };
     }
 
     this.applyInteractionSlotUpdate(input, state);

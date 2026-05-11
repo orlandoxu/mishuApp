@@ -4,8 +4,14 @@ import { ok, type ApiResponse } from "../common/response";
 import { BodySchema } from "../lib/fastify/bodySchema";
 import type { TypedRequest } from "../lib/fastify/typeHelpers";
 import { LedgerService } from "../services/ledgerService";
+import { MoneyCategoryService } from "../services/moneyCategoryService";
 
 export class LedgerController {
+  static categoriesBody = z.object({
+    direction: z.enum(["income", "expense"]),
+    names: z.array(z.string().trim().min(1)).max(50),
+  });
+
   static recordBody = z.object({
     requestKey: z.string().trim().min(1).optional(),
     idempotencyKey: z.string().trim().min(1).optional(),
@@ -65,5 +71,26 @@ export class LedgerController {
       timezone: query.timezone,
     });
     return ok(result);
+  }
+
+  static async categories(
+    request: FastifyRequest,
+  ): Promise<ApiResponse<Awaited<ReturnType<typeof MoneyCategoryService.listActive>>>> {
+    ASSERT(request.user?.id, "未登录", Ret.NotLogin);
+    const result = await MoneyCategoryService.listActive(request.user.id);
+    return ok(result);
+  }
+
+  @BodySchema(LedgerController.categoriesBody)
+  static async saveCategories(
+    request: TypedRequest<typeof LedgerController.categoriesBody> & FastifyRequest,
+  ): Promise<ApiResponse<{ items: Awaited<ReturnType<typeof MoneyCategoryService.replaceDirectionCategories>> }>> {
+    ASSERT(request.user?.id, "未登录", Ret.NotLogin);
+    const items = await MoneyCategoryService.replaceDirectionCategories({
+      userId: request.user.id,
+      direction: request.body.direction,
+      names: request.body.names,
+    });
+    return ok({ items });
   }
 }

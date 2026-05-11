@@ -1,4 +1,5 @@
 import { MoneyRecord, type LedgerDirection } from "../models/MoneyRecord";
+import { MoneyCategoryService } from "./moneyCategoryService";
 
 type RecordLedgerInput = {
   userId: string;
@@ -37,12 +38,19 @@ export class LedgerService {
       };
     }
 
+    const category = await MoneyCategoryService.resolveCategory({
+      userId: input.userId,
+      direction: input.direction,
+      suggested: input.category,
+      originalText: input.note,
+    });
+
     const created = await MoneyRecord.create({
       userId: input.userId,
       requestKey: input.requestKey,
       direction: input.direction,
       amount: input.amount,
-      category: input.category || "其他",
+      category,
       note: input.note,
       occurredAt: new Date(input.occurredAt),
     });
@@ -58,6 +66,7 @@ export class LedgerService {
     endAtMs: number;
     limit?: number;
   }): Promise<{ items: LedgerListItem[] }> {
+    await MoneyCategoryService.ensureDefaults(args.userId);
     const limit = Math.max(1, Math.min(500, args.limit ?? 200));
     const docs = await MoneyRecord.find({
       userId: args.userId,
@@ -84,6 +93,7 @@ export class LedgerService {
     expenseTotal: number;
     byCategory: Record<string, number>;
   }> {
+    await MoneyCategoryService.ensureDefaults(args.userId);
     const range = resolveRange(args.period);
     const docs = await MoneyRecord.find({
       userId: args.userId,

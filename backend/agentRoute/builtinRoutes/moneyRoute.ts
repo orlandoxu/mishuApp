@@ -50,10 +50,14 @@ function extractSlots(input: AgentRouteInput, state: SessionState): SlotExtracti
         ? 'day'
         : 'day';
 
-  let category = '其他';
-  if (hasAnyKeyword(text, ['餐', '饭', '奶茶', 'food', 'meal', 'coffee'])) category = '餐饮';
-  else if (hasAnyKeyword(text, ['公交', '地铁', '打车', 'taxi', 'bus', 'subway', 'transport'])) category = '交通';
-  else if (hasAnyKeyword(text, ['工资', '奖金', 'salary', 'bonus', 'income'])) category = '工资';
+  const expenseCategories = parseCategoryList(state.slots.expenseCategories?.value);
+  const incomeCategories = parseCategoryList(state.slots.incomeCategories?.value);
+  const category = chooseCategory({
+    text,
+    direction,
+    expenseCategories,
+    incomeCategories,
+  });
 
   return {
     filled: {
@@ -66,6 +70,51 @@ function extractSlots(input: AgentRouteInput, state: SessionState): SlotExtracti
       originalText: { value: text, confidence: 1 },
     },
   };
+}
+
+function parseCategoryList(raw?: string): string[] {
+  if (!raw) return [];
+  return raw.split('|').map((x) => x.trim()).filter(Boolean);
+}
+
+function chooseCategory(args: {
+  text: string;
+  direction: string | null;
+  expenseCategories: string[];
+  incomeCategories: string[];
+}): string {
+  const categories = args.direction === 'income' ? args.incomeCategories : args.expenseCategories;
+  if (categories.length === 0) {
+    if (args.direction === 'income') return '工资';
+    return '其他';
+  }
+
+  for (const name of categories) {
+    if (args.text.includes(name)) return name;
+  }
+
+  if (args.direction === 'income') {
+    if (hasAnyKeyword(args.text, ['工资', 'salary'])) return pickExisting(categories, '工资');
+    if (hasAnyKeyword(args.text, ['兼职', 'part', 'freelance'])) return pickExisting(categories, '兼职');
+    return pickExisting(categories, '其他');
+  }
+
+  if (hasAnyKeyword(args.text, ['打车', '出租', '公交', '地铁', 'taxi', 'bus', 'subway', 'transport'])) {
+    return pickExisting(categories, '交通');
+  }
+  if (hasAnyKeyword(args.text, ['餐', '饭', '奶茶', 'food', 'meal', 'coffee'])) {
+    return pickExisting(categories, '餐饮');
+  }
+  if (hasAnyKeyword(args.text, ['购物', 'shop', 'mall'])) {
+    return pickExisting(categories, '购物');
+  }
+  return pickExisting(categories, '其他');
+}
+
+function pickExisting(categories: string[], preferred: string): string {
+  if (categories.includes(preferred)) return preferred;
+  if (categories.includes('其他')) return '其他';
+  return categories[0] ?? '其他';
 }
 
 function resolveMissingSlots(state: SessionState): string[] {
