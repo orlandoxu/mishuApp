@@ -191,6 +191,14 @@ function buildPreview(value: unknown, maxLen = 600): string {
   return raw.length > maxLen ? `${raw.slice(0, maxLen)}...` : raw;
 }
 
+function stringifyForLog(value: unknown): string {
+  try {
+    return JSON.stringify(value);
+  } catch (error) {
+    return `{"serializationError":"${error instanceof Error ? error.message : String(error)}"}`;
+  }
+}
+
 async function* parseArkSseStream(
   body: ReadableStream<Uint8Array>,
 ): AsyncGenerator<ArkChatResponse> {
@@ -244,6 +252,7 @@ export class DoubaoService {
           ? { type: "json_object" }
           : undefined,
     };
+    console.log(`[doubao][chatCompletion][request] ${stringifyForLog(requestPayload)}`);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -261,10 +270,12 @@ export class DoubaoService {
 
       if (!response.ok) {
         const raw = await response.text();
+        console.log(`[doubao][chatCompletion][error_response] status=${response.status} body=${raw}`);
         throw new Error(`doubao 请求失败(${response.status}): ${raw}`);
       }
 
       const data = (await response.json()) as ArkChatResponse;
+      console.log(`[doubao][chatCompletion][response] ${stringifyForLog(data)}`);
       const first = data.choices?.[0];
       const content = first?.message?.content?.trim() ?? "";
       const result = {
@@ -296,6 +307,7 @@ export class DoubaoService {
       });
       return result;
     } catch (error) {
+      console.log(`[doubao][chatCompletion][exception] ${(error as Error).message}`);
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion",
         modelId: modelName,
@@ -336,6 +348,7 @@ export class DoubaoService {
           ? { type: "json_object" }
           : undefined,
     };
+    console.log(`[doubao][chatCompletionStream][request] ${stringifyForLog(requestPayload)}`);
 
     const controller = new AbortController();
     const timeoutId = setTimeout(
@@ -358,6 +371,7 @@ export class DoubaoService {
 
       if (!response.ok) {
         const raw = await response.text();
+        console.log(`[doubao][chatCompletionStream][error_response] status=${response.status} body=${raw}`);
         throw new Error(`doubao 流式请求失败(${response.status}): ${raw}`);
       }
       if (!response.body) {
@@ -365,6 +379,7 @@ export class DoubaoService {
       }
 
       for await (const chunk of parseArkSseStream(response.body)) {
+        console.log(`[doubao][chatCompletionStream][chunk] ${stringifyForLog(chunk)}`);
         model = chunk.model ?? model;
         if (chunk.usage) {
           usage = toUsage(chunk.usage);
@@ -393,6 +408,7 @@ export class DoubaoService {
         finishReason,
         usage,
       };
+      console.log(`[doubao][chatCompletionStream][result] ${stringifyForLog(result)}`);
       const tokens = buildTokenStats({
         usage,
         requestMessages: messages,
@@ -419,6 +435,7 @@ export class DoubaoService {
       });
       return result;
     } catch (error) {
+      console.log(`[doubao][chatCompletionStream][exception] ${(error as Error).message}`);
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion_stream",
         modelId: model,
@@ -455,6 +472,13 @@ export class DoubaoService {
       .join("\n");
 
     try {
+      console.log(
+        `[doubao][jsonCompletion][request] ${stringifyForLog({
+          ...request,
+          systemRule,
+          responseFormat: "json_object",
+        })}`,
+      );
       const result = await this.chatCompletion({
         ...request,
         responseFormat: "json_object",
@@ -462,6 +486,15 @@ export class DoubaoService {
       });
 
       const data = parseJsonOrThrow<T>(result.content);
+      console.log(
+        `[doubao][jsonCompletion][parsed] ${stringifyForLog({
+          raw: result.content,
+          data,
+          model: result.model,
+          finishReason: result.finishReason,
+          usage: result.usage,
+        })}`,
+      );
       const tokens = buildTokenStats({
         usage: result.usage,
         requestMessages: request.messages,
@@ -494,6 +527,7 @@ export class DoubaoService {
         usage: result.usage,
       };
     } catch (error) {
+      console.log(`[doubao][jsonCompletion][exception] ${(error as Error).message}`);
       await DoubaoCallLog.writeLog({
         apiType: "chat_completion_json",
         modelId: config.doubao.model,

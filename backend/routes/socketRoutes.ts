@@ -30,6 +30,7 @@ export async function handleSocketMessage(
 ): Promise<void> {
   const { raw, send, getUser } = args;
   const text = typeof raw === "string" ? raw : raw.toString();
+  console.log(`[ws][inbound][raw] ${text}`);
 
   let message: SocketMessage;
   try {
@@ -40,6 +41,15 @@ export async function handleSocketMessage(
   }
 
   const routeKey = getRouteKey(message);
+  if (routeKey) {
+    const payload = asRecord(message.payload) ?? asRecord(message.data) ?? {};
+    const textPreview =
+      typeof payload.text === "string" ? payload.text.slice(0, 80) : "";
+    console.log(
+      `[ws][rpc] route=${routeKey} req=${message.requestId ?? "-"} user=${getUser()?.id ?? "-"} text="${textPreview}"`,
+    );
+  }
+
   const handler = routeKey ? routes[routeKey] : undefined;
   if (!handler) {
     send(
@@ -62,7 +72,10 @@ export async function handleSocketMessage(
     result = new SocketError("INTERNAL_ERROR", detail);
   }
 
-  send(buildRpcResponse(resolveRequestId(message, result), result));
+  const responsePayload = buildRpcResponse(resolveRequestId(message, result), result);
+  console.log(`[ws][outbound][raw] ${safeJson(responsePayload)}`);
+  send(responsePayload);
+  logRpcResult(message, routeKey, result);
 }
 
 function buildRpcResponse(
@@ -116,4 +129,52 @@ function resolveRequestId(
     return undefined;
   }
   return typeof result.messageId === "string" ? result.messageId : undefined;
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+  if (value && typeof value === "object" && !Array.isArray(value)) {
+    return value as Record<string, unknown>;
+  }
+  return null;
+}
+
+function safeJson(value: unknown): string {
+  try {
+    return JSON.stringify(value);
+  } catch (error) {
+    return `{"serializationError":"${error instanceof Error ? error.message : String(error)}"}`;
+  }
+}
+
+function logRpcResult(
+  message: SocketMessage,
+  routeKey: string | null,
+  result: SocketHandlerResult,
+): void {
+  if (!routeKey) {
+    return;
+  }
+  const req = message.requestId ?? "-";
+  if (isSocketError(result)) {
+    console.log(`[ws][rpc] route=${routeKey} req=${req} error=${result.code} msg=${result.msg}`);
+    return;
+  }
+  const phase = typeof result.phase === "string" ? result.phase : "-";
+  const sid = typeof result.sessionId === "string" ? result.sessionId : "-";
+  const ver = typeof result.sessionVersion === "number" ? String(result.sessionVersion) : "-";
+  console.log(`[ws][rpc] route=${routeKey} req=${req} ok phase=${phase} sid=${sid} ver=${ver}`);
+
+  const protocol = asRecord(result.protocol);
+  if (protocol) {
+    const recommendedInput = typeof protocol.recommendedInput === "string" ? protocol.recommendedInput : "-";
+    const directives = Array.isArray(protocol.directives) ? protocol.directives : [];
+    const directiveTypes = directives
+      .map((item) => asRecord(item))
+      .filter((item): item is Record<string, unknown> => Boolean(item))
+      .map((item) => (typeof item.type === "string" ? item.type : "unknown"))
+      .join(",");
+    console.log(
+      `[ws][rpc][protocol] route=${routeKey} req=${req} recommendedInput=${recommendedInput} directives=${directiveTypes}`,
+    );
+  }
 }

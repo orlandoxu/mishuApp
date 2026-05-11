@@ -3,7 +3,7 @@ import UIKit
 
 actor AgentRouteWebSocketClient {
   static let shared = AgentRouteWebSocketClient()
-  private let responseTimeoutNs: UInt64 = 120_000_000_000
+  private let responseTimeoutNs: UInt64 = 20_000_000_000
 
   private let sessionIdKey = "mishu_agent_route_session_id"
   private var sessionVersion: Int?
@@ -70,75 +70,122 @@ actor AgentRouteWebSocketClient {
       task.cancel(with: .normalClosure, reason: nil)
     }
 
-    try await sendRpc(task: task, payload: try request.asDictionary(), requestId: request.messageId)
+    return try await withTimeout(nanoseconds: responseTimeoutNs) { [self] in
+      try await self.sendRpc(task: task, payload: try request.asDictionary(), requestId: request.messageId)
 
-    var lastVisibleMessage = ""
+      var lastVisibleMessage = ""
 
-    while true {
-      let raw = try await receiveText(task: task, timeoutNs: responseTimeoutNs)
-      guard let data = raw.data(using: .utf8) else { continue }
-      guard shouldProcessAsRpc(data: data) else { continue }
-      let message = try JSONDecoder().decode(RpcResultEnvelope<AgentTurnResponse>.self, from: data)
-      guard message.type == "rpc" else { continue }
+      while true {
+        let raw = try await self.receiveText(task: task, timeoutNs: self.responseTimeoutNs)
+        guard let data = raw.data(using: .utf8) else { continue }
+        guard let businessData = try self.decodeTurnResponse(data: data) else { continue }
 
-      if !message.payload.isSuccess {
-        throw NSError(domain: "AgentRouteWebSocketClient", code: 500, userInfo: [NSLocalizedDescriptionKey: message.payload.msg ?? "服务端执行失败"])
-      }
+        self.sessionVersion = businessData.sessionVersion
+        lastVisibleMessage = businessData.replyText
 
-      guard let businessData = message.payload.data else {
-        throw NSError(domain: "AgentRouteWebSocketClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "服务端返回数据为空"])
-      }
+        if let actionDirective = businessData.protocolEnvelope?.directives.first(where: { $0.type == "request_client_action" }) {
+          let actionRequestId = actionDirective.requestId ?? ""
+          let action = actionDirective.action ?? ""
+          let payload = actionDirective.payload?.mapValues { $0.rawObject } ?? [:]
+          let actionResult = await self.executeClientAction(action: action, payload: payload)
 
-      sessionVersion = businessData.sessionVersion
-      lastVisibleMessage = businessData.replyText
+          let interaction: [String: Any] = [
+            "kind": "client_action_response",
+            "payload": [
+              "requestId": actionRequestId,
+              "action": action,
+              "success": actionResult.success,
+              "result": actionResult.result,
+              "error": actionResult.error ?? NSNull(),
+            ],
+          ]
 
-      if let actionDirective = businessData.protocolEnvelope?.directives.first(where: { $0.type == "request_client_action" }) {
-        let actionRequestId = actionDirective.requestId ?? ""
-        let action = actionDirective.action ?? ""
-        let payload = actionDirective.payload?.mapValues { $0.rawObject } ?? [:]
-        let actionResult = await executeClientAction(action: action, payload: payload)
+          let followPayload: [String: Any] = [
+            "protocolVersion": request.protocolVersion,
+            "sessionId": businessData.sessionId,
+            "turnId": UUID().uuidString,
+            "messageId": UUID().uuidString,
+            "text": "client_action_response",
+            "timestamp": Int64(Date().timeIntervalSince1970 * 1000),
+            "clientSessionVersion": businessData.sessionVersion,
+            "clientContext": try request.clientContext.asDictionary(),
+            "interaction": interaction,
+          ]
 
-        let interaction: [String: Any] = [
-          "kind": "client_action_response",
-          "payload": [
-            "requestId": actionRequestId,
-            "action": action,
-            "success": actionResult.success,
-            "result": actionResult.result,
-            "error": actionResult.error ?? NSNull(),
-          ],
-        ]
+          try await self.sendRpc(task: task, payload: followPayload, requestId: UUID().uuidString)
+          continue
+        }
 
-        let followPayload: [String: Any] = [
-          "protocolVersion": request.protocolVersion,
-          "sessionId": businessData.sessionId,
-          "turnId": UUID().uuidString,
-          "messageId": UUID().uuidString,
-          "text": "client_action_response",
-          "timestamp": Int64(Date().timeIntervalSince1970 * 1000),
-          "clientSessionVersion": businessData.sessionVersion,
-          "clientContext": try request.clientContext.asDictionary(),
-          "interaction": interaction,
-        ]
+        if businessData.isTerminal {
+          return lastVisibleMessage
+        }
 
-        try await sendRpc(task: task, payload: followPayload, requestId: UUID().uuidString)
-        continue
-      }
-
-      if businessData.isTerminal {
-        return lastVisibleMessage
+        // 需要用户确认/补槽时，立即把服务端提示回显到 UI，避免一直停在“思考中”
+        if shouldReturnForUserInput(phase: businessData.phase) {
+          return lastVisibleMessage
+        }
       }
     }
   }
 
-  private func shouldProcessAsRpc(data: Data) -> Bool {
+  private func withTimeout<T>(nanoseconds: UInt64, operation: @escaping () async throws -> T) async throws -> T {
+    try await withThrowingTaskGroup(of: T.self) { group in
+      group.addTask {
+        try await operation()
+      }
+      group.addTask {
+        try await Task.sleep(nanoseconds: nanoseconds)
+        throw NSError(domain: "AgentRouteWebSocketClient", code: 408, userInfo: [NSLocalizedDescriptionKey: "等待服务端响应超时"])
+      }
+      let value = try await group.next()!
+      group.cancelAll()
+      return value
+    }
+  }
+
+  private func shouldReturnForUserInput(phase: String) -> Bool {
+    phase == "collecting_slots" || phase == "awaiting_confirmation"
+  }
+
+  private func decodeTurnResponse(data: Data) throws -> AgentTurnResponse? {
     guard
       let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
       let type = object["type"] as? String
     else {
-      return false
+      return nil
     }
-    return type == "rpc"
+
+    if type == "rpc" {
+      let message = try JSONDecoder().decode(RpcResultEnvelope<AgentTurnResponse>.self, from: data)
+      if !message.payload.isSuccess {
+        throw NSError(domain: "AgentRouteWebSocketClient", code: 500, userInfo: [NSLocalizedDescriptionKey: message.payload.msg ?? "服务端执行失败"])
+      }
+      guard let turn = message.payload.data else {
+        throw NSError(domain: "AgentRouteWebSocketClient", code: 500, userInfo: [NSLocalizedDescriptionKey: "服务端返回数据为空"])
+      }
+      return turn
+    }
+
+    if type == "agent_turn_result" {
+      let message = try JSONDecoder().decode(SocketMessage.self, from: data)
+      if case let .agentTurnResult(turn)? = message.payload {
+        return turn
+      }
+    }
+
+    // 兼容服务端其他消息壳：只要 payload 结构可解为 AgentTurnResponse 就接收
+    if
+      let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+      let payload = object["payload"],
+      JSONSerialization.isValidJSONObject(payload)
+    {
+      let payloadData = try JSONSerialization.data(withJSONObject: payload)
+      if let turn = try? JSONDecoder().decode(AgentTurnResponse.self, from: payloadData) {
+        return turn
+      }
+    }
+
+    return nil
   }
 
   private func executeClientAction(action: String, payload: [String: Any]) async -> (success: Bool, result: [String: Any], error: String?) {

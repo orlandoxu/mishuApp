@@ -27,19 +27,22 @@ export class IntentRouterService {
         .map((item) => `${item.actor}:${item.text}`)
         .join('\n');
 
-      const result = await DoubaoService.jsonCompletion<IntentDetectResult>({
-        userId: input.clientContext?.deviceId,
-        temperature: 0,
-        messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          {
-            role: 'user',
-            content: `历史:\n${history || '无'}\n\n当前输入:\n${userText}`,
-          },
-        ],
-        jsonSchemaHint:
-          '{"route":"money|reminder|contact|task|chat|fallback","confidence":0.0,"reason":"string","slots":{"key":"value"}}',
-      });
+      const result = await withTimeout(
+        DoubaoService.jsonCompletion<IntentDetectResult>({
+          userId: input.clientContext?.deviceId,
+          temperature: 0,
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            {
+              role: 'user',
+              content: `历史:\n${history || '无'}\n\n当前输入:\n${userText}`,
+            },
+          ],
+          jsonSchemaHint:
+            '{"route":"money|reminder|contact|task|chat|fallback","confidence":0.0,"reason":"string","slots":{"key":"value"}}',
+        }),
+        3000,
+      );
 
       if (!result.data || typeof result.data !== 'object') return null;
       const parsed = result.data;
@@ -54,6 +57,20 @@ export class IntentRouterService {
     } catch {
       return null;
     }
+  }
+}
+
+async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | null = null;
+  try {
+    return await Promise.race([
+      promise,
+      new Promise<T>((_, reject) => {
+        timer = setTimeout(() => reject(new Error('intent_router_timeout')), timeoutMs);
+      }),
+    ]);
+  } finally {
+    if (timer) clearTimeout(timer);
   }
 }
 

@@ -43,15 +43,24 @@ function startWsServer(): void {
 
       if (token) {
         user = await UserTokenService.ensureUserByToken(token);
+        if (!user?.id && config.app.nodeEnv !== "production") {
+          user = decodeDevUserFromToken(token);
+          if (user?.id) {
+            console.log(`[ws] dev token fallback user=${user.id}`);
+          }
+        }
         if (!user?.id) {
+          console.log("[ws] upgrade unauthorized");
           return new Response("Unauthorized", { status: 401 });
         }
       }
 
       if (server.upgrade(req, { data: { user } })) {
+        console.log(`[ws] upgrade ok user=${user?.id ?? "-"}`);
         return undefined;
       }
 
+      console.log("[ws] upgrade failed");
       return new Response("Upgrade failed", { status: 400 });
     },
     websocket: {
@@ -90,6 +99,27 @@ function startWsServer(): void {
   console.log(
     `[ws] ready at ws://${config.ws.wsHost}:${config.ws.wsPort}${config.ws.path}`,
   );
+}
+
+function decodeDevUserFromToken(rawToken: string): AuthUser | null {
+  const token = rawToken.startsWith("Bearer ") ? rawToken.slice(7) : rawToken;
+  const jwt = token.startsWith(config.auth.tokenPrefix) ? token.slice(config.auth.tokenPrefix.length) : token;
+  const parts = jwt.split(".");
+  if (parts.length < 2) {
+    return null;
+  }
+  try {
+    const payloadRaw = parts[1].replace(/-/g, "+").replace(/_/g, "/");
+    const padded = payloadRaw.padEnd(Math.ceil(payloadRaw.length / 4) * 4, "=");
+    const payloadJson = Buffer.from(padded, "base64").toString("utf8");
+    const payload = JSON.parse(payloadJson) as { sub?: unknown };
+    if (typeof payload.sub === "string" && payload.sub.trim().length > 0) {
+      return { id: payload.sub.trim() };
+    }
+  } catch {
+    return null;
+  }
+  return null;
 }
 if (import.meta.main) {
   bootstrapWebSocketServices().catch((error) => {

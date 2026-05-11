@@ -63,9 +63,10 @@ export class UserTokenService {
       return null;
     }
 
-    const jwtToken = token.startsWith(config.auth.tokenPrefix)
-      ? token.slice(config.auth.tokenPrefix.length)
-      : token;
+    const rawToken = token.startsWith('Bearer ') ? token.slice('Bearer '.length) : token;
+    const jwtToken = rawToken.startsWith(config.auth.tokenPrefix)
+      ? rawToken.slice(config.auth.tokenPrefix.length)
+      : rawToken;
     const payload = parseJwt(jwtToken);
     return payload ? { id: payload.sub } : null;
   }

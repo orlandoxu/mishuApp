@@ -62,6 +62,9 @@ enum AppConst {
 
   /// WebSocket 地址（按环境切换）
   static var appWebSocketURL: URL {
+    if iosIsDebug {
+      return URL(string: "ws://127.0.0.1:3001/house")!
+    }
     switch currentEnvironment {
     case .production:
       return URL(string: "wss://api.landeng.fun/house")!

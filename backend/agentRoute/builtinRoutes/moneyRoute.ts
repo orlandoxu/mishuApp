@@ -9,7 +9,10 @@ import type {
 } from '../types';
 import { compactText, hasAnyKeyword } from './common';
 
-const KEYWORDS = ['记账', '花了', '收入', '支出', '消费', '本周花了', '本月花了', '查账'];
+const KEYWORDS = [
+  '记账', '花了', '收入', '支出', '消费', '本周花了', '本月花了', '查账',
+  'record', 'income', 'expense', 'spend', 'query', 'ledger', 'account',
+];
 
 function detectIntent(input: AgentRouteInput): RouteIntentResult {
   if (hasAnyKeyword(input.text, KEYWORDS)) {
@@ -21,28 +24,28 @@ function detectIntent(input: AgentRouteInput): RouteIntentResult {
 function extractSlots(input: AgentRouteInput): SlotExtraction {
   const text = compactText(input.text);
   const amountMatch = text.match(/(\d+(?:\.\d{1,2})?)/);
-  const direction = hasAnyKeyword(text, ['收入', '进账', '赚'])
+  const direction = hasAnyKeyword(text, ['收入', '进账', '赚', 'income', 'earn'])
     ? 'income'
-    : hasAnyKeyword(text, ['支出', '花了', '消费', '付款'])
+    : hasAnyKeyword(text, ['支出', '花了', '消费', '付款', 'expense', 'spend', 'paid', 'cost'])
       ? 'expense'
       : null;
 
   const hasAmount = Boolean(amountMatch);
-  const hasQueryHint = hasAnyKeyword(text, ['本周', '本月', '查询', '查账', '多少']);
+  const hasQueryHint = hasAnyKeyword(text, ['本周', '本月', '查询', '查账', '多少', 'query', 'how much', 'summary']);
   const moneyOperation = !hasAmount && hasQueryHint ? 'ledger_query' : 'ledger_record';
 
-  const period = hasAnyKeyword(text, ['本周'])
+  const period = hasAnyKeyword(text, ['本周', 'week', 'weekly'])
     ? 'week'
-    : hasAnyKeyword(text, ['本月'])
+    : hasAnyKeyword(text, ['本月', 'month', 'monthly'])
       ? 'month'
-      : hasAnyKeyword(text, ['今天'])
+      : hasAnyKeyword(text, ['今天', 'today', 'daily'])
         ? 'day'
         : 'day';
 
   let category = '其他';
-  if (hasAnyKeyword(text, ['餐', '饭', '奶茶'])) category = '餐饮';
-  else if (hasAnyKeyword(text, ['公交', '地铁', '打车'])) category = '交通';
-  else if (hasAnyKeyword(text, ['工资', '奖金'])) category = '工资';
+  if (hasAnyKeyword(text, ['餐', '饭', '奶茶', 'food', 'meal', 'coffee'])) category = '餐饮';
+  else if (hasAnyKeyword(text, ['公交', '地铁', '打车', 'taxi', 'bus', 'subway', 'transport'])) category = '交通';
+  else if (hasAnyKeyword(text, ['工资', '奖金', 'salary', 'bonus', 'income'])) category = '工资';
 
   return {
     filled: {
