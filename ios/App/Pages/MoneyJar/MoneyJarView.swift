@@ -13,15 +13,6 @@ private struct LedgerQueryDTO: Codable {
   let items: [LedgerQueryItemDTO]
 }
 
-private struct LedgerSummaryDTO: Codable {
-  let period: String
-  let startAtMs: Int64
-  let endAtMs: Int64
-  let incomeTotal: Double
-  let expenseTotal: Double
-  let byCategory: [String: Double]
-}
-
 private enum MoneyJarRemoteAPI {
   static func query(startAtMs: Int64, endAtMs: Int64, limit: Int = 200) async -> LedgerQueryDTO? {
     await APIClient().postRequest(
@@ -35,21 +26,12 @@ private enum MoneyJarRemoteAPI {
       false
     )
   }
-
-  static func summary(period: String, timezone: String) async -> LedgerSummaryDTO? {
-    await APIClient().getRequest(
-      "/ledger/summary?period=\(period)&timezone=\(timezone.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? timezone)",
-      Empty(),
-      true,
-      false
-    )
-  }
 }
 
 struct MoneyJarView: View {
   @State private var budgetMode = "expense"
   @State private var showSettings = false
-  @State private var selectedDate = Date.mishuMoneyJarSeed
+  @State private var selectedDate = Date()
   @State private var showWeekPicker = false
   @State private var budgetLimit = 500
   @State private var incomeGoal = 1000
@@ -162,8 +144,15 @@ final class MoneyJarViewModel: ObservableObject {
     let endMs = Int64(weekEnd.timeIntervalSince1970 * 1000) - 1
 
     if let remoteQuery = await MoneyJarRemoteAPI.query(startAtMs: startMs, endAtMs: endMs, limit: 200) {
+      var incomeTotal = 0
+      var expenseTotal = 0
       transactions = remoteQuery.items.map { item in
-        MoneyTransaction(
+        if item.direction == "income" {
+          incomeTotal += Int(item.amount.rounded())
+        } else {
+          expenseTotal += Int(item.amount.rounded())
+        }
+        return MoneyTransaction(
           id: item.id,
           type: item.direction,
           amount: Int(item.amount.rounded()),
@@ -172,13 +161,8 @@ final class MoneyJarViewModel: ObservableObject {
           note: item.note?.isEmpty == false ? item.note! : "服务端记账"
         )
       }
-      if let remoteSummary = await MoneyJarRemoteAPI.summary(period: "week", timezone: TimeZone.current.identifier) {
-        totalIncome = Int(remoteSummary.incomeTotal.rounded())
-        totalExpense = Int(remoteSummary.expenseTotal.rounded())
-      } else {
-        totalIncome = 0
-        totalExpense = 0
-      }
+      totalIncome = incomeTotal
+      totalExpense = expenseTotal
       return
     }
 

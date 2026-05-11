@@ -65,7 +65,11 @@ struct MainView: View {
 
             ScrollView(showsIndicators: false) {
               VStack(spacing: 18) {
-                HomeConversationListView(messages: messages)
+                HomeConversationListView(
+                  messages: messages,
+                  onConfirm: { submitFinalInput("confirm") },
+                  onDeny: { submitFinalInput("cancel") }
+                )
                 Spacer(minLength: 128 + proxy.safeAreaInsets.bottom)
               }
               .frame(maxWidth: .infinity)
@@ -314,15 +318,33 @@ private struct HomeTopSectionView: View {
 
 private struct HomeConversationListView: View {
   let messages: [TreeHoleChatMessage]
+  let onConfirm: () -> Void
+  let onDeny: () -> Void
 
   var body: some View {
     VStack(spacing: 20) {
       ForEach(messages) { message in
         HomeConversationBubbleRow(message: message)
       }
+      if shouldShowConfirmActions {
+        HStack(spacing: 10) {
+          Button("确认记账", action: onConfirm)
+            .buttonStyle(HomeQuickActionButtonStyle(background: Color(hex: "#E8F9EE"), foreground: Color(hex: "#137A3B")))
+            .accessibilityIdentifier("home_confirm_action")
+          Button("我再改改", action: onDeny)
+            .buttonStyle(HomeQuickActionButtonStyle(background: Color(hex: "#F8F9FB"), foreground: Color.black.opacity(0.75)))
+            .accessibilityIdentifier("home_deny_action")
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+      }
     }
     .padding(.horizontal, 16)
     .padding(.top, 8)
+  }
+
+  private var shouldShowConfirmActions: Bool {
+    guard let last = messages.last, last.role == .ai else { return false }
+    return last.text.contains("确认记一笔")
   }
 }
 
@@ -376,5 +398,23 @@ private struct HomeChatBubbleShape: Shape {
       cornerRadii: CGSize(width: radius, height: radius)
     )
     return Path(path.cgPath)
+  }
+}
+
+private struct HomeQuickActionButtonStyle: ButtonStyle {
+  let background: Color
+  let foreground: Color
+
+  func makeBody(configuration: Configuration) -> some View {
+    configuration.label
+      .font(.system(size: 14, weight: .semibold))
+      .foregroundColor(foreground)
+      .padding(.horizontal, 14)
+      .padding(.vertical, 8)
+      .background(background.opacity(configuration.isPressed ? 0.7 : 1))
+      .clipShape(Capsule())
+      .overlay(
+        Capsule().stroke(Color.black.opacity(0.08), lineWidth: 1)
+      )
   }
 }
