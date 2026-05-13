@@ -98,6 +98,10 @@
 		A031D2687E6BE3E38AE1DABD /* View+hideScrollIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */; };
 		A0D28AD184E847E4AA97E302 /* View+rotationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CCD83925B81940196051A /* View+rotationIcon.swift */; };
 		A2968112D50A76F5E75B98CF /* MoneyJarSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0889C60CB3D1E8419E669A6 /* MoneyJarSections.swift */; };
+		A1B2C3D4E5F60718293A4B5C /* MoneySettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1C2D3E4F5061728394A5B6C /* MoneySettingsSheet.swift */; };
+		A2B3C4D5E6F708192A3B4C5D /* MoneyCategorySettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1D2E3F405162738495A6B7C /* MoneyCategorySettingsSheet.swift */; };
+		A3B4C5D6E7F8091A2B3C4D5E /* MoneyWeekPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1E2F30415263748596A7B8C /* MoneyWeekPickerSheet.swift */; };
+		A4B5C6D7E8F9012A3B4C5D6E /* MoneyJarDateExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F2031425364758697A8B9C /* MoneyJarDateExtensions.swift */; };
 		A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 31BD492FD73E659CC04017FE /* Lottie */; };
 		A5ECE171DF4551718270E8C3 /* LoginAgreementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFD180D7C6C69936845DBB30 /* LoginAgreementView.swift */; };
 		A6141F3575FD0C76041D8FC9 /* AppNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72EDAB590B1D32B14DE0D0D6 /* AppNavigationStack.swift */; };
@@ -348,6 +352,10 @@
 		DF70799BB11361A715C2829C /* MemoryVectorStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVectorStoreTests.swift; sourceTree = "<group>"; };
 		DFDBD3B4AE569AF4F37867A6 /* PartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerView.swift; sourceTree = "<group>"; };
 		E0889C60CB3D1E8419E669A6 /* MoneyJarSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyJarSections.swift; sourceTree = "<group>"; };
+		B1C2D3E4F5061728394A5B6C /* MoneySettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneySettingsSheet.swift; sourceTree = "<group>"; };
+		C1D2E3F405162738495A6B7C /* MoneyCategorySettingsSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyCategorySettingsSheet.swift; sourceTree = "<group>"; };
+		D1E2F30415263748596A7B8C /* MoneyWeekPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyWeekPickerSheet.swift; sourceTree = "<group>"; };
+		E1F2031425364758697A8B9C /* MoneyJarDateExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyJarDateExtensions.swift; sourceTree = "<group>"; };
 		E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessage.swift; sourceTree = "<group>"; };
 		E445711911947BF54D8D2C18 /* HomeInfoCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInfoCarouselView.swift; sourceTree = "<group>"; };
 		E46A655DB9CB57294BFF38F5 /* AMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AMap-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -551,6 +559,10 @@
 			isa = PBXGroup;
 			children = (
 				E0889C60CB3D1E8419E669A6 /* MoneyJarSections.swift */,
+				B1C2D3E4F5061728394A5B6C /* MoneySettingsSheet.swift */,
+				C1D2E3F405162738495A6B7C /* MoneyCategorySettingsSheet.swift */,
+				D1E2F30415263748596A7B8C /* MoneyWeekPickerSheet.swift */,
+				E1F2031425364758697A8B9C /* MoneyJarDateExtensions.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -1169,6 +1181,10 @@
 				F670DE75A01C93E91F6F1F75 /* MessageTable.swift in Sources */,
 				43F36358BB5FEEEAFCE41FC4 /* MishuApp.swift in Sources */,
 				A2968112D50A76F5E75B98CF /* MoneyJarSections.swift in Sources */,
+				A1B2C3D4E5F60718293A4B5C /* MoneySettingsSheet.swift in Sources */,
+				A2B3C4D5E6F708192A3B4C5D /* MoneyCategorySettingsSheet.swift in Sources */,
+				A3B4C5D6E7F8091A2B3C4D5E /* MoneyWeekPickerSheet.swift in Sources */,
+				A4B5C6D7E8F9012A3B4C5D6E /* MoneyJarDateExtensions.swift in Sources */,
 				B6DDC34613CDA1E975E0453B /* MoneyJarView.swift in Sources */,
 				B80D2DBD3E9879F51B975A90 /* MoodSections.swift in Sources */,
 				CB4D7079B093E08501E4F9CC /* NaturalDateTimeDetector.swift in Sources */,
