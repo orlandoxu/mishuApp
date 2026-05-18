@@ -74,7 +74,7 @@ final class VoiceRealtimeCtrl: ObservableObject {
     completion(finalText)
   }
 
-  func requestReply(for text: String) async throws -> String {
+  func requestReply(for text: String) async throws -> AgentTurnResponse {
     let finalText = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !finalText.isEmpty else {
       throw NSError(domain: "VoiceRealtimeCtrl", code: 400, userInfo: [NSLocalizedDescriptionKey: "请输入测试文本"])

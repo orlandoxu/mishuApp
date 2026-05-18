@@ -1,4 +1,5 @@
 import { DoubaoService } from '../services/doubaoService';
+import { FoodMemoryService } from '../services/foodMemoryService';
 import { LedgerService } from '../services/ledgerService';
 import type { RouteExecutor } from './types';
 
@@ -147,6 +148,64 @@ export const taskExecutor: RouteExecutor = {
     return {
       success: true,
       summary: '任务已创建。',
+    };
+  },
+};
+
+export const foodExecutor: RouteExecutor = {
+  async execute(request) {
+    const userId = typeof request.payload.userId === 'string' ? request.payload.userId.trim() : '';
+    if (!userId) {
+      return {
+        success: false,
+        summary: '缺少用户身份，无法新增美食记忆。',
+        retryable: false,
+        errorCode: 'FOOD_USER_REQUIRED',
+      };
+    }
+    if (request.action !== 'food.create') {
+      return {
+        success: false,
+        summary: `不支持的 food action: ${request.action}`,
+        retryable: false,
+        errorCode: 'FOOD_ACTION_UNSUPPORTED',
+      };
+    }
+
+    const name = `${request.payload.name ?? ''}`.trim();
+    const category = `${request.payload.category ?? ''}`.trim();
+    const review = `${request.payload.review ?? ''}`.trim();
+    const pricePerPerson = Number(request.payload.pricePerPerson ?? 0);
+    if (!name || !category || !review || !Number.isFinite(pricePerPerson)) {
+      return {
+        success: false,
+        summary: '创建失败：name/category/pricePerPerson/review 缺失或无效。',
+        retryable: false,
+        errorCode: 'FOOD_REQUIRED_SLOTS_MISSING',
+      };
+    }
+
+    const item = await FoodMemoryService.create({
+      userId,
+      name,
+      category,
+      pricePerPerson,
+      review,
+      rating: Number(request.payload.rating ?? 4) || 4,
+      visitedAt: Number(request.payload.visitedAt ?? Date.now()) || Date.now(),
+      lat: Number(request.payload.lat ?? 0) || 0,
+      lng: Number(request.payload.lng ?? 0) || 0,
+      address: `${request.payload.address ?? ''}`.trim(),
+      features: Array.isArray(request.payload.features) ? (request.payload.features as string[]).filter(Boolean) : [],
+      signatureDishes: Array.isArray(request.payload.signatureDishes) ? (request.payload.signatureDishes as string[]).filter(Boolean) : [],
+      avoidDishes: Array.isArray(request.payload.avoidDishes) ? (request.payload.avoidDishes as string[]).filter(Boolean) : [],
+      photos: Array.isArray(request.payload.photos) ? (request.payload.photos as string[]).filter(Boolean) : [],
+    });
+
+    return {
+      success: true,
+      summary: `新增成功：${item.name}`,
+      data: { foodMemory: item },
     };
   },
 };

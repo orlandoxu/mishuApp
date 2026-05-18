@@ -209,19 +209,37 @@ struct MainView: View {
     }
 
     Task {
-      let reply: String
+      let assistantText: String
+      var createdFoodCard: AgentFoodMemoryDTO?
       do {
-        reply = try await realtimeController.requestReply(for: trimmed)
+        let turn = try await realtimeController.requestReply(for: trimmed)
+        assistantText = turn.replyText
+        createdFoodCard = extractFoodMemoryCard(from: turn)
       } catch {
-        reply = "指令下发失败：\(error.localizedDescription)"
+        assistantText = "指令下发失败：\(error.localizedDescription)"
       }
       await MainActor.run {
         withAnimation(.spring(response: 0.42, dampingFraction: 0.84)) {
-          messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-ai", role: .ai, text: reply))
+          messages.append(
+            TreeHoleChatMessage(
+              id: "\(Date().timeIntervalSince1970)-ai",
+              role: .ai,
+              text: assistantText,
+              foodMemoryCard: createdFoodCard
+            )
+          )
         }
         status = .idle
       }
     }
+  }
+
+  private func extractFoodMemoryCard(from turn: AgentTurnResponse) -> AgentFoodMemoryDTO? {
+    guard let resultData = turn.resultData,
+          case let .object(container)? = resultData["foodMemory"]
+    else { return nil }
+    guard let json = try? JSONSerialization.data(withJSONObject: container.mapValues(\.rawObject)) else { return nil }
+    return try? JSONDecoder().decode(AgentFoodMemoryDTO.self, from: json)
   }
 
   private func showStartError() {
@@ -246,6 +264,7 @@ struct MainView: View {
 
 extension Notification.Name {
   static let homeQuickTextInput = Notification.Name("homeQuickTextInput")
+  static let foodMemoryOpenEditor = Notification.Name("foodMemoryOpenEditor")
 }
 
 private struct HomeTopSectionView: View {
@@ -378,6 +397,11 @@ private struct HomeConversationBubbleRow: View {
         )
         .frame(maxWidth: 306, alignment: message.role == .user ? .trailing : .leading)
 
+      if let card = message.foodMemoryCard, message.role == .ai {
+        FoodMemoryCreatedCardView(card: card)
+          .frame(maxWidth: 306, alignment: .leading)
+      }
+
       if message.role == .ai { Spacer(minLength: 34) }
     }
     .frame(maxWidth: .infinity, alignment: message.role == .user ? .trailing : .leading)
@@ -389,6 +413,44 @@ private struct HomeConversationBubbleRow: View {
 
   private var bubbleBorder: Color {
     message.role == .user ? Color(hex: "#E0F2FE") : Color.black.opacity(0.05)
+  }
+}
+
+private struct FoodMemoryCreatedCardView: View {
+  @ObservedObject private var appNavigation = AppNavigationModel.shared
+  let card: AgentFoodMemoryDTO
+
+  var body: some View {
+    VStack(alignment: .leading, spacing: 10) {
+      Text("新增成功")
+        .font(.system(size: 14, weight: .bold))
+      Text(card.name)
+        .font(.system(size: 18, weight: .bold))
+      Text("\(card.category) · 人均 \(Int(card.pricePerPerson.rounded()))")
+        .font(.system(size: 13, weight: .medium))
+        .foregroundColor(Color.black.opacity(0.62))
+      Text(card.review)
+        .font(.system(size: 13, weight: .regular))
+        .foregroundColor(Color.black.opacity(0.8))
+        .lineLimit(3)
+
+      Button("修改") {
+        appNavigation.push(.foodMemory)
+        NotificationCenter.default.post(
+          name: .foodMemoryOpenEditor,
+          object: nil,
+          userInfo: ["id": card.id]
+        )
+      }
+      .buttonStyle(HomeQuickActionButtonStyle(background: Color(hex: "#FFF1F1"), foreground: Color(hex: "#FF6B6B")))
+    }
+    .padding(14)
+    .background(Color.white)
+    .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+    .overlay(
+      RoundedRectangle(cornerRadius: 16, style: .continuous)
+        .stroke(Color.black.opacity(0.07), lineWidth: 1)
+    )
   }
 }
 

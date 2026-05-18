@@ -29,6 +29,7 @@ type BuildResponseParams = {
   actions?: AgentAction[];
   error?: AgentRouteError;
   deduped?: boolean;
+  resultData?: Record<string, unknown>;
 };
 
 /**
@@ -91,6 +92,7 @@ export function buildResponse(params: BuildResponseParams): AgentRouteOutput {
     presentation,
     error: params.error,
     deduped: params.deduped,
+    resultData: params.resultData,
     protocol: {
       version: AGENT_ROUTE_PROTOCOL_VERSION,
       recommendedInput,

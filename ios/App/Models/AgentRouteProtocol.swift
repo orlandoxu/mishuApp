@@ -26,6 +26,7 @@ struct AgentTurnResponse: Decodable {
   let messageId: String
   let phase: String
   let message: String
+  let resultData: [String: AgentJSONValue]?
   let protocolEnvelope: AgentProtocolEnvelope?
 
   enum CodingKeys: String, CodingKey {
@@ -35,6 +36,7 @@ struct AgentTurnResponse: Decodable {
     case messageId
     case phase
     case message
+    case resultData
     case protocolEnvelope = "protocol"
   }
 
@@ -47,6 +49,15 @@ struct AgentTurnResponse: Decodable {
   var isTerminal: Bool {
     ["completed", "failed", "fallback", "cancelled"].contains(phase)
   }
+}
+
+struct AgentFoodMemoryDTO: Decodable, Equatable {
+  let id: String
+  let name: String
+  let category: String
+  let pricePerPerson: Double
+  let review: String
+  let rating: Int
 }
 
 struct AgentProtocolEnvelope: Decodable {

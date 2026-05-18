@@ -6,7 +6,7 @@ import type {
   ServerTurnResponse,
 } from './protocol';
 
-export type RouteId = 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'fallback';
+export type RouteId = 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'food' | 'fallback';
 
 export type AgentPhase =
   | 'intent_detected'

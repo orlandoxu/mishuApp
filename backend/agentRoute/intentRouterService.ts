@@ -2,7 +2,7 @@ import { DoubaoService } from '../services/doubaoService';
 import type { AgentRouteInput, RouteId, SessionState } from './types';
 
 type IntentDetectResult = {
-  domain: 'money' | 'reminder' | 'contact' | 'task' | 'chat' | 'fallback';
+  domain: 'money' | 'reminder' | 'contact' | 'task' | 'food' | 'chat' | 'fallback';
   intent: string;
   confidence: number;
   reason: string;
@@ -12,7 +12,7 @@ type IntentDetectResult = {
 const SYSTEM_PROMPT = [
   '你是一个严格的意图路由器，需要从可用能力中选择最合适的能力。',
   '只输出 JSON。',
-  'domain 只能是: money|reminder|contact|task|chat|fallback。',
+  'domain 只能是: money|reminder|contact|task|food|chat|fallback。',
   'intent 必须是该 domain 下的能力标识。',
   '能力目录：',
   '- money.record: 记录收支流水（提取 amount/direction/category/note）。',
@@ -20,6 +20,7 @@ const SYSTEM_PROMPT = [
   '- reminder.create: 创建提醒。',
   '- contact.manage: 联系人相关操作。',
   '- task.create: 创建任务。',
+  '- food.create: 新增美食记忆（提取 name/category/pricePerPerson/review）。',
   '- chat.reply: 普通聊天回复。',
   '- fallback.unknown: 无法确定能力。',
   'confidence 为 0~1 的数字。',
@@ -49,7 +50,7 @@ export class IntentRouterService {
             },
           ],
           jsonSchemaHint:
-            '{"domain":"money|reminder|contact|task|chat|fallback","intent":"money.record|money.query|reminder.create|contact.manage|task.create|chat.reply|fallback.unknown","confidence":0.0,"reason":"string","slots":{"key":"value"}}',
+            '{"domain":"money|reminder|contact|task|food|chat|fallback","intent":"money.record|money.query|reminder.create|contact.manage|task.create|food.create|chat.reply|fallback.unknown","confidence":0.0,"reason":"string","slots":{"key":"value"}}',
         }),
         15000,
       );
@@ -87,7 +88,7 @@ async function withTimeout<T>(promise: Promise<T>, timeoutMs: number): Promise<T
 
 function normalizeDomain(raw: string): RouteId {
   const text = raw.trim().toLowerCase();
-  if (text === 'money' || text === 'reminder' || text === 'contact' || text === 'task' || text === 'chat') {
+  if (text === 'money' || text === 'reminder' || text === 'contact' || text === 'task' || text === 'food' || text === 'chat') {
     return text;
   }
   return 'fallback';

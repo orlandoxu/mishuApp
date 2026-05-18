@@ -57,7 +57,7 @@ export type ServerTurnResponse = {
   sessionVersion: number;
   turnId: string;
   messageId: string;
-  route: 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'fallback';
+  route: 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'food' | 'fallback';
   intent?: string;
   phase:
     | 'intent_detected'
@@ -93,10 +93,11 @@ export type ServerTurnResponse = {
   presentation: PresentationPayload;
   actions: Array<{
     type: 'execute' | 'retry' | 'cancel' | 'switch_route' | 'none';
-    route?: 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'fallback';
+    route?: 'chat' | 'money' | 'reminder' | 'contact' | 'task' | 'food' | 'fallback';
     payload?: Record<string, unknown>;
   }>;
   error?: { code: string; message: string; retryable: boolean };
   deduped?: boolean;
+  resultData?: Record<string, unknown>;
   protocol: ServerProtocolEnvelope;
 };

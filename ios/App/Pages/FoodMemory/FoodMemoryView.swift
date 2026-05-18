@@ -11,6 +11,7 @@ struct FoodMemoryView: View {
   @State private var selectedMonth: String?
   @State private var monthStats: [String: Int] = [:]
   @State private var editingMemory: FoodMemoryItem?
+  @State private var pendingEditMemoryId: String?
   @State private var mapRegion = MKCoordinateRegion(
     center: CLLocationCoordinate2D(latitude: 31.2304, longitude: 121.4737),
     span: MKCoordinateSpan(latitudeDelta: 0.12, longitudeDelta: 0.12)
@@ -99,6 +100,15 @@ struct FoodMemoryView: View {
     }
     .onChange(of: selectedMonth) { _ in
       Task { await loadRemoteData() }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: .foodMemoryOpenEditor)) { notification in
+      guard let id = notification.userInfo?["id"] as? String else { return }
+      pendingEditMemoryId = id
+      if let matched = memories.first(where: { $0.id == id }) {
+        editingMemory = matched
+      } else {
+        Task { await loadRemoteData() }
+      }
     }
   }
 
@@ -219,6 +229,12 @@ struct FoodMemoryView: View {
     ) {
       memories = remote.items.map(FoodMemoryItem.init(dto:))
       updateMapRegion()
+      if let pendingEditMemoryId,
+         let matched = memories.first(where: { $0.id == pendingEditMemoryId })
+      {
+        editingMemory = matched
+        self.pendingEditMemoryId = nil
+      }
     }
 
     if let remoteMonths = await api.months() {

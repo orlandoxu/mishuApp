@@ -12,9 +12,10 @@ import {
   markProcessedTurn,
 } from './sessionState';
 import { collectSlots } from './slotCollector';
-import { chatExecutor, contactExecutor, moneyExecutor, reminderExecutor, taskExecutor } from './builtinExecutors';
+import { chatExecutor, contactExecutor, foodExecutor, moneyExecutor, reminderExecutor, taskExecutor } from './builtinExecutors';
 import { chatRoute } from './builtinRoutes/chatRoute';
 import { contactRoute } from './builtinRoutes/contactRoute';
+import { foodRoute } from './builtinRoutes/foodRoute';
 import { moneyRoute } from './builtinRoutes/moneyRoute';
 import { reminderRoute } from './builtinRoutes/reminderRoute';
 import { taskRoute } from './builtinRoutes/taskRoute';
@@ -50,7 +51,7 @@ export class AgentRoute {
 
   constructor(options: AgentRouteOptions = {}) {
     this.store = options.store ?? new InMemorySessionStore();
-    this.routes = options.routes ?? [moneyRoute, reminderRoute, contactRoute, taskRoute, chatRoute];
+    this.routes = options.routes ?? [moneyRoute, reminderRoute, contactRoute, taskRoute, foodRoute, chatRoute];
     this.routeMap = new Map(this.routes.map((route) => [route.id, route]));
     this.intentRouter = options.intentRouter ?? new IntentRouterService();
 
@@ -62,6 +63,7 @@ export class AgentRoute {
         reminder: reminderExecutor,
         contact: contactExecutor,
         task: taskExecutor,
+        food: foodExecutor,
       });
   }
 
@@ -514,25 +516,26 @@ export class AgentRoute {
       });
     }
 
-    if (executionResult.success) {
-      this.setPhase(state, 'completed');
-      resetConfirmation(state);
-      return this.finalizeAndSave({
+      if (executionResult.success) {
+        this.setPhase(state, 'completed');
+        resetConfirmation(state);
+        return this.finalizeAndSave({
         input,
         state,
         baseVersion,
         route,
-        response: buildResponse({
-          input,
-          state,
-          route,
-          message: route.buildCompletedMessage(state),
-          executable: false,
-          display: 'success',
-          actions: [{ type: 'none' }],
-        }),
-        now,
-      });
+          response: buildResponse({
+            input,
+            state,
+            route,
+            message: executionResult.summary || route.buildCompletedMessage(state),
+            executable: false,
+            display: 'success',
+            actions: [{ type: 'none' }],
+            resultData: executionResult.data,
+          }),
+          now,
+        });
     }
 
     state.execution.retries += 1;

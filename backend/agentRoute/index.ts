@@ -13,4 +13,5 @@ export * from './builtinRoutes/chatRoute';
 export * from './builtinRoutes/reminderRoute';
 export * from './builtinRoutes/contactRoute';
 export * from './builtinRoutes/taskRoute';
+export * from './builtinRoutes/foodRoute';
 export * from './builtinRoutes/fallbackRoute';

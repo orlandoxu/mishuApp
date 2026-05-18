@@ -8,9 +8,11 @@ actor AgentRouteWebSocketClient {
   private let sessionIdKey = "mishu_agent_route_session_id"
   private var sessionVersion: Int?
 
-  func requestReply(text: String) async throws -> String {
+  func requestReply(text: String) async throws -> AgentTurnResponse {
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
-    guard !trimmed.isEmpty else { return "我没有听清楚，请再说一次。" }
+    guard !trimmed.isEmpty else {
+      throw NSError(domain: "AgentRouteWebSocketClient", code: 400, userInfo: [NSLocalizedDescriptionKey: "我没有听清楚，请再说一次。"])
+    }
 
     let request = await makeTurnRequest(text: trimmed)
     return try await sendTurnRequest(request)
@@ -45,7 +47,7 @@ actor AgentRouteWebSocketClient {
     )
   }
 
-  private func sendTurnRequest(_ request: AgentTurnRequest) async throws -> String {
+  private func sendTurnRequest(_ request: AgentTurnRequest) async throws -> AgentTurnResponse {
     do {
       return try await sendTurnRequestOnce(request)
     } catch {
@@ -55,7 +57,7 @@ actor AgentRouteWebSocketClient {
     }
   }
 
-  private func sendTurnRequestOnce(_ request: AgentTurnRequest) async throws -> String {
+  private func sendTurnRequestOnce(_ request: AgentTurnRequest) async throws -> AgentTurnResponse {
     guard let token = await MainActor.run(body: { SelfStore.shared.token }), !token.isEmpty else {
       throw NSError(domain: "AgentRouteWebSocketClient", code: 401, userInfo: [NSLocalizedDescriptionKey: "缺少登录 token，无法发起 agent 路由请求"])
     }
@@ -73,15 +75,12 @@ actor AgentRouteWebSocketClient {
     return try await withTimeout(nanoseconds: responseTimeoutNs) { [self] in
       try await self.sendRpc(task: task, payload: try request.asDictionary(), requestId: request.messageId)
 
-      var lastVisibleMessage = ""
-
       while true {
         let raw = try await self.receiveText(task: task, timeoutNs: self.responseTimeoutNs)
         guard let data = raw.data(using: .utf8) else { continue }
         guard let businessData = try self.decodeTurnResponse(data: data) else { continue }
 
         self.sessionVersion = businessData.sessionVersion
-        lastVisibleMessage = businessData.replyText
 
         if let actionDirective = businessData.protocolEnvelope?.directives.first(where: { $0.type == "request_client_action" }) {
           let actionRequestId = actionDirective.requestId ?? ""
@@ -117,12 +116,12 @@ actor AgentRouteWebSocketClient {
         }
 
         if businessData.isTerminal {
-          return lastVisibleMessage
+          return businessData
         }
 
         // 需要用户确认/补槽时，立即把服务端提示回显到 UI，避免一直停在“思考中”
         if shouldReturnForUserInput(phase: businessData.phase) {
-          return lastVisibleMessage
+          return businessData
         }
       }
     }
