@@ -141,6 +141,10 @@ struct MainView: View {
       guard case .recording = status else { return }
       status = .recording(transcript: liveTranscript(from: text))
     })
+    .onReceive(NotificationCenter.default.publisher(for: .homeQuickTextInput)) { notification in
+      guard let text = notification.userInfo?["text"] as? String else { return }
+      submitFinalInput(text)
+    }
   }
 
   private var transcriptForInputOverlay: String {
@@ -238,6 +242,10 @@ struct MainView: View {
   private func liveTranscript(from text: String) -> String {
     text.isEmpty ? "正在实时识别..." : text
   }
+}
+
+extension Notification.Name {
+  static let homeQuickTextInput = Notification.Name("homeQuickTextInput")
 }
 
 private struct HomeTopSectionView: View {

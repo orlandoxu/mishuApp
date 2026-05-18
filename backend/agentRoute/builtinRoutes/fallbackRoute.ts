@@ -49,6 +49,6 @@ export const fallbackRoute: RoutePlugin = {
   buildExecutionRequest,
   // 兜底完成态文案。
   buildCompletedMessage(_state: SessionState): string {
-    return '请求进入兜底流程，请补充更多信息。';
+    return '能力路由未命中，请明确说明你的目标（提醒/联系人/待办/记账/闲聊）。';
   },
 };

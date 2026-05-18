@@ -46,17 +46,20 @@ final class FoodMemoryAPI {
   }
 
   func list(category: String? = nil, month: String? = nil, page: Int = 1, pageSize: Int = 100) async -> FoodMemoryListDTO? {
-    await client.postRequest(
+    struct ListBody: Encodable {
+      let category: String
+      let month: String
+      let page: Int
+      let pageSize: Int
+    }
+
+    let result: FoodMemoryListDTO? = await client.postRequest(
       "/food-memory/list",
-      AnyParams([
-        "category": category ?? "",
-        "month": month ?? "",
-        "page": page,
-        "pageSize": pageSize,
-      ]),
+      ListBody(category: category ?? "", month: month ?? "", page: page, pageSize: pageSize),
       true,
       false
     )
+    return result
   }
 
   func categories() async -> [String]? {

@@ -51,7 +51,7 @@ export class IntentRouterService {
           jsonSchemaHint:
             '{"domain":"money|reminder|contact|task|chat|fallback","intent":"money.record|money.query|reminder.create|contact.manage|task.create|chat.reply|fallback.unknown","confidence":0.0,"reason":"string","slots":{"key":"value"}}',
         }),
-        3000,
+        15000,
       );
 
       if (!result.data || typeof result.data !== 'object') return null;

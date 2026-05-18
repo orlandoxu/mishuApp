@@ -19,6 +19,7 @@
 		0D5D4ECDBB76D963A85EEB88 /* MishuAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F828384D33BC9E4F62B434 /* MishuAppUITests.swift */; };
 		0D6882A5FD8D000C6E0EDE53 /* LocationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4285CF11D29EBB4755B728EB /* LocationService.swift */; };
 		0EB9737AB426A8F20A095ABA /* TrueMemoryCards.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2E3A4D9D1EA92A95A9ABFDD /* TrueMemoryCards.swift */; };
+		1097FC06A89417F32A0DD968 /* FriendAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528569675844E6531E2A40D3 /* FriendAPI.swift */; };
 		13EF72403BDB2828E93ECF88 /* String+timeValid.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE846109D38237FC8E25DE9 /* String+timeValid.swift */; };
 		14A150A6B9C45192C85946BE /* PersonNameDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4507BCBDA26EDEA329A131B /* PersonNameDetector.swift */; };
 		15410D252504541C8E8655E5 /* View+keyboardAvoiding.swift in Sources */ = {isa = PBXBuildFile; fileRef = E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */; };
@@ -37,9 +38,12 @@
 		36959361A288761DDF3AD3A9 /* AudioCapService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 554F112E4ED3DD023F1AE7F2 /* AudioCapService.swift */; };
 		369603427EACEFE9E025CF93 /* View+cornerRadius.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */; };
 		381F36D125490BA60AED63BA /* SQLiteVecIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10F9DA5E6A398C3FE36C8DBA /* SQLiteVecIntegrationTests.swift */; };
+		38314FAF434D152DE796C693 /* FoodMemoryCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B787EDFD23FB9DBBE20E4A08 /* FoodMemoryCardView.swift */; };
+		3879A8E76D1938F6CE7E0C25 /* FoodMemoryFilterBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = C577E611AB9E4ED934D1AA9C /* FoodMemoryFilterBar.swift */; };
 		3B1C2C621024DAFD771F7A36 /* MemoryClusterCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CEBC3D24958E91D49FF89B0 /* MemoryClusterCard.swift */; };
 		3C848424E4D55FE2667FEC84 /* TrueMemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5E21017CE3285A277AAAE68B /* TrueMemoryView.swift */; };
 		3DA2A2BD379EBE6E5B03B5CA /* LicensePlateInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */; };
+		405E79A8826FEBA4D02A0EF9 /* FoodMemoryEditPageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D211AE31331FE4BD52178B2D /* FoodMemoryEditPageView.swift */; };
 		40C8DC5AAFD18003171F71CE /* LoginActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5097B4DD8C56743B3CCF4F72 /* LoginActionView.swift */; };
 		4389B0799DB2F7330E463824 /* SocketMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */; };
 		43F36358BB5FEEEAFCE41FC4 /* MishuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 08F43B763B5336BF52C97F0E /* MishuApp.swift */; };
@@ -63,6 +67,7 @@
 		5D48DB143768EAAF6B616E0A /* CheckoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79F41311775C9464C31A4F75 /* CheckoutView.swift */; };
 		5D54BBCECF1EF7768B5137CE /* ImageViewerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */; };
 		5E83B02A6E9895B164DF5D5F /* BlurView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 802EFB50AAAB01D705EBADE2 /* BlurView.swift */; };
+		5F12A7AFD225FD9724112307 /* FoodMemoryEmptyStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E6C7BC82AAA3D28804A534D /* FoodMemoryEmptyStateView.swift */; };
 		5FE4B2A869C1DC5B5D71AD68 /* Success.json in Resources */ = {isa = PBXBuildFile; fileRef = 46AAC4A254FE881DF1B94951 /* Success.json */; };
 		64A6033A34656A9A55AC92AC /* Date+tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD55579B782394CFD188DD91 /* Date+tools.swift */; };
 		6518178CDD475509A1668A3B /* LocationPermissionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 06448451E7BE9F569323114A /* LocationPermissionStore.swift */; };
@@ -75,12 +80,12 @@
 		6CA9DFF08E36751FB701A5DC /* Color+randomItemColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A26A4416AB0319B82575D6C /* Color+randomItemColor.swift */; };
 		6F68F0B071C15BB3285986F6 /* PartnerSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20956A76CE24F5787E637E64 /* PartnerSections.swift */; };
 		7035B1E6649314A7F5622042 /* HomeVoiceTranscriptAssemblerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3B9A9D9D482B7F60E263DA5 /* HomeVoiceTranscriptAssemblerTests.swift */; };
-		706877AA0DB83D861EC7A613 /* Pods_MishuAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 71C9DBBE148AA83EE2D30AD0 /* Pods_MishuAppUITests.framework */; };
 		72C9112F58CC4624EA433A2E /* Gps.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D1BC3CFCA653F86B0C413D6 /* Gps.swift */; };
 		730DD06415E53FB6ADDC4C90 /* SettingsRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A13EFD704AFD46740534D94 /* SettingsRows.swift */; };
 		78D1282A92C2BC632D6B0E62 /* VoiceActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F91B0DD5D80425A3AF4EEAA /* VoiceActionView.swift */; };
 		7C8ACF1EFDC70FA2128372BD /* LedgerTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 714B50ECC6AB7C93270F869C /* LedgerTable.swift */; };
 		7D083B2645A81CB6B5AE80C4 /* DeviceResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = EABBC907F0FDA97D9614BCF1 /* DeviceResource.swift */; };
+		80DB2AC694B1B45C11D5DC93 /* FoodMemoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22EF4A7884491D7CD66669D9 /* FoodMemoryModel.swift */; };
 		84C76CA8769ED1B73B7615E2 /* SwiftMessages in Frameworks */ = {isa = PBXBuildFile; productRef = E014F15329552CE4F34F6001 /* SwiftMessages */; };
 		851B4195F2C8AF3E020ED1BE /* LedgerLocalService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 914780EEFC8F40617FF78C44 /* LedgerLocalService.swift */; };
 		85A0FC1480666DE086279243 /* AgentRouteWebSocketClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93AA9039F2CD0AD08BEC0851 /* AgentRouteWebSocketClient.swift */; };
@@ -98,6 +103,7 @@
 		9AD452FB9FD22A0CF45056EF /* ChildSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35825C51C062F3E9EC5A7C77 /* ChildSections.swift */; };
 		9E4141E04F27F5AF8E3DE6E0 /* View+toPopover.swift in Sources */ = {isa = PBXBuildFile; fileRef = 839667A37B1A11EF6861373B /* View+toPopover.swift */; };
 		9F3DBD58B4691454CFD16F75 /* FoodMemoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC7F3667C6EAB1CF90A265EB /* FoodMemoryView.swift */; };
+		A02A998A65F464671D184087 /* FoodDeleteConfirmView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 697E3FCE9F43C7B3AF87DD06 /* FoodDeleteConfirmView.swift */; };
 		A031D2687E6BE3E38AE1DABD /* View+hideScrollIndicators.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48B0C983AA89D4212F871978 /* View+hideScrollIndicators.swift */; };
 		A0D28AD184E847E4AA97E302 /* View+rotationIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C0CCD83925B81940196051A /* View+rotationIcon.swift */; };
 		A2968112D50A76F5E75B98CF /* MoneyJarSections.swift in Sources */ = {isa = PBXBuildFile; fileRef = E0889C60CB3D1E8419E669A6 /* MoneyJarSections.swift */; };
@@ -123,6 +129,7 @@
 		BCBF2F65573B8B7D7C8B2B06 /* PartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFDBD3B4AE569AF4F37867A6 /* PartnerView.swift */; };
 		BCE0A4D2C8508DF69C2678C3 /* NavHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15BDF40A9BDDFB19F876C29F /* NavHeader.swift */; };
 		BD10F53D967A61EEBB869044 /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = E4A4A474B601348C3668CF9A /* SQLite */; };
+		BD36F2A97B87E35E99A97465 /* FoodMemoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A68E1B1583A7768B1F554D5A /* FoodMemoryAPI.swift */; };
 		C0829D34B872C52EE4DBE038 /* VoiceThinkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */; };
 		C27FCF4FB17AE9E36AA36B20 /* SQLiteVecBootstrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 712F426A50BF909FE22B66C5 /* SQLiteVecBootstrap.swift */; };
 		C2FA58515742798C1F412A1A /* UIApplication+dismissKeyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */; };
@@ -133,7 +140,6 @@
 		C6829A97C51BE68B52718947 /* View+FullBrandButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CE69C127D034996F54D8691 /* View+FullBrandButton.swift */; };
 		C8A255957696BCE03C3DA1E8 /* View+pickerBgReset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55EC7B520DCB4120253FCC43 /* View+pickerBgReset.swift */; };
 		CA2920AC027B7CA041D69980 /* MoneySettingsSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB5F7E759DDBABC5FD7AE573 /* MoneySettingsSheet.swift */; };
-		CA7F9A1F4AFC5037E2EFA796 /* Pods_MishuApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C36AD11409F28B61B9BDCDA /* Pods_MishuApp.framework */; };
 		CB4D7079B093E08501E4F9CC /* NaturalDateTimeDetector.swift in Sources */ = {isa = PBXBuildFile; fileRef = E723F39CB61EB852E8DD017D /* NaturalDateTimeDetector.swift */; };
 		CB795B4D1023B63CFEB3649A /* SpeechRecognitionServiceFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFEA3AE9CA4B58EFCE2CEF73 /* SpeechRecognitionServiceFactory.swift */; };
 		CCB6393040FB2E736DA53F9F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707102ED28257EB5EE2939B4 /* Storage.swift */; };
@@ -151,6 +157,7 @@
 		DBEDD57BC88F46F12B919D0F /* TextAssembler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D398FA157E07E7C6ADE4E6 /* TextAssembler.swift */; };
 		DCC7CBC611A08ABDC5F4FF9A /* HomeFunctionGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2DBDE0C809B95D9AE52290B /* HomeFunctionGridView.swift */; };
 		DEE199E40D5D563F74985977 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E0C4EE32A274A10980DE78 /* SpeechService.swift */; };
+		E02B5D0E4713E072046725C4 /* FoodMemoryMonthSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABE25B290DE11675B944CAD1 /* FoodMemoryMonthSlider.swift */; };
 		E02F2BBC71DB77744BF615E6 /* View+popupTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3B1C097E7802ED289EB430 /* View+popupTest.swift */; };
 		E3C68668EC837E35E42901EF /* TreeHoleChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88D0B7E85F0F3F8D26BFB5A2 /* TreeHoleChatView.swift */; };
 		E4BB6D06DB4453A498EC06AA /* CancellableBag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97E8B165A6B9CB30D2E4477C /* CancellableBag.swift */; };
@@ -165,7 +172,6 @@
 		EFE37A1E9B71924557348B1A /* MemoryVectorStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DF70799BB11361A715C2829C /* MemoryVectorStoreTests.swift */; };
 		F0A0E6FCD01B694FC853F773 /* SecureTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 49F50C366BAA0EB5879D1D21 /* SecureTextField.swift */; };
 		F1665B4DA8D1CA101875C302 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AB469B7432C466BC2A56337F /* Assets.xcassets */; };
-		F166E3B727CCEBA1B1F90B68 /* Pods_MishuAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E02BE7BFA65D1F497DCEF3B /* Pods_MishuAppTests.framework */; };
 		F17521D3BB382791BF612F6D /* Color+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEFF3611510DE9148A0D6438 /* Color+Hex.swift */; };
 		F1CDE4B9822B519A6AD8B25B /* View+popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 69F7E18F0DFDE73F69962A4F /* View+popup.swift */; };
 		F57429D0E30D2BCD92519155 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */; };
@@ -235,6 +241,7 @@
 		1F91B0DD5D80425A3AF4EEAA /* VoiceActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceActionView.swift; sourceTree = "<group>"; };
 		20956A76CE24F5787E637E64 /* PartnerSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerSections.swift; sourceTree = "<group>"; };
 		22B26709292DCA925FA1378C /* MemoryVectorStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVectorStore.swift; sourceTree = "<group>"; };
+		22EF4A7884491D7CD66669D9 /* FoodMemoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryModel.swift; sourceTree = "<group>"; };
 		245FCAC6B89AE566E9958B44 /* MainView.v.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.v.swift; sourceTree = "<group>"; };
 		26F9D6D44A1B34E30E66AD75 /* PageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageViewController.swift; sourceTree = "<group>"; };
 		2727B8247822618DBCA2365A /* Copyable+copy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Copyable+copy.swift"; sourceTree = "<group>"; };
@@ -245,10 +252,8 @@
 		31731E49FDFAFDC1D7D9505C /* CameraPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPermissionStore.swift; sourceTree = "<group>"; };
 		353A6412F1515CD25FDE1112 /* delegateApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = delegateApplication.swift; sourceTree = "<group>"; };
 		35825C51C062F3E9EC5A7C77 /* ChildSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChildSections.swift; sourceTree = "<group>"; };
-		3724DD2BEA068D3D39953D8D /* Pods-MishuAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuAppTests.release.xcconfig"; path = "Target Support Files/Pods-MishuAppTests/Pods-MishuAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		372706400EEFA2363F61251A /* UserAvatar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAvatar.swift; sourceTree = "<group>"; };
 		37C364910BF75CF4B4B88D02 /* LoginBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginBackgroundView.swift; sourceTree = "<group>"; };
-		393D906D31A7276E5E2BBB69 /* Pods-MishuAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuAppUITests.release.xcconfig"; path = "Target Support Files/Pods-MishuAppUITests/Pods-MishuAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		3B72822ECCFE58E04CEA7DFD /* RouteParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteParser.swift; sourceTree = "<group>"; };
 		3D384E04F16020D2CF326318 /* UINavigationController+gestureRecognizerShouldBegin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+gestureRecognizerShouldBegin.swift"; sourceTree = "<group>"; };
 		3EAD830FF6FECDF51C7EC0F1 /* ImageViewerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewerManager.swift; sourceTree = "<group>"; };
@@ -263,10 +268,10 @@
 		48FCB6F05F7E9E7F243D85D5 /* AppDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDatabase.swift; sourceTree = "<group>"; };
 		49F50C366BAA0EB5879D1D21 /* SecureTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecureTextField.swift; sourceTree = "<group>"; };
 		4D9CBE2EFBE8F8D262A7C7C7 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
-		4E02BE7BFA65D1F497DCEF3B /* Pods_MishuAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F7199450105792D4A6B7BA9 /* Pods-MishuApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.release.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.release.xcconfig"; sourceTree = "<group>"; };
+		4E6C7BC82AAA3D28804A534D /* FoodMemoryEmptyStateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryEmptyStateView.swift; sourceTree = "<group>"; };
 		502D3E9BB7BA7FF84054B86D /* LocalNetworkPermissionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalNetworkPermissionStore.swift; sourceTree = "<group>"; };
 		5097B4DD8C56743B3CCF4F72 /* LoginActionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginActionView.swift; sourceTree = "<group>"; };
+		528569675844E6531E2A40D3 /* FriendAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendAPI.swift; sourceTree = "<group>"; };
 		546ED39AB4FADB5AC337D97A /* BasicWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BasicWebView.swift; sourceTree = "<group>"; };
 		5530E0D3809BD717552C281A /* LoginLogoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginLogoView.swift; sourceTree = "<group>"; };
 		554F112E4ED3DD023F1AE7F2 /* AudioCapService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCapService.swift; sourceTree = "<group>"; };
@@ -286,8 +291,8 @@
 		64EE75721E2076D68F2A8697 /* MainView.vm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.vm.swift; sourceTree = "<group>"; };
 		676A60C0CE7D74E04B1DDDE0 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		69275A0F852F236D052AA8D2 /* MessageTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageTable.swift; sourceTree = "<group>"; };
+		697E3FCE9F43C7B3AF87DD06 /* FoodDeleteConfirmView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodDeleteConfirmView.swift; sourceTree = "<group>"; };
 		69F7E18F0DFDE73F69962A4F /* View+popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+popup.swift"; sourceTree = "<group>"; };
-		6AADEEF9994766231CA38A3F /* Pods-MishuAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuAppTests.debug.xcconfig"; path = "Target Support Files/Pods-MishuAppTests/Pods-MishuAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		6BD1E7F934FAAAFB719118D6 /* UIKitTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIKitTextField.swift; sourceTree = "<group>"; };
 		6CCFE4852FA963FA927BC1F7 /* UIImage+resize.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+resize.swift"; sourceTree = "<group>"; };
 		6CE69C127D034996F54D8691 /* View+FullBrandButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+FullBrandButton.swift"; sourceTree = "<group>"; };
@@ -297,7 +302,6 @@
 		707102ED28257EB5EE2939B4 /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		712F426A50BF909FE22B66C5 /* SQLiteVecBootstrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteVecBootstrap.swift; sourceTree = "<group>"; };
 		714B50ECC6AB7C93270F869C /* LedgerTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerTable.swift; sourceTree = "<group>"; };
-		71C9DBBE148AA83EE2D30AD0 /* Pods_MishuAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		72EDAB590B1D32B14DE0D0D6 /* AppNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNavigationStack.swift; sourceTree = "<group>"; };
 		7559A373DF492C117ACA4B9A /* Array+rotated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+rotated.swift"; sourceTree = "<group>"; };
 		78AD43937AE2D6AF8F5EB4E9 /* LicensePlateKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensePlateKeyboard.swift; sourceTree = "<group>"; };
@@ -313,11 +317,9 @@
 		83C5932850D2ADBF55414DD8 /* VoiceThinkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceThinkView.swift; sourceTree = "<group>"; };
 		84F828384D33BC9E4F62B434 /* MishuAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MishuAppUITests.swift; sourceTree = "<group>"; };
 		88D0B7E85F0F3F8D26BFB5A2 /* TreeHoleChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeHoleChatView.swift; sourceTree = "<group>"; };
-		8915D19DB7B104B77CFAA306 /* Pods-MishuApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuApp.debug.xcconfig"; path = "Target Support Files/Pods-MishuApp/Pods-MishuApp.debug.xcconfig"; sourceTree = "<group>"; };
 		8A3915DF2245E983E313EE8D /* UnreadBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnreadBadge.swift; sourceTree = "<group>"; };
 		8A7F09EA3B12CB5AA0B79459 /* DeinitDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeinitDetector.swift; sourceTree = "<group>"; };
 		8BCE74C854C4E585DE5BEBE0 /* PartnerAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerAPI.swift; sourceTree = "<group>"; };
-		8C36AD11409F28B61B9BDCDA /* Pods_MishuApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MishuApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C99BA0C46EA2DED79A5C4B7 /* TreeHoleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TreeHoleView.swift; sourceTree = "<group>"; };
 		914780EEFC8F40617FF78C44 /* LedgerLocalService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LedgerLocalService.swift; sourceTree = "<group>"; };
 		914ACDCA368BCDB58800C96B /* DoubaoEmbeddingAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoubaoEmbeddingAPI.swift; sourceTree = "<group>"; };
@@ -332,25 +334,30 @@
 		A0E782321DD214193F551CEE /* View+bottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+bottomSheet.swift"; sourceTree = "<group>"; };
 		A1ADDE5755349782085454BF /* WeChatShareService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeChatShareService.swift; sourceTree = "<group>"; };
 		A2DBDE0C809B95D9AE52290B /* HomeFunctionGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFunctionGridView.swift; sourceTree = "<group>"; };
+		A68E1B1583A7768B1F554D5A /* FoodMemoryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryAPI.swift; sourceTree = "<group>"; };
 		A76A602A343D7BFD2341AC09 /* LoginInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginInputView.swift; sourceTree = "<group>"; };
 		A77BCDE65B290D84302D2623 /* View+cornerRadius.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cornerRadius.swift"; sourceTree = "<group>"; };
 		A7E354719614EA666CF5F28A /* UIApplication+dismissKeyboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+dismissKeyboard.swift"; sourceTree = "<group>"; };
 		AB129E3E75440C24B3C00C78 /* MascotSectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MascotSectionView.swift; sourceTree = "<group>"; };
 		AB469B7432C466BC2A56337F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ABE25B290DE11675B944CAD1 /* FoodMemoryMonthSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryMonthSlider.swift; sourceTree = "<group>"; };
 		ABE846109D38237FC8E25DE9 /* String+timeValid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+timeValid.swift"; sourceTree = "<group>"; };
 		AC36F2232D98F6E1A1DC6EFE /* TextField+autoFocus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+autoFocus.swift"; sourceTree = "<group>"; };
 		B4507BCBDA26EDEA329A131B /* PersonNameDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonNameDetector.swift; sourceTree = "<group>"; };
 		B6DA7A6A9F00548F6FB2D3FC /* MemoryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryAPI.swift; sourceTree = "<group>"; };
+		B787EDFD23FB9DBBE20E4A08 /* FoodMemoryCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryCardView.swift; sourceTree = "<group>"; };
 		B9FB86CA466D924F04CED1F6 /* AsrModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsrModel.swift; sourceTree = "<group>"; };
 		BA741D1A9E848B4DAB1773A3 /* AgentRouteProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgentRouteProtocol.swift; sourceTree = "<group>"; };
 		BAFDFB2DD56BFDBAD1213FD1 /* Success.lottie */ = {isa = PBXFileReference; path = Success.lottie; sourceTree = "<group>"; };
 		BEFF3611510DE9148A0D6438 /* Color+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Hex.swift"; sourceTree = "<group>"; };
 		BFEA3AE9CA4B58EFCE2CEF73 /* SpeechRecognitionServiceFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionServiceFactory.swift; sourceTree = "<group>"; };
+		C577E611AB9E4ED934D1AA9C /* FoodMemoryFilterBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryFilterBar.swift; sourceTree = "<group>"; };
 		C5FECF7FCDC61193C1E384F4 /* View+cssPadding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+cssPadding.swift"; sourceTree = "<group>"; };
 		C6924C438D33CDEBE3B05244 /* CheckoutRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckoutRows.swift; sourceTree = "<group>"; };
 		CA4894EBEC26F455E25E1595 /* View+fontStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+fontStyle.swift"; sourceTree = "<group>"; };
 		CF4429E3353147F3FD9B8846 /* View+taskFor14.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+taskFor14.swift"; sourceTree = "<group>"; };
 		CFD180D7C6C69936845DBB30 /* LoginAgreementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginAgreementView.swift; sourceTree = "<group>"; };
+		D211AE31331FE4BD52178B2D /* FoodMemoryEditPageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodMemoryEditPageView.swift; sourceTree = "<group>"; };
 		D2E3A4D9D1EA92A95A9ABFDD /* TrueMemoryCards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrueMemoryCards.swift; sourceTree = "<group>"; };
 		D3B9A9D9D482B7F60E263DA5 /* HomeVoiceTranscriptAssemblerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVoiceTranscriptAssemblerTests.swift; sourceTree = "<group>"; };
 		D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = MishuAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -365,7 +372,6 @@
 		E0889C60CB3D1E8419E669A6 /* MoneyJarSections.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoneyJarSections.swift; sourceTree = "<group>"; };
 		E3D4AE05031728CA42ED6D5D /* SocketMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocketMessage.swift; sourceTree = "<group>"; };
 		E445711911947BF54D8D2C18 /* HomeInfoCarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeInfoCarouselView.swift; sourceTree = "<group>"; };
-		E46A655DB9CB57294BFF38F5 /* AMap-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AMap-Bridging-Header.h"; sourceTree = "<group>"; };
 		E56EFDC17E38C4E6BF071684 /* View+keyboardAvoiding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+keyboardAvoiding.swift"; sourceTree = "<group>"; };
 		E723F39CB61EB852E8DD017D /* NaturalDateTimeDetector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NaturalDateTimeDetector.swift; sourceTree = "<group>"; };
 		E73EE73297C489B4F9812EBC /* LicensePlateInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensePlateInputView.swift; sourceTree = "<group>"; };
@@ -387,19 +393,10 @@
 		FCF58D5D473B0EB7E31FD7EB /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		FD55579B782394CFD188DD91 /* Date+tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+tools.swift"; sourceTree = "<group>"; };
 		FE18431A86D0A8E60222256A /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
-		FF1A9741D34CEA9CAD97740C /* Pods-MishuAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MishuAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-MishuAppUITests/Pods-MishuAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		FF9568547873C692FE153296 /* Calendar+relativeDateString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Calendar+relativeDateString.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		38F404AFD72D86F044D10C47 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				F166E3B727CCEBA1B1F90B68 /* Pods_MishuAppTests.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4D23B3AFD8D791F0174E8D7F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -410,15 +407,6 @@
 				A346090D061F7AA2CD0C81FB /* Lottie in Frameworks */,
 				BD10F53D967A61EEBB869044 /* SQLite in Frameworks */,
 				689EAD247BC211FF0B288B24 /* SQLiteVec.xcframework in Frameworks */,
-				CA7F9A1F4AFC5037E2EFA796 /* Pods_MishuApp.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		DD8F295B203DC437011CC66A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				706877AA0DB83D861EC7A613 /* Pods_MishuAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -553,6 +541,19 @@
 			path = TreeHole;
 			sourceTree = "<group>";
 		};
+		5967564B591D1C81D2DE2AFD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				697E3FCE9F43C7B3AF87DD06 /* FoodDeleteConfirmView.swift */,
+				B787EDFD23FB9DBBE20E4A08 /* FoodMemoryCardView.swift */,
+				D211AE31331FE4BD52178B2D /* FoodMemoryEditPageView.swift */,
+				4E6C7BC82AAA3D28804A534D /* FoodMemoryEmptyStateView.swift */,
+				C577E611AB9E4ED934D1AA9C /* FoodMemoryFilterBar.swift */,
+				ABE25B290DE11675B944CAD1 /* FoodMemoryMonthSlider.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		5C2A6D1E697BB20BB3AAA161 /* TrueMemory */ = {
 			isa = PBXGroup;
 			children = (
@@ -644,7 +645,6 @@
 				C01BE3C61FFB8B861C1C8C40 /* Unit */,
 				7DE5CAFE41C55DEE8C1F0B4A /* Frameworks */,
 				71DEA75AA51B50493F081038 /* Products */,
-				D9679931A6669E2F187EEFDA /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -665,7 +665,6 @@
 		7D15C0C0E13CE4BD7739B9BF /* App */ = {
 			isa = PBXGroup;
 			children = (
-				E46A655DB9CB57294BFF38F5 /* AMap-Bridging-Header.h */,
 				4310A01D1AC1284B8CAB25A4 /* Const.swift */,
 				353A6412F1515CD25FDE1112 /* delegateApplication.swift */,
 				EA7D068E8E34EA40052B6321 /* delegateNotification.swift */,
@@ -689,9 +688,6 @@
 			isa = PBXGroup;
 			children = (
 				ED12ADDCA911810BE597E2E1 /* SQLiteVec.xcframework */,
-				8C36AD11409F28B61B9BDCDA /* Pods_MishuApp.framework */,
-				4E02BE7BFA65D1F497DCEF3B /* Pods_MishuAppTests.framework */,
-				71C9DBBE148AA83EE2D30AD0 /* Pods_MishuAppUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -867,6 +863,8 @@
 			isa = PBXGroup;
 			children = (
 				EC7F3667C6EAB1CF90A265EB /* FoodMemoryView.swift */,
+				5967564B591D1C81D2DE2AFD /* Components */,
+				D96BD58A3E973A7E40AA4176 /* Models */,
 			);
 			path = FoodMemory;
 			sourceTree = "<group>";
@@ -890,18 +888,12 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		D9679931A6669E2F187EEFDA /* Pods */ = {
+		D96BD58A3E973A7E40AA4176 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				8915D19DB7B104B77CFAA306 /* Pods-MishuApp.debug.xcconfig */,
-				4F7199450105792D4A6B7BA9 /* Pods-MishuApp.release.xcconfig */,
-				6AADEEF9994766231CA38A3F /* Pods-MishuAppTests.debug.xcconfig */,
-				3724DD2BEA068D3D39953D8D /* Pods-MishuAppTests.release.xcconfig */,
-				FF1A9741D34CEA9CAD97740C /* Pods-MishuAppUITests.debug.xcconfig */,
-				393D906D31A7276E5E2BBB69 /* Pods-MishuAppUITests.release.xcconfig */,
+				22EF4A7884491D7CD66669D9 /* FoodMemoryModel.swift */,
 			);
-			name = Pods;
-			path = Pods;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		E4CB79CF38B88A351B770E7C /* Components */ = {
@@ -944,6 +936,8 @@
 				4D9CBE2EFBE8F8D262A7C7C7 /* APIClient.swift */,
 				9771E32B41D8845FA85247E9 /* DoubaoChatAPI.swift */,
 				914ACDCA368BCDB58800C96B /* DoubaoEmbeddingAPI.swift */,
+				A68E1B1583A7768B1F554D5A /* FoodMemoryAPI.swift */,
+				528569675844E6531E2A40D3 /* FriendAPI.swift */,
 				B6DA7A6A9F00548F6FB2D3FC /* MemoryAPI.swift */,
 				DB39B71FE653C829C1D7B731 /* MessageAPI.swift */,
 				8BCE74C854C4E585DE5BEBE0 /* PartnerAPI.swift */,
@@ -1001,9 +995,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 076303195B043AEAD115B018 /* Build configuration list for PBXNativeTarget "MishuAppUITests" */;
 			buildPhases = (
-				1C746D01723B9B33BC2F4A2D /* [CP] Check Pods Manifest.lock */,
 				5F4765EE92503672FF2F3FA3 /* Sources */,
-				DD8F295B203DC437011CC66A /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1011,6 +1003,8 @@
 				A6314545CD08D46D5821D7C0 /* PBXTargetDependency */,
 			);
 			name = MishuAppUITests;
+			packageProductDependencies = (
+			);
 			productName = MishuAppUITests;
 			productReference = 802977BCD5035302C08772DA /* MishuAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -1019,9 +1013,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D6294874AAAED5766C554ED8 /* Build configuration list for PBXNativeTarget "MishuAppTests" */;
 			buildPhases = (
-				93BEA6B14C69BE36119271D2 /* [CP] Check Pods Manifest.lock */,
 				DD7C81A8D641289E280C0498 /* Sources */,
-				38F404AFD72D86F044D10C47 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1029,6 +1021,8 @@
 				C2DA5789F7B9865D4AB08BC5 /* PBXTargetDependency */,
 			);
 			name = MishuAppTests;
+			packageProductDependencies = (
+			);
 			productName = MishuAppTests;
 			productReference = D42BDD8937BF05E1DB4F7B25 /* MishuAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -1037,7 +1031,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4BDD233839D1FC1D5EFA0810 /* Build configuration list for PBXNativeTarget "MishuApp" */;
 			buildPhases = (
-				5CA526F12A89257D690F8CB0 /* [CP] Check Pods Manifest.lock */,
 				4A5D5B52068640738302AC7E /* Sources */,
 				95F099E6F5FDD0A3D39B443E /* Resources */,
 				4D23B3AFD8D791F0174E8D7F /* Frameworks */,
@@ -1101,7 +1094,6 @@
 				259486D5372986C472641F58 /* XCRemoteSwiftPackageReference "SwiftMessages" */,
 			);
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 71DEA75AA51B50493F081038 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -1125,75 +1117,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		1C746D01723B9B33BC2F4A2D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MishuAppUITests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		5CA526F12A89257D690F8CB0 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MishuApp-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		93BEA6B14C69BE36119271D2 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MishuAppTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4A5D5B52068640738302AC7E /* Sources */ = {
@@ -1236,7 +1159,16 @@
 				267244EBECF9B4A2A6614DA3 /* DoubaoEmbeddingAPI.swift in Sources */,
 				6811329FCB304B05EB353422 /* Double+exten.swift in Sources */,
 				45009782C948F8565C367BBD /* EnvironmentValues+Namespace.swift in Sources */,
+				A02A998A65F464671D184087 /* FoodDeleteConfirmView.swift in Sources */,
+				BD36F2A97B87E35E99A97465 /* FoodMemoryAPI.swift in Sources */,
+				38314FAF434D152DE796C693 /* FoodMemoryCardView.swift in Sources */,
+				405E79A8826FEBA4D02A0EF9 /* FoodMemoryEditPageView.swift in Sources */,
+				5F12A7AFD225FD9724112307 /* FoodMemoryEmptyStateView.swift in Sources */,
+				3879A8E76D1938F6CE7E0C25 /* FoodMemoryFilterBar.swift in Sources */,
+				80DB2AC694B1B45C11D5DC93 /* FoodMemoryModel.swift in Sources */,
+				E02B5D0E4713E072046725C4 /* FoodMemoryMonthSlider.swift in Sources */,
 				9F3DBD58B4691454CFD16F75 /* FoodMemoryView.swift in Sources */,
+				1097FC06A89417F32A0DD968 /* FriendAPI.swift in Sources */,
 				72C9112F58CC4624EA433A2E /* Gps.swift in Sources */,
 				DCC7CBC611A08ABDC5F4FF9A /* HomeFunctionGridView.swift in Sources */,
 				A61A3A8226F9455BBF625155 /* HomeInfoCarouselView.swift in Sources */,
@@ -1393,7 +1325,6 @@
 /* Begin XCBuildConfiguration section */
 		0611663A59BBF136044C6FF5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 393D906D31A7276E5E2BBB69 /* Pods-MishuAppUITests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = Y2547TDD5F;
@@ -1412,7 +1343,6 @@
 		};
 		219E832CB9B5B2BD12CF69CE /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4F7199450105792D4A6B7BA9 /* Pods-MishuApp.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1442,7 +1372,6 @@
 		};
 		4197B1381E2CDF3CBA630833 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FF1A9741D34CEA9CAD97740C /* Pods-MishuAppUITests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = Y2547TDD5F;
@@ -1461,7 +1390,6 @@
 		};
 		54765F167B97365F7967FC83 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8915D19DB7B104B77CFAA306 /* Pods-MishuApp.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1491,7 +1419,6 @@
 		};
 		5DA61D4F5944681FB99AED36 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6AADEEF9994766231CA38A3F /* Pods-MishuAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = Y2547TDD5F;
@@ -1577,7 +1504,6 @@
 		};
 		AFC3EE22BEEF84E4F81FDD31 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3724DD2BEA068D3D39953D8D /* Pods-MishuAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				DEVELOPMENT_TEAM = Y2547TDD5F;

@@ -46,17 +46,20 @@ final class FriendAPI {
   }
 
   func list(keyword: String? = nil, starredOnly: Bool = false, page: Int = 1, pageSize: Int = 100) async -> FriendListDTO? {
-    await client.postRequest(
+    struct ListBody: Encodable {
+      let keyword: String
+      let starredOnly: Bool
+      let page: Int
+      let pageSize: Int
+    }
+
+    let result: FriendListDTO? = await client.postRequest(
       "/friend/list",
-      AnyParams([
-        "keyword": keyword ?? "",
-        "starredOnly": starredOnly,
-        "page": page,
-        "pageSize": pageSize,
-      ]),
+      ListBody(keyword: keyword ?? "", starredOnly: starredOnly, page: page, pageSize: pageSize),
       true,
       false
     )
+    return result
   }
 
   func delete(friendId: String) async -> Bool {

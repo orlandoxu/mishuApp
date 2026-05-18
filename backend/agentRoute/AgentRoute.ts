@@ -15,7 +15,6 @@ import { collectSlots } from './slotCollector';
 import { chatExecutor, contactExecutor, moneyExecutor, reminderExecutor, taskExecutor } from './builtinExecutors';
 import { chatRoute } from './builtinRoutes/chatRoute';
 import { contactRoute } from './builtinRoutes/contactRoute';
-import { fallbackRoute } from './builtinRoutes/fallbackRoute';
 import { moneyRoute } from './builtinRoutes/moneyRoute';
 import { reminderRoute } from './builtinRoutes/reminderRoute';
 import { taskRoute } from './builtinRoutes/taskRoute';
@@ -36,7 +35,6 @@ import type {
 type AgentRouteOptions = {
   store?: SessionStore;
   routes?: RoutePlugin[];
-  fallback?: RoutePlugin;
   execution?: ExecutionOrchestrator;
   intentRouter?: IntentRouterService;
 };
@@ -47,15 +45,13 @@ export class AgentRoute {
   private readonly store: SessionStore;
   private readonly routes: RoutePlugin[];
   private readonly routeMap: Map<string, RoutePlugin>;
-  private readonly fallback: RoutePlugin;
   private readonly execution: ExecutionOrchestrator;
   private readonly intentRouter: IntentRouterService;
 
   constructor(options: AgentRouteOptions = {}) {
     this.store = options.store ?? new InMemorySessionStore();
     this.routes = options.routes ?? [moneyRoute, reminderRoute, contactRoute, taskRoute, chatRoute];
-    this.fallback = options.fallback ?? fallbackRoute;
-    this.routeMap = new Map([...this.routes, this.fallback].map((route) => [route.id, route]));
+    this.routeMap = new Map(this.routes.map((route) => [route.id, route]));
     this.intentRouter = options.intentRouter ?? new IntentRouterService();
 
     this.execution =
@@ -174,6 +170,55 @@ export class AgentRoute {
       state.phase !== 'executing' &&
       state.phase !== 'ready_to_execute';
     const llmIntent = shouldRunLlmIntent ? await this.intentRouter.detect(input, state) : null;
+    if (shouldRunLlmIntent && !llmIntent) {
+      this.setPhase(state, 'failed');
+      return this.finalizeAndSave({
+        input,
+        state,
+        baseVersion,
+        route: this.getRoute(state.activeRoute),
+        response: buildResponse({
+          input,
+          state,
+          route: this.getRoute(state.activeRoute),
+          message: 'AI 意图识别失败：未获取到有效路由结果，请检查模型服务或超时配置。',
+          executable: false,
+          display: 'error',
+          actions: [{ type: 'none' }],
+          error: {
+            code: 'INTENT_ROUTER_EMPTY',
+            message: 'intent router returned null',
+            retryable: false,
+          },
+        }),
+        now,
+      });
+    }
+    if (llmIntent?.domain === 'fallback') {
+      this.setPhase(state, 'failed');
+      const unsupportedReason = llmIntent.reason || '当前请求未命中已实现能力';
+      return this.finalizeAndSave({
+        input,
+        state,
+        baseVersion,
+        route: this.getRoute(state.activeRoute),
+        response: buildResponse({
+          input,
+          state,
+          route: this.getRoute(state.activeRoute),
+          message: `能力未实现：${unsupportedReason}`,
+          executable: false,
+          display: 'error',
+          actions: [{ type: 'none' }],
+          error: {
+            code: 'UNSUPPORTED_INTENT',
+            message: unsupportedReason,
+            retryable: false,
+          },
+        }),
+        now,
+      });
+    }
     if (llmIntent?.confidence && llmIntent.confidence >= 0.6) {
       for (const [slotKey, slotValue] of Object.entries(llmIntent.slots)) {
         state.slots[slotKey] = {
@@ -195,7 +240,7 @@ export class AgentRoute {
       }
     }
 
-    const decision = decideRoute(this.routes, this.fallback, input, state, llmIntent ? {
+    const decision = decideRoute(this.routes, input, state, llmIntent ? {
       route: llmIntent.domain,
       confidence: llmIntent.confidence,
       reason: llmIntent.reason,
@@ -493,7 +538,7 @@ export class AgentRoute {
     state.execution.retries += 1;
     state.execution.lastErrorAt = now;
     const retryable = Boolean(executionResult.retryable);
-    this.setPhase(state, retryable ? 'fallback' : 'failed');
+    this.setPhase(state, 'failed');
 
     return this.finalizeAndSave({
       input,
@@ -575,7 +620,7 @@ export class AgentRoute {
   }
 
   private getRoute(routeId: string): RoutePlugin {
-    return this.routeMap.get(routeId) ?? this.fallback;
+    return this.routeMap.get(routeId) ?? chatRoute;
   }
 
   private isClientCapabilityResponse(

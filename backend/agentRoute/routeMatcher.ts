@@ -9,12 +9,11 @@ const LOCKED_PHASES: ReadonlySet<SessionState['phase']> = new Set([
 
 export function decideRoute(
   routes: RoutePlugin[],
-  fallbackRoute: RoutePlugin,
   input: AgentRouteInput,
   state: SessionState,
   llmHint?: { route: SessionState['activeRoute']; confidence: number; reason: string },
 ): RouteDecision {
-  const currentRoute = routes.find((route) => route.id === state.activeRoute) ?? fallbackRoute;
+  const currentRoute = routes.find((route) => route.id === state.activeRoute) ?? routes.find((route) => route.id === 'chat') ?? routes[0];
 
   if (!TERMINAL_PHASES.has(state.phase) && LOCKED_PHASES.has(state.phase)) {
     return {
@@ -25,7 +24,7 @@ export function decideRoute(
     };
   }
 
-  if (llmHint && llmHint.confidence >= 0.6) {
+  if (llmHint && llmHint.confidence >= 0.6 && llmHint.route !== 'fallback') {
     return {
       route: llmHint.route,
       confidence: llmHint.confidence,
@@ -44,10 +43,10 @@ export function decideRoute(
 
   if (!top || top.result.confidence < 0.35) {
     return {
-      route: fallbackRoute.id,
+      route: currentRoute.id,
       confidence: 0,
-      reason: 'no reliable intent detected, fallback route selected',
-      keepCurrentRoute: false,
+      reason: 'no reliable intent detected, keep current route for explicit handling',
+      keepCurrentRoute: true,
     };
   }
 

@@ -51,7 +51,6 @@
 		<string>wechat</string>
 		<string>weixinULAPI</string>
 		<string>weixinURLParamsAPI</string>
-		<string>iosamap</string>
 		<string>baidumap</string>
 		<string>qqmap</string>
 	</array>
@@ -71,13 +70,6 @@
 				<true/>
 			</dict>
 			<key>iot-sohan.cn</key>
-			<dict>
-				<key>NSIncludesSubdomains</key>
-				<true/>
-				<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-			<key>restios.amap.com</key>
 			<dict>
 				<key>NSIncludesSubdomains</key>
 				<true/>

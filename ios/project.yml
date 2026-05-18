@@ -82,7 +82,6 @@ targets:
           - wechat
           - weixinULAPI
           - weixinURLParamsAPI
-          - iosamap
           - baidumap
           - qqmap
         CFBundleURLTypes:
@@ -117,9 +116,6 @@ targets:
               NSIncludesSubdomains: true
               NSTemporaryExceptionAllowsInsecureHTTPLoads: true
             spreadwin.cn:
-              NSIncludesSubdomains: true
-              NSTemporaryExceptionAllowsInsecureHTTPLoads: true
-            restios.amap.com:
               NSIncludesSubdomains: true
               NSTemporaryExceptionAllowsInsecureHTTPLoads: true
             iot-sohan.cn:

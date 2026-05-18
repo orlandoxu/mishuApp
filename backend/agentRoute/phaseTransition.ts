@@ -5,7 +5,7 @@ import type { AgentPhase } from './types';
  * 作用：避免多轮对话中出现非法跳变，保证服务端推进一致性。
  */
 const PHASE_TRANSITIONS: Record<AgentPhase, ReadonlySet<AgentPhase>> = {
-  intent_detected: new Set(['collecting_slots', 'awaiting_confirmation', 'ready_to_execute', 'fallback', 'cancelled']),
+  intent_detected: new Set(['collecting_slots', 'awaiting_confirmation', 'ready_to_execute', 'failed', 'fallback', 'cancelled']),
   collecting_slots: new Set(['intent_detected', 'collecting_slots', 'awaiting_confirmation', 'cancelled', 'fallback']),
   awaiting_confirmation: new Set(['intent_detected', 'collecting_slots', 'ready_to_execute', 'cancelled', 'fallback']),
   ready_to_execute: new Set(['executing', 'completed', 'failed', 'fallback', 'cancelled']),
