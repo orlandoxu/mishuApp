@@ -75,11 +75,18 @@ export const foodRoute: RoutePlugin = {
   detectIntent,
   extractSlots,
   buildSlotPrompt(missingSlots) {
-    if (missingSlots.includes('name')) return '这家店叫什么名字？';
-    if (missingSlots.includes('category')) return '这家店是什么菜系？例如川菜、日料、法餐。';
-    if (missingSlots.includes('pricePerPerson')) return '这次人均大概多少钱？';
-    if (missingSlots.includes('review')) return '说下你对这家店的点评，我会一起写进美食记忆。';
-    return '请补充美食记忆信息。';
+    if (missingSlots.length === 0) return '请补充美食记忆信息。';
+    if (missingSlots.length <= 2) {
+      const slotLabels: Record<string, string> = {
+        name: '店名',
+        category: '菜系',
+        pricePerPerson: '人均消费',
+        review: '点评',
+      };
+      const labels = missingSlots.map((key) => slotLabels[key] ?? key).join('，');
+      return `很棒，再告诉我这家店的${labels}，我一起帮你记下来吧！`;
+    }
+    return '好呀！告诉我餐厅的名字、人均消费、特色菜，点评一下呗。我会帮你记录下来的哦。';
   },
   needsConfirmation() {
     return false;
