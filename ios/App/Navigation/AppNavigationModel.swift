@@ -74,6 +74,8 @@ final class AppNavigationModel: ObservableObject {
       return .treeHoleChat(initialMoodContent: nil)
     case "pro":
       return .pro
+    case "foodMemory":
+      return .foodMemory
     default:
       return nil
     }
@@ -91,6 +93,7 @@ enum NavigationRoute: Hashable {
   case contacts
   case memory
   case trueMemory
+  case foodMemory
   case partner
   case child
   case moneyJar
@@ -126,6 +129,8 @@ extension NavigationRoute {
       MemoryView()
     case .trueMemory:
       TrueMemoryView()
+    case .foodMemory:
+      FoodMemoryView()
     case .partner:
       PartnerView()
     case .child:

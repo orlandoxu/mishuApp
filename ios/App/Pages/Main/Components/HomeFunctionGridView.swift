@@ -8,6 +8,7 @@ struct HomeFunctionGridView: View {
     HomeFunctionItem(title: "我的朋友", imageName: "img_card_friends", route: .contacts),
     HomeFunctionItem(title: "小钱罐", imageName: "img_card_money", route: .moneyJar),
     HomeFunctionItem(title: "独家记忆", imageName: "img_card_memory", route: .trueMemory),
+    HomeFunctionItem(title: "美食记忆", imageName: "img_card_food", route: .foodMemory),
     HomeFunctionItem(title: "情绪树洞", imageName: "img_card_emo_girl", route: .treeHole),
     HomeFunctionItem(title: "我的画像", imageName: "img_card_self", route: .memory),
     HomeFunctionItem(title: "我的", imageName: "img_menu_self", route: .settings),

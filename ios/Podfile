@@ -10,6 +10,14 @@ target 'MishuApp' do
   pod 'UMDevice'
   pod 'UMAPM'
   pod 'WechatOpenSDK-XCFramework'
+
+  target 'MishuAppTests' do
+    inherit! :search_paths
+  end
+
+  target 'MishuAppUITests' do
+    inherit! :search_paths
+  end
 end
 
 post_install do |installer|

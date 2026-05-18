@@ -4,6 +4,8 @@ import { AuthController } from "../controller/authController";
 import { PartnerInvitationController } from "../controller/partnerInvitationController";
 import { AdminController } from "../controller/adminController";
 import { LedgerController } from "../controller/ledgerController";
+import { FriendController } from "../controller/friendController";
+import { FoodMemoryController } from "../controller/foodMemoryController";
 import { createRouter } from "../lib/fastify/routeHelper";
 import { userAuth } from "../middleware/loginMiddleware";
 import { adminAuth } from "../middleware/adminMiddleware";
@@ -29,6 +31,27 @@ export default async function registerRoutes(
   get("/ledger/summary", userAuth, LedgerController.summary);
   get("/ledger/categories", userAuth, LedgerController.categories);
   post("/ledger/categories/save", userAuth, LedgerController.saveCategories);
+
+  // ==================== 我的朋友 ====================
+  post("/friend/list", userAuth, FriendController.list);
+  post("/friend/detail", userAuth, FriendController.detail);
+  post("/friend/create", userAuth, FriendController.create);
+  post("/friend/update", userAuth, FriendController.update);
+  post("/friend/delete", userAuth, FriendController.remove);
+
+  post("/friend/interactions/list", userAuth, FriendController.listInteractions);
+  post("/friend/interactions/create", userAuth, FriendController.createInteraction);
+  post("/friend/interactions/update", userAuth, FriendController.updateInteraction);
+  post("/friend/interactions/delete", userAuth, FriendController.removeInteraction);
+
+  // ==================== 美食记忆 ====================
+  post("/food-memory/list", userAuth, FoodMemoryController.list);
+  post("/food-memory/detail", userAuth, FoodMemoryController.detail);
+  post("/food-memory/create", userAuth, FoodMemoryController.create);
+  post("/food-memory/update", userAuth, FoodMemoryController.update);
+  post("/food-memory/delete", userAuth, FoodMemoryController.remove);
+  get("/food-memory/categories", userAuth, FoodMemoryController.categories);
+  get("/food-memory/months", userAuth, FoodMemoryController.months);
 
   // ==================== Admin 后台接口 ====================
   post("/admin/login", AdminController.login);

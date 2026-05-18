@@ -2,7 +2,7 @@ import AVFoundation
 import Foundation
 
 @MainActor
-final class HomeVoiceRecorder: NSObject, ObservableObject, AVAudioRecorderDelegate {
+final class HomeVoiceRecorder: NSObject, ObservableObject, @preconcurrency AVAudioRecorderDelegate {
   @Published private(set) var isRecording: Bool = false
   @Published private(set) var normalizedPower: CGFloat = 0
   @Published private(set) var permissionDenied: Bool = false
