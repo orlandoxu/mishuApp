@@ -66,6 +66,7 @@ export async function handleSocketMessage(
     result = await handler({
       message,
       getUser,
+      emit: send,
     });
   } catch (error) {
     const detail = error instanceof Error ? error.message : String(error);

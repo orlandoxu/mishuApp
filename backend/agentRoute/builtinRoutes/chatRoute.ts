@@ -9,9 +9,8 @@ import type {
 } from '../types';
 
 function detectIntent(input: AgentRouteInput): RouteIntentResult {
-  const text = input.text.trim();
-  if (!text) return { confidence: 0.1, reason: 'empty input' };
-  return { confidence: 0.4, reason: 'default chat route' };
+  void input;
+  return { confidence: 0, reason: 'chat route intent is decided by AI router only' };
 }
 
 function extractSlots(): SlotExtraction {

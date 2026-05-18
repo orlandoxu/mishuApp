@@ -12,6 +12,7 @@ export type SocketMessage = {
 export type SocketHandlerContext = {
   message: SocketMessage;
   getUser: () => AuthUser | null;
+  emit: (payload: unknown) => void;
 };
 
 export class SocketError {

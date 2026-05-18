@@ -143,7 +143,8 @@ struct MainView: View {
     })
     .onReceive(NotificationCenter.default.publisher(for: .homeQuickTextInput)) { notification in
       guard let text = notification.userInfo?["text"] as? String else { return }
-      submitFinalInput(text)
+      let forceNewSession = (notification.userInfo?["newSession"] as? Bool) ?? false
+      submitFinalInput(text, forceNewSession: forceNewSession)
     }
   }
 
@@ -193,45 +194,65 @@ struct MainView: View {
   }
 
   private func confirmRecordedInput(_ text: String) {
-    submitFinalInput(text)
+    submitFinalInput(text, forceNewSession: false)
   }
 
   private func submitTextInput(_ text: String) {
-    submitFinalInput(text)
+    submitFinalInput(text, forceNewSession: false)
   }
 
-  private func submitFinalInput(_ text: String) {
+  private func submitFinalInput(_ text: String, forceNewSession: Bool = false) {
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else { return }
-    status = .thinking
-    withAnimation(.spring(response: 0.48, dampingFraction: 0.86)) {
-      messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-user", role: .user, text: trimmed))
-    }
 
     Task {
-      let assistantText: String
-      var createdFoodCard: AgentFoodMemoryDTO?
-      do {
-        let turn = try await realtimeController.requestReply(for: trimmed)
-        assistantText = turn.replyText
-        createdFoodCard = extractFoodMemoryCard(from: turn)
-      } catch {
-        assistantText = "指令下发失败：\(error.localizedDescription)"
+      if forceNewSession {
+        await AgentRouteWebSocketClient.shared.startNewSession()
       }
+      let aiBubbleId = "\(Date().timeIntervalSince1970)-ai-pending"
       await MainActor.run {
-        withAnimation(.spring(response: 0.42, dampingFraction: 0.84)) {
-          messages.append(
-            TreeHoleChatMessage(
-              id: "\(Date().timeIntervalSince1970)-ai",
-              role: .ai,
-              text: assistantText,
-              foodMemoryCard: createdFoodCard
+        status = .thinking
+        withAnimation(.spring(response: 0.48, dampingFraction: 0.86)) {
+          messages.append(TreeHoleChatMessage(id: "\(Date().timeIntervalSince1970)-user", role: .user, text: trimmed))
+          messages.append(TreeHoleChatMessage(id: aiBubbleId, role: .ai, text: "我在整理这条美食记忆...", isThinking: true))
+        }
+      }
+
+      do {
+        _ = try await realtimeController.requestReply(for: trimmed) { turn in
+          await MainActor.run {
+            updateAIBubble(
+              id: aiBubbleId,
+              text: turn.replyText,
+              isThinking: !turn.isTerminal && turn.phase == "executing",
+              card: extractFoodMemoryCard(from: turn)
             )
+          }
+        }
+      } catch {
+        await MainActor.run {
+          updateAIBubble(
+            id: aiBubbleId,
+            text: "指令下发失败：\(error.localizedDescription)",
+            isThinking: false,
+            card: nil
           )
         }
-        status = .idle
       }
+      await MainActor.run { status = .idle }
     }
+  }
+
+  @MainActor
+  private func updateAIBubble(id: String, text: String, isThinking: Bool, card: AgentFoodMemoryDTO?) {
+    guard let idx = messages.firstIndex(where: { $0.id == id }) else { return }
+    messages[idx] = TreeHoleChatMessage(
+      id: id,
+      role: .ai,
+      text: text,
+      isThinking: isThinking,
+      foodMemoryCard: card
+    )
   }
 
   private func extractFoodMemoryCard(from turn: AgentTurnResponse) -> AgentFoodMemoryDTO? {
@@ -255,6 +276,9 @@ struct MainView: View {
       messages.removeAll()
     }
     status = .idle
+    Task {
+      await AgentRouteWebSocketClient.shared.startNewSession()
+    }
   }
 
   private func liveTranscript(from text: String) -> String {
@@ -396,6 +420,12 @@ private struct HomeConversationBubbleRow: View {
             .stroke(bubbleBorder, lineWidth: 1)
         )
         .frame(maxWidth: 306, alignment: message.role == .user ? .trailing : .leading)
+
+      if message.role == .ai && message.isThinking {
+        ProgressView()
+          .controlSize(.small)
+          .tint(Color.black.opacity(0.45))
+      }
 
       if let card = message.foodMemoryCard, message.role == .ai {
         FoodMemoryCreatedCardView(card: card)

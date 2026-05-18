@@ -1,47 +1,19 @@
 import type { AgentRouteInput, ConfirmationPayload, ExecutionRequest, RouteIntentResult, RoutePlugin, SessionState, SlotExtraction } from '../types';
-import { compactText, extractAfter, firstTimeLike, hasAnyKeyword } from './common';
-
-const KEYWORDS = ['待办', 'todo', '任务', '安排一下', '记一下'];
 
 /**
  * task 路由意图识别。
  */
 function detectIntent(input: AgentRouteInput): RouteIntentResult {
-  if (hasAnyKeyword(input.text, KEYWORDS)) {
-    return { confidence: 0.9, reason: 'task keywords matched' };
-  }
-
-  return { confidence: 0.05, reason: 'not task intent' };
+  void input;
+  return { confidence: 0, reason: 'task route intent is decided by AI router only' };
 }
 
 /**
  * 提取任务标题与截止时间槽位。
  */
 function extractSlots(input: AgentRouteInput): SlotExtraction {
-  const text = compactText(input.text);
-  const dueTime = firstTimeLike(text);
-
-  let title = extractAfter(text, '待办');
-  if (!title) {
-    title = extractAfter(text, '任务');
-  }
-  if (!title) {
-    title = extractAfter(text, '记一下');
-  }
-
-  if (title && dueTime) {
-    title = title.replace(dueTime, '').trim();
-  }
-  if (title) {
-    title = title.replace(/^[：:]+/, '').trim();
-  }
-
-  return {
-    filled: {
-      ...(title ? { taskTitle: { value: title, confidence: 0.86 } } : {}),
-      ...(dueTime ? { dueTime: { value: dueTime, confidence: 0.72 } } : {}),
-    },
-  };
+  void input;
+  return { filled: {} };
 }
 
 /**

@@ -75,7 +75,6 @@ export const foodRoute: RoutePlugin = {
   detectIntent,
   extractSlots,
   buildSlotPrompt(missingSlots) {
-    if (missingSlots.length === 0) return '请补充美食记忆信息。';
     if (missingSlots.length <= 2) {
       const slotLabels: Record<string, string> = {
         name: '店名',

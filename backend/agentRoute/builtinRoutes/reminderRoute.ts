@@ -1,41 +1,19 @@
 import type { AgentRouteInput, ConfirmationPayload, ExecutionRequest, RouteIntentResult, RoutePlugin, SessionState, SlotExtraction } from '../types';
-import { compactText, extractAfter, firstTimeLike, hasAnyKeyword } from './common';
-
-const KEYWORDS = ['提醒', 'remind', '闹钟', '定个提醒'];
 
 /**
  * reminder 路由意图识别。
  */
 function detectIntent(input: AgentRouteInput): RouteIntentResult {
-  if (hasAnyKeyword(input.text, KEYWORDS)) {
-    return { confidence: 0.95, reason: 'contains reminder keyword' };
-  }
-
-  return { confidence: 0.05, reason: 'not reminder intent' };
+  void input;
+  return { confidence: 0, reason: 'reminder route intent is decided by AI router only' };
 }
 
 /**
  * 提取提醒标题与时间槽位。
  */
 function extractSlots(input: AgentRouteInput): SlotExtraction {
-  const text = compactText(input.text);
-  const time = firstTimeLike(text);
-
-  let title = extractAfter(text, '提醒我');
-  if (!title) {
-    title = extractAfter(text, '提醒');
-  }
-
-  if (title && time) {
-    title = title.replace(time, '').trim();
-  }
-
-  return {
-    filled: {
-      ...(title ? { title: { value: title, confidence: 0.9 } } : {}),
-      ...(time ? { when: { value: time, confidence: 0.75 } } : {}),
-    },
-  };
+  void input;
+  return { filled: {} };
 }
 
 /**

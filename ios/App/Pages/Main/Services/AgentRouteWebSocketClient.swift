@@ -8,14 +8,27 @@ actor AgentRouteWebSocketClient {
   private let sessionIdKey = "mishu_agent_route_session_id"
   private var sessionVersion: Int?
 
-  func requestReply(text: String) async throws -> AgentTurnResponse {
+  func startNewSession() {
+    let nextId = "ios-\(UUID().uuidString.lowercased())"
+    UserDefaults.standard.set(nextId, forKey: sessionIdKey)
+    sessionVersion = nil
+  }
+
+  func currentSessionId() -> String {
+    loadOrCreateSessionId()
+  }
+
+  func requestReply(
+    text: String,
+    onEvent: (@Sendable (AgentTurnResponse) async -> Void)? = nil
+  ) async throws -> AgentTurnResponse {
     let trimmed = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !trimmed.isEmpty else {
       throw NSError(domain: "AgentRouteWebSocketClient", code: 400, userInfo: [NSLocalizedDescriptionKey: "我没有听清楚，请再说一次。"])
     }
 
     let request = await makeTurnRequest(text: trimmed)
-    return try await sendTurnRequest(request)
+    return try await sendTurnRequest(request, onEvent: onEvent)
   }
 
   private func makeTurnRequest(text: String) async -> AgentTurnRequest {
@@ -28,6 +41,10 @@ actor AgentRouteWebSocketClient {
     let deviceId = await MainActor.run {
       UIDevice.current.identifierForVendor?.uuidString
     }
+
+    #if DEBUG
+    print("[agent.turn][ios] sessionId=\(sessionId) sessionVersion=\(sessionVersion.map(String.init) ?? "nil")")
+    #endif
 
     return AgentTurnRequest(
       protocolVersion: "2026-05-08.v3",
@@ -47,17 +64,23 @@ actor AgentRouteWebSocketClient {
     )
   }
 
-  private func sendTurnRequest(_ request: AgentTurnRequest) async throws -> AgentTurnResponse {
+  private func sendTurnRequest(
+    _ request: AgentTurnRequest,
+    onEvent: (@Sendable (AgentTurnResponse) async -> Void)? = nil
+  ) async throws -> AgentTurnResponse {
     do {
-      return try await sendTurnRequestOnce(request)
+      return try await sendTurnRequestOnce(request, onEvent: onEvent)
     } catch {
       let nsError = error as NSError
       guard nsError.code == 408 else { throw error }
-      return try await sendTurnRequestOnce(request)
+      return try await sendTurnRequestOnce(request, onEvent: onEvent)
     }
   }
 
-  private func sendTurnRequestOnce(_ request: AgentTurnRequest) async throws -> AgentTurnResponse {
+  private func sendTurnRequestOnce(
+    _ request: AgentTurnRequest,
+    onEvent: (@Sendable (AgentTurnResponse) async -> Void)? = nil
+  ) async throws -> AgentTurnResponse {
     guard let token = await MainActor.run(body: { SelfStore.shared.token }), !token.isEmpty else {
       throw NSError(domain: "AgentRouteWebSocketClient", code: 401, userInfo: [NSLocalizedDescriptionKey: "缺少登录 token，无法发起 agent 路由请求"])
     }
@@ -81,6 +104,9 @@ actor AgentRouteWebSocketClient {
         guard let businessData = try self.decodeTurnResponse(data: data) else { continue }
 
         self.sessionVersion = businessData.sessionVersion
+        if let onEvent {
+          await onEvent(businessData)
+        }
 
         if let actionDirective = businessData.protocolEnvelope?.directives.first(where: { $0.type == "request_client_action" }) {
           let actionRequestId = actionDirective.requestId ?? ""
@@ -168,6 +194,17 @@ actor AgentRouteWebSocketClient {
     if type == "agent_turn_result" {
       let message = try JSONDecoder().decode(SocketMessage.self, from: data)
       if case let .agentTurnResult(turn)? = message.payload {
+        return turn
+      }
+    }
+
+    if type == "agent_turn_update",
+       let object = try? JSONSerialization.jsonObject(with: data) as? [String: Any],
+       let payload = object["payload"],
+       JSONSerialization.isValidJSONObject(payload)
+    {
+      let payloadData = try JSONSerialization.data(withJSONObject: payload)
+      if let turn = try? JSONDecoder().decode(AgentTurnResponse.self, from: payloadData) {
         return turn
       }
     }

@@ -214,7 +214,7 @@ struct FoodMemoryView: View {
       NotificationCenter.default.post(
         name: .homeQuickTextInput,
         object: nil,
-        userInfo: ["text": "帮我新增一条美食记忆"]
+        userInfo: ["text": "帮我新增一条美食记忆", "newSession": true]
       )
     }
   }

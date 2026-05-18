@@ -74,12 +74,15 @@ final class VoiceRealtimeCtrl: ObservableObject {
     completion(finalText)
   }
 
-  func requestReply(for text: String) async throws -> AgentTurnResponse {
+  func requestReply(
+    for text: String,
+    onEvent: (@Sendable (AgentTurnResponse) async -> Void)? = nil
+  ) async throws -> AgentTurnResponse {
     let finalText = text.trimmingCharacters(in: .whitespacesAndNewlines)
     guard !finalText.isEmpty else {
       throw NSError(domain: "VoiceRealtimeCtrl", code: 400, userInfo: [NSLocalizedDescriptionKey: "请输入测试文本"])
     }
-    return try await AgentRouteWebSocketClient.shared.requestReply(text: finalText)
+    return try await AgentRouteWebSocketClient.shared.requestReply(text: finalText, onEvent: onEvent)
   }
 
   private func bindServices() {

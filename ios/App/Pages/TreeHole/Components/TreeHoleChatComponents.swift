@@ -9,12 +9,20 @@ struct TreeHoleChatMessage: Identifiable, Equatable {
   let id: String
   let role: Role
   let text: String
+  let isThinking: Bool
   let foodMemoryCard: AgentFoodMemoryDTO?
 
-  init(id: String, role: Role, text: String, foodMemoryCard: AgentFoodMemoryDTO? = nil) {
+  init(
+    id: String,
+    role: Role,
+    text: String,
+    isThinking: Bool = false,
+    foodMemoryCard: AgentFoodMemoryDTO? = nil
+  ) {
     self.id = id
     self.role = role
     self.text = text
+    self.isThinking = isThinking
     self.foodMemoryCard = foodMemoryCard
   }
 }
