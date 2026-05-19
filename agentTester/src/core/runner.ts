@@ -5,7 +5,7 @@ import { assertSemanticContains } from '../assertions/semantic.js';
 import { evaluateGate } from '../assertions/gates.js';
 import { resolveEnv } from '../config/env.js';
 import { capabilityManifest } from '../config/manifest.js';
-import { scenarios } from '../scenarios/scenarios.js';
+import { loadScenarios } from '../scenarios/scenarios.js';
 import type { CapabilityMatrixRow, RunOptions, RunSummary, ScenarioResult, TestScenario } from '../types/index.js';
 import { checkEnvironment } from './environment.js';
 
@@ -13,15 +13,18 @@ export async function runAll(options: RunOptions): Promise<RunSummary> {
   const startedAt = new Date().toISOString();
   const env = resolveEnv(options.env);
   const environment = await checkEnvironment(env);
+  const scenarios = await loadScenarios();
 
-  const selectedScenarios = scenarios.filter((item) => item.suite === options.suite || item.suite === 'all' || options.suite === 'full');
+  const selectedScenarios = scenarios
+    .filter((item) => item.suite === options.suite || item.suite === 'all' || options.suite === 'full')
+    .filter((item) => !options.scenarioIds || options.scenarioIds.length === 0 || options.scenarioIds.includes(item.id));
   const layers = options.layer === 'all' ? (['engine', 'rpc'] as const) : ([options.layer] as const);
 
   const results: ScenarioResult[] = [];
 
   if (!environment.ok) {
     const endedAt = new Date().toISOString();
-    const summary = buildSummary(options, startedAt, endedAt, [], environment);
+    const summary = buildSummary(options, startedAt, endedAt, [], environment, scenarios);
     summary.gatePassed = false;
     return summary;
   }
@@ -34,7 +37,7 @@ export async function runAll(options: RunOptions): Promise<RunSummary> {
   }
 
   const endedAt = new Date().toISOString();
-  const summary = buildSummary(options, startedAt, endedAt, results, environment);
+  const summary = buildSummary(options, startedAt, endedAt, results, environment, scenarios);
   const gate = evaluateGate(summary);
   summary.gatePassed = gate.ok;
   if (!gate.ok) {
@@ -126,7 +129,8 @@ function buildSummary(
   startedAt: string,
   endedAt: string,
   results: ScenarioResult[],
-  environment: RunSummary['environment']
+  environment: RunSummary['environment'],
+  scenarios: TestScenario[]
 ): RunSummary {
   const totals = {
     scenarios: results.length,
@@ -143,7 +147,7 @@ function buildSummary(
   const criticalPassRate = critical.length === 0 ? 1 : critical.filter((x) => x.verdict === 'pass').length / critical.length;
   const normalPassRate = normal.length === 0 ? 1 : normal.filter((x) => x.verdict === 'pass').length / normal.length;
 
-  const capabilityMatrix = buildCapabilityMatrix(results);
+  const capabilityMatrix = buildCapabilityMatrix(results, scenarios);
 
   return {
     options,
@@ -160,7 +164,7 @@ function buildSummary(
   };
 }
 
-function buildCapabilityMatrix(results: ScenarioResult[]): CapabilityMatrixRow[] {
+function buildCapabilityMatrix(results: ScenarioResult[], scenarios: TestScenario[]): CapabilityMatrixRow[] {
   const resultMap = new Map<string, ScenarioResult[]>();
   for (const result of results) {
     const rows = resultMap.get(result.capabilityId) ?? [];

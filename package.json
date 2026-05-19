@@ -14,6 +14,7 @@
     "admin:build": "pnpm --filter @mishu/admin build",
     "agent:test": "pnpm --filter @mishu/agent-tester run run --layer=all --suite=smoke --env=local-frpc",
     "agent:report": "pnpm --filter @mishu/agent-tester run report --format=md",
+    "agent:web": "npm --prefix agentTester run web",
     "pm2:start": "pm2 start ecosystem.config.cjs --update-env",
     "pm2:restart": "pm2 restart ecosystem.config.cjs --update-env",
     "pm2:stop": "pm2 stop ecosystem.config.cjs",

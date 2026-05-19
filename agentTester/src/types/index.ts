@@ -15,11 +15,23 @@ export type TestTurnInput = {
 
 export type TestScenario = {
   id: string;
+  group: 'special' | 'business';
+  line:
+    | 'agent_route_protocol'
+    | 'state_machine'
+    | 'executor'
+    | 'money'
+    | 'food'
+    | 'contact'
+    | 'task'
+    | 'reminder'
+    | 'chat';
   capabilityId: string;
   title: string;
   level: 'critical' | 'normal';
   tags: string[];
   suite: RunSuite | 'all';
+  enabled?: boolean;
   turns: TestTurnInput[];
   expectedPhasePath?: string[];
   requiredDirectives?: string[];
@@ -82,6 +94,7 @@ export type RunOptions = {
   layer: RunLayer;
   suite: RunSuite;
   env: RunEnv;
+  scenarioIds?: string[];
 };
 
 export type RunSummary = {

@@ -65,6 +65,10 @@ function parseRunOptions(args: string[]): RunOptions {
     if (arg.startsWith('--layer=')) options.layer = arg.split('=')[1] as RunLayer;
     if (arg.startsWith('--suite=')) options.suite = arg.split('=')[1] as RunSuite;
     if (arg.startsWith('--env=')) options.env = arg.split('=')[1] as RunEnv;
+    if (arg.startsWith('--scenarioIds=')) {
+      const value = arg.split('=')[1] ?? '';
+      options.scenarioIds = value.split(',').map((x) => x.trim()).filter(Boolean);
+    }
   }
 
   if (!['engine', 'rpc', 'all'].includes(options.layer)) throw new Error(`invalid layer=${options.layer}`);

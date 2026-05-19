@@ -62,6 +62,20 @@ module.exports = {
       args: '-c ./conf/frpc.toml',
       interpreter: 'none',
       autorestart: true
+    },
+    {
+      name: 'agentTester-web',
+      cwd: './agentTester',
+      script: '/opt/homebrew/bin/npm',
+      args: 'run web',
+      interpreter: 'none',
+      autorestart: true,
+      env: {
+        NODE_ENV: 'development',
+        AGENT_TESTER_WEB_HOST: '0.0.0.0',
+        AGENT_TESTER_WEB_PORT: '8320',
+        AGENT_TESTER_WEB_PASSWORD: '123456'
+      }
     }
   ]
 };

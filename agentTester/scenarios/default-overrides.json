@@ -1,0 +1,18 @@
+[
+  {
+    "id": "biz-contact-action-exception",
+    "group": "business",
+    "line": "contact",
+    "capabilityId": "agent.contact.action",
+    "title": "业务场景：联系人异常输入（缺联系人）",
+    "level": "normal",
+    "tags": ["business", "contact", "edge"],
+    "suite": "full",
+    "enabled": true,
+    "turns": [
+      { "text": "给他发消息说晚点到" }
+    ],
+    "requiredDirectives": ["assistant_message"],
+    "requiresProtocolV3Only": true
+  }
+]

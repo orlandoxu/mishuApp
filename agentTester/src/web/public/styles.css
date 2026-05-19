@@ -1,0 +1,44 @@
+:root {
+  --bg: #f3f4f6;
+  --panel: #ffffff;
+  --text: #111827;
+  --muted: #6b7280;
+  --ok: #10b981;
+  --fail: #ef4444;
+  --running: #3b82f6;
+  --border: #e5e7eb;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--text); font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; }
+.page { max-width: 1200px; margin: 0 auto; padding: 20px; }
+.top { display: flex; justify-content: space-between; align-items: center; }
+h1 { margin: 0; font-size: 24px; }
+.panel { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 14px; margin-top: 14px; }
+.row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+label { color: var(--muted); font-size: 13px; }
+select, input, button { height: 34px; border-radius: 8px; border: 1px solid var(--border); padding: 0 10px; background: #fff; }
+button { background: #111827; color: #fff; border: none; cursor: pointer; }
+button:disabled { opacity: 0.5; cursor: default; }
+.hint { margin-top: 10px; color: var(--muted); }
+.metrics-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 10px; }
+.metric { border: 1px solid var(--border); border-radius: 10px; padding: 12px; }
+.metric .k { color: var(--muted); font-size: 12px; }
+.metric .v { margin-top: 6px; font-size: 22px; font-weight: 700; }
+.list { display: flex; flex-direction: column; gap: 8px; }
+.item { border: 1px solid var(--border); border-radius: 10px; padding: 10px; }
+.item-head { display: grid; grid-template-columns: 100px 1fr 240px 120px; gap: 10px; align-items: center; }
+.badge { display: inline-block; border-radius: 999px; padding: 4px 10px; color: #fff; font-size: 12px; font-weight: 700; }
+.badge.pass { background: var(--ok); }
+.badge.fail { background: var(--fail); }
+.badge.skip { background: #f59e0b; }
+.badge.never { background: #9ca3af; }
+.title { font-weight: 700; }
+.meta { color: var(--muted); font-size: 12px; }
+.reason { color: var(--fail); font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.expand { color: #2563eb; font-size: 12px; cursor: pointer; }
+.detail { margin-top: 10px; background: #f9fafb; border-radius: 8px; padding: 8px; display: none; }
+.detail pre { margin: 0; white-space: pre-wrap; font-size: 12px; }
+.auth-box { display: flex; gap: 8px; align-items: center; }
+@media (max-width: 900px) {
+  .item-head { grid-template-columns: 1fr; }
+}

@@ -55,6 +55,7 @@ ios/App/DebugScripts/socket-ping-monitor.mjs
 
 claude-code
 logs/*
+agentTester/reports/*
 
 # h5 本地依赖与构建产物
 h5/node_modules/

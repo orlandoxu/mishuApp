@@ -6,7 +6,8 @@
   "scripts": {
     "run": "npx tsx src/cli.ts run",
     "report": "npx tsx src/cli.ts report --format=md",
-    "typecheck": "npx tsc -p tsconfig.json --noEmit"
+    "typecheck": "npx tsc -p tsconfig.json --noEmit",
+    "web": "npx tsx src/web/server.ts"
   },
   "dependencies": {
     "ws": "^8.18.3"
