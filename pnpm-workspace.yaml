@@ -1,4 +1,5 @@
 packages:
+  - agentTester
   - ios
   - backend
   - h5

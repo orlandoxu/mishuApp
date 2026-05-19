@@ -1,0 +1,314 @@
+{
+  "options": {
+    "layer": "all",
+    "suite": "smoke",
+    "env": "local-frpc"
+  },
+  "startedAt": "2026-05-19T06:14:49.692Z",
+  "endedAt": "2026-05-19T06:16:00.392Z",
+  "protocolStrongPassRate": 1,
+  "criticalPassRate": 1,
+  "normalPassRate": 0.5,
+  "gatePassed": false,
+  "totals": {
+    "scenarios": 9,
+    "passed": 1,
+    "failed": 8,
+    "skipped": 0
+  },
+  "results": [
+    {
+      "layer": "engine",
+      "scenarioId": "smoke-chat-basic",
+      "capabilityId": "agent.chat",
+      "title": "闲聊场景应返回可渲染协议",
+      "level": "normal",
+      "verdict": "fail",
+      "steps": [
+        {
+          "turnIndex": 0,
+          "phase": "failed",
+          "directives": [
+            "assistant_message",
+            "failed"
+          ],
+          "recommendedInput": "user_text",
+          "message": "AI 意图识别失败：未获取到有效路由结果，请检查模型服务或超时配置。",
+          "issues": [
+            {
+              "severity": "semantic",
+              "kind": "model_flakiness",
+              "message": "语义校验失败，回复未命中关键 token: 我, 你",
+              "hint": "检查模型波动或 prompt/系统设定。"
+            }
+          ]
+        }
+      ],
+      "issues": [
+        {
+          "severity": "semantic",
+          "kind": "model_flakiness",
+          "message": "语义校验失败，回复未命中关键 token: 我, 你",
+          "hint": "检查模型波动或 prompt/系统设定。"
+        }
+      ]
+    },
+    {
+      "layer": "rpc",
+      "scenarioId": "smoke-chat-basic",
+      "capabilityId": "agent.chat",
+      "title": "闲聊场景应返回可渲染协议",
+      "level": "normal",
+      "verdict": "pass",
+      "steps": [
+        {
+          "turnIndex": 0,
+          "phase": "completed",
+          "directives": [
+            "assistant_message",
+            "completed"
+          ],
+          "recommendedInput": "user_text",
+          "message": "别着急呀，先试着做几次缓慢的深呼吸，或者找个安静的地方放空几分钟。如果愿意的话，可以和我说说让你焦虑的事情吗？",
+          "issues": []
+        }
+      ],
+      "issues": []
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "capability-gap-app.treehole.chat",
+      "capabilityId": "app.treehole.chat",
+      "title": "树洞聊天 未接入 Agent",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "capability_gap",
+          "message": "功能缺口：树洞聊天 当前状态=not_connected，未接入 Agent 测试链路。"
+        }
+      ]
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "capability-gap-app.partner.binding",
+      "capabilityId": "app.partner.binding",
+      "title": "TA 邀请绑定 未接入 Agent",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "capability_gap",
+          "message": "功能缺口：TA 邀请绑定 当前状态=not_connected，未接入 Agent 测试链路。"
+        }
+      ]
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "capability-gap-app.pro.payment",
+      "capabilityId": "app.pro.payment",
+      "title": "Pro 支付 未接入 Agent",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "capability_gap",
+          "message": "功能缺口：Pro 支付 当前状态=not_connected，未接入 Agent 测试链路。"
+        }
+      ]
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "capability-gap-app.settings.privacy",
+      "capabilityId": "app.settings.privacy",
+      "title": "设置与隐私 未接入 Agent",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "capability_gap",
+          "message": "功能缺口：设置与隐私 当前状态=not_connected，未接入 Agent 测试链路。"
+        }
+      ]
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "capability-gap-app.memory.profile",
+      "capabilityId": "app.memory.profile",
+      "title": "个人画像 未接入 Agent",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "capability_gap",
+          "message": "功能缺口：个人画像 当前状态=not_connected，未接入 Agent 测试链路。"
+        }
+      ]
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "capability-gap-app.child.module",
+      "capabilityId": "app.child.module",
+      "title": "孩子模块 未接入 Agent",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "capability_gap",
+          "message": "功能缺口：孩子模块 当前状态=not_connected，未接入 Agent 测试链路。"
+        }
+      ]
+    },
+    {
+      "layer": "engine",
+      "scenarioId": "gate-check",
+      "capabilityId": "meta.gate",
+      "title": "发布门禁",
+      "level": "critical",
+      "verdict": "fail",
+      "steps": [],
+      "issues": [
+        {
+          "severity": "strong",
+          "kind": "protocol_failure",
+          "message": "普通能力通过率未达90%，当前 50.00%"
+        }
+      ]
+    }
+  ],
+  "capabilityMatrix": [
+    {
+      "id": "agent.chat",
+      "appFeature": "首页语音闲聊",
+      "status": "connected",
+      "ownerRoute": "chat",
+      "notes": "已接 Agent 路由。",
+      "coveredByScenario": true,
+      "tested": true,
+      "passed": false
+    },
+    {
+      "id": "agent.food.create",
+      "appFeature": "美食记忆-对话新增",
+      "status": "connected",
+      "ownerRoute": "food",
+      "notes": "核心流程已接。",
+      "coveredByScenario": true,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "agent.money.record",
+      "appFeature": "小钱罐-对话记账",
+      "status": "connected",
+      "ownerRoute": "money",
+      "notes": "本地动作回传依赖协议一致性。",
+      "coveredByScenario": true,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "agent.contact.action",
+      "appFeature": "联系人-对话动作",
+      "status": "connected",
+      "ownerRoute": "contact",
+      "notes": "执行器仍有占位风险。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "agent.task.action",
+      "appFeature": "待办-对话动作",
+      "status": "connected",
+      "ownerRoute": "task",
+      "notes": "执行器仍有占位风险。",
+      "coveredByScenario": true,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "agent.reminder.action",
+      "appFeature": "提醒-对话动作",
+      "status": "connected",
+      "ownerRoute": "reminder",
+      "notes": "执行器仍有占位风险。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "app.treehole.chat",
+      "appFeature": "树洞聊天",
+      "status": "not_connected",
+      "notes": "当前是页面内本地聊天，不走 Agent 后端。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "app.partner.binding",
+      "appFeature": "TA 邀请绑定",
+      "status": "not_connected",
+      "notes": "走 REST，未接 Agent。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "app.pro.payment",
+      "appFeature": "Pro 支付",
+      "status": "not_connected",
+      "notes": "支付链路未接 Agent。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "app.settings.privacy",
+      "appFeature": "设置与隐私",
+      "status": "not_connected",
+      "notes": "未接 Agent。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "app.memory.profile",
+      "appFeature": "个人画像",
+      "status": "not_connected",
+      "notes": "已定为隐藏入口，暂不开发。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    },
+    {
+      "id": "app.child.module",
+      "appFeature": "孩子模块",
+      "status": "not_connected",
+      "notes": "已定为隐藏入口，暂不开发。",
+      "coveredByScenario": false,
+      "tested": false,
+      "passed": false
+    }
+  ],
+  "environment": {
+    "ok": true,
+    "issues": [],
+    "baseHttpUrl": "http://127.0.0.1:3000",
+    "wsUrl": "ws://127.0.0.1:3001/house",
+    "authToken": "tk-eyJhbGciOiJub25lIiwidHlwIjoiSldUIn0.eyJzdWIiOiJhZ2VudC10ZXN0ZXItdXNlciIsImlhdCI6MTc3OTE3MTI4OX0.sig"
+  }
+}
