@@ -23,6 +23,7 @@ export type TestScenario = {
   turns: TestTurnInput[];
   expectedPhasePath?: string[];
   requiredDirectives?: string[];
+  requiredErrorCode?: string;
   requiresProtocolV3Only?: boolean;
   semanticExpectations?: string[];
 };
@@ -54,6 +55,7 @@ export type StepResult = {
   directives: string[];
   recommendedInput?: string;
   message?: string;
+  errorCode?: string;
   issues: AssertionIssue[];
 };
 

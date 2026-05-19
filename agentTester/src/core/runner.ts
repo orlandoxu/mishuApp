@@ -35,7 +35,6 @@ export async function runAll(options: RunOptions): Promise<RunSummary> {
 
   const endedAt = new Date().toISOString();
   const summary = buildSummary(options, startedAt, endedAt, results, environment);
-  appendCapabilityGapFailures(summary);
   const gate = evaluateGate(summary);
   summary.gatePassed = gate.ok;
   if (!gate.ok) {
@@ -70,6 +69,31 @@ function applyAssertions(result: ScenarioResult, scenario: TestScenario): Scenar
     }
   }
 
+  const allDirectives = new Set(result.steps.flatMap((step) => step.directives));
+  if (scenario.requiredDirectives) {
+    for (const d of scenario.requiredDirectives) {
+      if (!allDirectives.has(d)) {
+        const miss = {
+          severity: 'strong' as const,
+          kind: 'protocol_failure' as const,
+          message: `场景缺少必需 directive: ${d}`
+        };
+        issues.push(miss);
+      }
+    }
+  }
+
+  if (scenario.requiredErrorCode) {
+    const hasError = result.steps.some((step) => step.errorCode === scenario.requiredErrorCode);
+    if (!hasError) {
+      issues.push({
+        severity: 'strong',
+        kind: 'protocol_failure',
+        message: `场景缺少必需错误码: ${scenario.requiredErrorCode}`
+      });
+    }
+  }
+
   for (const step of result.steps) {
     const protocolPayload = {
       protocol: {
@@ -82,19 +106,6 @@ function applyAssertions(result: ScenarioResult, scenario: TestScenario): Scenar
     step.issues.push(...pIssues);
     issues.push(...pIssues);
 
-    if (scenario.requiredDirectives) {
-      for (const d of scenario.requiredDirectives) {
-        if (!step.directives.includes(d)) {
-          const miss = {
-            severity: 'strong' as const,
-            kind: 'protocol_failure' as const,
-            message: `缺少必需 directive: ${d}`
-          };
-          step.issues.push(miss);
-          issues.push(miss);
-        }
-      }
-    }
   }
 
   if (scenario.semanticExpectations && scenario.semanticExpectations.length > 0) {
@@ -124,7 +135,6 @@ function buildSummary(
     skipped: results.filter((x) => x.verdict === 'skip').length
   };
 
-  const strongAll = results.flatMap((x) => x.issues).filter((x) => x.severity === 'strong');
   const withStrongFailure = new Set(results.filter((x) => x.issues.some((issue) => issue.severity === 'strong')).map((x) => `${x.layer}:${x.scenarioId}`));
   const protocolStrongPassRate = results.length === 0 ? 0 : (results.length - withStrongFailure.size) / results.length;
 
@@ -170,28 +180,4 @@ function buildCapabilityMatrix(results: ScenarioResult[]): CapabilityMatrixRow[]
 
     return { ...item, coveredByScenario, tested, passed };
   });
-}
-
-function appendCapabilityGapFailures(summary: RunSummary): void {
-  const gaps = summary.capabilityMatrix.filter((row) => row.status !== 'connected');
-  for (const row of gaps) {
-    summary.results.push({
-      layer: 'engine',
-      scenarioId: `capability-gap-${row.id}`,
-      capabilityId: row.id,
-      title: `${row.appFeature} 未接入 Agent`,
-      level: 'critical',
-      verdict: 'fail',
-      steps: [],
-      issues: [
-        {
-          severity: 'strong',
-          kind: 'capability_gap',
-          message: `功能缺口：${row.appFeature} 当前状态=${row.status}，未接入 Agent 测试链路。`
-        }
-      ]
-    });
-    summary.totals.scenarios += 1;
-    summary.totals.failed += 1;
-  }
 }

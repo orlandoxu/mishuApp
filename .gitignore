@@ -66,3 +66,6 @@ h5/.env.*
 # admin模块
 admin/node_modules/
 admin/dist/
+
+# 测试工具
+agentTester/reports

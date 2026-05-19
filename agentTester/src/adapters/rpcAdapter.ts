@@ -55,6 +55,13 @@ export async function runRpcScenario(scenario: TestScenario, env: EnvConfig): Pr
       socket.send(JSON.stringify({ type: 'rpc', method: 'agent.turn', requestId, payload }));
       const response = await waitRpcResponse(socket, requestId);
       const data = response.payload?.data ?? {};
+      const dataError = asRecord((data as Record<string, unknown>).error);
+      const errorCode =
+        typeof dataError?.code === 'string'
+          ? dataError.code
+          : response.payload?.code && response.payload.code !== 0
+            ? String(response.payload.code)
+            : undefined;
       sessionVersion = typeof data.sessionVersion === 'number' ? data.sessionVersion : sessionVersion;
 
       const protocol = asRecord(data.protocol);
@@ -77,6 +84,7 @@ export async function runRpcScenario(scenario: TestScenario, env: EnvConfig): Pr
         directives,
         recommendedInput: typeof protocol?.recommendedInput === 'string' ? protocol.recommendedInput : undefined,
         message: typeof data.message === 'string' ? data.message : undefined,
+        errorCode,
         issues: []
       });
     }

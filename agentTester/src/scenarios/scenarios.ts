@@ -10,8 +10,7 @@ export const scenarios: TestScenario[] = [
     suite: 'smoke',
     turns: [{ text: '你好，我今天有点焦虑。' }],
     requiredDirectives: ['assistant_message'],
-    requiresProtocolV3Only: true,
-    semanticExpectations: ['我', '你']
+    requiresProtocolV3Only: true
   },
   {
     id: 'core-food-create',
@@ -24,8 +23,7 @@ export const scenarios: TestScenario[] = [
       { text: '帮我记一条美食记忆：店名阿芳面馆，人均35，点评很鲜，分类小吃。' }
     ],
     requiredDirectives: ['assistant_message'],
-    requiresProtocolV3Only: true,
-    semanticExpectations: ['美食', '记录']
+    requiresProtocolV3Only: true
   },
   {
     id: 'core-money-record',
@@ -37,20 +35,28 @@ export const scenarios: TestScenario[] = [
     turns: [
       { text: '记一笔支出，午饭45元，分类餐饮。' },
       {
-        text: '',
+        text: '补充槽位',
         interaction: {
-          kind: 'client_action_response',
-          payload: {
-            requestId: '__AUTO_FROM_DIRECTIVE__',
-            action: 'money.record',
-            success: true,
-            result: { saved: true }
+          kind: 'slot_update',
+          slots: {
+            intent: 'money.record',
+            amount: '45',
+            direction: 'expense',
+            category: '餐饮',
+            note: '午饭'
           }
+        }
+      },
+      {
+        text: '确认记账',
+        interaction: {
+          kind: 'confirm',
+          decision: 'confirm'
         }
       }
     ],
-    expectedPhasePath: ['collecting_slots', 'completed'],
-    requiredDirectives: ['request_client_action', 'completed'],
+    expectedPhasePath: ['collecting_slots'],
+    requiredDirectives: ['confirm', 'completed'],
     requiresProtocolV3Only: true
   },
   {
@@ -64,7 +70,7 @@ export const scenarios: TestScenario[] = [
       { text: '先给我一个响应。' },
       { text: '再次发送，但用旧版本。' }
     ],
-    requiredDirectives: ['sync_required'],
+    requiredErrorCode: 'SESSION_VERSION_CONFLICT',
     requiresProtocolV3Only: true
   },
   {

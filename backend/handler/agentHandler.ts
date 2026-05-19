@@ -142,19 +142,38 @@ function readString(
   return trimmed.length > 0 ? trimmed : null;
 }
 
+function readOptionalString(
+  record: Record<string, unknown>,
+  key: string,
+): string | null {
+  const value = record[key];
+  if (typeof value !== "string") {
+    return null;
+  }
+  return value.trim();
+}
+
 function normalizeClientTurnRequest(
   payload: Record<string, unknown>,
 ): ClientTurnRequest | null {
   const sessionId = readString(payload, "sessionId");
   const turnId = readString(payload, "turnId");
   const messageId = readString(payload, "messageId");
-  const text = readString(payload, "text");
+  const text = readOptionalString(payload, "text");
+  const interaction = payload.interaction;
 
-  if (!sessionId || !turnId || !messageId || !text) {
+  if (!sessionId || !turnId || !messageId) {
     return null;
   }
 
-  const interaction = payload.interaction;
+  const hasInteraction =
+    interaction !== null &&
+    typeof interaction === "object" &&
+    !Array.isArray(interaction);
+  if ((text === null || text.length === 0) && !hasInteraction) {
+    return null;
+  }
+
   const history = payload.history;
   const clientContext = payload.clientContext;
   const timestamp = payload.timestamp;
@@ -167,7 +186,7 @@ function normalizeClientTurnRequest(
     sessionId,
     turnId,
     messageId,
-    text,
+    text: text ?? "",
   };
 
   if (interaction && typeof interaction === "object") {
